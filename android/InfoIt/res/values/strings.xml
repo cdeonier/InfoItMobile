@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="no_tags">No tags saved.</string>
+    <string name="app_name">InfoIt</string>
+    <string name="view_tag">View Tag</string>
+    <string name="list_tags">InfoIt</string>
+    <string name="yelp">Go To Yelp</string>
+    <string name="foursquare">Check-in to Foursquare</string>
+
+</resources>

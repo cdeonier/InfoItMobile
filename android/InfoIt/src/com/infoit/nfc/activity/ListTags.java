@@ -72,8 +72,7 @@ public class ListTags extends Activity {
 				mLocationManager.removeUpdates(mLocationListener);
 				mLatitude = location.getLatitude();
 				mLongitude = location.getLongitude();
-				//TagsWebServiceAdapter.getTagLocationsViaGPS(mLatitude, mLongitude);
-				TagsWebServiceAdapter.getTagInformation(696969);
+				TagsWebServiceAdapter.getTagLocationsViaGPS(mLatitude, mLongitude);
 			}
 		}
 

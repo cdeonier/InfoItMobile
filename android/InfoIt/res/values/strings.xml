@@ -2,6 +2,7 @@
 <resources>
 
     <string name="no_tags">No tags saved.</string>
+    <string name="nearby_locations">Find Nearby Locations</string>
     <string name="app_name">InfoIt</string>
     <string name="view_tag">View Tag</string>
     <string name="list_tags">InfoIt</string>

@@ -10,11 +10,13 @@ import android.util.Log;
 
 public class TagsDbAdapter {
 	public static final String KEY_LOCATION_ID = "location_id";
+	public static final String KEY_LOCATION_NAME = "location_name";
     public static final String KEY_ROWID = "_id";
     
     private static final String DATABASE_CREATE =
             "create table tags (_id integer primary key autoincrement, "
-            + "location_id integer not null);";
+            				 + "location_id integer not null, "
+            				 + "location_name string not null);";
 
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "tags";
@@ -84,9 +86,10 @@ public class TagsDbAdapter {
      * @param location_id the location identifier associate with the tag
      * @return rowId or -1 if failed
      */
-    public long createTag(Integer location_id) {
+    public long createTag(Integer location_id, String location_name) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_LOCATION_ID, location_id);
+        initialValues.put(KEY_LOCATION_NAME, location_name);
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -109,7 +112,7 @@ public class TagsDbAdapter {
      */
     public Cursor fetchAllTags() {
 
-        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_LOCATION_ID}, 
+        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_LOCATION_ID, KEY_LOCATION_NAME}, 
         				 null, null, null, null, null);
     }
     
@@ -125,12 +128,36 @@ public class TagsDbAdapter {
         Cursor mCursor =
 
             mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                    KEY_LOCATION_ID}, KEY_ROWID + "=" + rowId, null,
+                    KEY_LOCATION_ID, KEY_LOCATION_NAME}, KEY_ROWID + "=" + rowId, null,
                     null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
         return mCursor;
 
+    }
+    
+    /**
+     * Seed data for some locations to populate TagsList.
+     */
+    public void seedDataShort(){
+    	mDb.delete("TAGS", null, null);
+    	this.createTag(1, "Happy Cafe");
+    	this.createTag(2, "New York Pizza");
+    }
+    
+    /**
+     * Seed data for lots of locations to populate TagsList.
+     */
+    public void seedDataLong(){
+    	mDb.delete("TAGS", null, null);
+    	this.createTag(1, "Happy Cafe");
+    	this.createTag(2, "New York Pizza");
+    	this.createTag(3, "Sun's Kitchen");
+    	this.createTag(4, "Himiwari");
+    	this.createTag(5, "Santa Ramen");
+    	this.createTag(6, "Ramen Dojo");
+    	this.createTag(7, "Noah's Bagels");
+    	this.createTag(8, "Debe's Salon");
     }
 }

@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
-import com.infoit.animation.DisplayNextView;
-import com.infoit.animation.Flip3dAnimation;
+import com.infoit.nfc.animation.DisplayNextView;
+import com.infoit.nfc.animation.Flip3dAnimation;
 
 public class ViewTag extends Activity {
 	static final String TAG = "ViewTag";

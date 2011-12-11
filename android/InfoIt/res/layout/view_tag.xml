@@ -1,39 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="fill_parent"
-    android:weightSum="1.0" >
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/location_services_scroll"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:layout_weight="0.5" >
-
-        <include
-            android:id="@+id/yelp_front_include"
-            layout="@layout/yelp_front" />
-
-        <include
-            android:id="@+id/yelp_back_include"
-            layout="@layout/yelp_back" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/container"
+    <LinearLayout
+        android:id="@+id/location_services"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="12dp"
-        android:layout_weight="0.5"  >
+        android:orientation="vertical" >
+    </LinearLayout>
 
-        <include
-            android:id="@+id/yelp_front_include"
-            layout="@layout/foursquare_front" />
-
-        <include
-            android:id="@+id/yelp_back_include"
-            layout="@layout/foursquare_back" />
-    </RelativeLayout>
-
-</LinearLayout>
+</ScrollView>

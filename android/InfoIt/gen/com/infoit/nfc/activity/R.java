@@ -18,32 +18,18 @@ public final class R {
         public static final int yelp_logo_75x38=0x7f020004;
     }
     public static final class id {
-        public static final int container=0x7f06000b;
-        public static final int foursquare_back=0x7f060001;
-        public static final int foursquare_front=0x7f060006;
-        public static final int foursquare_front_layout=0x7f060005;
-        public static final int imageView1=0x7f060007;
-        public static final int info_button=0x7f060008;
-        public static final int tags_list=0x7f060009;
-        public static final int text1=0x7f06000a;
-        public static final int textView1=0x7f060004;
-        public static final int yelp_app_link=0x7f060003;
-        public static final int yelp_back=0x7f06000e;
-        public static final int yelp_back_include=0x7f06000d;
-        public static final int yelp_back_layout=0x7f060000;
-        public static final int yelp_context=0x7f060002;
-        public static final int yelp_front=0x7f060010;
-        public static final int yelp_front_include=0x7f06000c;
-        public static final int yelp_front_layout=0x7f06000f;
+        public static final int info_button=0x7f060001;
+        public static final int location_services=0x7f060005;
+        public static final int location_services_scroll=0x7f060004;
+        public static final int tag_app_webview=0x7f060000;
+        public static final int tags_list=0x7f060002;
+        public static final int text1=0x7f060003;
     }
     public static final class layout {
-        public static final int foursquare_back=0x7f030000;
-        public static final int foursquare_front=0x7f030001;
-        public static final int tagslist=0x7f030002;
-        public static final int tagslist_item=0x7f030003;
-        public static final int view_tag=0x7f030004;
-        public static final int yelp_back=0x7f030005;
-        public static final int yelp_front=0x7f030006;
+        public static final int tag_application=0x7f030000;
+        public static final int tagslist=0x7f030001;
+        public static final int tagslist_item=0x7f030002;
+        public static final int view_tag=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f050002;

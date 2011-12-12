@@ -28,7 +28,7 @@ public class ViewTag extends Activity {
         //setupBasicInformation();
         //makeViews();
         //addWebView();
-        this.addServiceTile("http://www.google.com", "http://www.yelp.com");
+        setupTiles();
 
     }
     
@@ -75,7 +75,19 @@ public class ViewTag extends Activity {
     	}
     }
     
-    private void addServiceTile(String contextUrl, String applicationUrl){
+    private void setupTiles(){
+    	LinearLayout locationServices = (LinearLayout) findViewById(R.id.location_services);
+ 
+    	RelativeLayout googleTile = createServiceTile("http://www.google.com", "http://www.google.com");
+    	RelativeLayout facebookTile = createServiceTile("http://m.facebook.com", "http://m.facebook.com");
+    	
+    	googleTile.setId(1000);
+    	facebookTile.setId(1001);
+    	locationServices.addView(googleTile);
+    	locationServices.addView(facebookTile);
+    }
+    
+    private RelativeLayout createServiceTile(String contextUrl, String applicationUrl){
     	RelativeLayout tileContainer = new RelativeLayout(this);
     	RelativeLayout clickableLayout = new RelativeLayout(this);
     	WebView contextWebView = new WebView(this);
@@ -90,9 +102,7 @@ public class ViewTag extends Activity {
     	RelativeLayout.LayoutParams tileParameters = 
     			new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
     											RelativeLayout.LayoutParams.FILL_PARENT);
-    	
-    	LinearLayout locationServices = (LinearLayout) findViewById(R.id.location_services);
-    	
+    	 	
     	tileContainer.setLayoutParams(tileContainerParameters);
     	clickableLayout.setLayoutParams(tileParameters);
     	contextWebView.setLayoutParams(tileParameters);
@@ -110,9 +120,10 @@ public class ViewTag extends Activity {
     	
     	tileContainer.addView(contextWebView);
     	tileContainer.addView(clickableLayout);
-    	locationServices.addView(tileContainer);
     	
     	clickableLayout.bringToFront();
     	contextWebView.loadUrl(contextUrl);
+    	
+    	return tileContainer;
     }
 }

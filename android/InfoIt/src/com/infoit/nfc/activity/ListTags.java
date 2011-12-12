@@ -1,7 +1,12 @@
 package com.infoit.nfc.activity;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,13 +17,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
+import com.infoit.nfc.service.TagLocation;
 import com.infoit.nfc.service.TagsDbAdapter;
 import com.infoit.nfc.service.TagsWebServiceAdapter;
 
 public class ListTags extends Activity {
 	private ListView mTagsList;
 	private TagsDbAdapter mDbHelper;
+	
+	private AlertDialog.Builder builder;
 	
 	private LocationManager mLocationManager;
 	private LocationListener mLocationListener = new MyLocationListener();
@@ -31,6 +40,8 @@ public class ListTags extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tagslist);
+		
+		builder  = new AlertDialog.Builder(this);
 		
 		mTagsList = (ListView) findViewById(R.id.tags_list);
 		
@@ -73,6 +84,27 @@ public class ListTags extends Activity {
 				mLatitude = location.getLatitude();
 				mLongitude = location.getLongitude();
 				TagsWebServiceAdapter.getTagLocationsViaGPS(mLatitude, mLongitude);
+				//Test
+				ArrayList<TagLocation> nearbyLocations = TagsWebServiceAdapter.generateNearbyLocations();
+				
+				final String[] dialogLocations = new String[nearbyLocations.size()];
+				final String[] dialogIdentifiers = new String[nearbyLocations.size()];
+				for(int i = 0; i < nearbyLocations.size(); i++){
+					dialogLocations[i] = nearbyLocations.get(i).getLocationName();
+					dialogIdentifiers[i] = nearbyLocations.get(i).getLocationIdentifier();
+				}
+				
+				builder.setTitle("Choose Nearby Location:");
+				builder.setItems(dialogLocations, new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int item) {
+				        Toast.makeText(getApplicationContext(), dialogLocations[item], Toast.LENGTH_SHORT).show();
+				        Intent viewTag = new Intent(getApplicationContext(), ViewTag.class);
+				        viewTag.putExtra("locationIdentifier", dialogIdentifiers[item]);
+				        startActivity(viewTag);
+				    }
+				});
+				AlertDialog alert = builder.create();
+				alert.show();
 			}
 		}
 

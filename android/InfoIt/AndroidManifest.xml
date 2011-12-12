@@ -17,7 +17,7 @@
 
         <activity
             android:label="@string/view_tag"
-            android:name=".ListTags" >
+            android:name=".ViewTag" >
             <intent-filter>
 		    	<action android:name="android.nfc.action.NDEF_DISCOVERED"/>
 		    	<category android:name="android.intent.category.DEFAULT"/>
@@ -28,7 +28,7 @@
         </activity>
         <activity
             android:label="@string/list_tags"
-            android:name=".ViewTag">
+            android:name=".ListTags">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
             	<category android:name="android.intent.category.LAUNCHER" />

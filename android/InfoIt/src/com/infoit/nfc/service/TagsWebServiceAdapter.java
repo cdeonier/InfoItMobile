@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -98,5 +99,19 @@ public class TagsWebServiceAdapter {
 			e.printStackTrace();
 		}
 		return builder.toString();
+	}
+	
+	//Test function
+	public static ArrayList<TagLocation> generateNearbyLocations(){
+		TagLocation l1 = new TagLocation("Happy Cafe", "1");
+		TagLocation l2 = new TagLocation("New York Pizza", "2");
+		TagLocation l3 = new TagLocation("Dominos", "3");
+		
+		ArrayList<TagLocation> al = new ArrayList<TagLocation>();
+		al.add(l1);
+		al.add(l2);
+		al.add(l3);
+		
+		return al;
 	}
 }

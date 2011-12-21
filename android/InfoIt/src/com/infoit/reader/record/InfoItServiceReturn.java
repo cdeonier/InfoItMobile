@@ -1,4 +1,4 @@
-package com.infoit.nfc.record;
+package com.infoit.reader.record;
 
 public class InfoItServiceReturn {
 	private String mLocationName;

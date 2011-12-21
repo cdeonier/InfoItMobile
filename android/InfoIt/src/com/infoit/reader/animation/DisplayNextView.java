@@ -1,4 +1,4 @@
-package com.infoit.nfc.animation;
+package com.infoit.reader.animation;
 
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;

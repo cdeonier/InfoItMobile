@@ -1,4 +1,4 @@
-package com.infoit.nfc.animation;
+package com.infoit.reader.animation;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;

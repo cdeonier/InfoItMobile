@@ -1,4 +1,4 @@
-package com.infoit.nfc.animation;
+package com.infoit.reader.animation;
 
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;

@@ -1,4 +1,4 @@
-package com.infoit.nfc.record;
+package com.infoit.reader.record;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;

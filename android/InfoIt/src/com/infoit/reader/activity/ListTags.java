@@ -1,4 +1,4 @@
-package com.infoit.nfc.activity;
+package com.infoit.reader.activity;
 
 import java.util.ArrayList;
 
@@ -19,9 +19,10 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.infoit.nfc.service.TagLocation;
-import com.infoit.nfc.service.TagsDbAdapter;
-import com.infoit.nfc.service.TagsWebServiceAdapter;
+import com.infoit.reader.activity.R;
+import com.infoit.reader.service.TagLocation;
+import com.infoit.reader.service.TagsDbAdapter;
+import com.infoit.reader.service.TagsWebServiceAdapter;
 
 public class ListTags extends Activity {
 	private ListView mTagsList;

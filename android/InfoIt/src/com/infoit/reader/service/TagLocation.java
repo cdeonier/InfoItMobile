@@ -1,4 +1,4 @@
-package com.infoit.nfc.service;
+package com.infoit.reader.service;
 
 public class TagLocation {
 	private String mLocationName;

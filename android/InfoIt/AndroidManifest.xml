@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.infoit.nfc.activity"
+    package="com.infoit.reader.activity"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -17,7 +17,7 @@
 
         <activity
             android:label="@string/view_tag"
-            android:name=".ViewTag" >
+            android:name=".ListTags" >
             <intent-filter>
 		    	<action android:name="android.nfc.action.NDEF_DISCOVERED"/>
 		    	<category android:name="android.intent.category.DEFAULT"/>
@@ -28,7 +28,11 @@
         </activity>
         <activity
             android:label="@string/list_tags"
-            android:name=".ListTags">
+            android:name="ListTags" >
+        </activity>
+        <activity
+            android:label="@string/real_estate_tag"
+            android:name="RealEstateTag">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
             	<category android:name="android.intent.category.LAUNCHER" />
@@ -36,7 +40,8 @@
         </activity>
         <activity
             android:label="Tag Application"
-            android:name=".TagApplication">
+            android:name="com.infoit.reader.activity.TagApplication"
+            android:theme="@android:style/Theme.NoTitleBar">
             
         </activity>
         

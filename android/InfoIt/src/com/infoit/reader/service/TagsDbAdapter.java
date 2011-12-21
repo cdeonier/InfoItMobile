@@ -1,4 +1,4 @@
-package com.infoit.nfc.service;
+package com.infoit.reader.service;
 
 import android.content.ContentValues;
 import android.content.Context;

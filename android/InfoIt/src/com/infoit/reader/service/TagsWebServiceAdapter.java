@@ -1,4 +1,4 @@
-package com.infoit.nfc.service;
+package com.infoit.reader.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,12 +14,19 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import android.util.Log;
 
-import com.infoit.nfc.record.InfoItServiceReturn;
+import com.infoit.reader.record.InfoItServiceReturn;
+import com.infoit.reader.record.RealEstateInformation;
 
 public class TagsWebServiceAdapter {
+	
+	
 	public static InfoItServiceReturn getLocationInformation(
 			BigInteger identifier) {
 		InfoItServiceReturn serviceReturn = new InfoItServiceReturn();
@@ -76,7 +83,7 @@ public class TagsWebServiceAdapter {
 	public static String getTagInformation(int tagId){
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("http://infoit.heroku.com/services/696969");
+		HttpGet httpGet = new HttpGet("http://www.getinfoit.com/services/"+Integer.toString(tagId));
 		
 		try {
 			HttpResponse response = client.execute(httpGet);
@@ -113,5 +120,66 @@ public class TagsWebServiceAdapter {
 		al.add(l3);
 		
 		return al;
+	}
+	
+	public static RealEstateInformation getBasicInfoRealEstate(int tagId){
+		RealEstateInformation basicInfo = new RealEstateInformation();
+		
+		String response = getTagInformation(tagId);
+		
+		ObjectMapper m = new ObjectMapper();
+		try {
+			JsonNode rootNode = m.readValue(response, JsonNode.class);
+			JsonNode widgetNode = rootNode.path("tag").path("widgets");
+			for(JsonNode node : widgetNode){
+				if(node.path("name").getTextValue().equals("Basic")){
+					JsonNode basicWidgetParameters = node.path("widget_parameters");
+					for(JsonNode parameter : basicWidgetParameters){
+						String parameterName = parameter.path("name").getTextValue();
+						String parameterValue = parameter.path("value").getTextValue();
+						if("name".equals(parameterName)){
+							basicInfo.setName(parameterValue);
+						}
+						else if("price".equals(parameterName)){
+							basicInfo.setPrice(Integer.valueOf(parameterValue));
+						}
+						else if("specs".equals(parameterName)){
+							basicInfo.setSpecs(parameterValue);
+						}
+						else if("size".equals(parameterName)){
+							basicInfo.setSize(Integer.valueOf(parameterValue));
+						}
+						else if("address_one".equals(parameterName)){
+							basicInfo.setAddressOne(parameterValue);
+						}
+						else if("address_two".equals(parameterName)){
+							basicInfo.setAddressTwo(parameterValue);
+						}
+						else if("city".equals(parameterName)){
+							basicInfo.setCity(parameterValue);
+						}
+						else if("state".equals(parameterName)){
+							basicInfo.setState(parameterValue);
+						}
+						else if("zip_code".equals(parameterName)){
+							basicInfo.setZipCode(Integer.valueOf(parameterValue));
+						}
+						else if("thumbnail_url".equals(parameterName)){
+							basicInfo.setThumbnailUrl(parameterValue);
+						}
+					}
+				}
+			}
+			
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
+		return basicInfo;
 	}
 }

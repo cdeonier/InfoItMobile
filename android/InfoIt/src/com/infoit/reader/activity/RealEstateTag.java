@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
@@ -14,26 +15,34 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.infoit.reader.activity.R;
 import com.infoit.reader.record.RealEstateInformation;
 import com.infoit.reader.service.TagsWebServiceAdapter;
 
 public class RealEstateTag extends Activity {
+	private ProgressDialog progressDialog;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	android.os.Debug.waitForDebugger();
-    	
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.real_estate_tag);
-        
-        //Lock to Portrait Mode
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		android.os.Debug.waitForDebugger();
+
+		super.onCreate(savedInstanceState);
+		
+		// Lock to Portrait Mode
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		setContentView(R.layout.real_estate_tag);
+		progressDialog = ProgressDialog.show(this, "", "Fetching Data...", true);
         
         setupBasicInformation();
+        
+
     }
     
     private void setupBasicInformation(){
@@ -50,7 +59,7 @@ public class RealEstateTag extends Activity {
 
 		@Override
 		protected void onPostExecute(RealEstateInformation info) {	
-	    	new GetBasicInfoThumbnail().execute(info.getThumbnailUrl());
+	    	
 	    	
 	    	TextView locationName = (TextView) findViewById(R.id.location_name);
 	    	locationName.setText(info.getName());
@@ -66,8 +75,17 @@ public class RealEstateTag extends Activity {
 	    	
 	    	TextView addressOne = (TextView) findViewById(R.id.address_one);
 	    	addressOne.setText(info.getAddressOne());
+	    	
 	    	TextView addressTwo = (TextView) findViewById(R.id.address_two);
-	    	addressTwo.setText(info.getAddressTwo());
+	    	if(info.getAddressTwo().equals("")){
+	    		LinearLayout address = (LinearLayout) findViewById(R.id.address);
+	    		address.removeView(addressTwo);
+	    	}
+	    	else{
+	    		addressTwo.setText(info.getAddressTwo());
+	    	}
+	    	
+	    	
 	    	TextView city = (TextView) findViewById(R.id.city);
 	    	city.setText(info.getCity()+ ", ");
 	    	TextView state = (TextView) findViewById(R.id.state);
@@ -75,7 +93,7 @@ public class RealEstateTag extends Activity {
 	    	TextView zip = (TextView) findViewById(R.id.zip_code);
 	    	zip.setText(String.valueOf(info.getZipCode()));
 	    	
-	    	RelativeLayout address_layout = (RelativeLayout) findViewById(R.id.address);
+	    	LinearLayout address_layout = (LinearLayout) findViewById(R.id.address_layout);
 	    	address_layout.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -86,6 +104,19 @@ public class RealEstateTag extends Activity {
 					
 				}
 	    	});
+	    	
+	    	ImageView mapIcon = (ImageView) findViewById(R.id.map_icon);
+	    	mapIcon.setLayoutParams(new LinearLayout.LayoutParams(mapIcon.getWidth(), mapIcon.getWidth()));
+	    	
+	    	new GetBasicInfoThumbnail().execute(info.getThumbnailUrl());
+
+	    	LinearLayout splashScreen = (LinearLayout) findViewById(R.id.splash_screen);
+	    	LinearLayout realEstateLayout = (LinearLayout) findViewById(R.id.real_estate_layout);
+	    	
+	    	splashScreen.setVisibility(View.INVISIBLE);
+	    	realEstateLayout.setVisibility(View.VISIBLE);
+	    	
+	        progressDialog.dismiss();
 		}
 	}
 	
@@ -100,7 +131,9 @@ public class RealEstateTag extends Activity {
 		@Override
 		protected void onPostExecute(Drawable image) {
 			ImageView imageView = (ImageView) findViewById(R.id.thumbnail);
+			//imageView.setBackgroundDrawable(image);
 	    	imageView.setImageDrawable(image);
+	    	imageView.setLayoutParams(new LinearLayout.LayoutParams(imageView.getWidth(), imageView.getWidth()));
 		}
 		
 	    private Drawable getImage(String url) {

@@ -75,6 +75,50 @@
             </LinearLayout>
         </LinearLayout>
         
+        <HorizontalScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="fill_parent"
+            android:layout_height="100px" >
+
+            <LinearLayout
+                android:id="@+id/gallery_container"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#00ff00" >
+
+                <ImageView
+                    android:id="@+id/image_icon1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ff0000"
+                    android:src="@drawable/image_icon" />
+
+                <ImageView
+                    android:id="@+id/image_icon2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/image_icon" />
+
+                <ImageView
+                    android:id="@+id/image_icon3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/image_icon" />
+
+                <ImageView
+                    android:id="@+id/image_icon4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/image_icon" />
+
+                <ImageView
+                    android:id="@+id/image_icon5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/image_icon" />
+            </LinearLayout>
+        </HorizontalScrollView>
+        
 		<FrameLayout
             android:id="@+id/summary_container"
             android:layout_width="fill_parent" 

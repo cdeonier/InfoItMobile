@@ -42,11 +42,25 @@ public class RealEstateTag extends Activity {
         
         setupBasicInformation();
         
-
+        //loadThumbnails();
     }
     
     private void setupBasicInformation(){
     	new SetupBasicInfoTask().execute();
+    }
+    
+    private void loadThumbnails(){
+    	LinearLayout gallery = (LinearLayout) findViewById(R.id.gallery_container);
+    	ImageView imgView = new ImageView(this);
+    	imgView.setImageResource(R.drawable.image_icon);
+    	gallery.addView(imgView);
+    	
+    	ImageView imgView2 = new ImageView(this);
+    	imgView.setImageResource(R.drawable.image_icon);
+    	gallery.addView(imgView2);
+    	
+    	gallery.removeView(imgView);
+    	//gallery.addView(imgView);
     }
 	
 	private class SetupBasicInfoTask extends AsyncTask<Void, Void, RealEstateInformation> {
@@ -59,7 +73,7 @@ public class RealEstateTag extends Activity {
 
 		@Override
 		protected void onPostExecute(RealEstateInformation info) {	
-	    	
+	    	assert info != null;
 	    	
 	    	TextView locationName = (TextView) findViewById(R.id.location_name);
 	    	locationName.setText(info.getName());
@@ -77,7 +91,7 @@ public class RealEstateTag extends Activity {
 	    	addressOne.setText(info.getAddressOne());
 	    	
 	    	TextView addressTwo = (TextView) findViewById(R.id.address_two);
-	    	if(info.getAddressTwo().equals("")){
+	    	if("".equals(info.getAddressTwo())){
 	    		LinearLayout address = (LinearLayout) findViewById(R.id.address);
 	    		address.removeView(addressTwo);
 	    	}

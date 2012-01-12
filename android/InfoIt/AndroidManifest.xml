@@ -29,8 +29,9 @@
             android:name="ListTags" >
         </activity>
         <activity
-            android:label="@string/real_estate_tag"
-            android:name="RealEstateTag" >
+            android:label="@string/infoit"
+            android:name="RealEstateTag"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 

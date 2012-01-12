@@ -80,34 +80,6 @@ public class TagsWebServiceAdapter {
 		return builder.toString();
 	}
 	
-	public static String getTagInformation(int tagId){
-		StringBuilder builder = new StringBuilder();
-		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("http://www.getinfoit.com/services/"+Integer.toString(tagId));
-		
-		try {
-			HttpResponse response = client.execute(httpGet);
-			StatusLine statusLine = response.getStatusLine();
-			if(statusLine.getStatusCode() == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null){
-					builder.append(line);
-				}
-			}
-			else{
-				Log.e(TagsWebServiceAdapter.class.toString(), "Web Service did not return OK GPS tag locations");
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return builder.toString();
-	}
-	
 	//Test function
 	public static ArrayList<TagLocation> generateNearbyLocations(){
 		TagLocation l1 = new TagLocation("Happy Cafe", "1");
@@ -122,10 +94,39 @@ public class TagsWebServiceAdapter {
 		return al;
 	}
 	
+	public static String[] getThumbnailsOfTag(Integer tagId) {
+		ArrayList<String> urls = new ArrayList<String>();
+		
+		HttpGet httpGet = new HttpGet("http://www.getinfoit.com/services/"+
+									  Integer.toString(tagId)+
+									  "/photos/");
+		
+		String jsonResponse = callWebService(httpGet);
+		
+		ObjectMapper m = new ObjectMapper();
+		
+		try {
+			JsonNode rootNode = m.readValue(jsonResponse, JsonNode.class);
+			for(JsonNode thumbnail : rootNode){
+				String url = thumbnail.path("amazon_url").getTextValue();
+				urls.add(url);
+			}
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return urls.toArray(new String[urls.size()]);
+	}
+	
 	public static RealEstateInformation getBasicInfoRealEstate(int tagId){
 		RealEstateInformation basicInfo = new RealEstateInformation();
 		
-		String response = getTagInformation(tagId);
+		HttpGet httpGet = new HttpGet("http://www.getinfoit.com/services/"+Integer.toString(tagId));
+		String response = callWebService(httpGet);
 		
 		ObjectMapper m = new ObjectMapper();
 		try {
@@ -178,8 +179,40 @@ public class TagsWebServiceAdapter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		
+	
 		return basicInfo;
+	}
+	
+	/**
+	 * Basic way to call a service.  Give it http request, it returns a String JSON response.
+	 * 
+	 * @param serviceCall the service request
+	 * @return JSON response in form of String
+	 */
+	private static String callWebService(HttpGet serviceCall){
+		StringBuilder builder = new StringBuilder();
+		HttpClient client = new DefaultHttpClient();
+		
+		try {
+			HttpResponse response = client.execute(serviceCall);
+			StatusLine statusLine = response.getStatusLine();
+			if(statusLine.getStatusCode() == 200) {
+				HttpEntity entity = response.getEntity();
+				InputStream content = entity.getContent();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+				String line;
+				while ((line = reader.readLine()) != null){
+					builder.append(line);
+				}
+			}
+			else{
+				Log.e(TagsWebServiceAdapter.class.toString(), "Web Service did not return OK GPS tag locations");
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return builder.toString();
 	}
 }

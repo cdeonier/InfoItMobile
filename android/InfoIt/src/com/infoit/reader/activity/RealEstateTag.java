@@ -1,10 +1,5 @@
 package com.infoit.reader.activity;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,16 +10,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.infoit.reader.record.RealEstateInformation;
 import com.infoit.reader.service.TagsWebServiceAdapter;
+import com.infoit.reader.util.ImageUtil;
 
 public class RealEstateTag extends Activity {
 	private ProgressDialog progressDialog;
@@ -39,10 +31,12 @@ public class RealEstateTag extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.real_estate_tag);
 		progressDialog = ProgressDialog.show(this, "", "Fetching Data...", true);
+		
+		setupMenuBar();
         
         setupBasicInformation();
         
-        //loadThumbnails();
+        loadThumbnails();
     }
     
     private void setupBasicInformation(){
@@ -50,17 +44,19 @@ public class RealEstateTag extends Activity {
     }
     
     private void loadThumbnails(){
-    	LinearLayout gallery = (LinearLayout) findViewById(R.id.gallery_container);
-    	ImageView imgView = new ImageView(this);
-    	imgView.setImageResource(R.drawable.image_icon);
-    	gallery.addView(imgView);
-    	
-    	ImageView imgView2 = new ImageView(this);
-    	imgView.setImageResource(R.drawable.image_icon);
-    	gallery.addView(imgView2);
-    	
-    	gallery.removeView(imgView);
-    	//gallery.addView(imgView);
+    	new LoadThumbnails().execute(100);
+    }
+    
+    private void setupMenuBar(){
+    	ImageView listIcon = (ImageView) findViewById(R.id.list_icon);
+    	listIcon.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent listIntent = new Intent(v.getContext(), ListTags.class);
+				startActivity(listIntent);
+			}
+    	});
     }
 	
 	private class SetupBasicInfoTask extends AsyncTask<Void, Void, RealEstateInformation> {
@@ -138,36 +134,60 @@ public class RealEstateTag extends Activity {
 
 		@Override
 		protected Drawable doInBackground(String... urls) {
-			Drawable image = getImage(urls[0]);
+			Drawable image = ImageUtil.getImage(urls[0]);
 			return image;
 		}
 		
 		@Override
 		protected void onPostExecute(Drawable image) {
 			ImageView imageView = (ImageView) findViewById(R.id.thumbnail);
-			//imageView.setBackgroundDrawable(image);
 	    	imageView.setImageDrawable(image);
 	    	imageView.setLayoutParams(new LinearLayout.LayoutParams(imageView.getWidth(), imageView.getWidth()));
 		}
+
 		
-	    private Drawable getImage(String url) {
-			try {
-				InputStream is = (InputStream) this.fetch(url);
-				Drawable d = Drawable.createFromStream(is, "src");
-				return d;
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-				return null;
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			}
+	}
+	
+	private class LoadThumbnails extends AsyncTask<Integer, String[], String[]>{
+
+		@Override
+		protected String[] doInBackground(Integer... params) {
+			String[] urls = TagsWebServiceAdapter.getThumbnailsOfTag(params[0]);
+			return urls;
 		}
-	    
-		private Object fetch(String address) throws MalformedURLException,IOException {
-			URL url = new URL(address);
-			Object content = url.getContent();
-			return content;
+
+		@Override
+		protected void onPostExecute(String[] result) {
+			new FetchThumbnails().execute(result);
+		}
+		
+	}
+	
+	private class FetchThumbnails extends AsyncTask<String, Void, Drawable[]>{
+
+		@Override
+		protected Drawable[] doInBackground(String... urls) {
+			
+			Drawable[] thumbnails = new Drawable[urls.length];
+			for(int i=0; i<urls.length; i++){
+				thumbnails[i] = ImageUtil.getImage(urls[i]);
+			}
+			
+			return thumbnails;
+		}
+		
+		@Override
+		protected void onPostExecute(Drawable[] thumbnails) {
+			LinearLayout gallery = (LinearLayout) findViewById(R.id.gallery_container);
+			
+			for(int i=0; i < thumbnails.length; i++){
+				ImageView newThumbnail = new ImageView(RealEstateTag.this);
+				newThumbnail.setImageDrawable(thumbnails[i]);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
+				lp.setMargins(10, 0, 10, 0);
+				newThumbnail.setLayoutParams(lp);
+				gallery.addView(newThumbnail);
+			}
 		}
 		
 	}

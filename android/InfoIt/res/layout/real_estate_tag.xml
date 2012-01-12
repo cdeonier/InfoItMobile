@@ -20,6 +20,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="invisible" >
+        
+        <LinearLayout
+            android:id="@+id/menu_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:weightSum="1.0"
+            android:orientation="horizontal"
+            android:background="@drawable/menu_bar_selector">
+            
+            <ImageView
+                android:id="@+id/list_icon"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:padding="5dip"
+                android:src="@drawable/list_icon"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/header_layout"
@@ -36,7 +53,6 @@
                 android:adjustViewBounds="true"
                 android:padding="5dip"
                 android:scaleType="fitXY" />
-            
 
             <LinearLayout
                 android:id="@+id/header_info"
@@ -78,44 +94,15 @@
         <HorizontalScrollView
             android:id="@+id/scroll_view"
             android:layout_width="fill_parent"
-            android:layout_height="100px" >
+            android:layout_height="110px"
+            android:paddingTop="5px"
+            android:paddingBottom="5px" >
 
             <LinearLayout
                 android:id="@+id/gallery_container"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="#00ff00" >
+                android:layout_height="fill_parent">
 
-                <ImageView
-                    android:id="@+id/image_icon1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#ff0000"
-                    android:src="@drawable/image_icon" />
-
-                <ImageView
-                    android:id="@+id/image_icon2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/image_icon" />
-
-                <ImageView
-                    android:id="@+id/image_icon3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/image_icon" />
-
-                <ImageView
-                    android:id="@+id/image_icon4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/image_icon" />
-
-                <ImageView
-                    android:id="@+id/image_icon5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/image_icon" />
             </LinearLayout>
         </HorizontalScrollView>
         

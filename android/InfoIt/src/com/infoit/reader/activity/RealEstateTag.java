@@ -1,4 +1,4 @@
-package com.infoit.reader.activity;
+/*package com.infoit.reader.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.infoit.reader.record.RealEstateInformation;
 import com.infoit.reader.service.TagsWebServiceAdapter;
-import com.infoit.reader.util.ImageUtil;
+import com.infoit.util.ImageUtil;
 
 public class RealEstateTag extends Activity {
 	private ProgressDialog progressDialog;
@@ -191,4 +191,4 @@ public class RealEstateTag extends Activity {
 		}
 		
 	}
-}
+}*/

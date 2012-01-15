@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
-    android:background="@drawable/backrepeat"
+    android:background="@drawable/ui_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -27,14 +27,14 @@
             android:layout_height="40dip"
             android:weightSum="1.0"
             android:orientation="horizontal"
-            android:background="@drawable/menu_bar_selector">
+            android:background="@drawable/ui_menu_bar">
             
             <ImageView
                 android:id="@+id/list_icon"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
                 android:padding="5dip"
-                android:src="@drawable/list_icon"
+                android:src="@drawable/ui_list_icon"
                 />
         </LinearLayout>
 
@@ -129,7 +129,7 @@
                 android:adjustViewBounds="true"
                 android:padding="5dip"
                 android:scaleType="fitXY"
-                android:src="@drawable/maps_icon" />
+                android:src="@drawable/place_map_icon" />
 
             <LinearLayout
                 android:id="@+id/address"

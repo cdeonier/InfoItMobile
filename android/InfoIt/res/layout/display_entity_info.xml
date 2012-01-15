@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ui_background" >
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/menu_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="@drawable/ui_menu_bar"
+            android:orientation="horizontal"
+            android:weightSum="1.0" >
+
+            <ImageView
+                android:id="@+id/list_button"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:padding="5dip"
+                android:src="@drawable/ui_list_icon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <fragment
+                android:id="@+id/basic_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.infoit.main.BasicInfoFragment" >
+                <!-- Preview: layout=@layout/basic_info_fragment -->
+            </fragment>
+
+            <fragment
+                android:id="@+id/place_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.infoit.main.PlaceInfoFragment" >
+                <!-- Preview: layout=@layout/place_info_fragment -->
+            </fragment>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

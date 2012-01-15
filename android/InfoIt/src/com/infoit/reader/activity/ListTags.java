@@ -1,4 +1,4 @@
-package com.infoit.reader.activity;
+/*package com.infoit.reader.activity;
 
 import java.util.ArrayList;
 
@@ -127,4 +127,4 @@ public class ListTags extends Activity {
 			
 		}
 	}
-}
+}*/

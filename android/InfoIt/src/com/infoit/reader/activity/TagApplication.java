@@ -1,4 +1,4 @@
-package com.infoit.reader.activity;
+/*package com.infoit.reader.activity;
 
 import com.infoit.reader.activity.R;
 
@@ -24,4 +24,4 @@ public class TagApplication extends Activity {
         viewer.loadUrl(content);
 	}
 
-}
+}*/

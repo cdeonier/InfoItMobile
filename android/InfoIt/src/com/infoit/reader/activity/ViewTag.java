@@ -1,4 +1,4 @@
-package com.infoit.reader.activity;
+/*package com.infoit.reader.activity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +27,7 @@ import com.infoit.reader.service.TagsWebServiceAdapter;
 public class ViewTag extends Activity {
 	static final String TAG = "ViewTag";
 	
-    /** Called when the activity is first created. */
+    Called when the activity is first created. 
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	//android.os.Debug.waitForDebugger();
@@ -192,4 +192,4 @@ public class ViewTag extends Activity {
     	
     	return tileContainer;
     }
-}
+}*/

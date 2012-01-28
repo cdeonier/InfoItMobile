@@ -9,8 +9,9 @@
         android:id="@+id/place_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@drawable/ui_container"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingTop="5dip" >
 
         <ImageView
@@ -24,7 +25,7 @@
 
         <LinearLayout
             android:id="@+id/address"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="10dip" >
@@ -70,6 +71,19 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/spacer"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/detail_icon"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@drawable/ui_detail_arrow_icon" />
     </LinearLayout>
 
 </FrameLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/info_chooser_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <LinearLayout
+        android:id="@+id/chooser_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="3">
+        
+        <FrameLayout 
+            android:id="@+id/nfc_choice"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ff0000">
+            
+        </FrameLayout>
+        <FrameLayout 
+            android:id="@+id/qr_choice"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#00ff00">
+            
+        </FrameLayout>
+        <FrameLayout 
+            android:id="@+id/gps_choice"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#0000ff">
+            
+        </FrameLayout>
+    </LinearLayout>
+    
+</FrameLayout>

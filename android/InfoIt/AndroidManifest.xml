@@ -3,29 +3,56 @@
     package="com.infoit.main"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-sdk android:minSdkVersion="10" />
-    
+
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    
-    <uses-feature android:name="android.hardware.camera"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:debuggable="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/launcher_icon"
         android:label="@string/app_name" >
-        
         <activity
             android:name=".ListSavedEntities"
             android:theme="@android:style/Theme.NoTitleBar" >
-            
+        </activity>
+        <activity
+            android:configChanges="orientation"
+            android:name=".PhotoGallery"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".DisplayEntityInfo"
             android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="www.getinfoit.com"
+                    android:pathPrefix="/"
+                    android:scheme="http" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/nfc_tech_filter" />
         </activity>
         <activity
             android:name=".QrCodeCapture"
@@ -34,25 +61,10 @@
         <activity
             android:name=".InfoChooser"
             android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        
-        
         <activity
             android:label="@string/view_tag"
             android:name=".ListTags" >
-            <intent-filter >
-                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="www.getinfoit.com"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-            </intent-filter>
         </activity>
         <activity
             android:label="@string/list_tags"
@@ -69,4 +81,5 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
+
 </manifest>

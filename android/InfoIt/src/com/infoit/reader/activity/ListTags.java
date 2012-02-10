@@ -21,12 +21,12 @@ import android.widget.Toast;
 
 import com.infoit.reader.activity.R;
 import com.infoit.reader.service.TagLocation;
-import com.infoit.reader.service.TagsDbAdapter;
+import com.infoit.reader.service.BookmarkDbAdapter;
 import com.infoit.reader.service.TagsWebServiceAdapter;
 
 public class ListTags extends Activity {
 	private ListView mTagsList;
-	private TagsDbAdapter mDbHelper;
+	private BookmarkDbAdapter mDbHelper;
 	
 	private AlertDialog.Builder builder;
 	
@@ -46,7 +46,7 @@ public class ListTags extends Activity {
 		
 		mTagsList = (ListView) findViewById(R.id.tags_list);
 		
-		mDbHelper = new TagsDbAdapter(this);
+		mDbHelper = new BookmarkDbAdapter(this);
 		mDbHelper.open();
 		mDbHelper.seedDataLong();
 		fillData();
@@ -59,7 +59,7 @@ public class ListTags extends Activity {
 		Cursor tagsCursor = mDbHelper.fetchAllTags();
 		startManagingCursor(tagsCursor);
 		
-		String[] from = new String[]{TagsDbAdapter.KEY_LOCATION_NAME};
+		String[] from = new String[]{BookmarkDbAdapter.KEY_LOCATION_NAME};
 		int[] to = new int[]{R.id.text1};
 		
 		SimpleCursorAdapter tags =

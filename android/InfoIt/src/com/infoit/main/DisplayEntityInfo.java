@@ -1,5 +1,7 @@
 package com.infoit.main;
 
+import com.infoit.reader.service.BookmarkDbAdapter;
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -9,9 +11,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class DisplayEntityInfo extends FragmentActivity {
-
+  private BookmarkDbAdapter mDbHelper;
+  
   @Override
   public void onCreate(Bundle savedInstanceState) {
     
@@ -22,11 +26,17 @@ public class DisplayEntityInfo extends FragmentActivity {
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     setContentView(R.layout.display_entity_info);
     
+    mDbHelper = new BookmarkDbAdapter(this);
+    mDbHelper.open();
+    
     ImageView openMapButton = (ImageView) findViewById(R.id.open_map_button);
     ImageView getDirectionsButton = (ImageView) findViewById(R.id.get_directions_button);
     ImageView contactAgentButton = (ImageView) findViewById(R.id.contact_agent_button);
     ImageView agentDetailsButton = (ImageView) findViewById(R.id.agent_details_button);
     LinearLayout photosButton = (LinearLayout) findViewById(R.id.photos_button);
+    RelativeLayout menuButton = (RelativeLayout) findViewById(R.id.menu_button);
+    RelativeLayout actionButton = (RelativeLayout) findViewById(R.id.action_button);
+    RelativeLayout infoItButton = (RelativeLayout) findViewById(R.id.infoit_button);
     
     openMapButton.setOnClickListener(new OnClickListener(){
       @Override
@@ -71,8 +81,38 @@ public class DisplayEntityInfo extends FragmentActivity {
       
       @Override
       public void onClick(View v) {
-        Intent listIntent = new Intent(v.getContext(), PhotoGallery.class);
-        v.getContext().startActivity(listIntent);
+        Intent intent = new Intent(v.getContext(), PhotoGallery.class);
+        v.getContext().startActivity(intent);
+      }
+    });
+    
+    menuButton.setOnClickListener(new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), ListBookmarks.class);
+        v.getContext().startActivity(intent);
+      }
+    });
+    
+    actionButton.setOnClickListener(new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), ListBookmarks.class);
+        v.getContext().startActivity(intent);
+        mDbHelper.createLocationBookmark(1, "855 Spruance Lane");
+        
+      }
+    });
+    
+    infoItButton.setOnClickListener(new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), InfoChooser.class);
+        v.getContext().startActivity(intent);
+        
       }
     });
     

@@ -109,7 +109,7 @@ public class PhotoGallery extends Activity {
           @Override
           public void onClick(View v) {
             Intent listIntent = new Intent(v.getContext(),
-                DisplayEntityInfo.class);
+                DisplayInfo.class);
             v.getContext().startActivity(listIntent);
           }
         });

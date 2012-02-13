@@ -87,16 +87,24 @@ public class BookmarkDbAdapter {
    *          the entity identifier associated with the tag
    * @return rowId or -1 if failed
    */
-  public long createLocationBookmark(Integer entityId, String bookmarkName) {
+  public long createLocationBookmark(long entityId, String bookmarkName) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_ENTITY_ID, entityId);
     initialValues.put(KEY_BOOKMARK_NAME, bookmarkName);
     initialValues.put(KEY_BOOKMARK_TYPE, "LOCATION");
-    
-    //Get rid of old values in case location has been updated.
-    mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId), null);
-    
+
+    // Get rid of old values in case location has been updated.
+    mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId),
+        null);
+
     return mDb.insert(DATABASE_TABLE, null, initialValues);
+  }
+
+  public void deleteLocationBookmark(long entityId) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_ENTITY_ID, entityId);
+    mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId),
+        null);
   }
 
   /**
@@ -139,11 +147,10 @@ public class BookmarkDbAdapter {
    * 
    * @param entityId
    *          entityId of bookmark to retrieve
-   * @return Cursor positioned to matching bookmark, if found
-   * @throws SQLException
-   *           if bookmark could not be found/retrieved
+   * @return Cursor positioned to matching bookmark, if found if bookmark could
+   *         not be found/retrieved
    */
-  public Cursor fetchBookmark(long entityId) throws SQLException {
+  public Cursor fetchBookmark(long entityId) {
 
     Cursor mCursor =
 
@@ -155,5 +162,12 @@ public class BookmarkDbAdapter {
     }
     return mCursor;
 
+  }
+
+  public boolean doesBookmarkExist(long entityId) {
+    Cursor cursor = mDb.query(DATABASE_TABLE, new String[] { KEY_ROWID,
+        KEY_ENTITY_ID, KEY_BOOKMARK_NAME }, KEY_ENTITY_ID + "=" + entityId,
+        null, null, null, null, null);
+    return (cursor.getCount() > 0);
   }
 }

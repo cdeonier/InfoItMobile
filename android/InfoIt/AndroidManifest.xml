@@ -29,7 +29,7 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name=".DisplayEntityInfo"
+            android:name=".DisplayInfo"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />

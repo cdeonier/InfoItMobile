@@ -13,6 +13,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.infoit.reader.service.BookmarkDbAdapter;
+import com.infoit.util.ShellUtil;
 
 public class ListBookmarks extends Activity {
   private BookmarkDbAdapter mDbHelper;
@@ -27,8 +28,24 @@ public class ListBookmarks extends Activity {
 
     // Lock to Portrait Mode
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    setContentView(R.layout.list_bookmarks);
 
+    ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, R.layout.bookmarks_actions_menu, R.layout.bookmarks_list);
+    initializeBookmarkList();
+  }
+
+  private void fillData() {
+    Cursor bookmarksCursor = mDbHelper.fetchAllLocationBookmarks();
+    startManagingCursor(bookmarksCursor);
+
+    String[] from = new String[] { BookmarkDbAdapter.KEY_BOOKMARK_NAME };
+    int[] to = new int[] { R.id.bookmark_text };
+
+    SimpleCursorAdapter bookmarks = new SimpleCursorAdapter(this,
+        R.layout.bookmarks_list_item, bookmarksCursor, from, to);
+    mBookmarksList.setAdapter(bookmarks);
+  }
+  
+  private void initializeBookmarkList(){
     mBookmarksList = (ListView) findViewById(R.id.bookmarks_list);
 
     mDbHelper = new BookmarkDbAdapter(this);
@@ -46,19 +63,6 @@ public class ListBookmarks extends Activity {
         
       }
     });
-
-  }
-
-  private void fillData() {
-    Cursor bookmarksCursor = mDbHelper.fetchAllLocationBookmarks();
-    startManagingCursor(bookmarksCursor);
-
-    String[] from = new String[] { BookmarkDbAdapter.KEY_BOOKMARK_NAME };
-    int[] to = new int[] { R.id.bookmark_text };
-
-    SimpleCursorAdapter bookmarks = new SimpleCursorAdapter(this,
-        R.layout.bookmark_list_item, bookmarksCursor, from, to);
-    mBookmarksList.setAdapter(bookmarks);
   }
 
 }

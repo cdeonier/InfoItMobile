@@ -165,9 +165,12 @@ public class BookmarkDbAdapter {
   }
 
   public boolean doesBookmarkExist(long entityId) {
+    boolean doesBookmarkExist = false;
     Cursor cursor = mDb.query(DATABASE_TABLE, new String[] { KEY_ROWID,
         KEY_ENTITY_ID, KEY_BOOKMARK_NAME }, KEY_ENTITY_ID + "=" + entityId,
         null, null, null, null, null);
-    return (cursor.getCount() > 0);
+    doesBookmarkExist = cursor.getCount() > 0;
+    cursor.close();
+    return doesBookmarkExist;
   }
 }

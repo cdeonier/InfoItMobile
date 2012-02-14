@@ -3,7 +3,6 @@ package com.infoit.main;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -40,12 +40,32 @@ public class PhotoGallery extends Activity {
   }
 
   @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    unbindDrawables(findViewById(R.id.container));
+    System.gc();
+  }
+
+  @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
 
     setContentView(R.layout.photo_gallery);
 
     setDisplayImage();
+  }
+
+  private void unbindDrawables(View view) {
+    if (view.getBackground() != null) {
+      view.getBackground().setCallback(null);
+    }
+    if (view instanceof ViewGroup) {
+      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+        unbindDrawables(((ViewGroup) view).getChildAt(i));
+      }
+      ((ViewGroup) view).removeAllViews();
+    }
   }
 
   private void setDisplayImage() {
@@ -108,9 +128,9 @@ public class PhotoGallery extends Activity {
         backToInfoButton.setOnClickListener(new OnClickListener() {
           @Override
           public void onClick(View v) {
-            Intent listIntent = new Intent(v.getContext(),
-                DisplayInfo.class);
-            v.getContext().startActivity(listIntent);
+//            Intent listIntent = new Intent(v.getContext(), DisplayInfo.class);
+//            v.getContext().startActivity(listIntent);
+            finish();
           }
         });
       } else {

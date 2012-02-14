@@ -12,7 +12,6 @@ public class InfoChooser extends Activity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    android.os.Debug.waitForDebugger();
     super.onCreate(savedInstanceState);
     
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

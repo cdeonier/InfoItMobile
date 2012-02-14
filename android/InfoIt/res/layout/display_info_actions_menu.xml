@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu"
+    android:layout_width="1dp"
+    android:layout_height="1dp"
+    android:background="#666666"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/action_display_info_bookmark_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Bookmark"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:padding="10dip" />
+
+</LinearLayout>

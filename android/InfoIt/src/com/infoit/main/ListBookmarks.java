@@ -22,15 +22,30 @@ public class ListBookmarks extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     
-    android.os.Debug.waitingForDebugger();
+    //android.os.Debug.waitingForDebugger();
 
     super.onCreate(savedInstanceState);
 
     // Lock to Portrait Mode
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    
+    mDbHelper = new BookmarkDbAdapter(this);
 
+  }
+  
+  @Override
+  protected void onResume(){
+    super.onResume();
+    mDbHelper.open();
     ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, R.layout.bookmarks_actions_menu, R.layout.bookmarks_list);
     initializeBookmarkList();
+  }
+  
+  @Override 
+  protected void onPause(){
+    super.onPause();
+    mBookmarksList.setAdapter(null);
+    mDbHelper.close();
   }
 
   private void fillData() {
@@ -48,8 +63,6 @@ public class ListBookmarks extends Activity {
   private void initializeBookmarkList(){
     mBookmarksList = (ListView) findViewById(R.id.bookmarks_list);
 
-    mDbHelper = new BookmarkDbAdapter(this);
-    mDbHelper.open();
     fillData();
     
     mBookmarksList.setOnItemClickListener(new OnItemClickListener() {
@@ -58,9 +71,8 @@ public class ListBookmarks extends Activity {
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
         Context context = view.getContext();
-        Cursor itemCursor = (Cursor) parent.getItemAtPosition(position);
+        Cursor itemCursor = (Cursor) parent.getItemAtPosition(position);       
         Toast.makeText(context, itemCursor.getString(1), 1000).show();
-        
       }
     });
   }

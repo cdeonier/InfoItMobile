@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.infoit.reader.activity.R;
 import com.infoit.reader.record.RealEstateInformation;
-import com.infoit.reader.service.TagsWebServiceAdapter;
+import com.infoit.reader.service.WebServiceAdapter;
 
 public class ViewTag extends Activity {
 	static final String TAG = "ViewTag";
@@ -49,7 +49,7 @@ public class ViewTag extends Activity {
     }
     
     private void setupBasicInformation(){
-    	RealEstateInformation info = TagsWebServiceAdapter.getBasicInfoRealEstate(100);
+    	RealEstateInformation info = WebServiceAdapter.getBasicInfoRealEstate(100);
     	
     	ImageView imageView = (ImageView) findViewById(R.id.thumbnail);
     	Drawable image = getImage(info.getThumbnailUrl());

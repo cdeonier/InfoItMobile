@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.infoit.reader.activity.R;
 import com.infoit.reader.service.TagLocation;
 import com.infoit.reader.service.BookmarkDbAdapter;
-import com.infoit.reader.service.TagsWebServiceAdapter;
+import com.infoit.reader.service.WebServiceAdapter;
 
 public class ListTags extends Activity {
 	private ListView mTagsList;
@@ -84,9 +84,9 @@ public class ListTags extends Activity {
 				mLocationManager.removeUpdates(mLocationListener);
 				mLatitude = location.getLatitude();
 				mLongitude = location.getLongitude();
-				TagsWebServiceAdapter.getTagLocationsViaGPS(mLatitude, mLongitude);
+				WebServiceAdapter.getTagLocationsViaGPS(mLatitude, mLongitude);
 				//Test
-				ArrayList<TagLocation> nearbyLocations = TagsWebServiceAdapter.generateNearbyLocations();
+				ArrayList<TagLocation> nearbyLocations = WebServiceAdapter.generateNearbyLocations();
 				
 				final String[] dialogLocations = new String[nearbyLocations.size()];
 				final String[] dialogIdentifiers = new String[nearbyLocations.size()];

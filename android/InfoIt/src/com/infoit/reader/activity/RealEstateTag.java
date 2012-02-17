@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.infoit.reader.record.RealEstateInformation;
-import com.infoit.reader.service.TagsWebServiceAdapter;
+import com.infoit.reader.service.WebServiceAdapter;
 import com.infoit.util.ImageUtil;
 
 public class RealEstateTag extends Activity {
@@ -63,7 +63,7 @@ public class RealEstateTag extends Activity {
 
 		@Override
 		protected RealEstateInformation doInBackground(Void... arg0) {
-			RealEstateInformation info = TagsWebServiceAdapter.getBasicInfoRealEstate(100);
+			RealEstateInformation info = WebServiceAdapter.getBasicInfoRealEstate(100);
 			return info;
 		}
 
@@ -152,7 +152,7 @@ public class RealEstateTag extends Activity {
 
 		@Override
 		protected String[] doInBackground(Integer... params) {
-			String[] urls = TagsWebServiceAdapter.getThumbnailsOfTag(params[0]);
+			String[] urls = WebServiceAdapter.getThumbnailsOfTag(params[0]);
 			return urls;
 		}
 

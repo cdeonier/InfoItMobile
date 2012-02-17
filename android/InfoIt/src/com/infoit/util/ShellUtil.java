@@ -12,17 +12,17 @@ import android.widget.TextView;
 import com.infoit.main.InfoChooser;
 import com.infoit.main.ListBookmarks;
 import com.infoit.main.R;
-import com.infoit.widgets.MenuHorizontalScrollView;
-import com.infoit.widgets.MenuOnClickListener;
-import com.infoit.widgets.NavigationItemOnClickListener;
+import com.infoit.widget.listeners.UiMenuOnClickListener;
+import com.infoit.widget.listeners.UiNavigationItemOnClickListener;
+import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class ShellUtil {
 
-  public static MenuHorizontalScrollView initializeApplicationContainer(Context context,
+  public static UiMenuHorizontalScrollView initializeApplicationContainer(Context context,
       int navigationMenuResource, int actionsMenuResource,
       int applicationResource) {
     LayoutInflater inflater = LayoutInflater.from(context);
-    MenuHorizontalScrollView scrollView = (MenuHorizontalScrollView) inflater
+    UiMenuHorizontalScrollView scrollView = (UiMenuHorizontalScrollView) inflater
         .inflate(R.layout.ui_application_container, null);
     ((Activity) context).setContentView(scrollView);
 
@@ -32,12 +32,12 @@ public class ShellUtil {
 
     RelativeLayout navigationMenuButton = (RelativeLayout) application
         .findViewById(R.id.menu_button);
-    navigationMenuButton.setOnClickListener(new MenuOnClickListener(scrollView,
+    navigationMenuButton.setOnClickListener(new UiMenuOnClickListener(scrollView,
         navigationMenu, application.findViewById(R.id.touch_interceptor), 0));
     
     RelativeLayout actionsMenuButton = (RelativeLayout) application
         .findViewById(R.id.action_button);
-    actionsMenuButton.setOnClickListener(new MenuOnClickListener(scrollView,
+    actionsMenuButton.setOnClickListener(new UiMenuOnClickListener(scrollView,
         actionsMenu, application.findViewById(R.id.touch_interceptor), 2));
     
     RelativeLayout infoItButton = (RelativeLayout) application
@@ -61,10 +61,10 @@ public class ShellUtil {
     return scrollView;
   }
 
-  private static void initializeNavigationMenu(Context context, MenuHorizontalScrollView scrollView, View navigationMenu) {
+  private static void initializeNavigationMenu(Context context, UiMenuHorizontalScrollView scrollView, View navigationMenu) {
     TextView bookmarksListButton = (TextView) navigationMenu
         .findViewById(R.id.nav_bookmarks_list_button);
-    bookmarksListButton.setOnClickListener(new NavigationItemOnClickListener(scrollView, ListBookmarks.class));
+    bookmarksListButton.setOnClickListener(new UiNavigationItemOnClickListener(scrollView, ListBookmarks.class));
   }
 
 }

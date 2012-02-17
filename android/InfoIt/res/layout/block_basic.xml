@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/basic_info_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/thumbnail_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/basic_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/test_house" />
+
+        <LinearLayout
+            android:id="@+id/photos_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="20dip"
+            android:background="#88000000" >
+
+            <TextView
+                android:id="@+id/photo_button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:background="@android:color/transparent"
+                android:text="Photos"
+                android:textColor="@android:color/white"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:id="@+id/photos_icon"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_gravity="center"
+                android:src="@drawable/ui_photos_icon" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/basic_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dip"
+        android:text="855 Spruance Lane"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/basic_description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dip"
+        android:text="BEAUTIFULLY REMODELED ONE-LEVEL TOWNHOME IN HARBORSIDE! THIS GORGEOUS END UNIT FEATURES A LARGE LIVING ROOM/DINING ROOM COMBO W/VAULTED CEILINGS AND LOADS OF NATURAL LIGHT! EAT-IN KITCHEN W/MAPLE CABINETS AND GRANITE COUTERTOPS."
+        android:textColor="#666666"
+        android:textSize="13sp" />
+
+</LinearLayout>

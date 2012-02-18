@@ -77,6 +77,7 @@ public class WebServiceAdapter {
 	  basicInformation.setName(entityNode.path("name").getTextValue());
 	  basicInformation.setDescription(entityNode.path("description").getTextValue());
 	  basicInformation.setEntityType(entityNode.path("entity_type").getTextValue());
+	  basicInformation.setThumbnailUrl(entityNode.path("thumbnail_url").getTextValue());
 	  
 	  return basicInformation;
 	}

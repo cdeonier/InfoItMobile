@@ -1,11 +1,14 @@
 package com.infoit.main;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -16,16 +19,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.infoit.async.DownloadImageTask;
 import com.infoit.main.R.layout;
 
 public class PhotoGallery extends Activity {
   private final GestureDetector gdt = new GestureDetector(new GestureListener());
+  private ProgressDialog mProgressDialog;
 
   private static final int SWIPE_MIN_DISTANCE = 120;
   private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
-  private ArrayList<Drawable> images;
-  private int position;
+  private ArrayList<Drawable> mImages;
+  private ArrayList<String> mImageUrls;
+  private int mPosition;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +39,20 @@ public class PhotoGallery extends Activity {
 
     setContentView(layout.photo_gallery);
 
-    position = 0;
-
-    setupTestImages();
+    mPosition = 0;
+    
+    mImageUrls = new ArrayList<String>();
+    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_1.jpg");
+    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_2.jpg");
+    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_3.jpg");
+    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_4.jpg");
+    
+    mImages = new ArrayList<Drawable>();
+  }
+  
+  @Override
+  protected void onResume(){
+    super.onResume();
     setDisplayImage();
   }
 
@@ -77,35 +94,42 @@ public class PhotoGallery extends Activity {
         return true;
       }
     });
-    displayImage.setImageDrawable(images.get(position));
-  }
-
-  private void setupTestImages() {
-    images = new ArrayList<Drawable>();
-    images.add(getResources().getDrawable(R.drawable.house_1));
-    images.add(getResources().getDrawable(R.drawable.house_2));
-    images.add(getResources().getDrawable(R.drawable.house_3));
-    images.add(getResources().getDrawable(R.drawable.house_4));
+    
+    if(mPosition >= mImages.size()) {
+      Drawable image = null;
+      try {
+        mProgressDialog = ProgressDialog.show(this, "", "Downloading image...", true);
+        image = new DownloadImageTask(this, mImageUrls.get(mPosition)).execute().get();
+      } catch (InterruptedException e) {
+        Log.d("PhotoGallery", "Error downloading image.");
+      } catch (ExecutionException e) {
+        Log.d("PhotoGallery", "Error downloading image.");
+      }
+      if(image != null) {
+        mImages.add(image);
+      }
+    } else {
+      displayImage.setImageDrawable(mImages.get(mPosition));
+    } 
   }
 
   private class GestureListener extends SimpleOnGestureListener {
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
         float velocityY) {
-      ImageView displayImage = (ImageView) findViewById(R.id.photo);
 
       if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
           && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-        if (position < images.size() - 1) {
-          position = position + 1;
-          displayImage.setImageDrawable(images.get(position));
+        if (mPosition < mImageUrls.size() - 1) {
+          mPosition = mPosition + 1;
+          setDisplayImage();
         }
         return false; // Right to left
       } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
           && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-        if (position > 0) {
-          position = position - 1;
-          displayImage.setImageDrawable(images.get(position));
+        if (mPosition > 0) {
+          mPosition = mPosition - 1;
+          setDisplayImage();
         }
         return false; // Left to right
       }
@@ -128,8 +152,6 @@ public class PhotoGallery extends Activity {
         backToInfoButton.setOnClickListener(new OnClickListener() {
           @Override
           public void onClick(View v) {
-//            Intent listIntent = new Intent(v.getContext(), DisplayInfo.class);
-//            v.getContext().startActivity(listIntent);
             finish();
           }
         });
@@ -139,5 +161,9 @@ public class PhotoGallery extends Activity {
 
       return super.onSingleTapConfirmed(e);
     }
+  }
+  
+  public ProgressDialog getProgressDialog() {
+    return mProgressDialog;
   }
 }

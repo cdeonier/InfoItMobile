@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.infoit.main.DisplayInfo;
@@ -31,6 +30,8 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
    
     if("place".equals(WebServiceAdapter.getEntityType(webServiceResponse))){
       if("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))){
+        final PlaceRealEstateView child = new PlaceRealEstateView(mActivity);
+        child.initializeView(webServiceResponse);
 
         mActivity.runOnUiThread(new Runnable() {    
           @Override
@@ -38,9 +39,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
             DisplayInfo displayActivity = (DisplayInfo) mActivity;
 
             LinearLayout content = (LinearLayout) displayActivity.getApplicationContainer().findViewById(R.id.content);
-            PlaceRealEstateView view = new PlaceRealEstateView(mActivity);
-            view.initializeView(webServiceResponse);
-            content.addView(view, content.getChildCount() - 1);
+            content.addView(child, content.getChildCount() - 1);
             
             initializeActionMenu();
           }
@@ -57,8 +56,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
     DisplayInfo displayActivity = (DisplayInfo) mActivity;
     displayActivity.setContentView(displayActivity.getApplicationContainer());
     
-    RelativeLayout touchInterceptor = (RelativeLayout) displayActivity.findViewById(R.id.touch_interceptor);
-    touchInterceptor.setVisibility(View.GONE);
+
   }
   
   private void initializeActionMenu() {
@@ -82,7 +80,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
           bookmarkButton.setText("Remove Bookmark");
         } else {
           // Replace "1" with entityId
-          db.deleteLocationBookmark(1);
+          db.deleteLocationBookmark(mIdentifier);
           bookmarkButton.setText("Add Bookmark");
         }
       }

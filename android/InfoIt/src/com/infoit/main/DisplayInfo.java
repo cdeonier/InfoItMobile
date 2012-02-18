@@ -3,6 +3,9 @@ package com.infoit.main;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.infoit.async.LoadInformationTask;
 import com.infoit.reader.service.BookmarkDbAdapter;
@@ -29,14 +32,22 @@ public class DisplayInfo extends Activity {
     mDbHelper = new BookmarkDbAdapter(this);
 
     setContentView(R.layout.ui_splash_screen);
-    new LoadInformationTask(this, 1).execute();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
     mDbHelper.open();
+    
+    //See whether we're loading for first time, in which case we load data
+    FrameLayout splashScreen = (FrameLayout) findViewById(R.id.splash_screen);
+    if(splashScreen != null) {
+      new LoadInformationTask(this, 1).execute();
+    }
 
+    //Leave this here to handle coming back to this activity from another activity
+    RelativeLayout touchInterceptor = (RelativeLayout) mApplicationContainer.findViewById(R.id.touch_interceptor);
+    touchInterceptor.setVisibility(View.GONE);
     mApplicationContainer.scrollToApplicationView();
   }
 

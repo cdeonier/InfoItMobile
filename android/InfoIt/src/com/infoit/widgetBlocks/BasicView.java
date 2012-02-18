@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.infoit.main.R;
 import com.infoit.reader.record.BasicInformation;
@@ -34,7 +35,11 @@ public class BasicView extends LinearLayout implements BaseInformationView {
   }
   
   private void initView() {
+    TextView name = (TextView) findViewById(R.id.basic_name);
+    TextView description = (TextView) findViewById(R.id.basic_description);
     
+    name.setText(mBasicInformation.getName());
+    description.setText(mBasicInformation.getDescription());
   }
 
 }

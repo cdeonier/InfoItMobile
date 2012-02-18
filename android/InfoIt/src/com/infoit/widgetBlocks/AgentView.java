@@ -40,7 +40,12 @@ public class AgentView extends LinearLayout implements BaseInformationView {
     TextView agentPhone = (TextView) findViewById(R.id.agent_phone);
     
     agentName.setText(mAgentInformation.getName());
-    agentPosition.setText(mAgentInformation.getPosition());
+    if(mAgentInformation.getAgency().equals("")){
+      agentPosition.setText(mAgentInformation.getPosition());
+    } else {
+      agentPosition.setText(mAgentInformation.getPosition() + " at " + mAgentInformation.getAgency());
+    }
+    
     agentPhone.setText(mAgentInformation.getPhone());
   }
 }

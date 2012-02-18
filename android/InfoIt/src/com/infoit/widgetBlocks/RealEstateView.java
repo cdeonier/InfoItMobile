@@ -44,7 +44,7 @@ public class RealEstateView extends LinearLayout implements BaseInformationView 
     TextView lotSqft = (TextView) findViewById(R.id.lot_sqft);
     TextView year = (TextView) findViewById(R.id.year);
     
-    price.setText(mRealEstateInformation.getPrice());
+    price.setText("$"+mRealEstateInformation.getPrice().substring(0, mRealEstateInformation.getPrice().length() - 2));
     propertyType.setText(mRealEstateInformation.getPropertyType());
     bedrooms.setText(mRealEstateInformation.getBedrooms());
     bathrooms.setText(mRealEstateInformation.getBathrooms());

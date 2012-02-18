@@ -270,7 +270,8 @@ public final class R {
         public static final int ui_application_container=0x7f030016;
         public static final int ui_menu_bars=0x7f030017;
         public static final int ui_navigation_menu=0x7f030018;
-        public static final int view_tag=0x7f030019;
+        public static final int ui_splash_screen=0x7f030019;
+        public static final int view_tag=0x7f03001a;
     }
     public static final class raw {
         public static final int beep=0x7f060000;

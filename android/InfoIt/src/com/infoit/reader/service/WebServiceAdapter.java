@@ -79,6 +79,11 @@ public class WebServiceAdapter {
 	  basicInformation.setEntityType(entityNode.path("entity_type").getTextValue());
 	  basicInformation.setThumbnailUrl(entityNode.path("thumbnail_url").getTextValue());
 	  
+	  JsonNode photosNode = rootNode.path("entity").path("photo");
+	  for(JsonNode node : photosNode) {
+	    basicInformation.getPhotoUrls().add(node.getTextValue());
+	  }
+	  
 	  return basicInformation;
 	}
 	

@@ -1,10 +1,17 @@
 package com.infoit.reader.record;
 
+import java.util.ArrayList;
+
 public class BasicInformation implements InformationRecord {
   private String mThumbnailUrl;
   private String mName;
   private String mDescription;
   private String mEntityType;
+  private ArrayList<String> mPhotoUrls;
+  
+  public BasicInformation() {
+    mPhotoUrls = new ArrayList<String>();
+  }
   
   public String getThumbnailUrl() {
     return mThumbnailUrl;
@@ -29,6 +36,12 @@ public class BasicInformation implements InformationRecord {
   }
   public void setEntityType(String entityType) {
     this.mEntityType = entityType;
+  }
+  public ArrayList<String> getPhotoUrls() {
+    return mPhotoUrls;
+  }
+  public void setPhotoUrls(ArrayList<String> photoUrls) {
+    this.mPhotoUrls = photoUrls;
   }
 
   

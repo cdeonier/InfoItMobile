@@ -33,6 +33,7 @@ public class PhotoGallery extends Activity {
   private ArrayList<String> mImageUrls;
   private int mPosition;
 
+  @SuppressWarnings("unchecked")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,13 +41,7 @@ public class PhotoGallery extends Activity {
     setContentView(layout.photo_gallery);
 
     mPosition = 0;
-    
-    mImageUrls = new ArrayList<String>();
-    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_1.jpg");
-    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_2.jpg");
-    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_3.jpg");
-    mImageUrls.add("http://s3-us-west-1.amazonaws.com/infoit-photos/re/san_mateo/spruance/855/photo_4.jpg");
-    
+    mImageUrls = (ArrayList<String>) getIntent().getExtras().get("photoUrls");
     mImages = new ArrayList<Drawable>();
   }
   

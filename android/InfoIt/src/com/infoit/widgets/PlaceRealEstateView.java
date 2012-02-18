@@ -27,6 +27,11 @@ import com.infoit.widgetBlocks.RealEstateView;
 
 public class PlaceRealEstateView extends LinearLayout {
   private Activity mActivity;
+  
+  private BasicInformation mBasicInformation;
+  private RealEstateInformation mRealEstateInformation;
+  private LocationInformation mLocationInformation;
+  private AgentInformation mAgentInformation;
 
   public PlaceRealEstateView(Context context) {
     super(context);
@@ -49,20 +54,20 @@ public class PlaceRealEstateView extends LinearLayout {
   public void initializeView(JsonNode rootNode) {
     LinearLayout container = (LinearLayout) findViewById(R.id.real_estate_info_container);
     
-    BasicInformation basicInfo = WebServiceAdapter.makeBasicInformationRecord(rootNode);
-    RealEstateInformation realEstateInfo = WebServiceAdapter.makeRealEstateInformationRecord(rootNode);
-    LocationInformation locInfo = WebServiceAdapter.makeLocationInformationRecord(rootNode);
-    AgentInformation agentInfo = WebServiceAdapter.makeAgentInformationRecord(rootNode);
+    mBasicInformation = WebServiceAdapter.makeBasicInformationRecord(rootNode);
+    mRealEstateInformation = WebServiceAdapter.makeRealEstateInformationRecord(rootNode);
+    mLocationInformation = WebServiceAdapter.makeLocationInformationRecord(rootNode);
+    mAgentInformation = WebServiceAdapter.makeAgentInformationRecord(rootNode);
     
     BasicView basicView = new BasicView(this.getContext());
     RealEstateView reView = new RealEstateView(this.getContext());
     AddressView addressView = new AddressView(this.getContext());
     AgentView agentView = new AgentView(this.getContext());
     
-    basicView.setInformation(basicInfo);
-    reView.setInformation(realEstateInfo);
-    addressView.setInformation(locInfo);
-    agentView.setInformation(agentInfo);
+    basicView.setInformation(mBasicInformation);
+    reView.setInformation(mRealEstateInformation);
+    addressView.setInformation(mLocationInformation);
+    agentView.setInformation(mAgentInformation);
     
     container.addView(basicView, container.getChildCount());
     container.addView(reView, container.getChildCount());
@@ -126,6 +131,7 @@ public class PlaceRealEstateView extends LinearLayout {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), PhotoGallery.class);
+        intent.putExtra("photoUrls", mBasicInformation.getPhotoUrls());
         v.getContext().startActivity(intent);
       }
     });

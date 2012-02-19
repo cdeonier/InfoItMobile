@@ -88,7 +88,10 @@ public class PlaceRealEstateView extends LinearLayout {
 
       @Override
       public void onClick(View arg0) {
-        String mapUrl = "http://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=855+Spruance+Lane,+Foster+City,+CA&aq=0&oq=855+spruance&sll=37.568168,-122.312573&sspn=0.013368,0.032916&vpsrc=0&ie=UTF8&hq=&hnear=855+Spruance+Ln,+Foster+City,+California+94404&t=h&z=17&iwloc=A";
+        String mapUrl = "http://maps.google.com/maps?q="+
+                        mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getStateCode().replaceAll("\\s", "+");
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri
             .parse(mapUrl));
         mActivity.startActivity(intent);
@@ -99,7 +102,10 @@ public class PlaceRealEstateView extends LinearLayout {
 
       @Override
       public void onClick(View v) {
-        String mapUrl = "http://maps.google.com/maps?f=d&source=s_d&saddr=615+South+Idaho+Street,+San+Mateo,+CA&daddr=855+Spruance+Ln,+Foster+City,+CA+94404";
+        String mapUrl = "http://maps.google.com/maps?saddr=&daddr="+
+                        mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getStateCode().replaceAll("\\s", "+");
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri
             .parse(mapUrl));
         mActivity.startActivity(intent);
@@ -110,7 +116,7 @@ public class PlaceRealEstateView extends LinearLayout {
 
       @Override
       public void onClick(View v) {
-        String url = "tel:6175992159";
+        String url = "tel:" + mAgentInformation.getPhone().replaceAll("[\\s\\-()]", "");
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
         mActivity.startActivity(intent);
       }
@@ -120,7 +126,7 @@ public class PlaceRealEstateView extends LinearLayout {
 
       @Override
       public void onClick(View v) {
-        String url = "http://tamichiu.com/";
+        String url = mAgentInformation.getUrl();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         mActivity.startActivity(intent);
       }

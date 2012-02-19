@@ -1,8 +1,14 @@
 package com.infoit.main;
 
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -15,6 +21,7 @@ import com.infoit.widgets.UiMenuHorizontalScrollView;
 public class DisplayInfo extends Activity {
   private BookmarkDbAdapter mDbHelper;
   private UiMenuHorizontalScrollView mApplicationContainer;
+  private int mIdentifier;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,18 @@ public class DisplayInfo extends Activity {
         R.layout.display_info);
 
     mDbHelper = new BookmarkDbAdapter(this);
+    
+    //temp
+    mIdentifier = 1;
+    
+    if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+      Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+      NdefMessage rawUrl = (NdefMessage) rawMsgs[0];
+      NdefRecord rawUrlRecord = rawUrl.getRecords()[0];
+      byte[] payload = rawUrlRecord.getPayload();
+      String uri = new String(Arrays.copyOfRange(payload, 1, payload.length));
+      mIdentifier = Integer.parseInt(uri.split("/locations/")[1]);
+    }
 
     setContentView(R.layout.ui_splash_screen);
   }
@@ -42,7 +61,7 @@ public class DisplayInfo extends Activity {
     //See whether we're loading for first time, in which case we load data
     FrameLayout splashScreen = (FrameLayout) findViewById(R.id.splash_screen);
     if(splashScreen != null) {
-      new LoadInformationTask(this, 1).execute();
+      new LoadInformationTask(this, mIdentifier).execute();
     }
 
     //Leave this here to handle coming back to this activity from another activity

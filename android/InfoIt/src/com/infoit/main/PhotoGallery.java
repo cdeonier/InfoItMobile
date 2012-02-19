@@ -52,7 +52,7 @@ public class PhotoGallery extends Activity {
   }
 
   @Override
-  protected void onDestroy() {
+  protected void onStop() {
     super.onDestroy();
 
     unbindDrawables(findViewById(R.id.container));

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="20dip"
-        android:background="@drawable/transparent_button"
+        android:background="@drawable/ui_transparent_button"
         android:visibility="gone" >
         
         <ImageView

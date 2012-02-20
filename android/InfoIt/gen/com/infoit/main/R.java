@@ -53,16 +53,18 @@ public final class R {
         public static final int ui_contact_agent_button=0x7f02000e;
         public static final int ui_container=0x7f02000f;
         public static final int ui_directions_button=0x7f020010;
-        public static final int ui_infoit_button=0x7f020011;
-        public static final int ui_infoit_icon=0x7f020012;
-        public static final int ui_map_button=0x7f020013;
-        public static final int ui_menu_bar=0x7f020014;
-        public static final int ui_menu_icon=0x7f020015;
-        public static final int ui_nav_bar_gradient=0x7f020016;
-        public static final int ui_photos_icon=0x7f020017;
-        public static final int ui_transparent_button=0x7f020018;
-        public static final int yelp_button_selector=0x7f020019;
-        public static final int yelp_logo_75x38=0x7f02001a;
+        public static final int ui_infochooser_gradient=0x7f020011;
+        public static final int ui_infoit_button=0x7f020012;
+        public static final int ui_infoit_icon=0x7f020013;
+        public static final int ui_map_button=0x7f020014;
+        public static final int ui_menu_bar=0x7f020015;
+        public static final int ui_menu_icon=0x7f020016;
+        public static final int ui_nav_bar_gradient=0x7f020017;
+        public static final int ui_photos_icon=0x7f020018;
+        public static final int ui_qr_code=0x7f020019;
+        public static final int ui_transparent_button=0x7f02001a;
+        public static final int yelp_button_selector=0x7f02001b;
+        public static final int yelp_logo_75x38=0x7f02001c;
     }
     public static final class id {
         public static final int action_button=0x7f060060;
@@ -142,6 +144,7 @@ public final class R {
         public static final int price=0x7f060029;
         public static final int price_container=0x7f060027;
         public static final int price_label=0x7f060028;
+        public static final int progressBar1=0x7f060066;
         public static final int property_type=0x7f06002c;
         public static final int property_type_container=0x7f06002a;
         public static final int property_type_label=0x7f06002b;

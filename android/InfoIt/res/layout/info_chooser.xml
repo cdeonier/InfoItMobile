@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#ff0000">
+            android:background="@drawable/ui_infochooser_gradient">
             
         </FrameLayout>
         <FrameLayout 
@@ -24,7 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#00ff00">
+            android:background="@drawable/ui_infochooser_gradient">
+            
+            <ImageView
+                android:layout_width="75dip"
+                android:layout_height="75dip"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/ui_qr_code" />
             
         </FrameLayout>
         <FrameLayout 
@@ -32,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#0000ff">
+            android:background="@drawable/ui_infochooser_gradient">
             
         </FrameLayout>
     </LinearLayout>

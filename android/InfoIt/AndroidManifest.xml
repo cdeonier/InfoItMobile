@@ -22,6 +22,11 @@
         <activity
             android:name=".ListBookmarks"
             android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:configChanges="orientation"
@@ -30,12 +35,8 @@
         </activity>
         <activity
             android:name=".DisplayInfo"
+            android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <intent-filter >
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -60,24 +61,6 @@
         </activity>
         <activity
             android:name=".InfoChooser"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        <activity
-            android:label="@string/view_tag"
-            android:name=".ListTags" >
-        </activity>
-        <activity
-            android:label="@string/list_tags"
-            android:name="ListTags" >
-        </activity>
-        <activity
-            android:label="@string/infoit"
-            android:name="RealEstateTag"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        <activity
-            android:label="Tag Application"
-            android:name="com.infoit.reader.activity.TagApplication"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>

@@ -3,13 +3,13 @@ package com.infoit.main;
 import java.util.Arrays;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.widget.FrameLayout;
 
 import com.infoit.async.LoadInformationTask;
 import com.infoit.reader.service.BookmarkDbAdapter;
@@ -20,6 +20,7 @@ public class DisplayInfo extends Activity {
   private BookmarkDbAdapter mDbHelper;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private int mIdentifier;
+  private boolean mReloadData;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -36,18 +37,12 @@ public class DisplayInfo extends Activity {
 
     mDbHelper = new BookmarkDbAdapter(this);
     
-    //temp
-    mIdentifier = 1;
-    
-    if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-      Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-      NdefMessage rawUrl = (NdefMessage) rawMsgs[0];
-      NdefRecord rawUrlRecord = rawUrl.getRecords()[0];
-      byte[] payload = rawUrlRecord.getPayload();
-      String uri = new String(Arrays.copyOfRange(payload, 1, payload.length));
-      mIdentifier = Integer.parseInt(uri.split("/locations/")[1]);
+    mIdentifier = getIntent().getExtras().getInt("identifier");
+    if (mIdentifier == 0) {
+      nfcStart();
     }
-
+    
+    mReloadData = true;
     setContentView(R.layout.ui_splash_screen);
   }
 
@@ -56,9 +51,9 @@ public class DisplayInfo extends Activity {
     super.onResume();
     mDbHelper.open();
     
-    //See whether we're loading for first time, in which case we load data
-    FrameLayout splashScreen = (FrameLayout) findViewById(R.id.splash_screen);
-    if(splashScreen != null) {
+    //The async task will remove splash screen when complete
+    if (mReloadData) {
+      mReloadData = false;
       new LoadInformationTask(this, mIdentifier).execute();
     }
 
@@ -72,6 +67,11 @@ public class DisplayInfo extends Activity {
   }
   
   @Override
+  protected void onDestroy() {
+    super.onDestroy();
+  }
+  
+  @Override
   public void onBackPressed() {
     if(mApplicationContainer.isApplicationView()) {
       finish();
@@ -79,6 +79,31 @@ public class DisplayInfo extends Activity {
       mApplicationContainer.scrollToApplicationView();
     }
     return;
+  }
+  
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+    nfcStart();
+  }
+  
+  private void nfcStart() {
+    if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+      Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+      NdefMessage rawUrl = (NdefMessage) rawMsgs[0];
+      NdefRecord rawUrlRecord = rawUrl.getRecords()[0];
+      byte[] payload = rawUrlRecord.getPayload();
+      String uri = new String(Arrays.copyOfRange(payload, 1, payload.length));
+
+      int identifier = Integer.parseInt(uri.split("/locations/")[1]);
+      
+      if (identifier != mIdentifier) {
+        mReloadData = true;
+        setContentView(R.layout.ui_splash_screen);
+        mIdentifier = identifier;
+      }
+    }
   }
   
   public UiMenuHorizontalScrollView getApplicationContainer() {

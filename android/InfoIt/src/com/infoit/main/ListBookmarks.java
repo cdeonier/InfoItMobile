@@ -2,6 +2,7 @@ package com.infoit.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
+import com.infoit.constants.Constants;
 import com.infoit.reader.service.BookmarkDbAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
@@ -31,6 +32,11 @@ public class ListBookmarks extends Activity {
     // Lock to Portrait Mode
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     
+    mApplicationContainer 
+      = ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, 
+                                                       R.layout.bookmarks_actions_menu, 
+                                                       R.layout.bookmarks_list);
+    
     mDbHelper = new BookmarkDbAdapter(this);
   }
   
@@ -38,8 +44,10 @@ public class ListBookmarks extends Activity {
   protected void onResume(){
     super.onResume();
     mDbHelper.open();
-    mApplicationContainer = ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, R.layout.bookmarks_actions_menu, R.layout.bookmarks_list);
+
     initializeBookmarkList();
+    
+    mApplicationContainer.scrollToApplicationView();
   }
   
   @Override 
@@ -58,6 +66,7 @@ public class ListBookmarks extends Activity {
     }
     return;
   }
+ 
 
   private void fillData() {
     Cursor bookmarksCursor = mDbHelper.fetchAllLocationBookmarks();
@@ -82,8 +91,12 @@ public class ListBookmarks extends Activity {
       public void onItemClick(AdapterView<?> parent, View view, int position,
           long id) {
         Context context = view.getContext();
-        Cursor itemCursor = (Cursor) parent.getItemAtPosition(position);       
-        Toast.makeText(context, itemCursor.getString(1), 1000).show();
+        Cursor itemCursor = (Cursor) parent.getItemAtPosition(position);
+        
+        Intent displayInfoIntent = new Intent(context, DisplayInfo.class);
+        displayInfoIntent.setAction(Constants.BOOKMARK);
+        displayInfoIntent.putExtra("identifier", itemCursor.getInt(1));
+        context.startActivity(displayInfoIntent);
       }
     });
   }

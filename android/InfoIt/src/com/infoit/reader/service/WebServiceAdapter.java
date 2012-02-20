@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,36 +25,8 @@ import com.infoit.reader.record.LocationInformation;
 import com.infoit.reader.record.RealEstateInformation;
 
 public class WebServiceAdapter {
-	
-	public static String[] getThumbnailsOfTag(Integer tagId) {
-		ArrayList<String> urls = new ArrayList<String>();
-		
-		HttpGet httpGet = new HttpGet("http://www.getinfoit.com/services/"+
-									  Integer.toString(tagId)+
-									  "/photos/");
-		
-		String jsonResponse = callWebService(httpGet);
-		
-		ObjectMapper m = new ObjectMapper();
-		
-		try {
-			JsonNode rootNode = m.readValue(jsonResponse, JsonNode.class);
-			for(JsonNode thumbnail : rootNode){
-				String url = thumbnail.path("amazon_url").getTextValue();
-				urls.add(url);
-			}
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return urls.toArray(new String[urls.size()]);
-	}
-	
-	public static RealEstateInformation makeRealEstateInformationRecord(JsonNode rootNode) {
+  
+  public static RealEstateInformation makeRealEstateInformationRecord(JsonNode rootNode) {
 	  RealEstateInformation realEstateInformation = new RealEstateInformation();
     
     JsonNode realEstateDetailNode = rootNode.path("entity").path("place_details").path("real_estate_detail");

@@ -96,7 +96,7 @@ public class DisplayInfo extends Activity {
       byte[] payload = rawUrlRecord.getPayload();
       String uri = new String(Arrays.copyOfRange(payload, 1, payload.length));
 
-      int identifier = Integer.parseInt(uri.split("/locations/")[1]);
+      int identifier = Integer.parseInt(uri.split("/services/")[1]);
       
       if (identifier != mIdentifier) {
         mReloadData = true;

@@ -9,9 +9,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import com.infoit.async.LoadInformationTask;
 import com.infoit.reader.service.BookmarkDbAdapter;
@@ -64,9 +62,6 @@ public class DisplayInfo extends Activity {
       new LoadInformationTask(this, mIdentifier).execute();
     }
 
-    //Leave this here to handle coming back to this activity from another activity
-    RelativeLayout touchInterceptor = (RelativeLayout) mApplicationContainer.findViewById(R.id.touch_interceptor);
-    touchInterceptor.setVisibility(View.GONE);
     mApplicationContainer.scrollToApplicationView();
   }
 
@@ -74,6 +69,16 @@ public class DisplayInfo extends Activity {
   protected void onPause() {
     super.onPause();
     mDbHelper.close();
+  }
+  
+  @Override
+  public void onBackPressed() {
+    if(mApplicationContainer.isApplicationView()) {
+      finish();
+    } else {
+      mApplicationContainer.scrollToApplicationView();
+    }
+    return;
   }
   
   public UiMenuHorizontalScrollView getApplicationContainer() {

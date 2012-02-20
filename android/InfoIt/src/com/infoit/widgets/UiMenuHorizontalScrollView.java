@@ -1,5 +1,6 @@
 package com.infoit.widgets;
 
+import com.infoit.main.R;
 import com.infoit.widget.listeners.UiMenuOnGlobalLayoutListener;
 
 import android.content.Context;
@@ -9,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.HorizontalScrollView;
+import android.widget.RelativeLayout;
 
 public class UiMenuHorizontalScrollView extends HorizontalScrollView {
+  private int mPosition;
 
   public UiMenuHorizontalScrollView(Context context, AttributeSet attrs,
       int defStyle) {
@@ -72,9 +75,33 @@ public class UiMenuHorizontalScrollView extends HorizontalScrollView {
     return false;
   }
 
-  public void scrollToApplicationView(){
+  public void scrollToApplicationView() {
+    //Leave this here to handle coming back to this activity from another activity
+    RelativeLayout touchInterceptor = (RelativeLayout) this.findViewById(R.id.touch_interceptor);
+    touchInterceptor.setVisibility(View.GONE);
+    
     int width = this.getMeasuredWidth();
     int menuWidth = (width / 5) * 4;
     this.scrollTo(menuWidth, 0);
+    mPosition = 1;
   }
+  
+  public void scrollToLeftMenu() {
+    int left = 0;
+    this.smoothScrollTo(left, 0);
+    mPosition = 0;
+  }
+  
+  public void scrollToRightMenu() {
+    int width = this.getMeasuredWidth();
+    int menuWidth = (width / 5) * 4;
+    int right = this.getMeasuredWidth() + menuWidth;
+    this.smoothScrollTo(right, 0);
+    mPosition = 2;
+  }
+  
+  public boolean isApplicationView() {
+    return mPosition == 1;
+  }
+  
 }

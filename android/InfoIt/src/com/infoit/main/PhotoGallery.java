@@ -10,25 +10,20 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.infoit.async.DownloadImageTask;
 import com.infoit.main.R.layout;
+import com.infoit.widget.listeners.PhotoGalleryGestureListener;
 
 public class PhotoGallery extends Activity {
-  private final GestureDetector gdt = new GestureDetector(new GestureListener());
+  private final GestureDetector mGestureDetector 
+    = new GestureDetector(new PhotoGalleryGestureListener(this));
   private ProgressDialog mProgressDialog;
-
-  private static final int SWIPE_MIN_DISTANCE = 120;
-  private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
   private ArrayList<Drawable> mImages;
   private ArrayList<String> mImageUrls;
   private int mPosition;
@@ -68,24 +63,12 @@ public class PhotoGallery extends Activity {
     setDisplayImage();
   }
 
-  private void unbindDrawables(View view) {
-    if (view.getBackground() != null) {
-      view.getBackground().setCallback(null);
-    }
-    if (view instanceof ViewGroup) {
-      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-        unbindDrawables(((ViewGroup) view).getChildAt(i));
-      }
-      ((ViewGroup) view).removeAllViews();
-    }
-  }
-
-  private void setDisplayImage() {
+  public void setDisplayImage() {
     ImageView displayImage = (ImageView) findViewById(R.id.photo);
     displayImage.setOnTouchListener(new OnTouchListener() {
       @Override
       public boolean onTouch(final View view, final MotionEvent event) {
-        gdt.onTouchEvent(event);
+        mGestureDetector.onTouchEvent(event);
         return true;
       }
     });
@@ -107,55 +90,41 @@ public class PhotoGallery extends Activity {
       displayImage.setImageDrawable(mImages.get(mPosition));
     } 
   }
-
-  private class GestureListener extends SimpleOnGestureListener {
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-        float velocityY) {
-
-      if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-          && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-        if (mPosition < mImageUrls.size() - 1) {
-          mPosition = mPosition + 1;
-          setDisplayImage();
-        }
-        return false; // Right to left
-      } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-          && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-        if (mPosition > 0) {
-          mPosition = mPosition - 1;
-          setDisplayImage();
-        }
-        return false; // Left to right
-      }
-      if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE
-          && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-        return false; // Bottom to top
-      } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE
-          && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-        return false; // Top to bottom
-      }
-      return false;
+  
+  private void unbindDrawables(View view) {
+    if (view.getBackground() != null) {
+      view.getBackground().setCallback(null);
     }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-      LinearLayout backToInfoButton = (LinearLayout) findViewById(R.id.back_to_info_button);
-
-      if (View.GONE == (backToInfoButton.getVisibility())) {
-        backToInfoButton.setVisibility(View.VISIBLE);
-        backToInfoButton.setOnClickListener(new OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            finish();
-          }
-        });
-      } else {
-        backToInfoButton.setVisibility(View.GONE);
+    if (view instanceof ViewGroup) {
+      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+        unbindDrawables(((ViewGroup) view).getChildAt(i));
       }
-
-      return super.onSingleTapConfirmed(e);
+      ((ViewGroup) view).removeAllViews();
     }
+  }
+
+  public int getPosition() {
+    return mPosition;
+  }
+
+  public void setPosition(int mPosition) {
+    this.mPosition = mPosition;
+  }
+
+  public ArrayList<Drawable> getImages() {
+    return mImages;
+  }
+
+  public void setmImages(ArrayList<Drawable> images) {
+    this.mImages = images;
+  }
+
+  public ArrayList<String> getImageUrls() {
+    return mImageUrls;
+  }
+
+  public void setmImageUrls(ArrayList<String> imageUrls) {
+    this.mImageUrls = imageUrls;
   }
   
   public ProgressDialog getProgressDialog() {

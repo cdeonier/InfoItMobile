@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.infoit.reader.service.BookmarkDbAdapter;
 import com.infoit.util.ShellUtil;
+import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class ListBookmarks extends Activity {
   private BookmarkDbAdapter mDbHelper;
+  private UiMenuHorizontalScrollView mApplicationContainer;
   private ListView mBookmarksList;
 
   @Override
@@ -30,14 +32,13 @@ public class ListBookmarks extends Activity {
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     
     mDbHelper = new BookmarkDbAdapter(this);
-
   }
   
   @Override
   protected void onResume(){
     super.onResume();
     mDbHelper.open();
-    ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, R.layout.bookmarks_actions_menu, R.layout.bookmarks_list);
+    mApplicationContainer = ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, R.layout.bookmarks_actions_menu, R.layout.bookmarks_list);
     initializeBookmarkList();
   }
   
@@ -46,6 +47,16 @@ public class ListBookmarks extends Activity {
     super.onPause();
     mBookmarksList.setAdapter(null);
     mDbHelper.close();
+  }
+  
+  @Override
+  public void onBackPressed() {
+    if(mApplicationContainer.isApplicationView()) {
+      finish();
+    } else {
+      mApplicationContainer.scrollToApplicationView();
+    }
+    return;
   }
 
   private void fillData() {

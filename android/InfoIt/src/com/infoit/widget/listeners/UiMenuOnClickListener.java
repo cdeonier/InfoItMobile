@@ -6,36 +6,34 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class UiMenuOnClickListener implements OnClickListener {
-  private UiMenuHorizontalScrollView scrollView;
-  private View touchInterceptor;
-  private View menu;
-  private int viewIndex;
+  private UiMenuHorizontalScrollView mScrollView;
+  private View mTouchInterceptor;
+  private View mMenu;
+  private int mViewIndex;
 
   public UiMenuOnClickListener(UiMenuHorizontalScrollView scrollView, View menu, View touchInterceptor,
       int viewIndex) {
     super();
-    this.scrollView = scrollView;
-    this.touchInterceptor = touchInterceptor;
-    this.menu = menu;
-    this.viewIndex = viewIndex;
+    mScrollView = scrollView;
+    mTouchInterceptor = touchInterceptor;
+    mMenu = menu;
+    mViewIndex = viewIndex;
   }
 
   @Override
   public void onClick(View view) {
-    int menuWidth = menu.getMeasuredWidth();
+    
 
     // Ensure menu is visible
-    menu.setVisibility(View.VISIBLE);
+    mMenu.setVisibility(View.VISIBLE);
 
-    if (viewIndex < 1) {
-      int left = 0;
-      scrollView.smoothScrollTo(left, 0);
+    if (mViewIndex < 1) {
+      mScrollView.scrollToLeftMenu();
     } else {
-      int right = scrollView.getMeasuredWidth() + menuWidth;
-      scrollView.smoothScrollTo(right, 0);
+      mScrollView.scrollToRightMenu();
     }
     
-    touchInterceptor.setVisibility(View.VISIBLE);
-    touchInterceptor.setOnClickListener(new UiApplicationOnClickListener(scrollView));
+    mTouchInterceptor.setVisibility(View.VISIBLE);
+    mTouchInterceptor.setOnClickListener(new UiApplicationOnClickListener(mScrollView));
   }
 }

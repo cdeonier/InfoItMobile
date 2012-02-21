@@ -34,6 +34,8 @@ public class DisplayInfo extends Activity {
     mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
         R.layout.ui_navigation_menu, R.layout.display_info_actions_menu,
         R.layout.display_info);
+    
+    setSplashScreen();
 
     mDbHelper = new BookmarkDbAdapter(this);
     
@@ -42,8 +44,9 @@ public class DisplayInfo extends Activity {
       nfcStart();
     }
     
+    
+    
     mReloadData = true;
-    setContentView(R.layout.ui_splash_screen);
   }
 
   @Override
@@ -100,10 +103,18 @@ public class DisplayInfo extends Activity {
       
       if (identifier != mIdentifier) {
         mReloadData = true;
-        setContentView(R.layout.ui_splash_screen);
+        setSplashScreen();
         mIdentifier = identifier;
       }
     }
+  }
+  
+  private void setSplashScreen() {
+    UiMenuHorizontalScrollView splashContainer = 
+        ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, 
+                                                       R.layout.ui_blank_actions_menu, 
+                                                       R.layout.ui_splash_screen);
+    setContentView(splashContainer);
   }
   
   public UiMenuHorizontalScrollView getApplicationContainer() {
@@ -112,5 +123,13 @@ public class DisplayInfo extends Activity {
   
   public BookmarkDbAdapter getDbAdapter() {
     return mDbHelper;
+  }
+
+  public int getIdentifier() {
+    return mIdentifier;
+  }
+
+  public void setIdentifier(int identifier) {
+    this.mIdentifier = identifier;
   }
 }

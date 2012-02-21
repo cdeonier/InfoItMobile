@@ -3,6 +3,7 @@ package com.infoit.main;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.zxing.Result;
+import com.infoit.constants.Constants;
 import com.infoit.qrcode.BeepManager;
 import com.infoit.qrcode.CameraManager;
 import com.infoit.qrcode.QrCodeCaptureHandler;
@@ -125,7 +127,13 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
    * @param barcode   A greyscale bitmap of the camera data which was decoded.
    */
   public void handleDecode(Result rawResult, Bitmap barcode) {
-    Log.w("handleDecode", "start method");
+    Log.w("InfoIt", "Scanned QR Code");
+    int identifier = Integer.parseInt(rawResult.getText().split("/services/")[1]);
     beepManager.playBeepSoundAndVibrate();
+    
+    Intent displayInfoIntent = new Intent(this, DisplayInfo.class);
+    displayInfoIntent.setAction(Constants.BOOKMARK);
+    displayInfoIntent.putExtra("identifier", identifier);
+    this.startActivity(displayInfoIntent);
   }
 }

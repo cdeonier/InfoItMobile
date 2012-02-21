@@ -1,47 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/info_chooser_container"
+    android:id="@+id/info_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
+
     <LinearLayout
         android:id="@+id/chooser_layout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="3">
-        
-        <FrameLayout 
+        android:orientation="vertical"
+        android:weightSum="3" >
+
+        <FrameLayout
             android:id="@+id/nfc_choice"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/ui_infochooser_gradient">
-            
+            android:background="@drawable/ui_infochooser_gradient" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" >
+
+                <FrameLayout
+                    android:id="@+id/nfc_button"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/ui_square_button" >
+
+                    <ImageView
+                        android:layout_width="75dip"
+                        android:layout_height="75dip"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:src="@drawable/ui_qr_code" >
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:text="Tap an NFC sticker"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </FrameLayout>
-        <FrameLayout 
-            android:id="@+id/qr_choice"
+
+        <FrameLayout
+            android:id="@+id/qr_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/ui_infochooser_gradient">
-            
-            <ImageView
-                android:layout_width="75dip"
-                android:layout_height="75dip"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dip"
-                android:src="@drawable/ui_qr_code" />
-            
+            android:background="@drawable/ui_infochooser_gradient" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" >
+
+                <FrameLayout
+                    android:id="@+id/qr_button"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/ui_square_button" >
+
+                    <ImageView
+                        android:layout_width="75dip"
+                        android:layout_height="75dip"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:src="@drawable/ui_qr_code" >
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:text="Scan a QR code"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </FrameLayout>
-        <FrameLayout 
+
+        <FrameLayout
             android:id="@+id/gps_choice"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/ui_infochooser_gradient">
-            
+            android:background="@drawable/ui_infochooser_gradient" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" >
+
+                <FrameLayout
+                    android:id="@+id/gps_button"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/ui_square_button" >
+
+                    <ImageView
+                        android:layout_width="75dip"
+                        android:layout_height="75dip"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:src="@drawable/ui_qr_code" >
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:text="Select nearby location"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </FrameLayout>
     </LinearLayout>
-    
+
+    <include
+        android:id="@+id/menu_bars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        layout="@layout/ui_menu_bars" />
+
+    <RelativeLayout
+        android:id="@+id/touch_interceptor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+
 </FrameLayout>

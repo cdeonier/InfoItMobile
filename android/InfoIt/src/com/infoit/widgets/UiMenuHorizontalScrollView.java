@@ -1,8 +1,5 @@
 package com.infoit.widgets;
 
-import com.infoit.main.R;
-import com.infoit.widget.listeners.UiMenuOnGlobalLayoutListener;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,6 +8,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
+
+import com.infoit.main.R;
+import com.infoit.widget.listeners.UiMenuOnGlobalLayoutListener;
 
 public class UiMenuHorizontalScrollView extends HorizontalScrollView {
   private int mPosition;
@@ -65,12 +65,63 @@ public class UiMenuHorizontalScrollView extends HorizontalScrollView {
 
   @Override
   public boolean onTouchEvent(MotionEvent ev) {
+
+    //Uncomment for flinging -- Remember to set touch interceptor
+    /*
+    if (xDistance > 0) { //Scroll to left
+      if(isApplicationView()){
+        scrollToLeftMenu();
+      } else if (isActionView()) {
+        scrollToApplicationView();
+      }
+    } else { //Scroll to right
+      if(isApplicationView()){
+        scrollToRightMenu();
+      } else if (isMenuView()) {
+        scrollToApplicationView();
+      }
+    }*/
+
+    
     // Do not allow touch events.
     return false;
   }
 
   @Override
   public boolean onInterceptTouchEvent(MotionEvent ev) {
+
+    //Uncomment for flinging
+    /*
+    switch (ev.getAction()) {
+      case MotionEvent.ACTION_DOWN:
+        xDistance = yDistance = 0f;
+        lastX = ev.getX();
+        lastY = ev.getY();
+        lastTime = ev.getEventTime();
+        break;
+      case MotionEvent.ACTION_MOVE:
+        final float curX = ev.getX();
+        final float curY = ev.getY();
+        final long curTime = ev.getEventTime();
+        xDistance += curX - lastX;
+        yDistance += curY - lastY;
+        time = curTime - lastTime;
+        lastX = curX;
+        lastY = curY;
+        lastTime = curTime;
+        if (Math.abs(xDistance) > Math.abs(yDistance)) {
+          //We're scrolling left or right
+          float velocity = Math.abs(xDistance) * 1000 / (float) time;
+          if(velocity > SWIPE_THRESHOLD_VELOCITY && Math.abs(xDistance) > SWIPE_MIN_DISTANCE) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+    }
+
+    return false;
+    */
     // Do not allow touch events.
     return false;
   }
@@ -102,6 +153,14 @@ public class UiMenuHorizontalScrollView extends HorizontalScrollView {
   
   public boolean isApplicationView() {
     return mPosition == 1;
+  }
+  
+  public boolean isMenuView() {
+    return mPosition == 0;
+  }
+  
+  public boolean isActionView() {
+    return mPosition == 2;
   }
   
 }

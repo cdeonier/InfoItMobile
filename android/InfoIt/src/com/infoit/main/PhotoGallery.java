@@ -33,8 +33,6 @@ public class PhotoGallery extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(layout.photo_gallery);
-
     mPosition = 0;
     mImageUrls = (ArrayList<String>) getIntent().getExtras().get("photoUrls");
     mImages = new ArrayList<Drawable>();
@@ -43,6 +41,7 @@ public class PhotoGallery extends Activity {
   @Override
   protected void onResume(){
     super.onResume();
+    setContentView(layout.photo_gallery);
     setDisplayImage();
   }
 

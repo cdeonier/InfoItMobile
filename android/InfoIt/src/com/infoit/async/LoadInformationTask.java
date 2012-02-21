@@ -55,16 +55,15 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
   protected void onPostExecute(Void result) {
     DisplayInfo displayActivity = (DisplayInfo) mActivity;
     displayActivity.setContentView(displayActivity.getApplicationContainer());
-    
-
   }
   
   private void initializeActionMenu() {
-    DisplayInfo displayActivity = (DisplayInfo) mActivity;
+    final DisplayInfo displayActivity = (DisplayInfo) mActivity;
     final BookmarkDbAdapter db = displayActivity.getDbAdapter();
     
     TextView bookmarkButton = (TextView) displayActivity.getApplicationContainer()
         .findViewById(R.id.action_display_info_bookmark_button);
+    final TextView name = (TextView) displayActivity.getApplicationContainer().findViewById(R.id.basic_name);
     if (db.doesBookmarkExist(mIdentifier)) {
       bookmarkButton.setText("Remove Bookmark");
     }
@@ -75,11 +74,9 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
         TextView bookmarkButton = (TextView) v;
 
         if (bookmarkButton.getText().toString().contains("Add")) {
-          // Replace "1" with entityId
-          db.createLocationBookmark(1, "855 Spruance Lane");
+          db.createLocationBookmark(mIdentifier, (String) name.getText());
           bookmarkButton.setText("Remove Bookmark");
         } else {
-          // Replace "1" with entityId
           db.deleteLocationBookmark(mIdentifier);
           bookmarkButton.setText("Add Bookmark");
         }

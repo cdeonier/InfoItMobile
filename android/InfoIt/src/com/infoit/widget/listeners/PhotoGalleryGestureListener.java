@@ -12,7 +12,7 @@ import com.infoit.main.R;
 public class PhotoGalleryGestureListener extends SimpleOnGestureListener {
   private PhotoGallery mActivity;
   
-  private static final int SWIPE_MIN_DISTANCE = 120;
+  private static final int SWIPE_MIN_DISTANCE = 80;
   private static final int SWIPE_THRESHOLD_VELOCITY = 200;
   
   public PhotoGalleryGestureListener(PhotoGallery activity) {

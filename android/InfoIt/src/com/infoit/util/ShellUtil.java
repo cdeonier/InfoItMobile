@@ -60,6 +60,13 @@ public class ShellUtil {
 
     return scrollView;
   }
+  
+  public static void clearActionMenuButton(View applicationContainer) {
+    RelativeLayout actionsMenuButton = (RelativeLayout) applicationContainer
+        .findViewById(R.id.action_button);
+    actionsMenuButton.setOnClickListener(null);
+    actionsMenuButton.removeAllViews();
+  }
 
   private static void initializeNavigationMenu(Context context, UiMenuHorizontalScrollView scrollView, View navigationMenu) {
     LinearLayout bookmarksListButton = (LinearLayout) navigationMenu

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -128,12 +129,18 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
    */
   public void handleDecode(Result rawResult, Bitmap barcode) {
     Log.w("InfoIt", "Scanned QR Code");
-    int identifier = Integer.parseInt(rawResult.getText().split("/services/")[1]);
-    beepManager.playBeepSoundAndVibrate();
-    
-    Intent displayInfoIntent = new Intent(this, DisplayInfo.class);
-    displayInfoIntent.setAction(Constants.BOOKMARK);
-    displayInfoIntent.putExtra("identifier", identifier);
-    this.startActivity(displayInfoIntent);
+    if (rawResult.getText().contains("www.getinfoit.com")) {
+      int identifier = Integer.parseInt(rawResult.getText().split("/services/")[1]);
+      beepManager.playBeepSoundAndVibrate();
+      
+      Intent displayInfoIntent = new Intent(this, DisplayInfo.class);
+      displayInfoIntent.setAction(Constants.BOOKMARK);
+      displayInfoIntent.putExtra("identifier", identifier);
+      this.startActivity(displayInfoIntent);
+    } else {
+      String url = rawResult.getText();
+      Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+      this.startActivity(intent);
+    }
   }
 }

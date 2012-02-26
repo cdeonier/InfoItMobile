@@ -10,7 +10,7 @@
         android:id="@+id/action_display_info_bookmark_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Bookmark"
+        android:text="Bookmark this place"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:padding="10dip" />

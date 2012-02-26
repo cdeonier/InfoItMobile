@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dip"
-            android:text="My Favorites"
+            android:text="My Bookmarks"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
     </LinearLayout>

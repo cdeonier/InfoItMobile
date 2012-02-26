@@ -138,7 +138,9 @@ final class CameraConfigurationManager {
         continue;
       }
 
-      int newDiff = Math.abs(newX - screenResolution.x) + Math.abs(newY - screenResolution.y);
+      //We're in portrait mode, not landscape mode, so modify this zxing code to reflect this
+      //int newDiff = Math.abs(newX - screenResolution.x) + Math.abs(newY - screenResolution.y);
+      int newDiff = Math.abs(newX - screenResolution.y) + Math.abs(newY - screenResolution.x);
       if (newDiff == 0) {
         bestX = newX;
         bestY = newY;

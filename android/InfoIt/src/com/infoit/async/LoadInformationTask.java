@@ -79,7 +79,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
           bookmarkButton.setText("Remove Bookmark");
         } else {
           db.deleteLocationBookmark(mIdentifier);
-          bookmarkButton.setText("Add Bookmark");
+          bookmarkButton.setText("Bookmark this place");
         }
       }
     });

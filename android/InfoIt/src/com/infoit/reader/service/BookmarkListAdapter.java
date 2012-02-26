@@ -46,6 +46,7 @@ public class BookmarkListAdapter extends CursorAdapter {
     row.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, rowHeight));
 
     FrameLayout checkbox = (FrameLayout) row.findViewById(R.id.bookmark_checkbox);
+    FrameLayout detailButton = (FrameLayout) row.findViewById(R.id.detail_button);
     TextView bookmarkTitle = (TextView) row.findViewById(R.id.bookmark_text);
     
     int identifier = cursor.getInt(cursor.getColumnIndex(BookmarkDbAdapter.KEY_ENTITY_ID));
@@ -53,6 +54,7 @@ public class BookmarkListAdapter extends CursorAdapter {
     
     checkbox.setOnClickListener(new OnCheckboxClickListener(identifier, name));
     bookmarkTitle.setOnClickListener(new OnBookmarkClickListener(identifier, name));
+    detailButton.setOnClickListener(new OnBookmarkClickListener(identifier, name));
     
     return row;
   }

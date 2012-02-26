@@ -26,7 +26,7 @@ public final class CameraManager {
 
   private static final int MIN_FRAME_WIDTH = 240;
   private static final int MIN_FRAME_HEIGHT = 240;
-  private static final int MAX_FRAME_WIDTH = 480;
+  private static final int MAX_FRAME_WIDTH = 360;
   private static final int MAX_FRAME_HEIGHT = 360;
 
   private static CameraManager cameraManager;
@@ -229,9 +229,12 @@ public final class CameraManager {
       } else if (height > MAX_FRAME_HEIGHT) {
         height = MAX_FRAME_HEIGHT;
       }
-      int leftOffset = (screenResolution.x - width) / 2;
-      int topOffset = (screenResolution.y - height) / 2;
-      framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+      //int leftOffset = (screenResolution.x - width) / 2;
+      //int topOffset = (screenResolution.y - height) / 2;
+      //InfoIt: The framing rectangle is a little deceptive; lining up perfectly doesn't work.
+      //We'll just use the whole screen to detect the QR code; it's easier to understand and use.
+      //framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+      framingRect = new Rect(0,0,screenResolution.x, screenResolution.y);
       Log.d(TAG, "Calculated framing rect: " + framingRect);
     }
     return framingRect;

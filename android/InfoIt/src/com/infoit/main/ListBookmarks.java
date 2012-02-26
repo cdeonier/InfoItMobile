@@ -1,24 +1,24 @@
 package com.infoit.main;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
-import com.infoit.constants.Constants;
+import com.infoit.async.BookmarksListTask;
 import com.infoit.reader.service.BookmarkDbAdapter;
+import com.infoit.reader.service.BookmarkListAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class ListBookmarks extends Activity {
-  private BookmarkDbAdapter mDbHelper;
+  private BookmarkDbAdapter mDb;
+  private BookmarkListAdapter mBookmarksListAdapter;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private ListView mBookmarksList;
 
@@ -37,15 +37,17 @@ public class ListBookmarks extends Activity {
                                                        R.layout.bookmarks_actions_menu, 
                                                        R.layout.bookmarks_list);
     
-    mDbHelper = new BookmarkDbAdapter(this);
+    mDb = new BookmarkDbAdapter(this);
   }
   
   @Override
   protected void onResume(){
     super.onResume();
-    mDbHelper.open();
-
+    
+    mDb.open();
     initializeBookmarkList();
+    
+    resetNotification();
     
     mApplicationContainer.scrollToApplicationView();
   }
@@ -54,7 +56,8 @@ public class ListBookmarks extends Activity {
   protected void onPause(){
     super.onPause();
     mBookmarksList.setAdapter(null);
-    mDbHelper.close();
+    mBookmarksListAdapter.changeCursor(null);
+    mDb.close();
   }
   
   @Override
@@ -66,39 +69,63 @@ public class ListBookmarks extends Activity {
     }
     return;
   }
- 
-
-  private void fillData() {
-    Cursor bookmarksCursor = mDbHelper.fetchAllLocationBookmarks();
-    startManagingCursor(bookmarksCursor);
-
-    String[] from = new String[] { BookmarkDbAdapter.KEY_BOOKMARK_NAME };
-    int[] to = new int[] { R.id.bookmark_text };
-
-    SimpleCursorAdapter bookmarks = new SimpleCursorAdapter(this,
-        R.layout.bookmarks_list_item, bookmarksCursor, from, to);
-    mBookmarksList.setAdapter(bookmarks);
-  }
   
   private void initializeBookmarkList(){
+    Cursor bookmarksCursor = mDb.fetchAllLocationBookmarks();
+    startManagingCursor(bookmarksCursor);
+
     mBookmarksList = (ListView) findViewById(R.id.bookmarks_list);
-
-    fillData();
+    mBookmarksListAdapter = new BookmarkListAdapter(this, bookmarksCursor, 0);
+    mBookmarksList.setAdapter(mBookmarksListAdapter);
+  }
+  
+  public void resetNotification() {
+    FrameLayout notificationBox = (FrameLayout) findViewById(R.id.notification);
+    notificationBox.setVisibility(View.GONE);
+  }
+  
+  public void setNotificationDelete() {
+    FrameLayout notificationBox = (FrameLayout) findViewById(R.id.notification);
+    TextView notificationText = (TextView) findViewById(R.id.notification_text);
     
-    mBookmarksList.setOnItemClickListener(new OnItemClickListener() {
-
+    notificationText.setText("Delete");
+    notificationBox.setOnClickListener(new OnClickListener() {
+      
       @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position,
-          long id) {
-        Context context = view.getContext();
-        Cursor itemCursor = (Cursor) parent.getItemAtPosition(position);
-        
-        Intent displayInfoIntent = new Intent(context, DisplayInfo.class);
-        displayInfoIntent.setAction(Constants.BOOKMARK);
-        displayInfoIntent.putExtra("identifier", itemCursor.getInt(1));
-        context.startActivity(displayInfoIntent);
+      public void onClick(View v) {
+        new BookmarksListTask((Activity) v.getContext(), mBookmarksListAdapter, BookmarksListTask.DELETE_BOOKMARKS).execute();
+        setNotificationUndoRemoveBookmarks();
       }
     });
+    notificationBox.setVisibility(View.VISIBLE);
+  }
+
+  public void setNotificationUndoRemoveBookmarks() {
+    FrameLayout notificationBox = (FrameLayout) findViewById(R.id.notification);
+    TextView notificationText = (TextView) findViewById(R.id.notification_text);
+    
+    notificationText.setText("Undo");
+    notificationBox.setOnClickListener(new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        new BookmarksListTask((Activity) v.getContext(), mBookmarksListAdapter, BookmarksListTask.UNDO_DELETE_BOOKMARKS).execute();
+        resetNotification();
+      }
+    });
+    notificationBox.setVisibility(View.VISIBLE);
+  }
+
+  public ListView getBookmarksList() {
+    return mBookmarksList;
+  }
+
+  public void setBookmarksList(ListView bookmarksList) {
+    this.mBookmarksList = bookmarksList;
+  }
+  
+  public BookmarkDbAdapter getDb() {
+    return mDb;
   }
 
 }

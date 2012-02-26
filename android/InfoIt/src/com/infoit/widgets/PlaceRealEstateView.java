@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.infoit.main.PhotoGallery;
 import com.infoit.main.R;
@@ -73,6 +74,12 @@ public class PlaceRealEstateView extends LinearLayout {
     container.addView(reView, container.getChildCount());
     container.addView(addressView, container.getChildCount());
     container.addView(agentView, container.getChildCount());
+    
+    RelativeLayout spacer = new RelativeLayout(mActivity);
+    //50 should work, but not displaying correctly, so nudging to 70
+    int menuBarHeight = (int) (50 * mActivity.getResources().getDisplayMetrics().density);
+    spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, menuBarHeight));
+    container.addView(spacer);
     
     initializeContentButtons();
   }

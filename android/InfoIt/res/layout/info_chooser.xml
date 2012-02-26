@@ -35,7 +35,7 @@
                         android:layout_width="75dip"
                         android:layout_height="75dip"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@drawable/ui_qr_code" >
+                        android:src="@drawable/ui_nfc_icon" >
                     </ImageView>
                 </FrameLayout>
 
@@ -113,7 +113,7 @@
                         android:layout_width="75dip"
                         android:layout_height="75dip"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@drawable/ui_qr_code" >
+                        android:src="@drawable/ui_nearby_locations_icon" >
                     </ImageView>
                 </FrameLayout>
 

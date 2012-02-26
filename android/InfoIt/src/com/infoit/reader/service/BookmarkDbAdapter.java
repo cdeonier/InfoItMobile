@@ -87,24 +87,25 @@ public class BookmarkDbAdapter {
    *          the entity identifier associated with the tag
    * @return rowId or -1 if failed
    */
-  public long createLocationBookmark(long entityId, String bookmarkName) {
+  public void createLocationBookmark(long entityId, String bookmarkName) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_ENTITY_ID, entityId);
     initialValues.put(KEY_BOOKMARK_NAME, bookmarkName);
     initialValues.put(KEY_BOOKMARK_TYPE, "LOCATION");
 
-    // Get rid of old values in case location has been updated.
-    mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId),
-        null);
+      // Get rid of old values in case location has been updated.
+      mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId),
+          null);
+      mDb.insert(DATABASE_TABLE, null, initialValues);
 
-    return mDb.insert(DATABASE_TABLE, null, initialValues);
   }
 
   public void deleteLocationBookmark(long entityId) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_ENTITY_ID, entityId);
-    mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId),
-        null);
+
+      ContentValues initialValues = new ContentValues();
+      initialValues.put(KEY_ENTITY_ID, entityId);
+      mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId),
+          null);
   }
 
   /**

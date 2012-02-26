@@ -39,6 +39,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
             DisplayInfo displayActivity = (DisplayInfo) mActivity;
 
             LinearLayout content = (LinearLayout) displayActivity.getApplicationContainer().findViewById(R.id.content);
+            content.removeViewAt(content.getChildCount() - 1);
             content.addView(child, content.getChildCount() - 1);
             
             initializeActionMenu();

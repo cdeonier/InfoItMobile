@@ -3,22 +3,16 @@
     android:id="@+id/menu"
     android:layout_width="1dp"
     android:layout_height="1dp"
-    android:background="#ff00ff00"
+    android:background="#666666"
     android:orientation="vertical" >
-
+    
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ffffff00"
-        android:text="The Menu" />
-
-    <ListView
-        android:id="@+id/list"
+        android:id="@+id/action_remove_bookmark_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#80ff0000"
-        android:cacheColorHint="#ff00ff00"
-        android:scrollbars="none" >
-    </ListView>
+        android:text="Remove Bookmark"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:padding="10dip" />
 
 </LinearLayout>

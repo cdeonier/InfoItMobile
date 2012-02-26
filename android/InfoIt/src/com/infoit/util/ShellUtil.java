@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.infoit.main.InfoChooser;
 import com.infoit.main.ListBookmarks;
@@ -62,7 +62,7 @@ public class ShellUtil {
   }
 
   private static void initializeNavigationMenu(Context context, UiMenuHorizontalScrollView scrollView, View navigationMenu) {
-    TextView bookmarksListButton = (TextView) navigationMenu
+    LinearLayout bookmarksListButton = (LinearLayout) navigationMenu
         .findViewById(R.id.nav_bookmarks_list_button);
     bookmarksListButton.setOnClickListener(new UiNavigationItemOnClickListener(scrollView, ListBookmarks.class));
   }

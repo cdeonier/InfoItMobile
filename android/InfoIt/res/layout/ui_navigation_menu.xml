@@ -5,14 +5,47 @@
     android:layout_height="1dp"
     android:background="#666666"
     android:orientation="vertical" >
-    
-    <TextView
+
+    <LinearLayout
         android:id="@+id/nav_bookmarks_list_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bookmarks"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:padding="10dip" />
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:src="@drawable/ui_favorite_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:text="My Favorites"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_recent_history_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:src="@drawable/ui_history_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:text="Recent History"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 </LinearLayout>

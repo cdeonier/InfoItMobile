@@ -1,51 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/menu"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="1dp"
     android:layout_height="1dp"
-    android:background="#666666"
-    android:orientation="vertical" >
+    android:background="#666666" >
 
     <LinearLayout
-        android:id="@+id/nav_bookmarks_list_button"
+        android:id="@+id/menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dip"
-            android:src="@drawable/ui_favorite_icon" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dip"
-            android:text="My Bookmarks"
+            android:background="#888888"
+            android:padding="5dip"
+            android:text="Go to..."
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/nav_recent_history_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            android:textSize="14sp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dip"
-            android:src="@drawable/ui_history_icon" />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dip"
-            android:text="Recent History"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:scaleType="fitXY"
+            android:src="@drawable/ui_menu_header_separator" />
+
+        <LinearLayout
+            android:id="@+id/nav_bookmarks_list_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/ui_favorite_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="My Bookmarks"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ui_menu_separator" />
+
+        <LinearLayout
+            android:id="@+id/nav_recent_history_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/ui_history_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="Recent History"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ui_menu_separator" />
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:scaleType="fitXY"
+        android:src="@drawable/ui_drop_shadow_left" />
+
+</FrameLayout>

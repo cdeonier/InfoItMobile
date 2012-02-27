@@ -1,14 +1,12 @@
 package com.infoit.main;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,6 +61,7 @@ public class PhotoGallery extends Activity {
   }
 
   public void setDisplayImage() {
+    
     ImageView displayImage = (ImageView) findViewById(R.id.photo);
     displayImage.setOnTouchListener(new OnTouchListener() {
       @Override
@@ -73,18 +72,8 @@ public class PhotoGallery extends Activity {
     });
     
     if(mPosition >= mImages.size()) {
-      Drawable image = null;
-      try {
-        mProgressDialog = ProgressDialog.show(this, "", "Downloading image...", true);
-        image = new DownloadImageTask(this, mImageUrls.get(mPosition)).execute().get();
-      } catch (InterruptedException e) {
-        Log.d("PhotoGallery", "Error downloading image.");
-      } catch (ExecutionException e) {
-        Log.d("PhotoGallery", "Error downloading image.");
-      }
-      if(image != null) {
-        mImages.add(image);
-      }
+      mProgressDialog = ProgressDialog.show(this, "", "Downloading image...", true);
+      new DownloadImageTask(this, mImageUrls.get(mPosition)).execute();
     } else {
       displayImage.setImageDrawable(mImages.get(mPosition));
     } 
@@ -114,7 +103,7 @@ public class PhotoGallery extends Activity {
     return mImages;
   }
 
-  public void setmImages(ArrayList<Drawable> images) {
+  public void setImages(ArrayList<Drawable> images) {
     this.mImages = images;
   }
 
@@ -122,7 +111,7 @@ public class PhotoGallery extends Activity {
     return mImageUrls;
   }
 
-  public void setmImageUrls(ArrayList<String> imageUrls) {
+  public void setImageUrls(ArrayList<String> imageUrls) {
     this.mImageUrls = imageUrls;
   }
   

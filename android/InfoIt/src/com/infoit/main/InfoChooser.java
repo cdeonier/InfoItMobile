@@ -32,7 +32,7 @@ public class InfoChooser extends Activity {
     int menuBarHeight = (int) (70 * getResources().getDisplayMetrics().density);
     Display display = getWindowManager().getDefaultDisplay();
 
-    LinearLayout container = (LinearLayout) findViewById(R.id.chooser_layout);
+    LinearLayout container = (LinearLayout) findViewById(R.id.container);
     container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
     
     FrameLayout qrCodeView = (FrameLayout) findViewById(R.id.qr_button);

@@ -20,19 +20,21 @@ public class DownloadImageTask extends AsyncTask<Void, Void, Drawable> {
 
   @Override
   protected Drawable doInBackground(Void... params) {
-    final Drawable image = ImageUtil.getImage(mImageUrl);
-    final ImageView displayImage = (ImageView) mActivity.findViewById(R.id.photo);
-     
-    mActivity.runOnUiThread(new Runnable() {    
-      @Override
-      public void run() {
-        displayImage.setImageDrawable(image);
-        PhotoGallery photoGallery = (PhotoGallery) mActivity;
-        photoGallery.getProgressDialog().dismiss();
-      }
-    });
+    Drawable image = ImageUtil.getImage(mImageUrl);
     
     return image;
   }
-
+  
+  @Override
+  protected void onPostExecute(Drawable result) {
+    // TODO Auto-generated method stub
+    super.onPostExecute(result);
+    final ImageView displayImage = (ImageView) mActivity.findViewById(R.id.photo);
+    displayImage.setImageDrawable(result);
+    PhotoGallery photoGallery = (PhotoGallery) mActivity;
+    photoGallery.getImages().add(result);
+    photoGallery.getProgressDialog().dismiss();
+    
+  }
+  
 }

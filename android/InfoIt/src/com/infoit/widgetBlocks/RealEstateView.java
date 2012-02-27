@@ -1,5 +1,8 @@
 package com.infoit.widgetBlocks;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -44,7 +47,11 @@ public class RealEstateView extends LinearLayout implements BaseInformationView 
     TextView lotSqft = (TextView) findViewById(R.id.lot_sqft);
     TextView year = (TextView) findViewById(R.id.year);
     
-    price.setText("$"+mRealEstateInformation.getPrice().substring(0, mRealEstateInformation.getPrice().length() - 2));
+    String chompedPrice = mRealEstateInformation.getPrice().substring(0, mRealEstateInformation.getPrice().length() - 2);
+    int priceAsInt = Integer.parseInt(chompedPrice);
+    String priceWithCommas = NumberFormat.getNumberInstance(Locale.US).format(priceAsInt);
+    
+    price.setText("$"+priceWithCommas);
     propertyType.setText(mRealEstateInformation.getPropertyType());
     bedrooms.setText(mRealEstateInformation.getBedrooms());
     bathrooms.setText(mRealEstateInformation.getBathrooms());

@@ -5,128 +5,141 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/chooser_layout"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="3" >
-
-        <FrameLayout
-            android:id="@+id/nfc_choice"
+        android:orientation="vertical">
+        
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/ui_infochooser_gradient" >
+            android:layout_height="wrap_content"
+            android:text="Get Info for New Place"
+            android:textColor="@android:color/black"
+            android:padding="5dip"
+            android:textSize="20sp"
+            android:background="@drawable/ui_infochooser_gradient" />
+        
+        <LinearLayout
+            android:id="@+id/chooser_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="3" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" >
+            <FrameLayout
+                android:id="@+id/nfc_choice"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
 
-                <FrameLayout
-                    android:id="@+id/nfc_button"
-                    android:layout_width="100dip"
-                    android:layout_height="100dip"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dip"
-                    android:background="@drawable/ui_square_button" >
-
-                    <ImageView
-                        android:layout_width="75dip"
-                        android:layout_height="75dip"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@drawable/ui_nfc_icon" >
-                    </ImageView>
-                </FrameLayout>
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dip"
-                    android:text="Tap an NFC sticker"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:layout_gravity="center_vertical" >
 
-        <FrameLayout
-            android:id="@+id/qr_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/ui_infochooser_gradient" >
+                    <FrameLayout
+                        android:id="@+id/nfc_button"
+                        android:layout_width="100dip"
+                        android:layout_height="100dip"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dip"
+                        android:background="@drawable/ui_square_button" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" >
+                        <ImageView
+                            android:layout_width="75dip"
+                            android:layout_height="75dip"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:src="@drawable/ui_nfc_icon" >
+                        </ImageView>
+                    </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/qr_button"
-                    android:layout_width="100dip"
-                    android:layout_height="100dip"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dip"
-                    android:background="@drawable/ui_square_button" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dip"
+                        android:text="Tap an NFC sticker"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </FrameLayout>
 
-                    <ImageView
-                        android:layout_width="75dip"
-                        android:layout_height="75dip"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@drawable/ui_qr_code" >
-                    </ImageView>
-                </FrameLayout>
+            <FrameLayout
+                android:id="@+id/qr_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dip"
-                    android:text="Scan a QR code"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:layout_gravity="center_vertical" >
 
-        <FrameLayout
-            android:id="@+id/gps_choice"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/ui_infochooser_gradient" >
+                    <FrameLayout
+                        android:id="@+id/qr_button"
+                        android:layout_width="100dip"
+                        android:layout_height="100dip"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dip"
+                        android:background="@drawable/ui_square_button" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" >
+                        <ImageView
+                            android:layout_width="75dip"
+                            android:layout_height="75dip"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:src="@drawable/ui_qr_code" >
+                        </ImageView>
+                    </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/gps_button"
-                    android:layout_width="100dip"
-                    android:layout_height="100dip"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dip"
-                    android:background="@drawable/ui_square_button" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dip"
+                        android:text="Scan a QR code"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </FrameLayout>
 
-                    <ImageView
-                        android:layout_width="75dip"
-                        android:layout_height="75dip"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@drawable/ui_nearby_locations_icon" >
-                    </ImageView>
-                </FrameLayout>
+            <FrameLayout
+                android:id="@+id/gps_choice"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dip"
-                    android:text="Select nearby location"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:layout_gravity="center_vertical" >
+
+                    <FrameLayout
+                        android:id="@+id/gps_button"
+                        android:layout_width="100dip"
+                        android:layout_height="100dip"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dip"
+                        android:background="@drawable/ui_square_button" >
+
+                        <ImageView
+                            android:layout_width="75dip"
+                            android:layout_height="75dip"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:src="@drawable/ui_nearby_locations_icon" >
+                        </ImageView>
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dip"
+                        android:text="Select nearby location"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <include

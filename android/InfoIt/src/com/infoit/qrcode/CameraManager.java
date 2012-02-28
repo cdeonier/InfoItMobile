@@ -225,6 +225,11 @@ public final class CameraManager {
    */
   public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
     Rect rect = getFramingRectInPreview();
+    
+    if (width < rect.width()) {
+      rect.set(0, 0, width, height);
+    }
+    
     int previewFormat = configManager.getPreviewFormat();
     String previewFormatString = configManager.getPreviewFormatString();
 

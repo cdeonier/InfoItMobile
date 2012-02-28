@@ -5,7 +5,6 @@ import java.io.IOException;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,8 +29,6 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
   private QrCodeCaptureHandler handler;
   private ViewfinderView viewfinderView;
   private BeepManager beepManager;
-  @SuppressWarnings("unused")
-  private Result lastResult;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +36,7 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
     
     super.onCreate(savedInstanceState);
     
-    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     
     Window window = getWindow();
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -104,9 +101,7 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
       CameraManager.get().openDriver(surfaceHolder);
       // Creating the handler starts the preview, which can also throw a RuntimeException.
       if (handler == null) {
-        /* InfoIt: This originally from ZXing; passing nulls checks all formats */
-        //handler = new QrCodeCaptureHandler(this, decodeFormats, characterSet);
-        handler = new QrCodeCaptureHandler(this, null, null);
+        handler = new QrCodeCaptureHandler(this);
       }
     } catch (IOException ioe) {
       Log.w(TAG, ioe);
@@ -122,12 +117,12 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
   }
   
   /**
-   * A valid barcode has been found, so give an indication of success and show the results.
+   * A valid QR has been found, so give an indication of success and show the results.
    *
    * @param rawResult The contents of the barcode.
    * @param barcode   A greyscale bitmap of the camera data which was decoded.
    */
-  public void handleDecode(Result rawResult, Bitmap barcode) {
+  public void handleDecode(Result rawResult) {
     Log.w("InfoIt", "Scanned QR Code");
     if (rawResult.getText().contains("www.getinfoit.com")) {
       int identifier = Integer.parseInt(rawResult.getText().split("/services/")[1]);

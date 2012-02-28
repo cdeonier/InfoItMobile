@@ -16,23 +16,21 @@
 
 package com.infoit.qrcode;
 
-import com.infoit.main.R;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.ReaderException;
-import com.google.zxing.Result;
-import com.infoit.qrcode.CameraManager;
-import com.google.zxing.common.HybridBinarizer;
-import com.infoit.main.QrCodeCapture;
+import java.util.Hashtable;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import java.util.Hashtable;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.ReaderException;
+import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
+import com.infoit.main.QrCodeCapture;
+import com.infoit.main.R;
 
 final class DecodeHandler extends Handler {
 
@@ -90,9 +88,6 @@ final class DecodeHandler extends Handler {
       long end = System.currentTimeMillis();
       Log.d(TAG, "Found barcode in " + (end - start) + " ms");
       Message message = Message.obtain(activity.getHandler(), R.id.decode_succeeded, rawResult);
-      Bundle bundle = new Bundle();
-      bundle.putParcelable(DecodeThread.BARCODE_BITMAP, source.renderCroppedGreyscaleBitmap());
-      message.setData(bundle);
       message.sendToTarget();
     } else {
       Message message = Message.obtain(activity.getHandler(), R.id.decode_failed);

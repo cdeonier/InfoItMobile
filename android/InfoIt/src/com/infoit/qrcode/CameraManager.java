@@ -1,5 +1,7 @@
 package com.infoit.qrcode;
 
+import java.io.IOException;
+
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
@@ -9,9 +11,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import com.infoit.qrcode.PlanarYUVLuminanceSource;
-
-import java.io.IOException;
 
 /**
  * This object wraps the Camera service object and expects to be the only one talking to it. The
@@ -23,12 +22,6 @@ import java.io.IOException;
 public final class CameraManager {
 
   private static final String TAG = CameraManager.class.getSimpleName();
-
-  private static final int MIN_FRAME_WIDTH = 240;
-  private static final int MIN_FRAME_HEIGHT = 240;
-  private static final int MAX_FRAME_WIDTH = 360;
-  private static final int MAX_FRAME_HEIGHT = 360;
-
   private static CameraManager cameraManager;
 
   static final int SDK_INT; // Later we can use Build.VERSION.SDK_INT
@@ -53,7 +46,7 @@ public final class CameraManager {
   private boolean initialized;
   private boolean previewing;
   private boolean reverseImage;
-  private final boolean useOneShotPreviewCallback;
+  
   /**
    * Preview frames are delivered here, which we pass on to the registered handler. Make sure to
    * clear the handler so it will only receive one message.
@@ -94,9 +87,9 @@ public final class CameraManager {
     // Camera.setPreviewCallback() on 1.5 and earlier. For Donut and later, we need to use
     // the more efficient one shot callback, as the older one can swamp the system and cause it
     // to run out of memory. We can't use SDK_INT because it was introduced in the Donut SDK.
-    useOneShotPreviewCallback = Integer.parseInt(Build.VERSION.SDK) > 3; // 3 = Cupcake
+    //useOneShotPreviewCallback = Integer.parseInt(Build.VERSION.SDK) > 3; // 3 = Cupcake
 
-    previewCallback = new PreviewCallback(configManager, useOneShotPreviewCallback);
+    previewCallback = new PreviewCallback(configManager);
     autoFocusCallback = new AutoFocusCallback();
   }
 
@@ -120,13 +113,6 @@ public final class CameraManager {
       configManager.initFromCameraParameters(camera);
     }
     configManager.setDesiredCameraParameters(camera);
-
-    /* InfoIt: Not using a settings page from ZXing */
-    /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    reverseImage = prefs.getBoolean(PreferencesActivity.KEY_REVERSE_IMAGE, false);
-    if (prefs.getBoolean(PreferencesActivity.KEY_FRONT_LIGHT, false)) {
-      FlashlightManager.enableFlashlight();
-    }*/
   }
 
   /**
@@ -161,9 +147,6 @@ public final class CameraManager {
    */
   public void stopPreview() {
     if (camera != null && previewing) {
-      if (!useOneShotPreviewCallback) {
-        camera.setPreviewCallback(null);
-      }
       camera.stopPreview();
       previewCallback.setHandler(null, 0);
       autoFocusCallback.setHandler(null, 0);
@@ -182,11 +165,7 @@ public final class CameraManager {
   public void requestPreviewFrame(Handler handler, int message) {
     if (camera != null && previewing) {
       previewCallback.setHandler(handler, message);
-      if (useOneShotPreviewCallback) {
-        camera.setOneShotPreviewCallback(previewCallback);
-      } else {
-        camera.setPreviewCallback(previewCallback);
-      }
+      camera.setOneShotPreviewCallback(previewCallback);
     }
   }
 
@@ -217,23 +196,6 @@ public final class CameraManager {
         return null;
       }
       Point screenResolution = configManager.getScreenResolution();
-      int width = screenResolution.x * 3 / 4;
-      if (width < MIN_FRAME_WIDTH) {
-        width = MIN_FRAME_WIDTH;
-      } else if (width > MAX_FRAME_WIDTH) {
-        width = MAX_FRAME_WIDTH;
-      }
-      int height = screenResolution.y * 3 / 4;
-      if (height < MIN_FRAME_HEIGHT) {
-        height = MIN_FRAME_HEIGHT;
-      } else if (height > MAX_FRAME_HEIGHT) {
-        height = MAX_FRAME_HEIGHT;
-      }
-      //int leftOffset = (screenResolution.x - width) / 2;
-      //int topOffset = (screenResolution.y - height) / 2;
-      //InfoIt: The framing rectangle is a little deceptive; lining up perfectly doesn't work.
-      //We'll just use the whole screen to detect the QR code; it's easier to understand and use.
-      //framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
       framingRect = new Rect(0,0,screenResolution.x, screenResolution.y);
       Log.d(TAG, "Calculated framing rect: " + framingRect);
     }
@@ -247,37 +209,9 @@ public final class CameraManager {
   public Rect getFramingRectInPreview() {
     if (framingRectInPreview == null) {
       Rect rect = new Rect(getFramingRect());
-      Point cameraResolution = configManager.getCameraResolution();
-      Point screenResolution = configManager.getScreenResolution();
-      rect.left = rect.left * cameraResolution.x / screenResolution.x;
-      rect.right = rect.right * cameraResolution.x / screenResolution.x;
-      rect.top = rect.top * cameraResolution.y / screenResolution.y;
-      rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
       framingRectInPreview = rect;
     }
     return framingRectInPreview;
-  }
-
-  /**
-   * Allows third party apps to specify the scanning rectangle dimensions, rather than determine
-   * them automatically based on screen resolution.
-   *
-   * @param width The width in pixels to scan.
-   * @param height The height in pixels to scan.
-   */
-  public void setManualFramingRect(int width, int height) {
-    Point screenResolution = configManager.getScreenResolution();
-    if (width > screenResolution.x) {
-      width = screenResolution.x;
-    }
-    if (height > screenResolution.y) {
-      height = screenResolution.y;
-    }
-    int leftOffset = (screenResolution.x - width) / 2;
-    int topOffset = (screenResolution.y - height) / 2;
-    framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
-    Log.d(TAG, "Calculated manual framing rect: " + framingRect);
-    framingRectInPreview = null;
   }
 
   /**

@@ -30,9 +30,6 @@ public final class ViewfinderView extends View {
 
   private final Paint paint;
   private Bitmap resultBitmap;
-  private final int maskColor;
-  private final int resultColor;
-  private final int frameColor;
   private final int resultPointColor;
   private List<ResultPoint> possibleResultPoints;
   private List<ResultPoint> lastPossibleResultPoints;
@@ -44,9 +41,6 @@ public final class ViewfinderView extends View {
     // Initialize these once for performance rather than calling them every time in onDraw().
     paint = new Paint();
     Resources resources = getResources();
-    maskColor = resources.getColor(R.color.viewfinder_mask);
-    resultColor = resources.getColor(R.color.result_view);
-    frameColor = resources.getColor(R.color.viewfinder_frame);
     resultPointColor = resources.getColor(R.color.possible_result_points);
     possibleResultPoints = new ArrayList<ResultPoint>(5);
     lastPossibleResultPoints = null;
@@ -58,15 +52,6 @@ public final class ViewfinderView extends View {
     if (frame == null) {
       return;
     }
-    int width = canvas.getWidth();
-    int height = canvas.getHeight();
-
-    // Draw the exterior (i.e. outside the framing rect) darkened
-    paint.setColor(resultBitmap != null ? resultColor : maskColor);
-    canvas.drawRect(0, 0, width, frame.top, paint);
-    canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
-    canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
-    canvas.drawRect(0, frame.bottom + 1, width, height, paint);
 
     if (resultBitmap != null) {
       // Draw the opaque result bitmap over the scanning rectangle
@@ -74,12 +59,6 @@ public final class ViewfinderView extends View {
       canvas.drawBitmap(resultBitmap, null, frame, paint);
     } else {
 
-      // Draw a two pixel solid black border inside the framing rect
-      paint.setColor(frameColor);
-      canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
-      canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
-      canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
-      canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
       
       Rect previewFrame = CameraManager.get().getFramingRectInPreview();
       float scaleX = frame.width() / (float) previewFrame.width();
@@ -122,16 +101,6 @@ public final class ViewfinderView extends View {
 
   public void drawViewfinder() {
     resultBitmap = null;
-    invalidate();
-  }
-
-  /**
-   * Draw a bitmap with the result points highlighted instead of the live scanning display.
-   *
-   * @param barcode An image of the decoded barcode.
-   */
-  public void drawResultBitmap(Bitmap barcode) {
-    resultBitmap = barcode;
     invalidate();
   }
 

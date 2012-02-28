@@ -41,6 +41,10 @@ final class CameraConfigurationManager {
   CameraConfigurationManager(Context context) {
     this.context = context;
   }
+  
+  public Context getContext() {
+    return context;
+  }
 
   /**
    * Reads, one time, values from the camera that are needed by the app.
@@ -65,12 +69,13 @@ final class CameraConfigurationManager {
    * and the planar Y can be used for barcode scanning without a copy in some cases.
    */
   void setDesiredCameraParameters(Camera camera) {
+    //camera.setDisplayOrientation(90);
     Camera.Parameters parameters = camera.getParameters();
-    camera.setDisplayOrientation(90);
     Log.d(TAG, "Setting preview size: " + cameraResolution);
     parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
     setFlash(parameters);
     setZoom(parameters);
+    
     camera.setParameters(parameters);
   }
 
@@ -138,9 +143,8 @@ final class CameraConfigurationManager {
         continue;
       }
 
-      //We're in portrait mode, not landscape mode, so modify this zxing code to reflect this
-      //int newDiff = Math.abs(newX - screenResolution.x) + Math.abs(newY - screenResolution.y);
-      int newDiff = Math.abs(newX - screenResolution.y) + Math.abs(newY - screenResolution.x);
+      //We're in portrait mode, not landscape mode, so modify this zxing code to reflect this      
+      int newDiff = Math.abs(newX - screenResolution.x) + Math.abs(newY - screenResolution.y);
       if (newDiff == 0) {
         bestX = newX;
         bestY = newY;

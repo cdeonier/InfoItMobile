@@ -16,22 +16,16 @@
 
 package com.infoit.qrcode;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.Result;
-import com.infoit.main.QrCodeCapture;
-import com.infoit.qrcode.CameraManager;
-
-import com.infoit.main.R;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import java.util.Vector;
+import com.google.zxing.Result;
+import com.infoit.main.QrCodeCapture;
+import com.infoit.main.R;
 
 /**
  * This class handles all the messaging which comprises the state machine for capture.
@@ -52,10 +46,9 @@ public final class QrCodeCaptureHandler extends Handler {
     DONE
   }
 
-  public QrCodeCaptureHandler(QrCodeCapture activity, Vector<BarcodeFormat> decodeFormats,
-      String characterSet) {
+  public QrCodeCaptureHandler(QrCodeCapture activity) {
     this.activity = activity;
-    decodeThread = new DecodeThread(activity, decodeFormats, characterSet,
+    decodeThread = new DecodeThread(activity, 
         new ViewfinderResultPointCallback(activity.getViewfinderView()));
     decodeThread.start();
     state = State.SUCCESS;
@@ -83,10 +76,7 @@ public final class QrCodeCaptureHandler extends Handler {
       case R.id.decode_succeeded:
         Log.d(TAG, "Got decode succeeded message");
         state = State.SUCCESS;
-        Bundle bundle = message.getData();
-        Bitmap barcode = bundle == null ? null :
-            (Bitmap) bundle.getParcelable(DecodeThread.BARCODE_BITMAP);
-        activity.handleDecode((Result) message.obj, barcode);
+        activity.handleDecode((Result) message.obj);
         break;
       case R.id.decode_failed:
         // We're decoding as fast as possible, so when one decode fails, start another.

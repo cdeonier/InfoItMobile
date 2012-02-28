@@ -16,9 +16,9 @@
 
 package com.infoit.qrcode;
 
-import com.google.zxing.LuminanceSource;
+import android.util.Log;
 
-import android.graphics.Bitmap;
+import com.google.zxing.LuminanceSource;
 
 /**
  * This object extends LuminanceSource around an array of YUV data returned from the camera driver,
@@ -32,6 +32,8 @@ import android.graphics.Bitmap;
  */
 public final class PlanarYUVLuminanceSource extends LuminanceSource {
 
+  private static final String TAG = PlanarYUVLuminanceSource.class.getSimpleName();
+  
   private final byte[] yuvData;
   private final int dataWidth;
   private final int dataHeight;
@@ -43,6 +45,8 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
     super(width, height);
 
     if (left + width > dataWidth || top + height > dataHeight) {
+      Log.w(TAG, "Width: "+ String.valueOf(width) + " Height: " + String.valueOf(height));
+      Log.w(TAG, "dataWidth: "+ String.valueOf(dataWidth) + " dataHeight: " + String.valueOf(dataHeight));
       throw new IllegalArgumentException("Crop rectangle does not fit within image data.");
     }
 
@@ -51,6 +55,8 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
     this.dataHeight = dataHeight;
     this.left = left;
     this.top = top;
+    
+    
     if (reverseHorizontal) {
       reverseHorizontal(width, height);
     }
@@ -104,27 +110,6 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
   @Override
   public boolean isCropSupported() {
     return true;
-  }
-
-  public Bitmap renderCroppedGreyscaleBitmap() {
-    int width = getWidth();
-    int height = getHeight();
-    int[] pixels = new int[width * height];
-    byte[] yuv = yuvData;
-    int inputOffset = top * dataWidth + left;
-
-    for (int y = 0; y < height; y++) {
-      int outputOffset = y * width;
-      for (int x = 0; x < width; x++) {
-        int grey = yuv[inputOffset + x] & 0xff;
-        pixels[outputOffset + x] = 0xFF000000 | (grey * 0x00010101);
-      }
-      inputOffset += dataWidth;
-    }
-
-    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-    bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-    return bitmap;
   }
 
   private void reverseHorizontal(int width, int height) {

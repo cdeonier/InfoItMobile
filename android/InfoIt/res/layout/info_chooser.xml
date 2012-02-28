@@ -17,7 +17,7 @@
             android:textColor="@android:color/black"
             android:padding="5dip"
             android:textSize="20sp"
-            android:background="@drawable/ui_infochooser_gradient" />
+            android:background="@drawable/ui_header_gradient" />
         
         <LinearLayout
             android:id="@+id/chooser_layout"
@@ -43,13 +43,13 @@
                         android:layout_height="100dip"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dip"
-                        android:background="@drawable/ui_square_button" >
+                        android:background="@drawable/infochooser_square_button" >
 
                         <ImageView
                             android:layout_width="75dip"
                             android:layout_height="75dip"
                             android:layout_gravity="center_vertical|center_horizontal"
-                            android:src="@drawable/ui_nfc_icon" >
+                            android:src="@drawable/infochooser_nfc_icon" >
                         </ImageView>
                     </FrameLayout>
 
@@ -81,13 +81,13 @@
                         android:layout_height="100dip"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dip"
-                        android:background="@drawable/ui_square_button" >
+                        android:background="@drawable/infochooser_square_button" >
 
                         <ImageView
                             android:layout_width="75dip"
                             android:layout_height="75dip"
                             android:layout_gravity="center_vertical|center_horizontal"
-                            android:src="@drawable/ui_qr_code" >
+                            android:src="@drawable/infochooser_qr_code" >
                         </ImageView>
                     </FrameLayout>
 
@@ -119,13 +119,13 @@
                         android:layout_height="100dip"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dip"
-                        android:background="@drawable/ui_square_button" >
+                        android:background="@drawable/infochooser_square_button" >
 
                         <ImageView
                             android:layout_width="75dip"
                             android:layout_height="75dip"
                             android:layout_gravity="center_vertical|center_horizontal"
-                            android:src="@drawable/ui_nearby_locations_icon" >
+                            android:src="@drawable/infochooser_nearby_locations_icon" >
                         </ImageView>
                     </FrameLayout>
 

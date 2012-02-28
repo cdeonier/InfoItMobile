@@ -46,7 +46,6 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
     CameraManager.init(getApplication());
     
     viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-    beepManager = new BeepManager(this);
   }
 
   @Override
@@ -58,6 +57,8 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
 
     surfaceHolder.addCallback(this);
     surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    
+    beepManager = new BeepManager(this);
   }
   
   @Override
@@ -68,6 +69,8 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
       handler = null;
     }
     CameraManager.get().closeDriver();
+    
+    beepManager = null;
   }
 
   @Override

@@ -38,14 +38,5 @@ public class BookmarksListTask extends AsyncTask<Void, Void, Void> {
     
     mListAdapter.changeCursor(bookmarksCursor);
     mListAdapter.notifyDataSetChanged();
-    
-//    mActivity.runOnUiThread(new Runnable() {
-//
-//      @Override
-//      public void run() {
-//        
-//      }    
-//    });
-    
   }
 }

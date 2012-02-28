@@ -42,30 +42,30 @@ public class BookmarkListAdapter extends CursorAdapter {
     View row = View.inflate(context, R.layout.bookmarks_list_item, null);
     
     int rowHeight = (int) (50 * context.getResources().getDisplayMetrics().density);
-    
     row.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, rowHeight));
-
-    FrameLayout checkbox = (FrameLayout) row.findViewById(R.id.bookmark_checkbox);
-    FrameLayout detailButton = (FrameLayout) row.findViewById(R.id.detail_button);
-    TextView bookmarkTitle = (TextView) row.findViewById(R.id.bookmark_text);
-    
-    int identifier = cursor.getInt(cursor.getColumnIndex(BookmarkDbAdapter.KEY_ENTITY_ID));
-    String name = cursor.getString(cursor.getColumnIndex(BookmarkDbAdapter.KEY_BOOKMARK_NAME));
-    
-    checkbox.setOnClickListener(new OnCheckboxClickListener(identifier, name));
-    bookmarkTitle.setOnClickListener(new OnBookmarkClickListener(identifier, name));
-    detailButton.setOnClickListener(new OnBookmarkClickListener(identifier, name));
     
     return row;
   }
 
   @Override
   public void bindView(View view, Context context, Cursor cursor) {
-    ImageView checkbox = (ImageView) view.findViewById(R.id.bookmark_checkbox_icon);
+    FrameLayout checkbox = (FrameLayout) view.findViewById(R.id.bookmark_checkbox);
+    ImageView checkboxIcon = (ImageView) view.findViewById(R.id.bookmark_checkbox_icon);
+    FrameLayout detailButton = (FrameLayout) view.findViewById(R.id.detail_button);
     TextView bookmarkTitle = (TextView) view.findViewById(R.id.bookmark_text);
     
-    checkbox.setImageResource(R.drawable.ui_unchecked_box_icon);
+    checkboxIcon.setImageResource(R.drawable.ui_unchecked_box_icon);
     bookmarkTitle.setText(cursor.getString(cursor.getColumnIndex(BookmarkDbAdapter.KEY_BOOKMARK_NAME)));
+    
+    int identifier = cursor.getInt(cursor.getColumnIndex(BookmarkDbAdapter.KEY_ENTITY_ID));
+    String name = cursor.getString(cursor.getColumnIndex(BookmarkDbAdapter.KEY_BOOKMARK_NAME));
+    
+    OnCheckboxClickListener checkboxListener = new OnCheckboxClickListener(identifier, name);
+    OnBookmarkClickListener bookmarkListener = new OnBookmarkClickListener(identifier, name);
+    
+    checkbox.setOnClickListener(checkboxListener);
+    bookmarkTitle.setOnClickListener(bookmarkListener);
+    detailButton.setOnClickListener(bookmarkListener);
   }
   
   public void removeSelectedBookmarks() {
@@ -88,7 +88,7 @@ public class BookmarkListAdapter extends CursorAdapter {
   }
   
   private class OnBookmarkClickListener implements OnClickListener {
-    private BookmarkRecord mBookmarkRecord;
+    private final BookmarkRecord mBookmarkRecord;
     
     public OnBookmarkClickListener(int identifier, String name) {
       mBookmarkRecord = new BookmarkRecord(identifier, name);

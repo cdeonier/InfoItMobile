@@ -17,7 +17,7 @@
             android:textColor="@android:color/black"
             android:padding="5dip"
             android:textSize="20sp"
-            android:background="@drawable/ui_infochooser_gradient" />
+            android:background="@drawable/ui_header_gradient" />
 
         <ListView
             android:id="@+id/bookmarks_list"

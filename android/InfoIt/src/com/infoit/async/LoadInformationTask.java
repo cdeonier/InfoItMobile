@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -62,24 +63,28 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
     final DisplayInfo displayActivity = (DisplayInfo) mActivity;
     final BookmarkDbAdapter db = displayActivity.getDbAdapter();
     
-    TextView bookmarkButton = (TextView) displayActivity.getApplicationContainer()
+    LinearLayout bookmarkButton = (LinearLayout) displayActivity.getApplicationContainer()
         .findViewById(R.id.action_display_info_bookmark_button);
     final TextView name = (TextView) displayActivity.getApplicationContainer().findViewById(R.id.basic_name);
+    final ImageView icon = (ImageView) displayActivity.getApplicationContainer().findViewById(R.id.bookmark_icon);
+    final TextView bookmarkButtonText = (TextView) displayActivity.getApplicationContainer().findViewById(R.id.bookmark_button_text);
+    
     if (db.doesBookmarkExist(mIdentifier)) {
-      bookmarkButton.setText("Remove Bookmark");
+      bookmarkButtonText.setText("Remove Bookmark");
+      icon.setImageResource(R.drawable.bookmark_icon);
     }
     bookmarkButton.setOnClickListener(new OnClickListener() {
 
       @Override
       public void onClick(View v) {
-        TextView bookmarkButton = (TextView) v;
-
-        if (bookmarkButton.getText().toString().contains("Add")) {
+        if (bookmarkButtonText.getText().toString().contains("Bookmark this place")) {
           db.createLocationBookmark(mIdentifier, (String) name.getText());
-          bookmarkButton.setText("Remove Bookmark");
+          bookmarkButtonText.setText("Remove Bookmark");
+          icon.setImageResource(R.drawable.bookmark_icon);
         } else {
           db.deleteLocationBookmark(mIdentifier);
-          bookmarkButton.setText("Bookmark this place");
+          bookmarkButtonText.setText("Bookmark this place");
+          icon.setImageResource(R.drawable.bookmark_unbookmark_icon);
         }
       }
     });

@@ -68,14 +68,14 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:src="@drawable/ui_contact_agent_button" />
+            android:src="@drawable/agent_contact_button" />
 
         <ImageView
             android:id="@+id/agent_details_button"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:src="@drawable/ui_agent_details_button" />
+            android:src="@drawable/agent_details_button" />
     </LinearLayout>
 
 </LinearLayout>

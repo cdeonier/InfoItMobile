@@ -44,9 +44,10 @@ public class ListBookmarks extends Activity {
   protected void onResume(){
     super.onResume();
     
+ 
     mDb.open();
     initializeBookmarkList();
-    
+
     resetNotification();
     
     mApplicationContainer.scrollToApplicationView();

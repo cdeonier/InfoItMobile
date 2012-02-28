@@ -1,18 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/menu"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="1dp"
     android:layout_height="1dp"
-    android:background="#666666"
-    android:orientation="vertical" >
-    
-    <TextView
-        android:id="@+id/action_display_info_bookmark_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bookmark this place"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:padding="10dip" />
+    android:background="#666666" >
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/action_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#888888"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:paddingLeft="10dip"
+            android:text="Things you can do"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ui_menu_header_separator" />
+
+        <LinearLayout
+            android:id="@+id/action_display_info_bookmark_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/bookmark_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/bookmark_unbookmark_icon" />
+
+            <TextView
+                android:id="@+id/bookmark_button_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="Bookmark this place"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ui_menu_separator" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:scaleType="fitXY"
+        android:src="@drawable/ui_drop_shadow_right" />
+
+</FrameLayout>

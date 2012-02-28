@@ -14,7 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#888888"
-            android:padding="5dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:paddingLeft="10dip"
             android:text="Go to..."
             android:textColor="@android:color/white"
             android:textSize="14sp" />
@@ -35,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dip"
-                android:src="@drawable/ui_favorite_icon" />
+                android:src="@drawable/bookmark_icon" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -62,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dip"
-                android:src="@drawable/ui_history_icon" />
+                android:src="@drawable/history_icon" />
 
             <TextView
                 android:layout_width="match_parent"

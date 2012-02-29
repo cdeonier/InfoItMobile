@@ -1,9 +1,13 @@
 package com.infoit.widgetBlocks;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +36,43 @@ public class AddressView extends LinearLayout implements BaseInformationView {
   public void setInformation(InformationRecord locationInformation){
     mLocationInformation = (LocationInformation) locationInformation;
     initView();
+  }
+  
+  @Override
+  public void setContentButtons(Activity activity) {
+    
+    ImageView openMapButton = (ImageView) findViewById(R.id.open_map_button);
+    ImageView getDirectionsButton = (ImageView) findViewById(R.id.get_directions_button);
+    
+    openMapButton.setOnClickListener(new OnClickListener() {
+
+      @Override
+      public void onClick(View v) {
+        String mapUrl = "http://maps.google.com/maps?q="+
+                        mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getStateCode().replaceAll("\\s", "+");
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri
+            .parse(mapUrl));
+        v.getContext().startActivity(intent);
+      }
+    });
+
+    getDirectionsButton.setOnClickListener(new OnClickListener() {
+
+      @Override
+      public void onClick(View v) {
+        String mapUrl = "http://maps.google.com/maps?saddr=&daddr="+
+                        mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+
+                        mLocationInformation.getStateCode().replaceAll("\\s", "+");
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri
+            .parse(mapUrl));
+        v.getContext().startActivity(intent);
+      }
+    });
+    
+    
   }
   
   private void initView() {

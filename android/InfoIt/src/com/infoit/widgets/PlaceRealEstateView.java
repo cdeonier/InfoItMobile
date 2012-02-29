@@ -4,17 +4,11 @@ import org.codehaus.jackson.JsonNode;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.infoit.main.PhotoGallery;
 import com.infoit.main.R;
 import com.infoit.reader.record.AgentInformation;
 import com.infoit.reader.record.BasicInformation;
@@ -75,79 +69,16 @@ public class PlaceRealEstateView extends LinearLayout {
     container.addView(addressView, container.getChildCount());
     container.addView(agentView, container.getChildCount());
     
+    basicView.setContentButtons(mActivity);
+    reView.setContentButtons(mActivity);
+    addressView.setContentButtons(mActivity);
+    agentView.setContentButtons(mActivity);
+    
     RelativeLayout spacer = new RelativeLayout(mActivity);
     //50 should work, but not displaying correctly, so nudging to 70
     int menuBarHeight = (int) (50 * mActivity.getResources().getDisplayMetrics().density);
     spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, menuBarHeight));
     container.addView(spacer);
-    
-    initializeContentButtons();
-  }
-  
-  private void initializeContentButtons() {
-    ImageView openMapButton = (ImageView) findViewById(R.id.open_map_button);
-    ImageView getDirectionsButton = (ImageView) findViewById(R.id.get_directions_button);
-    ImageView contactAgentButton = (ImageView) findViewById(R.id.contact_agent_button);
-    ImageView agentDetailsButton = (ImageView) findViewById(R.id.agent_details_button);
-    FrameLayout photosButton = (FrameLayout) findViewById(R.id.thumbnail_container);
-
-    openMapButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View arg0) {
-        String mapUrl = "http://maps.google.com/maps?q="+
-                        mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
-                        mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+
-                        mLocationInformation.getStateCode().replaceAll("\\s", "+");
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri
-            .parse(mapUrl));
-        mActivity.startActivity(intent);
-      }
-    });
-
-    getDirectionsButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        String mapUrl = "http://maps.google.com/maps?saddr=&daddr="+
-                        mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
-                        mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+
-                        mLocationInformation.getStateCode().replaceAll("\\s", "+");
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri
-            .parse(mapUrl));
-        mActivity.startActivity(intent);
-      }
-    });
-
-    contactAgentButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        String url = "tel:" + mAgentInformation.getPhone().replaceAll("[\\s\\-()]", "");
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
-        mActivity.startActivity(intent);
-      }
-    });
-
-    agentDetailsButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        String url = mAgentInformation.getUrl();
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        mActivity.startActivity(intent);
-      }
-    });
-
-    photosButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), PhotoGallery.class);
-        intent.putExtra("photoUrls", mBasicInformation.getPhotoUrls());
-        v.getContext().startActivity(intent);
-      }
-    });
   }
   
 }

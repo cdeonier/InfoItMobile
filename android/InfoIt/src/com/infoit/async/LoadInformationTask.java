@@ -65,7 +65,6 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
     
     LinearLayout bookmarkButton = (LinearLayout) displayActivity.getApplicationContainer()
         .findViewById(R.id.action_display_info_bookmark_button);
-    final TextView name = (TextView) displayActivity.getApplicationContainer().findViewById(R.id.basic_name);
     final ImageView icon = (ImageView) displayActivity.getApplicationContainer().findViewById(R.id.bookmark_icon);
     final TextView bookmarkButtonText = (TextView) displayActivity.getApplicationContainer().findViewById(R.id.bookmark_button_text);
     
@@ -77,15 +76,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
 
       @Override
       public void onClick(View v) {
-        if (bookmarkButtonText.getText().toString().contains("Bookmark this place")) {
-          db.createLocationBookmark(mIdentifier, (String) name.getText());
-          bookmarkButtonText.setText("Remove Bookmark");
-          icon.setImageResource(R.drawable.bookmark_icon);
-        } else {
-          db.deleteLocationBookmark(mIdentifier);
-          bookmarkButtonText.setText("Bookmark this place");
-          icon.setImageResource(R.drawable.bookmark_unbookmark_icon);
-        }
+        displayActivity.syncBookmarkButtons();
       }
     });
   }

@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/basic_photo_filler"/>
         
         <LinearLayout
             android:id="@+id/photos_button"
@@ -59,8 +60,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dip"
-        android:text="BEAUTIFULLY REMODELED ONE-LEVEL TOWNHOME IN HARBORSIDE! THIS GORGEOUS END UNIT FEATURES A LARGE LIVING ROOM/DINING ROOM COMBO W/VAULTED CEILINGS AND LOADS OF NATURAL LIGHT! EAT-IN KITCHEN W/MAPLE CABINETS AND GRANITE COUTERTOPS."
+        android:text="No Description Available"
         android:textColor="#666666"
         android:textSize="13sp" />
+    
+    <LinearLayout
+        android:id="@+id/basic_bookmark_button"
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:layout_margin="10dip"
+        android:orientation="horizontal"
+        android:background="@drawable/basic_bookmark_button">
+        
+            <ImageView
+                android:id="@+id/basic_bookmark_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/bookmark_unbookmark_icon" />
+
+            <TextView
+                android:id="@+id/basic_bookmark_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="Bookmark this place"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+    </LinearLayout>
 
 </LinearLayout>

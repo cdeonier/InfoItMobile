@@ -10,6 +10,8 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.infoit.async.LoadInformationTask;
 import com.infoit.reader.service.BookmarkDbAdapter;
@@ -17,7 +19,7 @@ import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class DisplayInfo extends Activity {
-  private BookmarkDbAdapter mDbHelper;
+  private BookmarkDbAdapter mDb;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private int mIdentifier;
   private boolean mReloadData;
@@ -37,7 +39,7 @@ public class DisplayInfo extends Activity {
     
     setSplashScreen();
 
-    mDbHelper = new BookmarkDbAdapter(this);
+    mDb = new BookmarkDbAdapter(this);
     
     mIdentifier = getIntent().getExtras().getInt("identifier");
     if (mIdentifier == 0) {
@@ -52,7 +54,7 @@ public class DisplayInfo extends Activity {
   @Override
   protected void onResume() {
     super.onResume();
-    mDbHelper.open();
+    mDb.open();
     
     //The async task will remove splash screen when complete
     if (mReloadData) {
@@ -66,7 +68,7 @@ public class DisplayInfo extends Activity {
   @Override
   protected void onPause() {
     super.onPause();
-    mDbHelper.close();
+    mDb.close();
   }
   
   @Override
@@ -117,12 +119,35 @@ public class DisplayInfo extends Activity {
     setContentView(splashContainer);
   }
   
+  public void syncBookmarkButtons() {
+    TextView name = (TextView) getApplicationContainer().findViewById(R.id.basic_name);
+    
+    ImageView actionMenuIcon = (ImageView) getApplicationContainer().findViewById(R.id.bookmark_icon);  
+    ImageView contentIcon = (ImageView) findViewById(R.id.basic_bookmark_icon);
+    TextView contentBookmarkButtonText = (TextView) findViewById(R.id.basic_bookmark_text);  
+    TextView actionMenuBookmarkButtonText = (TextView) getApplicationContainer().findViewById(R.id.bookmark_button_text);
+    
+    if (contentBookmarkButtonText.getText().toString().contains("Bookmark this place")) {
+      mDb.createLocationBookmark(mIdentifier, (String) name.getText());
+      contentBookmarkButtonText.setText("Remove Bookmark");
+      actionMenuBookmarkButtonText.setText("Remove Bookmark");
+      contentIcon.setImageResource(R.drawable.bookmark_icon);
+      actionMenuIcon.setImageResource(R.drawable.bookmark_icon);
+    } else {
+      mDb.deleteLocationBookmark(mIdentifier);
+      contentBookmarkButtonText.setText("Bookmark this place");
+      actionMenuBookmarkButtonText.setText("Bookmark this place");
+      contentIcon.setImageResource(R.drawable.bookmark_unbookmark_icon);
+      actionMenuIcon.setImageResource(R.drawable.bookmark_unbookmark_icon);
+    }
+  }
+  
   public UiMenuHorizontalScrollView getApplicationContainer() {
     return mApplicationContainer;
   }
   
   public BookmarkDbAdapter getDbAdapter() {
-    return mDbHelper;
+    return mDb;
   }
 
   public int getIdentifier() {

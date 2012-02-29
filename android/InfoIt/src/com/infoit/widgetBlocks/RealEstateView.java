@@ -3,6 +3,7 @@ package com.infoit.widgetBlocks;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -36,6 +37,11 @@ public class RealEstateView extends LinearLayout implements BaseInformationView 
   public void setInformation(InformationRecord information) {
     mRealEstateInformation = (RealEstateInformation) information;
     initView();
+  }
+  
+  @Override
+  public void setContentButtons(Activity activity) {
+    
   }
 
   private void initView() {

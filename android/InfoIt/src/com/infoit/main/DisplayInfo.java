@@ -14,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.infoit.async.LoadInformationTask;
-import com.infoit.reader.service.BookmarkDbAdapter;
+import com.infoit.reader.service.DbAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class DisplayInfo extends Activity {
-  private BookmarkDbAdapter mDb;
+  private DbAdapter mDb;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private int mIdentifier;
   private boolean mReloadData;
@@ -39,14 +39,12 @@ public class DisplayInfo extends Activity {
     
     setSplashScreen();
 
-    mDb = new BookmarkDbAdapter(this);
+    mDb = new DbAdapter(this);
     
     mIdentifier = getIntent().getExtras().getInt("identifier");
     if (mIdentifier == 0) {
       nfcStart();
     }
-    
-    
     
     mReloadData = true;
   }
@@ -146,7 +144,7 @@ public class DisplayInfo extends Activity {
     return mApplicationContainer;
   }
   
-  public BookmarkDbAdapter getDbAdapter() {
+  public DbAdapter getDbAdapter() {
     return mDb;
   }
 

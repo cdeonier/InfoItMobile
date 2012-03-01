@@ -30,6 +30,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".RecentHistory"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
             android:configChanges="orientation"
             android:name=".PhotoGallery"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >

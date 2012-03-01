@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
-import com.infoit.reader.service.BookmarkDbAdapter;
+import com.infoit.reader.record.BasicInformation;
+import com.infoit.reader.service.DbAdapter;
 import com.infoit.reader.service.WebServiceAdapter;
 import com.infoit.widgets.PlaceRealEstateView;
 
@@ -28,7 +29,14 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
   @Override
   protected Void doInBackground(Void... params) {
     final JsonNode webServiceResponse = WebServiceAdapter.getInformationAsJson(mIdentifier);
-   
+    
+    //Save to recent history
+    BasicInformation basicInfo = new BasicInformation(webServiceResponse);
+    DbAdapter db = new DbAdapter(mActivity);
+    db.open();
+    db.createHistoryItem(mIdentifier, basicInfo.getName(), basicInfo.getEntityType());
+    db.close();
+    
     if("place".equals(WebServiceAdapter.getEntityType(webServiceResponse))){
       if("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))){
         final PlaceRealEstateView child = new PlaceRealEstateView(mActivity);
@@ -61,7 +69,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
   
   private void initializeActionMenu() {
     final DisplayInfo displayActivity = (DisplayInfo) mActivity;
-    final BookmarkDbAdapter db = displayActivity.getDbAdapter();
+    final DbAdapter db = displayActivity.getDbAdapter();
     
     LinearLayout bookmarkButton = (LinearLayout) displayActivity.getApplicationContainer()
         .findViewById(R.id.action_display_info_bookmark_button);

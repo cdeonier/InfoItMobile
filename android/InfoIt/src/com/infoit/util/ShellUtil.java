@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.infoit.main.InfoChooser;
 import com.infoit.main.ListBookmarks;
 import com.infoit.main.R;
+import com.infoit.main.RecentHistory;
 import com.infoit.widget.listeners.UiMenuOnClickListener;
 import com.infoit.widget.listeners.UiNavigationItemOnClickListener;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
@@ -72,6 +73,10 @@ public class ShellUtil {
     LinearLayout bookmarksListButton = (LinearLayout) navigationMenu
         .findViewById(R.id.nav_bookmarks_list_button);
     bookmarksListButton.setOnClickListener(new UiNavigationItemOnClickListener(scrollView, ListBookmarks.class));
+    
+    LinearLayout historyListButton = (LinearLayout) navigationMenu
+        .findViewById(R.id.nav_recent_history_button);
+    historyListButton.setOnClickListener(new UiNavigationItemOnClickListener(scrollView, RecentHistory.class));
   }
 
 }

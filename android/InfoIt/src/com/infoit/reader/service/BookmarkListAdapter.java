@@ -18,23 +18,23 @@ import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.ListBookmarks;
 import com.infoit.main.R;
-import com.infoit.reader.record.BookmarkRecord;
+import com.infoit.reader.record.ListItemRecord;
 
 public class BookmarkListAdapter extends CursorAdapter {
   
   protected ListView mListView;
-  protected ArrayList<BookmarkRecord> mSelectedBookmarkIdentifiers;
-  protected ArrayList<BookmarkRecord> mDeletedBookmarkIdentifiers;
+  protected ArrayList<ListItemRecord> mSelectedBookmarkIdentifiers;
+  protected ArrayList<ListItemRecord> mDeletedBookmarkIdentifiers;
   protected ListBookmarks mActivity;
-  protected BookmarkDbAdapter mDb;
+  protected DbAdapter mDb;
 
   public BookmarkListAdapter(Context context, Cursor cursor, int flags) {
     super(context, cursor, flags);
     mListView = ((ListBookmarks) context).getBookmarksList();
     mActivity =  (ListBookmarks) context;
     mDb = mActivity.getDb();
-    mSelectedBookmarkIdentifiers = new ArrayList<BookmarkRecord>();
-    mDeletedBookmarkIdentifiers = new ArrayList<BookmarkRecord>();
+    mSelectedBookmarkIdentifiers = new ArrayList<ListItemRecord>();
+    mDeletedBookmarkIdentifiers = new ArrayList<ListItemRecord>();
   }
   
   @Override
@@ -55,10 +55,10 @@ public class BookmarkListAdapter extends CursorAdapter {
     TextView bookmarkTitle = (TextView) view.findViewById(R.id.bookmark_text);
     
     checkboxIcon.setImageResource(R.drawable.ui_unchecked_box_icon);
-    bookmarkTitle.setText(cursor.getString(cursor.getColumnIndex(BookmarkDbAdapter.KEY_BOOKMARK_NAME)));
+    bookmarkTitle.setText(cursor.getString(cursor.getColumnIndex(DbAdapter.KEY_BOOKMARK_NAME)));
     
-    int identifier = cursor.getInt(cursor.getColumnIndex(BookmarkDbAdapter.KEY_ENTITY_ID));
-    String name = cursor.getString(cursor.getColumnIndex(BookmarkDbAdapter.KEY_BOOKMARK_NAME));
+    int identifier = cursor.getInt(cursor.getColumnIndex(DbAdapter.KEY_ENTITY_ID));
+    String name = cursor.getString(cursor.getColumnIndex(DbAdapter.KEY_BOOKMARK_NAME));
     
     OnCheckboxClickListener checkboxListener = new OnCheckboxClickListener(identifier, name);
     OnBookmarkClickListener bookmarkListener = new OnBookmarkClickListener(identifier, name);
@@ -69,7 +69,7 @@ public class BookmarkListAdapter extends CursorAdapter {
   }
   
   public void removeSelectedBookmarks() {
-    for (BookmarkRecord identifier : mSelectedBookmarkIdentifiers) {
+    for (ListItemRecord identifier : mSelectedBookmarkIdentifiers) {
       mDb.deleteLocationBookmark(identifier.getIdentifier());
     }
     mDeletedBookmarkIdentifiers.addAll(mSelectedBookmarkIdentifiers);
@@ -77,38 +77,38 @@ public class BookmarkListAdapter extends CursorAdapter {
   }
   
   public void undoDeleteBookmarks() {
-    for (BookmarkRecord identifier : mDeletedBookmarkIdentifiers) {
+    for (ListItemRecord identifier : mDeletedBookmarkIdentifiers) {
       mDb.createLocationBookmark(identifier.getIdentifier(), identifier.getName());
     }
     mDeletedBookmarkIdentifiers.clear();
   }
   
-  public BookmarkDbAdapter getDb() {
+  public DbAdapter getDb() {
     return mDb;
   }
   
   private class OnBookmarkClickListener implements OnClickListener {
-    private final BookmarkRecord mBookmarkRecord;
+    private final ListItemRecord mListItem;
     
     public OnBookmarkClickListener(int identifier, String name) {
-      mBookmarkRecord = new BookmarkRecord(identifier, name);
+      mListItem = new ListItemRecord(identifier, name);
     }
 
     @Override
     public void onClick(View view) {
       Intent displayInfoIntent = new Intent(view.getContext(), DisplayInfo.class);
       displayInfoIntent.setAction(Constants.BOOKMARK);
-      displayInfoIntent.putExtra("identifier", mBookmarkRecord.getIdentifier());
+      displayInfoIntent.putExtra("identifier", mListItem.getIdentifier());
       view.getContext().startActivity(displayInfoIntent);
     }
   }
   
   private class OnCheckboxClickListener implements OnClickListener {
-    private BookmarkRecord mBookmarkRecord;
+    private ListItemRecord mListItem;
     private boolean mChecked;
     
     public OnCheckboxClickListener(int identifier, String name) {
-      mBookmarkRecord = new BookmarkRecord(identifier, name);
+      mListItem = new ListItemRecord(identifier, name);
       mChecked = false;
     }
 
@@ -120,14 +120,14 @@ public class BookmarkListAdapter extends CursorAdapter {
       if (mChecked) {
         checkbox.setImageResource(R.drawable.ui_unchecked_box_icon);
         mChecked = false;
-        mSelectedBookmarkIdentifiers.remove(mBookmarkRecord);
+        mSelectedBookmarkIdentifiers.remove(mListItem);
         if (mSelectedBookmarkIdentifiers.size() == 0) {
           mActivity.resetNotification();
         }
       } else {
         checkbox.setImageResource(R.drawable.ui_checked_box_icon);
         mChecked = true;
-        mSelectedBookmarkIdentifiers.add(mBookmarkRecord);
+        mSelectedBookmarkIdentifiers.add(mListItem);
         mActivity.setNotificationDelete();
       }
       

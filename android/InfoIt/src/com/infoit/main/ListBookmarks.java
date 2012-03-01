@@ -11,13 +11,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.infoit.async.BookmarksListTask;
-import com.infoit.reader.service.BookmarkDbAdapter;
+import com.infoit.reader.service.DbAdapter;
 import com.infoit.reader.service.BookmarkListAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class ListBookmarks extends Activity {
-  private BookmarkDbAdapter mDb;
+  private DbAdapter mDb;
   private BookmarkListAdapter mBookmarksListAdapter;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private ListView mBookmarksList;
@@ -37,13 +37,12 @@ public class ListBookmarks extends Activity {
                                                        R.layout.bookmarks_actions_menu, 
                                                        R.layout.bookmarks_list);
     ShellUtil.clearActionMenuButton(mApplicationContainer);
-    mDb = new BookmarkDbAdapter(this);
+    mDb = new DbAdapter(this);
   }
   
   @Override
   protected void onResume(){
     super.onResume();
-    
  
     mDb.open();
     initializeBookmarkList();
@@ -125,7 +124,7 @@ public class ListBookmarks extends Activity {
     this.mBookmarksList = bookmarksList;
   }
   
-  public BookmarkDbAdapter getDb() {
+  public DbAdapter getDb() {
     return mDb;
   }
 

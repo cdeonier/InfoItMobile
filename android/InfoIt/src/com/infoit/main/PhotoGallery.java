@@ -57,6 +57,8 @@ public class PhotoGallery extends Activity {
 
     setContentView(R.layout.photo_gallery);
 
+    mProgressDialog.dismiss();
+    
     setDisplayImage();
   }
 

@@ -1,5 +1,7 @@
 package com.infoit.reader.record;
 
+import org.codehaus.jackson.JsonNode;
+
 public class RealEstateInformation implements InformationRecord {
 
   private String mPrice;
@@ -9,6 +11,22 @@ public class RealEstateInformation implements InformationRecord {
   private String mSize;
   private String mLotSize;
   private String mYearBuilt;
+  
+  public RealEstateInformation(){
+    
+  }
+  
+  public RealEstateInformation(JsonNode rootNode) {
+    JsonNode realEstateDetailNode = rootNode.path("entity").path("place_details").path("real_estate_detail");
+    
+    mPrice = String.valueOf(realEstateDetailNode.path("price").getDoubleValue());
+    mPropertyType = realEstateDetailNode.path("property_type").getTextValue();
+    mBedrooms = String.valueOf(realEstateDetailNode.path("bedrooms").getDoubleValue());
+    mBathrooms = String.valueOf(realEstateDetailNode.path("bathrooms").getDoubleValue());
+    mSize = String.valueOf(realEstateDetailNode.path("size").getDoubleValue());
+    mLotSize = String.valueOf(realEstateDetailNode.path("lot").getDoubleValue());
+    mYearBuilt = realEstateDetailNode.path("year_built").getBigIntegerValue().toString();
+  }
   
   public String getPrice() {
     return mPrice;

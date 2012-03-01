@@ -1,5 +1,7 @@
 package com.infoit.reader.record;
 
+import org.codehaus.jackson.JsonNode;
+
 public class LocationInformation implements InformationRecord {
   private String mAddressOne;
   private String mAddressTwo;
@@ -13,6 +15,16 @@ public class LocationInformation implements InformationRecord {
     mCity = null;
     mStateCode = null;
     mZip = null;
+  }
+  
+  public LocationInformation(JsonNode rootNode) {
+    JsonNode addressNode = rootNode.path("entity").path("place_details").path("address");
+    
+    mAddressOne = addressNode.path("street_address_one").getTextValue();
+    mAddressTwo = addressNode.path("street_address_two").getTextValue();
+    mCity = addressNode.path("city").getTextValue();
+    mStateCode = addressNode.path("state").getTextValue();
+    mZip = addressNode.path("zip_code").getTextValue();
   }
   
   public String getAddressOne() {

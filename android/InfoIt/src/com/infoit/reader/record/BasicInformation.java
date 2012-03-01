@@ -2,6 +2,8 @@ package com.infoit.reader.record;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.JsonNode;
+
 public class BasicInformation implements InformationRecord {
   private String mThumbnailUrl;
   private String mName;
@@ -11,6 +13,20 @@ public class BasicInformation implements InformationRecord {
   
   public BasicInformation() {
     mPhotoUrls = new ArrayList<String>();
+  }
+  
+  public BasicInformation(JsonNode rootNode) {
+    JsonNode entityNode = rootNode.path("entity");
+    mName = entityNode.path("name").getTextValue();
+    mDescription = entityNode.path("description").getTextValue();
+    mEntityType = entityNode.path("entity_type").getTextValue();
+    mThumbnailUrl = entityNode.path("thumbnail_url").getTextValue();
+    
+    JsonNode photosNode = rootNode.path("entity").path("photo");
+    mPhotoUrls = new ArrayList<String>();
+    for(JsonNode node : photosNode) {
+      mPhotoUrls.add(node.getTextValue());
+    }
   }
   
   public String getThumbnailUrl() {

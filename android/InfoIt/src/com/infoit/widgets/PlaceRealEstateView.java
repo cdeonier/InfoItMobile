@@ -14,7 +14,6 @@ import com.infoit.reader.record.AgentInformation;
 import com.infoit.reader.record.BasicInformation;
 import com.infoit.reader.record.LocationInformation;
 import com.infoit.reader.record.RealEstateInformation;
-import com.infoit.reader.service.WebServiceAdapter;
 import com.infoit.widgetBlocks.AddressView;
 import com.infoit.widgetBlocks.AgentView;
 import com.infoit.widgetBlocks.BasicView;
@@ -49,10 +48,10 @@ public class PlaceRealEstateView extends LinearLayout {
   public void initializeView(JsonNode rootNode) {
     LinearLayout container = (LinearLayout) findViewById(R.id.real_estate_info_container);
     
-    mBasicInformation = WebServiceAdapter.makeBasicInformationRecord(rootNode);
-    mRealEstateInformation = WebServiceAdapter.makeRealEstateInformationRecord(rootNode);
-    mLocationInformation = WebServiceAdapter.makeLocationInformationRecord(rootNode);
-    mAgentInformation = WebServiceAdapter.makeAgentInformationRecord(rootNode);
+    mBasicInformation = new BasicInformation(rootNode);
+    mRealEstateInformation = new RealEstateInformation(rootNode);
+    mLocationInformation = new LocationInformation(rootNode);
+    mAgentInformation = new AgentInformation(rootNode);
     
     BasicView basicView = new BasicView(this.getContext());
     RealEstateView reView = new RealEstateView(this.getContext());
@@ -79,6 +78,10 @@ public class PlaceRealEstateView extends LinearLayout {
     int menuBarHeight = (int) (50 * mActivity.getResources().getDisplayMetrics().density);
     spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, menuBarHeight));
     container.addView(spacer);
+  }
+  
+  public BasicInformation getBasicInformation() {
+    return mBasicInformation;
   }
   
 }

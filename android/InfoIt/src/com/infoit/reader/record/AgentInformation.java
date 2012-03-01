@@ -1,5 +1,7 @@
 package com.infoit.reader.record;
 
+import org.codehaus.jackson.JsonNode;
+
 public class AgentInformation implements InformationRecord {
   private String mName;
   private String mAgency;
@@ -7,6 +9,21 @@ public class AgentInformation implements InformationRecord {
   private String mPhone;
   private String mUrl;
   private String mThumbnailUrl;
+  
+  public AgentInformation() {
+  
+  }
+  
+  public AgentInformation(JsonNode rootNode) {
+    JsonNode agentNode = rootNode.path("entity").path("place_details").path("real_estate_agent");
+    
+    mName = agentNode.path("name").getTextValue();
+    mAgency = agentNode.path("agency").getTextValue();
+    mPosition = agentNode.path("position").getTextValue();
+    mPhone = agentNode.path("phone").getTextValue();
+    mUrl = agentNode.path("website").getTextValue();
+    mThumbnailUrl = agentNode.path("thumbnail_url").getTextValue();
+  }
 
   public String getName() {
     return mName;

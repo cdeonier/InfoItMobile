@@ -19,7 +19,7 @@ import com.infoit.main.PhotoGallery;
 import com.infoit.main.R;
 import com.infoit.reader.record.BasicInformation;
 import com.infoit.reader.record.InformationRecord;
-import com.infoit.reader.service.BookmarkDbAdapter;
+import com.infoit.reader.service.DbAdapter;
 import com.infoit.util.ImageUtil;
 
 public class BasicView extends LinearLayout implements BaseInformationView {
@@ -50,7 +50,7 @@ public class BasicView extends LinearLayout implements BaseInformationView {
   public void setContentButtons(Activity activity) {
     final DisplayInfo displayActivity = (DisplayInfo) activity;
     
-    final BookmarkDbAdapter db = displayActivity.getDbAdapter();
+    final DbAdapter db = displayActivity.getDbAdapter();
     final int identifier = displayActivity.getIdentifier();
     final ImageView icon = (ImageView) findViewById(R.id.basic_bookmark_icon);
     final TextView bookmarkButtonText = (TextView) findViewById(R.id.basic_bookmark_text);  

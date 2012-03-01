@@ -1,10 +1,10 @@
 package com.infoit.reader.record;
 
-public class BookmarkRecord {
+public class ListItemRecord {
   private int mIdentifier;
   private String mName;
   
-  public BookmarkRecord(int identifier, String name) {
+  public ListItemRecord(int identifier, String name) {
     mIdentifier = identifier;
     mName = name;
   }

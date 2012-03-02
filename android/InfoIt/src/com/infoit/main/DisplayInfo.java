@@ -10,6 +10,8 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +24,6 @@ public class DisplayInfo extends Activity {
   private DbAdapter mDb;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private int mIdentifier;
-  private boolean mReloadData;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -33,32 +34,27 @@ public class DisplayInfo extends Activity {
     // Lock to Portrait Mode
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-    mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
-        R.layout.ui_navigation_menu, R.layout.display_info_actions_menu,
-        R.layout.display_info);
-    
-    setSplashScreen();
-
-    mDb = new DbAdapter(this);
-    
     mIdentifier = getIntent().getExtras().getInt("identifier");
     if (mIdentifier == 0) {
       nfcStart();
     }
-    
-    mReloadData = true;
+
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    mDb.open();
+       
+    mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
+        R.layout.ui_navigation_menu, R.layout.display_info_actions_menu,
+        R.layout.display_info);
     
-    //The async task will remove splash screen when complete
-    if (mReloadData) {
-      mReloadData = false;
-      new LoadInformationTask(this, mIdentifier).execute();
-    }
+    setSplashScreen();
+    
+    mDb = new DbAdapter(this);
+    mDb.open();
+
+    new LoadInformationTask(this, mIdentifier).execute();
 
     mApplicationContainer.scrollToApplicationView();
   }
@@ -66,7 +62,11 @@ public class DisplayInfo extends Activity {
   @Override
   protected void onPause() {
     super.onPause();
+    
+    unbindDrawables(mApplicationContainer);
+    mApplicationContainer = null;
     mDb.close();
+    mDb = null;
   }
   
   @Override
@@ -91,6 +91,18 @@ public class DisplayInfo extends Activity {
     nfcStart();
   }
   
+  private void unbindDrawables(View view) {
+    if (view.getBackground() != null) {
+      view.getBackground().setCallback(null);
+    }
+    if (view instanceof ViewGroup) {
+      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+        unbindDrawables(((ViewGroup) view).getChildAt(i));
+      }
+      ((ViewGroup) view).removeAllViews();
+    }
+  }
+  
   private void nfcStart() {
     if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
       Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
@@ -102,7 +114,6 @@ public class DisplayInfo extends Activity {
       int identifier = Integer.parseInt(uri.split("/services/")[1]);
       
       if (identifier != mIdentifier) {
-        mReloadData = true;
         setSplashScreen();
         mIdentifier = identifier;
       }

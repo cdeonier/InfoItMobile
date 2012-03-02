@@ -221,15 +221,16 @@ public final class R {
         public static final int history_list=0x7f03000a;
         public static final int history_list_item=0x7f03000b;
         public static final int info_chooser=0x7f03000c;
-        public static final int photo_gallery=0x7f03000d;
-        public static final int place_real_estate=0x7f03000e;
-        public static final int qr_code_capture=0x7f03000f;
-        public static final int ui_application_container=0x7f030010;
-        public static final int ui_blank_actions_menu=0x7f030011;
-        public static final int ui_menu_bars=0x7f030012;
-        public static final int ui_navigation_menu=0x7f030013;
-        public static final int ui_notification=0x7f030014;
-        public static final int ui_splash_screen=0x7f030015;
+        public static final int infochooser_actions_menu=0x7f03000d;
+        public static final int photo_gallery=0x7f03000e;
+        public static final int place_real_estate=0x7f03000f;
+        public static final int qr_code_capture=0x7f030010;
+        public static final int ui_application_container=0x7f030011;
+        public static final int ui_blank_actions_menu=0x7f030012;
+        public static final int ui_menu_bars=0x7f030013;
+        public static final int ui_navigation_menu=0x7f030014;
+        public static final int ui_notification=0x7f030015;
+        public static final int ui_splash_screen=0x7f030016;
     }
     public static final class string {
         public static final int app_name=0x7f070002;

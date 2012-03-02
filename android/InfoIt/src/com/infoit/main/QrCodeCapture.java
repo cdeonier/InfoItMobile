@@ -11,8 +11,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.google.zxing.Result;
 import com.infoit.constants.Constants;
@@ -40,17 +43,17 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
     
     Window window = getWindow();
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    
-    setContentView(R.layout.qr_code_capture);
-    
-    CameraManager.init(getApplication());
-    
-    viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
   }
 
   @Override
   protected void onResume() {
     super.onResume();
+    
+    setContentView(R.layout.qr_code_capture);
+    
+    CameraManager.init(this);
+    
+    viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
     
     SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
     SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -61,6 +64,8 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
     beepManager = new BeepManager(this);
   }
   
+
+  
   @Override
   protected void onPause() {
     super.onPause();
@@ -70,7 +75,9 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
     }
     CameraManager.get().closeDriver();
     
-    beepManager = null;
+    FrameLayout container = (FrameLayout) findViewById(R.id.qr_code_capture_container);
+    unbindDrawables(container);
+    System.gc();
   }
 
   @Override
@@ -78,6 +85,18 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
     if (!hasSurface) {
       hasSurface = true;
       initCamera(holder);
+    }
+  }
+  
+  private void unbindDrawables(View view) {
+    if (view.getBackground() != null) {
+      view.getBackground().setCallback(null);
+    }
+    if (view instanceof ViewGroup) {
+      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+        unbindDrawables(((ViewGroup) view).getChildAt(i));
+      }
+      ((ViewGroup) view).removeAllViews();
     }
   }
 

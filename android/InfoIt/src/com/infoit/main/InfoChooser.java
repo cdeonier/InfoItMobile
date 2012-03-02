@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
@@ -22,9 +23,14 @@ public class InfoChooser extends Activity {
     super.onCreate(savedInstanceState);
     
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+  }
+  
+  @Override
+  protected void onResume() {
+    super.onResume();
     
     mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
-        R.layout.ui_navigation_menu, R.layout.display_info_actions_menu,
+        R.layout.ui_navigation_menu, R.layout.infochooser_actions_menu,
         R.layout.info_chooser);
     ShellUtil.clearActionMenuButton(mApplicationContainer);
     
@@ -45,12 +51,34 @@ public class InfoChooser extends Activity {
         v.getContext().startActivity(qrCaptureIntent);
       }
     });
+    
+    mApplicationContainer.scrollToApplicationView();
   }
   
   @Override
-  protected void onResume() {
-    super.onResume();
-    mApplicationContainer.scrollToApplicationView();
+  protected void onPause() {
+    super.onPause();
+    
+    unbindDrawables(mApplicationContainer);
+    mApplicationContainer = null;
+  }
+  
+  private void unbindDrawables(View view) {
+    if (view.getBackground() != null) {
+      view.getBackground().setCallback(null);
+    }
+    if (view instanceof ViewGroup) {
+      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+        unbindDrawables(((ViewGroup) view).getChildAt(i));
+      }
+      ((ViewGroup) view).removeAllViews();
+    }
+  }
+  
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
   }
   
   @Override

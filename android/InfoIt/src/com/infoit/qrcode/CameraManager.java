@@ -66,6 +66,10 @@ public final class CameraManager {
       cameraManager = new CameraManager(context);
     }
   }
+  
+  /**
+   * Destroy the Camera Manger once
+   */
 
   /**
    * Gets the CameraManager singleton instance.
@@ -77,9 +81,6 @@ public final class CameraManager {
   }
 
   private CameraManager(Context context) {
-
-    /* InfoIt: Used for preferences in ZXing, not used */
-    //this.context = context;
     
     this.configManager = new CameraConfigurationManager(context);
 

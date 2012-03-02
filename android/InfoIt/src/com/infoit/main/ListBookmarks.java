@@ -34,7 +34,7 @@ public class ListBookmarks extends Activity {
     
     mApplicationContainer 
       = ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, 
-                                                       R.layout.bookmarks_actions_menu, 
+                                                       R.layout.ui_empty_action_menu, 
                                                        R.layout.bookmarks_list);
     ShellUtil.clearActionMenuButton(mApplicationContainer);
     mDb = new DbAdapter(this);

@@ -30,7 +30,7 @@ public class InfoChooser extends Activity {
     super.onResume();
     
     mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
-        R.layout.ui_navigation_menu, R.layout.infochooser_actions_menu,
+        R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu,
         R.layout.info_chooser);
     ShellUtil.clearActionMenuButton(mApplicationContainer);
     
@@ -49,6 +49,17 @@ public class InfoChooser extends Activity {
         Intent qrCaptureIntent = new Intent(v.getContext(),
             QrCodeCapture.class);
         v.getContext().startActivity(qrCaptureIntent);
+      }
+    });
+    
+    FrameLayout gpsView = (FrameLayout) findViewById(R.id.gps_choice);
+    gpsView.setOnClickListener(new OnClickListener(){
+
+      @Override
+      public void onClick(View v) {
+        Intent nearbyLocations = new Intent(v.getContext(),
+            NearbyLocations.class);
+        v.getContext().startActivity(nearbyLocations);
       }
     });
     

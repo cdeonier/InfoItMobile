@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gps_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
 
     <LinearLayout
         android:id="@+id/container"
@@ -15,9 +16,15 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ui_header_gradient"
             android:padding="5dip"
-            android:text="Choose your nearby location"
+            android:text="@string/nearby_locations_header"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
+
+        <ListView
+            android:id="@+id/gps_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#ffffffff" />
     </LinearLayout>
 
     <include

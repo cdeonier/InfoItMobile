@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="no_tags">No tags saved.</string>
     <string name="nearby_locations">Find Nearby Locations</string>
-    <string name="app_name">InfoIt</string>
-    <string name="view_tag">View Tag</string>
-    <string name="list_tags">InfoIt</string>
-    <string name="real_estate_tag">InfoIt</string>
-    <string name="yelp">Go To Yelp</string>
-    <string name="foursquare">Check-in to Foursquare</string>
-    
+    <string name="nearby_locations_header">Choose a nearby location</string>
     <string name="infoit">InfoIt</string>
 
 </resources>

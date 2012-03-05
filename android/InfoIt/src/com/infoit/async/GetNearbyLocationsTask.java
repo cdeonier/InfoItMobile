@@ -53,6 +53,7 @@ public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 		}
 		
 		adapter.notifyDataSetChanged();
+		mActivity.setContentView(mActivity.getApplicationContainer());
 		
 	}
 

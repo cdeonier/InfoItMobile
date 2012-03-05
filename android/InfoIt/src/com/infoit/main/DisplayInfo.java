@@ -125,6 +125,8 @@ public class DisplayInfo extends Activity {
         ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, 
                                                        R.layout.ui_blank_actions_menu, 
                                                        R.layout.ui_splash_screen);
+    TextView splashText = (TextView) splashContainer.findViewById(R.id.splash_text);
+	splashText.setText("Downloading information...");
     setContentView(splashContainer);
   }
   

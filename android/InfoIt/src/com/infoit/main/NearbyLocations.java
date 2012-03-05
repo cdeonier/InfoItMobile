@@ -1,7 +1,5 @@
 package com.infoit.main;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -13,9 +11,9 @@ import android.view.Display;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.infoit.async.GetNearbyLocationsTask;
-import com.infoit.reader.record.GpsRecord;
 import com.infoit.reader.service.GpsListAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
@@ -24,7 +22,7 @@ public class NearbyLocations extends Activity {
 	private UiMenuHorizontalScrollView mApplicationContainer;
 	private GpsListAdapter mListAdapter;
 	private ListView mGpsList;
-	private ArrayList<GpsRecord> mNearbyLocations;
+	private LocationListener mLocationListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +39,6 @@ public class NearbyLocations extends Activity {
 				R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu,
 				R.layout.gps_list);
 		ShellUtil.clearActionMenuButton(mApplicationContainer);
-		
-		mGpsList = (ListView) findViewById(R.id.gps_list);
-		mNearbyLocations = new ArrayList<GpsRecord>();
-		
-		mListAdapter = new GpsListAdapter(this, R.layout.gps_list_item, R.id.gps_text, mNearbyLocations);
-		mGpsList.setAdapter(mListAdapter);
 
 		// 50 should work, but not displaying correctly, so nudging to 70
 		int menuBarHeight = (int) (70 * getResources().getDisplayMetrics().density);
@@ -58,17 +50,34 @@ public class NearbyLocations extends Activity {
 		
 		setupLocationListening();
 		
-		setContentView(R.layout.gps_list);
+		mGpsList = (ListView) findViewById(R.id.gps_list);
+		mListAdapter = new GpsListAdapter(this, R.layout.gps_list_item, R.id.gps_text, null);
+		mGpsList.setAdapter(mListAdapter);
+		
+		setSplashScreen();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		
+		LocationManager locationManager = (LocationManager) this
+				.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.removeUpdates(mLocationListener);
+		
+		mGpsList.setAdapter(null);
+		mListAdapter = null;
+		mApplicationContainer = null;
 	}
 
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
+		if (mApplicationContainer.isApplicationView()) {
+			finish();
+		} else {
+			mApplicationContainer.scrollToApplicationView();
+		}
+		return;
 	}
 
 	private void setupLocationListening() {
@@ -78,7 +87,7 @@ public class NearbyLocations extends Activity {
 				.getSystemService(Context.LOCATION_SERVICE);
 
 		// Define a listener that responds to location updates
-		LocationListener locationListener = new LocationListener() {
+		mLocationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
 				// provider.
@@ -99,7 +108,7 @@ public class NearbyLocations extends Activity {
 		// Register the listener with the Location Manager to receive location
 		// updates
 		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+				LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
 	}
 
 	private void makeUseOfNewLocation(Location location) {
@@ -108,6 +117,21 @@ public class NearbyLocations extends Activity {
 	
 	public GpsListAdapter getGpsListAdapter() {
 		return mListAdapter;
+	}
+	
+	public UiMenuHorizontalScrollView getApplicationContainer() {
+		return mApplicationContainer;
+	}
+
+	private void setSplashScreen() {
+		UiMenuHorizontalScrollView splashContainer = ShellUtil
+				.initializeApplicationContainer(this,
+						R.layout.ui_navigation_menu,
+						R.layout.ui_blank_actions_menu,
+						R.layout.ui_splash_screen);
+		TextView splashText = (TextView) splashContainer.findViewById(R.id.splash_text);
+		splashText.setText("Getting nearby locations...");
+		setContentView(splashContainer);
 	}
 
 }

@@ -35,7 +35,6 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    //android.os.Debug.waitForDebugger();
     
     super.onCreate(savedInstanceState);
     

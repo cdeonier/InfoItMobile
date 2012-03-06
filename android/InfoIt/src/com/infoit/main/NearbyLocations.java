@@ -55,6 +55,8 @@ public class NearbyLocations extends Activity {
 		mGpsList.setAdapter(mListAdapter);
 		
 		setSplashScreen();
+		
+		mApplicationContainer.scrollToApplicationView();
 	}
 
 	@Override

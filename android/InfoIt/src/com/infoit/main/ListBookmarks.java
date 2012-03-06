@@ -25,7 +25,6 @@ public class ListBookmarks extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     
-    //android.os.Debug.waitingForDebugger();
 
     super.onCreate(savedInstanceState);
 

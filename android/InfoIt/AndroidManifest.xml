@@ -70,6 +70,10 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
+            android:name=".NfcInstructions"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
             android:launchMode="singleTop"
             android:name=".InfoChooser"
             android:theme="@android:style/Theme.NoTitleBar" >

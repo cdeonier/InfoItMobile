@@ -41,7 +41,18 @@ public class InfoChooser extends Activity {
     LinearLayout container = (LinearLayout) findViewById(R.id.container);
     container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
     
-    FrameLayout qrCodeView = (FrameLayout) findViewById(R.id.qr_button);
+    FrameLayout nfcInstructionsView = (FrameLayout) findViewById(R.id.nfc_choice);
+    nfcInstructionsView.setOnClickListener(new OnClickListener(){
+
+      @Override
+      public void onClick(View v) {
+        Intent nfcIntent = new Intent(v.getContext(),
+            NfcInstructions.class);
+        v.getContext().startActivity(nfcIntent);
+      }
+    });
+    
+    FrameLayout qrCodeView = (FrameLayout) findViewById(R.id.qr_choice);
     qrCodeView.setOnClickListener(new OnClickListener(){
 
       @Override

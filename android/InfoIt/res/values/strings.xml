@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- Headers -->
+    <string name="info_chooser_header">Get Info for New Place</string>
+    
+    <!-- InfoChooser -->
+    <string name="nfc_button_top">Tap an NFC sticker</string>
+    <string name="nfc_button_bottom">Physically tap your phone against a sticker to get info</string>
+    <string name="qr_button_top">Scan a QR code</string>
+    <string name="qr_button_bottom">Use your phone\'s camera to take a picture of a QR code</string>
+    <string name="gps_button_top">Find your location</string>
+    <string name="gps_button_bottom">Use your phone\'s GPS to get nearby locations</string>
 
     <string name="nearby_locations">Find Nearby Locations</string>
     <string name="nearby_locations_header">Choose a nearby location</string>
+    <string name="nfc_instructions_top">Touch the back of your phone to the sticker.</string>
+    <string name="nfc_instructions">Image showing to tap phone against sticker.</string>
+    <string name="nfc_instructions_bottom">You can tap to get information any time the phone is unlocked, without coming to this screen.</string>
     <string name="infoit">InfoIt</string>
 
 </resources>

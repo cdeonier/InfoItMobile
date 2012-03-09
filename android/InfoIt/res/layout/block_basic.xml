@@ -70,7 +70,7 @@
         android:layout_height="45dip"
         android:layout_margin="10dip"
         android:orientation="horizontal"
-        android:background="@drawable/basic_bookmark_button">
+        android:background="@drawable/basic_button">
         
             <ImageView
                 android:id="@+id/basic_bookmark_icon"

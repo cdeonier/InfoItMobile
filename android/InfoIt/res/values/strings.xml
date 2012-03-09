@@ -11,6 +11,10 @@
     <string name="qr_button_bottom">Use your phone\'s camera to take a picture of a QR code</string>
     <string name="gps_button_top">Find your location</string>
     <string name="gps_button_bottom">Use your phone\'s GPS to get nearby locations</string>
+    
+    <!-- Widgets -->
+    <string name="view_menu">View Menu</string>
+    <string name="view_menu_icon">View menu icon</string>
 
     <string name="nearby_locations">Find Nearby Locations</string>
     <string name="nearby_locations_header">Choose a nearby location</string>

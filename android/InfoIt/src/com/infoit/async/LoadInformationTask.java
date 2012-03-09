@@ -16,8 +16,9 @@ import com.infoit.reader.record.BasicInformation;
 import com.infoit.reader.service.DbAdapter;
 import com.infoit.reader.service.WebServiceAdapter;
 import com.infoit.widgets.PlaceRealEstateView;
+import com.infoit.widgets.PlaceRestaurantView;
 
-public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
+public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
   final private Activity mActivity;
   final private int mIdentifier;
   
@@ -27,7 +28,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
   }
 
   @Override
-  protected Void doInBackground(Void... params) {
+  protected LinearLayout doInBackground(Void... params) {
     final JsonNode webServiceResponse = WebServiceAdapter.getInformationAsJson(mIdentifier);
     
     //Save to recent history
@@ -37,33 +38,31 @@ public class LoadInformationTask extends AsyncTask<Void, Void, Void> {
     db.createHistoryItem(mIdentifier, basicInfo.getName(), basicInfo.getEntityType());
     db.close();
     
+    LinearLayout child = null;
+    
     if("place".equals(WebServiceAdapter.getEntityType(webServiceResponse))){
       if("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))){
-        final PlaceRealEstateView child = new PlaceRealEstateView(mActivity);
-        child.initializeView(webServiceResponse);
-
-        mActivity.runOnUiThread(new Runnable() {    
-          @Override
-          public void run() {
-            DisplayInfo displayActivity = (DisplayInfo) mActivity;
-
-            LinearLayout content = (LinearLayout) displayActivity.getApplicationContainer().findViewById(R.id.content);
-            content.removeViewAt(content.getChildCount() - 1);
-            content.addView(child, content.getChildCount() - 1);
-            
-            initializeActionMenu();
-          }
-        });
-        
+        child = new PlaceRealEstateView(mActivity);
+        ((PlaceRealEstateView)child).initializeView(webServiceResponse);      
+      } else if ("Restaurant".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))) {
+    	  child = new PlaceRestaurantView(mActivity);
+    	  ((PlaceRestaurantView)child).initializeView(webServiceResponse);
       }
     }
     
-    return null;
+    return child;
   }
 
   @Override
-  protected void onPostExecute(Void result) {
+  protected void onPostExecute(LinearLayout child) {
     DisplayInfo displayActivity = (DisplayInfo) mActivity;
+
+    LinearLayout content = (LinearLayout) displayActivity.getApplicationContainer().findViewById(R.id.content);
+    content.removeViewAt(content.getChildCount() - 1);
+    content.addView(child, content.getChildCount() - 1);
+    
+    initializeActionMenu();
+    
     displayActivity.setContentView(displayActivity.getApplicationContainer());
   }
   

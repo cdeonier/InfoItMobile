@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00ff00" >
+
+    <RelativeLayout
+        android:id="@+id/menu_item_thumbnail_name_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/menu_item_list_icon" >
+
+        <ImageView
+            android:id="@+id/menu_item_thumbnail"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#ffffff" />
+
+        <TextView
+            android:id="@+id/menu_item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/menu_item_thumbnail"
+            android:text="This is a menu name"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/menu_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="$10" />
+
+        <TextView
+            android:id="@+id/menu_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/menu_item_thumbnail"
+            android:background="#ff0000"
+            android:lines="2"
+            android:text="Lorem ipsum" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/menu_item_list_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ui_list_detail_icon" />
+
+</RelativeLayout>

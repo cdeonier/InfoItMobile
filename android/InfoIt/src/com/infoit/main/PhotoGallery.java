@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.infoit.async.DownloadImageTask;
 import com.infoit.main.R.layout;
-import com.infoit.widget.listeners.PhotoGalleryGestureListener;
+import com.infoit.widgets.listeners.PhotoGalleryGestureListener;
 
 public class PhotoGallery extends Activity {
   private final GestureDetector mGestureDetector 

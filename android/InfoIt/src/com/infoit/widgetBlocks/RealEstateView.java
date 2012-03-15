@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.infoit.main.R;
-import com.infoit.reader.record.InformationRecord;
-import com.infoit.reader.record.RealEstateInformation;
+import com.infoit.record.InformationRecord;
+import com.infoit.record.RealEstateInformation;
 
 public class RealEstateView extends LinearLayout implements BaseInformationView {
   

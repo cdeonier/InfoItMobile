@@ -1,4 +1,4 @@
-package com.infoit.widget.listeners;
+package com.infoit.widgets.listeners;
 
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;

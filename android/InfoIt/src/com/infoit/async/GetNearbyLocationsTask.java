@@ -6,9 +6,9 @@ import android.location.Location;
 import android.os.AsyncTask;
 
 import com.infoit.main.NearbyLocations;
-import com.infoit.reader.record.GpsRecord;
-import com.infoit.reader.service.GpsListAdapter;
-import com.infoit.reader.service.WebServiceAdapter;
+import com.infoit.record.GpsRecord;
+import com.infoit.service.GpsListAdapter;
+import com.infoit.service.WebServiceAdapter;
 
 public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 	private Location mLocation;

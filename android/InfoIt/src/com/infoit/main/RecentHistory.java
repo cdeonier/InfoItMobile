@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.infoit.reader.service.DbAdapter;
-import com.infoit.reader.service.HistoryListAdapter;
+import com.infoit.service.DbAdapter;
+import com.infoit.service.HistoryListAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 

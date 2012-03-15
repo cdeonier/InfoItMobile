@@ -1,4 +1,4 @@
-package com.infoit.reader.service;
+package com.infoit.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
-import com.infoit.reader.record.GpsRecord;
+import com.infoit.record.GpsRecord;
 
 public class GpsListAdapter extends ArrayAdapter<GpsRecord> {
 	ArrayList<GpsRecord> mGpsRecords;

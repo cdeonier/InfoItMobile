@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.infoit.async.GetNearbyLocationsTask;
-import com.infoit.reader.service.GpsListAdapter;
+import com.infoit.service.GpsListAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 

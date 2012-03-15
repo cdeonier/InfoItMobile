@@ -2,7 +2,7 @@ package com.infoit.widgetBlocks;
 
 import android.app.Activity;
 
-import com.infoit.reader.record.InformationRecord;
+import com.infoit.record.InformationRecord;
 
 public interface BaseInformationView {
   public void setInformation(InformationRecord information);

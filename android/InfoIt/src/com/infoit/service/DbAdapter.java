@@ -1,4 +1,4 @@
-package com.infoit.reader.service;
+package com.infoit.service;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -13,9 +13,9 @@ import com.infoit.main.InfoChooser;
 import com.infoit.main.ListBookmarks;
 import com.infoit.main.R;
 import com.infoit.main.RecentHistory;
-import com.infoit.widget.listeners.UiMenuOnClickListener;
-import com.infoit.widget.listeners.UiNavigationItemOnClickListener;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
+import com.infoit.widgets.listeners.UiMenuOnClickListener;
+import com.infoit.widgets.listeners.UiNavigationItemOnClickListener;
 
 public class ShellUtil {
 

@@ -1,4 +1,4 @@
-package com.infoit.reader.service;
+package com.infoit.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;

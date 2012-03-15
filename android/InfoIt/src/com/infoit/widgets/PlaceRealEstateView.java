@@ -10,10 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.infoit.main.R;
-import com.infoit.reader.record.AgentInformation;
-import com.infoit.reader.record.BasicInformation;
-import com.infoit.reader.record.LocationInformation;
-import com.infoit.reader.record.RealEstateInformation;
+import com.infoit.record.AgentInformation;
+import com.infoit.record.BasicInformation;
+import com.infoit.record.LocationInformation;
+import com.infoit.record.RealEstateInformation;
 import com.infoit.widgetBlocks.AddressView;
 import com.infoit.widgetBlocks.AgentView;
 import com.infoit.widgetBlocks.BasicView;

@@ -1,4 +1,4 @@
-package com.infoit.reader.service;
+package com.infoit.service;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
-import com.infoit.reader.record.ListItemRecord;
+import com.infoit.record.ListItemRecord;
 
 public class HistoryListAdapter extends CursorAdapter {
   public HistoryListAdapter(Context context, Cursor cursor, int flags) {

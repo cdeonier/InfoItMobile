@@ -10,7 +10,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
 
 import com.infoit.main.R;
-import com.infoit.widget.listeners.UiMenuOnGlobalLayoutListener;
+import com.infoit.widgets.listeners.UiMenuOnGlobalLayoutListener;
 
 public class UiMenuHorizontalScrollView extends HorizontalScrollView {
   private int mPosition;

@@ -1,4 +1,4 @@
-package com.infoit.widget.listeners;
+package com.infoit.widgets.listeners;
 
 import android.app.Activity;
 import android.content.Context;

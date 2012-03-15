@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.infoit.main.R;
-import com.infoit.reader.record.AgentInformation;
-import com.infoit.reader.record.InformationRecord;
+import com.infoit.record.AgentInformation;
+import com.infoit.record.InformationRecord;
 import com.infoit.util.ImageUtil;
 
 public class AgentView extends LinearLayout implements BaseInformationView {

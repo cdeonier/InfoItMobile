@@ -1,4 +1,4 @@
-package com.infoit.widget.listeners;
+package com.infoit.widgets.listeners;
 
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 

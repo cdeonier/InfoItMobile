@@ -1,4 +1,4 @@
-package com.infoit.reader.record;
+package com.infoit.record;
 
 import java.util.ArrayList;
 

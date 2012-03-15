@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
-import com.infoit.reader.service.BookmarkListAdapter;
+import com.infoit.service.BookmarkListAdapter;
 
 public class BookmarksListTask extends AsyncTask<Void, Void, Void> {
   public static final int DELETE_BOOKMARKS = 1;

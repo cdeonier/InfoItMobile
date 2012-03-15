@@ -1,4 +1,4 @@
-package com.infoit.reader.service;
+package com.infoit.service;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.ListBookmarks;
 import com.infoit.main.R;
-import com.infoit.reader.record.ListItemRecord;
+import com.infoit.record.ListItemRecord;
 
 public class BookmarkListAdapter extends CursorAdapter {
   

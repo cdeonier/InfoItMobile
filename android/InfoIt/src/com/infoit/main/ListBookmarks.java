@@ -11,8 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.infoit.async.BookmarksListTask;
-import com.infoit.reader.service.BookmarkListAdapter;
-import com.infoit.reader.service.DbAdapter;
+import com.infoit.service.BookmarkListAdapter;
+import com.infoit.service.DbAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 

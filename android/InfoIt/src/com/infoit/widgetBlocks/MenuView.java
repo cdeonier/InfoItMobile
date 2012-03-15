@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import com.infoit.main.R;
-import com.infoit.reader.record.InformationRecord;
+import com.infoit.record.InformationRecord;
 
 public class MenuView extends LinearLayout implements BaseInformationView {
 	

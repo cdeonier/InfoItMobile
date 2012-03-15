@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "BookmarkViewController.h"
 
 @implementation AppDelegate
 
@@ -17,6 +18,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    BookmarkViewController *bookmarkController = [[BookmarkViewController alloc] init];
+    bookmarkController.title = @"My Bookmarks";
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:bookmarkController];
+    
+    self.window.rootViewController = navController;
+    
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C80480D151170C6005B3C96 /* UINavigationItem+Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C80480C151170C6005B3C96 /* UINavigationItem+Menu.m */; };
+		3C80481015117131005B3C96 /* UIViewController+Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C80480F15117131005B3C96 /* UIViewController+Menu.m */; };
+		3C80481315117E3D005B3C96 /* UINavigationController+Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C80481215117E3D005B3C96 /* UINavigationController+Menu.m */; };
+		3C8048161511ACA3005B3C96 /* BookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8048151511ACA3005B3C96 /* BookmarkViewController.m */; };
 		3CEF8278150B41DD00C3314B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CEF8277150B41DD00C3314B /* UIKit.framework */; };
 		3CEF827A150B41DD00C3314B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CEF8279150B41DD00C3314B /* Foundation.framework */; };
 		3CEF827C150B41DD00C3314B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CEF827B150B41DD00C3314B /* CoreGraphics.framework */; };
@@ -31,6 +35,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C80480815116F9B005B3C96 /* MenuDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuDelegate.h; path = Menu/MenuDelegate.h; sourceTree = "<group>"; };
+		3C80480B151170C6005B3C96 /* UINavigationItem+Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+Menu.h"; sourceTree = "<group>"; };
+		3C80480C151170C6005B3C96 /* UINavigationItem+Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+Menu.m"; sourceTree = "<group>"; };
+		3C80480E15117131005B3C96 /* UIViewController+Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Menu.h"; sourceTree = "<group>"; };
+		3C80480F15117131005B3C96 /* UIViewController+Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Menu.m"; sourceTree = "<group>"; };
+		3C80481115117E3D005B3C96 /* UINavigationController+Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Menu.h"; sourceTree = "<group>"; };
+		3C80481215117E3D005B3C96 /* UINavigationController+Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Menu.m"; sourceTree = "<group>"; };
+		3C8048141511ACA3005B3C96 /* BookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarkViewController.h; sourceTree = "<group>"; };
+		3C8048151511ACA3005B3C96 /* BookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkViewController.m; sourceTree = "<group>"; };
 		3CEF8273150B41DD00C3314B /* InfoIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfoIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CEF8277150B41DD00C3314B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3CEF8279150B41DD00C3314B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -73,6 +86,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C80480615116F25005B3C96 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				3C80480815116F9B005B3C96 /* MenuDelegate.h */,
+				3C80480B151170C6005B3C96 /* UINavigationItem+Menu.h */,
+				3C80480C151170C6005B3C96 /* UINavigationItem+Menu.m */,
+				3C80480E15117131005B3C96 /* UIViewController+Menu.h */,
+				3C80480F15117131005B3C96 /* UIViewController+Menu.m */,
+				3C80481115117E3D005B3C96 /* UINavigationController+Menu.h */,
+				3C80481215117E3D005B3C96 /* UINavigationController+Menu.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
 		3CEF8268150B41DD00C3314B = {
 			isa = PBXGroup;
 			children = (
@@ -106,8 +133,11 @@
 		3CEF827D150B41DD00C3314B /* InfoIt */ = {
 			isa = PBXGroup;
 			children = (
+				3C80480615116F25005B3C96 /* Menu */,
 				3CEF8286150B41DD00C3314B /* AppDelegate.h */,
 				3CEF8287150B41DD00C3314B /* AppDelegate.m */,
+				3C8048141511ACA3005B3C96 /* BookmarkViewController.h */,
+				3C8048151511ACA3005B3C96 /* BookmarkViewController.m */,
 				3CEF827E150B41DD00C3314B /* Supporting Files */,
 			);
 			path = InfoIt;
@@ -251,6 +281,10 @@
 			files = (
 				3CEF8284150B41DD00C3314B /* main.m in Sources */,
 				3CEF8288150B41DD00C3314B /* AppDelegate.m in Sources */,
+				3C80480D151170C6005B3C96 /* UINavigationItem+Menu.m in Sources */,
+				3C80481015117131005B3C96 /* UIViewController+Menu.m in Sources */,
+				3C80481315117E3D005B3C96 /* UINavigationController+Menu.m in Sources */,
+				3C8048161511ACA3005B3C96 /* BookmarkViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +446,7 @@
 				3CEF82A2150B41DE00C3314B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3CEF82A3150B41DE00C3314B /* Build configuration list for PBXNativeTarget "InfoItTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +455,7 @@
 				3CEF82A5150B41DE00C3314B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -74,6 +74,10 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
+            android:name=".DisplayMenu"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
             android:launchMode="singleTop"
             android:name=".InfoChooser"
             android:theme="@android:style/Theme.NoTitleBar" >

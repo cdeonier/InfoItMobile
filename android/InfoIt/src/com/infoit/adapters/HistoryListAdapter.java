@@ -1,4 +1,4 @@
-package com.infoit.service;
+package com.infoit.adapters;
 
 import android.content.Context;
 import android.content.Intent;

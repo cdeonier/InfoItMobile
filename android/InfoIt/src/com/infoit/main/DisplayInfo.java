@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.infoit.adapters.DbAdapter;
 import com.infoit.async.LoadInformationTask;
-import com.infoit.service.DbAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 

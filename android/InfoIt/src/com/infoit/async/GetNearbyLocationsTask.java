@@ -5,10 +5,10 @@ import org.codehaus.jackson.JsonNode;
 import android.location.Location;
 import android.os.AsyncTask;
 
+import com.infoit.adapters.GpsListAdapter;
+import com.infoit.adapters.WebServiceAdapter;
 import com.infoit.main.NearbyLocations;
 import com.infoit.record.GpsRecord;
-import com.infoit.service.GpsListAdapter;
-import com.infoit.service.WebServiceAdapter;
 
 public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 	private Location mLocation;

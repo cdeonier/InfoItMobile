@@ -5,6 +5,9 @@ public class MenuItemRecord {
 	private String mDescription;
 	private String mPrice;
 	private String mThumbnailUrl;
+	private int mLikeCount;
+	private String mCategory;
+	private String mMenuType;
 	
 	public MenuItemRecord() {
 		mName = "name";
@@ -36,6 +39,30 @@ public class MenuItemRecord {
 	}
 	public void setThumbnailUrl(String thumbnailUrl) {
 		mThumbnailUrl = thumbnailUrl;
+	}
+
+	public int getLikeCount() {
+		return mLikeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		mLikeCount = likeCount;
+	}
+
+	public String getCategory() {
+		return mCategory;
+	}
+
+	public void setCategory(String category) {
+		mCategory = category;
+	}
+
+	public String getMenuType() {
+		return mMenuType;
+	}
+
+	public void setMenuType(String menu) {
+		mMenuType = menu;
 	}
 
 }

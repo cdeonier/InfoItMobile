@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.infoit.adapters.DbAdapter;
+import com.infoit.adapters.WebServiceAdapter;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
-import com.infoit.service.DbAdapter;
-import com.infoit.service.WebServiceAdapter;
 import com.infoit.widgets.PlaceRealEstateView;
 import com.infoit.widgets.PlaceRestaurantView;
 

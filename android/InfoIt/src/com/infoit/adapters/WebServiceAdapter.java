@@ -1,4 +1,4 @@
-package com.infoit.service;
+package com.infoit.adapters;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,23 +54,30 @@ public class WebServiceAdapter {
 	}
 	
 	public static JsonNode getInformationAsJson(int locationIdentifier) {
-	  HttpGet httpGet = new HttpGet("http://www.getinfoit.com/services/"+Integer.toString(locationIdentifier));
-	  String response = callWebService(httpGet);
-	  
-	  ObjectMapper mapper = new ObjectMapper();
-	  JsonNode rootNode = null;
-	  
-    try {
-      rootNode = mapper.readValue(response, JsonNode.class);
-    } catch (JsonParseException e) {
-      e.printStackTrace();
-    } catch (JsonMappingException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-	  
-	  return rootNode;
+		HttpGet httpGet = new HttpGet("http://www.getinfoit.com/services/"
+				+ Integer.toString(locationIdentifier));
+		String response = callWebService(httpGet);
+		
+		JsonNode rootNode = createJsonFromString(response);
+
+		return rootNode;
+	}
+	
+	public static JsonNode createJsonFromString(String jsonAsString) {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode rootNode = null;
+
+		try {
+			rootNode = mapper.readValue(jsonAsString, JsonNode.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return rootNode;
 	}
 	
 	/**

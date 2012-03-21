@@ -1,26 +1,48 @@
 package com.infoit.main;
 
+import java.util.Set;
+
+import org.codehaus.jackson.JsonNode;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.FrameLayout.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.infoit.adapters.MenuItemListAdapter;
+import com.infoit.adapters.SeparatedListAdapter;
+import com.infoit.adapters.WebServiceAdapter;
+import com.infoit.record.MenuInformation;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class DisplayMenu extends Activity {
 	private UiMenuHorizontalScrollView mApplicationContainer;
+	private ListView mMenuItemList;
+	private MenuInformation mMenuInformation;
+	private String mCurrentMenuType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		String jsonAsString = getIntent().getExtras().getString("menu");
+		JsonNode json = WebServiceAdapter.createJsonFromString(jsonAsString);
+		mMenuInformation = new MenuInformation(json);
+		
 	    // Lock to Portrait Mode
 	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	    
+	    mCurrentMenuType = (String) ((Set<String>) mMenuInformation.getMenuTypes()).iterator().next();
 	}
 
 
@@ -34,11 +56,14 @@ public class DisplayMenu extends Activity {
 	    ShellUtil.clearActionMenuButton(mApplicationContainer);
 	    
 	    //50 should work, but not displaying correctly, so nudging to 70
-	    int menuBarHeight = (int) (70 * getResources().getDisplayMetrics().density);
+	    int menuBarHeight = (int) (75 * getResources().getDisplayMetrics().density);
 	    Display display = getWindowManager().getDefaultDisplay();
 
-	    FrameLayout container = (FrameLayout) findViewById(R.id.container);
+	    LinearLayout container = (LinearLayout) findViewById(R.id.container);
 	    container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
+	    
+	    initializeMenuTypeSelector();
+	    initializeAdapters();
 	    
 	    mApplicationContainer.scrollToApplicationView();
 	}
@@ -61,16 +86,64 @@ public class DisplayMenu extends Activity {
 		return;
 	}
 
-	private void unbindDrawables(View view) {
+	private void unbindDrawables(View view) { 
 		if (view.getBackground() != null) {
 			view.getBackground().setCallback(null);
 		}
-		if (view instanceof ViewGroup) {
+		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
 			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
 				unbindDrawables(((ViewGroup) view).getChildAt(i));
 			}
 			((ViewGroup) view).removeAllViews();
 		}
+	}
+	
+	private void initializeAdapters() {
+		mMenuItemList = (ListView) findViewById(R.id.menu_item_list);
+		
+		Set<String> currentMenuCategories = mMenuInformation.getCategoriesForMenu(mCurrentMenuType);
+		
+		SeparatedListAdapter menuAdapter = new SeparatedListAdapter(this);
+		
+		for (String category : currentMenuCategories) {
+			MenuItemListAdapter menuItemListAdapter = 
+					new MenuItemListAdapter(this, R.layout.menu_list_item, R.id.menu_item_name, null);
+			menuItemListAdapter.setMenuItems(mMenuInformation.getMenuItemsForCategory(mCurrentMenuType, category));
+			
+			menuAdapter.addSection(category, menuItemListAdapter);
+		}
+		
+		mMenuItemList.setAdapter(menuAdapter);
+	}
+	
+	private void initializeMenuTypeSelector() {
+		LinearLayout menuTypesContainer = (LinearLayout) findViewById(R.id.menu_types);
+		
+		Set<String> menuTypes = mMenuInformation.getMenuTypes();
+		
+		for (String menuType : menuTypes) {
+			TextView menuTypeTextView = new TextView(this);
+			menuTypeTextView.setText(menuType);
+			
+		    int menuTypeWidth = (int) (150 * getResources().getDisplayMetrics().density);
+		    int menuTypeHeight = (int) (50 * getResources().getDisplayMetrics().density);
+			menuTypeTextView.setLayoutParams(new LinearLayout.LayoutParams(menuTypeWidth, menuTypeHeight));
+			menuTypeTextView.setGravity(Gravity.CENTER);
+			
+			menuTypeTextView.setOnClickListener(new MenuTypeOnClickListener());
+			
+			menuTypesContainer.addView(menuTypeTextView);
+		}
+	}
+	
+	private class MenuTypeOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View view) {
+			mCurrentMenuType = (String) ((TextView) view).getText();
+			initializeAdapters();
+		}
+		
 	}
 
 }

@@ -14,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.infoit.adapters.DbAdapter;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.PhotoGallery;
 import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
 import com.infoit.record.InformationRecord;
-import com.infoit.service.DbAdapter;
 import com.infoit.util.ImageUtil;
 
 public class BasicView extends LinearLayout implements BaseInformationView {

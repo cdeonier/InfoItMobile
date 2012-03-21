@@ -10,9 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.infoit.adapters.BookmarkListAdapter;
+import com.infoit.adapters.DbAdapter;
 import com.infoit.async.BookmarksListTask;
-import com.infoit.service.BookmarkListAdapter;
-import com.infoit.service.DbAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 

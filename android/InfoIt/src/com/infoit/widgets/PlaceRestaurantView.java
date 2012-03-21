@@ -53,11 +53,14 @@ public class PlaceRestaurantView extends LinearLayout {
 		AddressView addressView = new AddressView(this.getContext());
 		MenuView menuView = new MenuView(this.getContext());
 		
+		final String jsonAsString = rootNode.toString();
+		
 		menuView.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				Intent menuIntent = new Intent(v.getContext(), DisplayMenu.class);
+				menuIntent.putExtra("menu", jsonAsString);
 			    v.getContext().startActivity(menuIntent);
 			}
 		});

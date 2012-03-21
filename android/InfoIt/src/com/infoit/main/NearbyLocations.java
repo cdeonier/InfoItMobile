@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.infoit.adapters.GpsListAdapter;
 import com.infoit.async.GetNearbyLocationsTask;
-import com.infoit.service.GpsListAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 

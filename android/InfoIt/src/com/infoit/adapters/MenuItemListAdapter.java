@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,12 +17,15 @@ import com.infoit.main.R;
 import com.infoit.record.MenuItemRecord;
 
 public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
-	ArrayList<MenuItemRecord> mMenuItems;
+	private ArrayList<MenuItemRecord> mMenuItems;
+	private Typeface mFont;
+	
 	
 	public MenuItemListAdapter(Context context, int resource, int textViewResourceId, 
 			List<MenuItemRecord> objects) {
 		super(context, textViewResourceId, objects);
 		mMenuItems = new ArrayList<MenuItemRecord>();
+		mFont = Typeface.createFromAsset(context.getAssets(), "fonts/nyala.ttf"); 
 	}
 	
 	@Override
@@ -32,13 +36,16 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		
 		TextView rowName = (TextView) row.findViewById(R.id.menu_item_name);
 		rowName.setText(currentMenuItem.getName());
+		rowName.setTypeface(mFont, Typeface.BOLD);
 		TextView rowDescription = (TextView) row.findViewById(R.id.menu_item_description);
 		rowDescription.setText(currentMenuItem.getDescription());
+		rowDescription.setTypeface(mFont);
 		ImageView rowThumbnail = (ImageView) row.findViewById(R.id.menu_item_thumbnail);
 		ProgressBar rowImageProgress = (ProgressBar) row.findViewById(R.id.menu_item_thumbnail_progress);
 		new DownloadThumbnailTask(rowThumbnail, rowImageProgress).execute(currentMenuItem.getThumbnailUrl());
 		TextView rowPrice = (TextView) row.findViewById(R.id.menu_item_price);
 		rowPrice.setText("$"+currentMenuItem.getPrice());
+		rowPrice.setTypeface(mFont);
 	    
 	    return row;
 	}

@@ -20,7 +20,7 @@ public class BasicInformation implements InformationRecord {
     mName = entityNode.path("name").getTextValue();
     mDescription = entityNode.path("description").getTextValue();
     mEntityType = entityNode.path("entity_type").getTextValue();
-    mThumbnailUrl = entityNode.path("thumbnail_url").getTextValue();
+    mThumbnailUrl = entityNode.path("profile_photo_url").getTextValue();
     
     JsonNode photosNode = rootNode.path("entity").path("photo");
     mPhotoUrls = new ArrayList<String>();

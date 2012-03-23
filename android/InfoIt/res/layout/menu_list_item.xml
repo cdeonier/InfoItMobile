@@ -22,7 +22,7 @@
                 android:id="@+id/menu_item_thumbnail"
                 android:layout_width="100dip"
                 android:layout_height="100dip"
-                android:background="#ffffff" />
+                android:background="@drawable/menu_item_thumbnail_border" />
 
             <ProgressBar
                 android:id="@+id/menu_item_thumbnail_progress"
@@ -38,9 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/menu_item_thumbnail_container"
             android:layout_toLeftOf="@+id/menu_item_price"
-            android:text="This is a menu name"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textColor="#4b4b4b"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/menu_item_price"
@@ -48,7 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:paddingLeft="5dip"
-            android:text="$10" />
+            android:textColor="#6c6c6c"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/menu_item_description"
@@ -56,7 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/menu_item_thumbnail_container"
             android:lines="2"
-            android:text="Lorem ipsum" />
+            android:layout_marginLeft="5dip"
+            android:textColor="#6c6c6c"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <ImageView

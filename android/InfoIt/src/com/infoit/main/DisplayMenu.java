@@ -6,6 +6,8 @@ import org.codehaus.jackson.JsonNode;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.infoit.adapters.MenuItemListAdapter;
@@ -121,12 +124,19 @@ public class DisplayMenu extends Activity {
 		
 		Set<String> menuTypes = mMenuInformation.getMenuTypes();
 		
+		
+		int menuTypeWidth = (int) (150 * getResources().getDisplayMetrics().density);
+	    int menuTypeHeight = (int) (50 * getResources().getDisplayMetrics().density);
+	    
 		for (String menuType : menuTypes) {
 			TextView menuTypeTextView = new TextView(this);
-			menuTypeTextView.setText(menuType);
+			Drawable menuTypeDrawable = getResources().getDrawable(R.drawable.menu_types_container);
+			ColorStateList menuTypeTextColor = getResources().getColorStateList(R.color.menu_type_button_text);
 			
-		    int menuTypeWidth = (int) (150 * getResources().getDisplayMetrics().density);
-		    int menuTypeHeight = (int) (50 * getResources().getDisplayMetrics().density);
+			menuTypeTextView.setText(menuType);
+			menuTypeTextView.setBackgroundDrawable(menuTypeDrawable);
+			menuTypeTextView.setTextColor(menuTypeTextColor);
+			
 			menuTypeTextView.setLayoutParams(new LinearLayout.LayoutParams(menuTypeWidth, menuTypeHeight));
 			menuTypeTextView.setGravity(Gravity.CENTER);
 			
@@ -134,6 +144,12 @@ public class DisplayMenu extends Activity {
 			
 			menuTypesContainer.addView(menuTypeTextView);
 		}
+		
+		RelativeLayout blank = new RelativeLayout(this);
+		blank.setLayoutParams(new LinearLayout.LayoutParams(menuTypeWidth, menuTypeHeight));
+		Drawable menuTypeDrawable = getResources().getDrawable(R.drawable.menu_types_container);
+		blank.setBackgroundDrawable(menuTypeDrawable);
+		menuTypesContainer.addView(blank);
 	}
 	
 	private class MenuTypeOnClickListener implements OnClickListener {

@@ -54,7 +54,7 @@ public class MenuInformation {
 			menuItemRecord.setPrice(item.path("price").getTextValue());
 			menuItemRecord.setLikeCount(item.path("like_count").getIntValue());
 			menuItemRecord.setMenuType(item.path("menu_type").getTextValue());
-			menuItemRecord.setThumbnailUrl(item.path("thumbnail_url").getTextValue());
+			menuItemRecord.setThumbnailUrl(item.path("profile_photo_thumbnail_url").getTextValue());
 
 			categoryItems.add(menuItemRecord);
 		}

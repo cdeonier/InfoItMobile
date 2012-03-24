@@ -97,6 +97,9 @@ public class BasicView extends LinearLayout implements BaseInformationView {
 
     name.setText(mBasicInformation.getName());
     description.setText(mBasicInformation.getDescription());
+    
+    TextView basicBookmarkText = (TextView) findViewById(R.id.basic_bookmark_text);
+    basicBookmarkText.setText("Bookmark this "+mBasicInformation.getEntityType());
   }
 
 }

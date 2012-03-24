@@ -17,6 +17,7 @@ import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
 import com.infoit.widgets.PlaceRealEstateView;
 import com.infoit.widgets.PlaceRestaurantView;
+import com.infoit.widgets.ThingMenuItemView;
 
 public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
   final private Activity mActivity;
@@ -40,7 +41,7 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
     
     LinearLayout child = null;
     
-    if("place".equals(WebServiceAdapter.getEntityType(webServiceResponse))){
+    if ("place".equals(WebServiceAdapter.getEntityType(webServiceResponse))){
       if("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))){
         child = new PlaceRealEstateView(mActivity);
         ((PlaceRealEstateView)child).initializeView(webServiceResponse);      
@@ -48,6 +49,11 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
     	  child = new PlaceRestaurantView(mActivity);
     	  ((PlaceRestaurantView)child).initializeView(webServiceResponse);
       }
+    } else if ("thing".equals(WebServiceAdapter.getEntityType(webServiceResponse))) {
+    	if ("Menu Item".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))) {
+    		child = new ThingMenuItemView(mActivity);
+    		((ThingMenuItemView)child).initializeView(webServiceResponse);
+    	}
     }
     
     return child;

@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.infoit.async.DownloadThumbnailTask;
+import com.infoit.constants.Constants;
+import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
 import com.infoit.record.MenuItemRecord;
 
@@ -46,6 +50,8 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		TextView rowPrice = (TextView) row.findViewById(R.id.menu_item_price);
 		rowPrice.setText("$"+currentMenuItem.getPrice());
 		rowPrice.setTypeface(mFont);
+		
+		row.setOnClickListener(new MenuItemOnClickListener(currentMenuItem.getEntityId()));
 	    
 	    return row;
 	}
@@ -84,4 +90,20 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		mMenuItems = menuItems;
 	}
 
+	private class MenuItemOnClickListener implements OnClickListener {
+		private int mIdentifier;
+		
+		public MenuItemOnClickListener(int identifier) {
+			mIdentifier = identifier;
+		}
+
+		@Override
+		public void onClick(View view) {
+		      Intent displayInfoIntent = new Intent(view.getContext(), DisplayInfo.class);
+		      displayInfoIntent.setAction(Constants.MENU);
+		      displayInfoIntent.putExtra("identifier", mIdentifier);
+		      view.getContext().startActivity(displayInfoIntent);	
+		}
+		
+	}
 }

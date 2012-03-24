@@ -8,12 +8,9 @@ public class MenuItemRecord {
 	private int mLikeCount;
 	private String mCategory;
 	private String mMenuType;
-	
+	private int mEntityId;
+
 	public MenuItemRecord() {
-		mName = "name";
-		mDescription = "description";
-		mPrice = "10";
-		mThumbnailUrl = "http://s3-us-west-1.amazonaws.com/infoit-photos/places/piperade_thumbnail_1.jpg";
 	}
 	
 	public String getName() {
@@ -63,6 +60,14 @@ public class MenuItemRecord {
 
 	public void setMenuType(String menu) {
 		mMenuType = menu;
+	}
+
+	public int getEntityId() {
+		return mEntityId;
+	}
+
+	public void setEntityId(int entityId) {
+		this.mEntityId = entityId;
 	}
 
 }

@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.infoit.async.DownloadThumbnailTask;
@@ -50,6 +51,18 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		TextView rowPrice = (TextView) row.findViewById(R.id.menu_item_price);
 		rowPrice.setText("$"+currentMenuItem.getPrice());
 		rowPrice.setTypeface(mFont);
+		
+		
+		if (currentMenuItem.getLikeCount() == 0) {
+			RelativeLayout likeContainer = (RelativeLayout) row.findViewById(R.id.menu_item_like_container);
+			likeContainer.setVisibility(View.GONE);
+		} else if (currentMenuItem.getLikeCount() == 1) {
+			TextView likeText = (TextView) row.findViewById(R.id.menu_item_like_number);
+			likeText.setText("1 like");
+		} else {
+			TextView likeText = (TextView) row.findViewById(R.id.menu_item_like_number);
+			likeText.setText(String.valueOf(currentMenuItem.getLikeCount())+" likes");
+		}
 		
 		row.setOnClickListener(new MenuItemOnClickListener(currentMenuItem.getEntityId()));
 	    

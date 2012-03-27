@@ -27,6 +27,7 @@ public class BookmarkListAdapter extends CursorAdapter {
   protected ArrayList<ListItemRecord> mDeletedBookmarkIdentifiers;
   protected ListBookmarks mActivity;
   protected DbAdapter mDb;
+  private String mEntityType;
 
   public BookmarkListAdapter(Context context, Cursor cursor, int flags) {
     super(context, cursor, flags);
@@ -35,6 +36,12 @@ public class BookmarkListAdapter extends CursorAdapter {
     mDb = mActivity.getDb();
     mSelectedBookmarkIdentifiers = new ArrayList<ListItemRecord>();
     mDeletedBookmarkIdentifiers = new ArrayList<ListItemRecord>();
+    
+    if (flags == 0) {
+    	mEntityType = Constants.PLACE;
+    } else if (flags == 1) {
+    	mEntityType = Constants.THING;
+    }
   }
   
   @Override
@@ -70,7 +77,11 @@ public class BookmarkListAdapter extends CursorAdapter {
   
   public void removeSelectedBookmarks() {
     for (ListItemRecord identifier : mSelectedBookmarkIdentifiers) {
-      mDb.deleteLocationBookmark(identifier.getIdentifier());
+      if (Constants.PLACE.equals(mEntityType)) {
+    	  mDb.deletePlaceBookmark(identifier.getIdentifier());
+      } else if (Constants.THING.equals(mEntityType)) {
+    	  mDb.deleteThingBookmark(identifier.getIdentifier());
+      }
     }
     mDeletedBookmarkIdentifiers.addAll(mSelectedBookmarkIdentifiers);
     mSelectedBookmarkIdentifiers.clear();
@@ -78,7 +89,11 @@ public class BookmarkListAdapter extends CursorAdapter {
   
   public void undoDeleteBookmarks() {
     for (ListItemRecord identifier : mDeletedBookmarkIdentifiers) {
-      mDb.createLocationBookmark(identifier.getIdentifier(), identifier.getName());
+        if (Constants.PLACE.equals(mEntityType)) {
+        	mDb.createPlaceBookmark(identifier.getIdentifier(), identifier.getName());
+        } else if (Constants.THING.equals(mEntityType)) {
+        	mDb.createThingBookmark(identifier.getIdentifier(), identifier.getName());
+        }
     }
     mDeletedBookmarkIdentifiers.clear();
   }

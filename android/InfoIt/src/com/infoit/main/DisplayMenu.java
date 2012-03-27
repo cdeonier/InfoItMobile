@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.infoit.adapters.MenuCategoryAdapter;
 import com.infoit.adapters.MenuItemListAdapter;
 import com.infoit.adapters.SeparatedListAdapter;
 import com.infoit.adapters.WebServiceAdapter;
@@ -106,7 +107,8 @@ public class DisplayMenu extends Activity {
 		
 		Set<String> currentMenuCategories = mMenuInformation.getCategoriesForMenu(mCurrentMenuType);
 		
-		SeparatedListAdapter menuAdapter = new SeparatedListAdapter(this);
+		MenuCategoryAdapter headerAdapter = new MenuCategoryAdapter(this, R.layout.menu_list_header, R.id.list_header_title, null);
+		SeparatedListAdapter menuAdapter = new SeparatedListAdapter(this, headerAdapter);
 		
 		for (String category : currentMenuCategories) {
 			MenuItemListAdapter menuItemListAdapter = 

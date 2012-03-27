@@ -124,7 +124,7 @@ public class DbAdapter {
    *          the entity identifier associated with the tag
    * @return rowId or -1 if failed
    */
-  public void createLocationBookmark(long entityId, String bookmarkName) {
+  public void createPlaceBookmark(long entityId, String bookmarkName) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_ENTITY_ID, entityId);
     initialValues.put(KEY_BOOKMARK_NAME, bookmarkName);
@@ -136,7 +136,36 @@ public class DbAdapter {
 
   }
 
-  public void deleteLocationBookmark(long entityId) {
+  public void deletePlaceBookmark(long entityId) {
+
+      ContentValues initialValues = new ContentValues();
+      initialValues.put(KEY_ENTITY_ID, entityId);
+      mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId),
+          null);
+  }
+  
+  /**
+   * Create a new thing bookmark using the id and name provided. If the
+   * bookmark is successfully created return the new rowId for that bookmark,
+   * otherwise return a -1 to indicate failure.
+   * 
+   * @param entity_id
+   *          the entity identifier associated with the tag
+   * @return rowId or -1 if failed
+   */
+  public void createThingBookmark(long entityId, String bookmarkName) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_ENTITY_ID, entityId);
+    initialValues.put(KEY_BOOKMARK_NAME, bookmarkName);
+    initialValues.put(KEY_BOOKMARK_TYPE, "THING");
+
+      // Get rid of old values in case location has been updated.
+      mDb.delete("bookmarks", KEY_ENTITY_ID + "=" + String.valueOf(entityId), null);
+      mDb.insert(BOOKMARKS_TABLE, null, initialValues);
+
+  }
+
+  public void deleteThingBookmark(long entityId) {
 
       ContentValues initialValues = new ContentValues();
       initialValues.put(KEY_ENTITY_ID, entityId);
@@ -160,10 +189,22 @@ public class DbAdapter {
    * 
    * @return Cursor over all bookmarks
    */
-  public Cursor fetchAllLocationBookmarks() {
+  public Cursor fetchAllPlaceBookmarks() {
 
     return mDb.query(BOOKMARKS_TABLE, new String[] { KEY_ROWID, KEY_ENTITY_ID,
         KEY_BOOKMARK_NAME }, KEY_BOOKMARK_TYPE + "= 'PLACE'", null, null,
+        null, KEY_BOOKMARK_NAME+" ASC");
+  }
+  
+  /**
+   * Return a Cursor over the list of all thing bookmarks in the database
+   * 
+   * @return Cursor over all bookmarks
+   */
+  public Cursor fetchAllThingBookmarks() {
+
+    return mDb.query(BOOKMARKS_TABLE, new String[] { KEY_ROWID, KEY_ENTITY_ID,
+        KEY_BOOKMARK_NAME }, KEY_BOOKMARK_TYPE + "= 'THING'", null, null,
         null, KEY_BOOKMARK_NAME+" ASC");
   }
 

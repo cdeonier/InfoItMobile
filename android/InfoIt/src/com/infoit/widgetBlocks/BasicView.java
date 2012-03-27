@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.Display;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -85,21 +86,31 @@ public class BasicView extends LinearLayout implements BaseInformationView {
   private void initView() {
     TextView name = (TextView) findViewById(R.id.basic_name);
     TextView description = (TextView) findViewById(R.id.basic_description);
-    ImageView thumbnail = (ImageView) findViewById(R.id.basic_thumbnail);
+    FrameLayout thumbnailContainer = (FrameLayout) findViewById(R.id.thumbnail_container);
     
     Drawable image = ImageUtil.getImage(mBasicInformation.getThumbnailUrl());
     
+    ImageView thumbnail = new ImageView(this.getContext());
     thumbnail.setImageDrawable(image);
+
+    DisplayMetrics dm = new DisplayMetrics();
     WindowManager wm = (WindowManager) this.getContext().getSystemService(Context.WINDOW_SERVICE);
-    Display display = wm.getDefaultDisplay();
-    //display.getWidth is deprecated-- need to change to using Point later
-    thumbnail.setLayoutParams(new FrameLayout.LayoutParams(display.getWidth(), display.getWidth() / 4 * 3));
+    wm.getDefaultDisplay().getMetrics(dm);
+    int width = dm.widthPixels;
+    int height = width * image.getIntrinsicHeight() / image.getIntrinsicWidth();
+    thumbnailContainer.addView(thumbnail, new FrameLayout.LayoutParams(width, height));
+    
+    LinearLayout photoButton = (LinearLayout) View.inflate(this.getContext(), R.layout.ui_photos_button, null);
+    FrameLayout.LayoutParams photoButtonParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
+    int photoButtonOffset = (int) (20 * getResources().getDisplayMetrics().density);
+    photoButtonParams.setMargins(0, 0, 0, photoButtonOffset);
+    thumbnailContainer.addView(photoButton, photoButtonParams);
 
     name.setText(mBasicInformation.getName());
     description.setText(mBasicInformation.getDescription());
     
     TextView basicBookmarkText = (TextView) findViewById(R.id.basic_bookmark_text);
-    basicBookmarkText.setText("Bookmark this "+mBasicInformation.getEntityType());
+    basicBookmarkText.setText("Bookmark "+mBasicInformation.getEntitySubType());
   }
 
 }

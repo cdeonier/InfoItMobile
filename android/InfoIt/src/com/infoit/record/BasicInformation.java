@@ -9,6 +9,7 @@ public class BasicInformation implements InformationRecord {
   private String mName;
   private String mDescription;
   private String mEntityType;
+  private String mEntitySubType;
   private ArrayList<String> mPhotoUrls;
   
   public BasicInformation() {
@@ -20,6 +21,7 @@ public class BasicInformation implements InformationRecord {
     mName = entityNode.path("name").getTextValue();
     mDescription = entityNode.path("description").getTextValue();
     mEntityType = entityNode.path("entity_type").getTextValue();
+    mEntitySubType = entityNode.path("entity_sub_type").getTextValue();
     mThumbnailUrl = entityNode.path("profile_photo_url").getTextValue();
     
     JsonNode photosNode = rootNode.path("entity").path("photo");
@@ -59,6 +61,11 @@ public class BasicInformation implements InformationRecord {
   public void setPhotoUrls(ArrayList<String> photoUrls) {
     this.mPhotoUrls = photoUrls;
   }
-
+  public String getEntitySubType() {
+	  return mEntitySubType;
+  }
+  public void setEntitySubType(String entitySubType) {
+	  this.mEntitySubType = entitySubType;
+  }
   
 }

@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 
 import com.infoit.adapters.BookmarkListAdapter;
+import com.infoit.constants.Constants;
+import com.infoit.main.ListBookmarks;
 
 public class BookmarksListTask extends AsyncTask<Void, Void, Void> {
   public static final int DELETE_BOOKMARKS = 1;
@@ -13,11 +15,13 @@ public class BookmarksListTask extends AsyncTask<Void, Void, Void> {
   private final Activity mActivity;
   private final BookmarkListAdapter mListAdapter;
   private final int mAction;
+  private final String mEntityType;
   
-  public BookmarksListTask(Activity activity, BookmarkListAdapter listAdapter, int action) {
+  public BookmarksListTask(Activity activity, BookmarkListAdapter listAdapter, int action, String entityType) {
     mAction = action;
     mListAdapter = listAdapter;
     mActivity = activity;
+    mEntityType = entityType;
   }
   
   @Override
@@ -33,10 +37,17 @@ public class BookmarksListTask extends AsyncTask<Void, Void, Void> {
   
   @Override
   protected void onPostExecute(Void result) {
-    Cursor bookmarksCursor = mListAdapter.getDb().fetchAllLocationBookmarks();
+	Cursor bookmarksCursor = null;
+	if (Constants.PLACE.equals(mEntityType)) {
+		bookmarksCursor = mListAdapter.getDb().fetchAllPlaceBookmarks();
+	} else if (Constants.THING.equals(mEntityType)) {
+		bookmarksCursor = mListAdapter.getDb().fetchAllThingBookmarks();
+	}
     mActivity.startManagingCursor(bookmarksCursor);
     
     mListAdapter.changeCursor(bookmarksCursor);
     mListAdapter.notifyDataSetChanged();
+    
+    ((ListBookmarks) mActivity).getListAdapter().notifyDataSetChanged();
   }
 }

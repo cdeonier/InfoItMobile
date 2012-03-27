@@ -39,7 +39,32 @@
             android:layout_toRightOf="@+id/menu_item_thumbnail_container"
             android:layout_toLeftOf="@+id/menu_item_price"
             android:textColor="#4b4b4b"
+            android:text="menu name"
             android:textSize="20sp" />
+        
+        <RelativeLayout
+            android:id="@+id/menu_item_like_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dip"
+            android:layout_below="@+id/menu_item_name"
+            android:layout_toRightOf="@+id/menu_item_thumbnail_container">
+            
+            <ImageView
+                android:id="@+id/menu_like_icon"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:src="@drawable/menu_item_like_icon"/>
+            
+            <TextView 
+                android:id="@+id/menu_item_like_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dip"
+                android:layout_toRightOf="@+id/menu_like_icon"
+                android:text="1 like"/>
+            
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/menu_item_price"

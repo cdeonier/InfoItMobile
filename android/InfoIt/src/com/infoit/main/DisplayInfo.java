@@ -24,8 +24,10 @@ public class DisplayInfo extends Activity {
   private DbAdapter mDb;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private int mIdentifier;
+  private String mEntityType;
+  private String mEntitySubType;
 
-  @Override
+@Override
   public void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
@@ -130,26 +132,36 @@ public class DisplayInfo extends Activity {
   }
   
   public void syncBookmarkButtons() {
-    TextView name = (TextView) getApplicationContainer().findViewById(R.id.basic_name);
-    
-    ImageView actionMenuIcon = (ImageView) getApplicationContainer().findViewById(R.id.bookmark_icon);  
-    ImageView contentIcon = (ImageView) findViewById(R.id.basic_bookmark_icon);
-    TextView contentBookmarkButtonText = (TextView) findViewById(R.id.basic_bookmark_text);  
-    TextView actionMenuBookmarkButtonText = (TextView) getApplicationContainer().findViewById(R.id.bookmark_button_text);
-    
-    if (contentBookmarkButtonText.getText().toString().contains("Bookmark this place")) {
-      mDb.createLocationBookmark(mIdentifier, (String) name.getText());
-      contentBookmarkButtonText.setText("Remove Bookmark");
-      actionMenuBookmarkButtonText.setText("Remove Bookmark");
-      contentIcon.setImageResource(R.drawable.bookmark_icon);
-      actionMenuIcon.setImageResource(R.drawable.bookmark_icon);
-    } else {
-      mDb.deleteLocationBookmark(mIdentifier);
-      contentBookmarkButtonText.setText("Bookmark this place");
-      actionMenuBookmarkButtonText.setText("Bookmark this place");
-      contentIcon.setImageResource(R.drawable.bookmark_unbookmark_icon);
-      actionMenuIcon.setImageResource(R.drawable.bookmark_unbookmark_icon);
-    }
+		TextView name = (TextView) getApplicationContainer().findViewById(R.id.basic_name);
+
+		ImageView actionMenuIcon = (ImageView) getApplicationContainer().findViewById(R.id.bookmark_icon);
+		ImageView contentIcon = (ImageView) findViewById(R.id.basic_bookmark_icon);
+		TextView contentBookmarkButtonText = (TextView) findViewById(R.id.basic_bookmark_text);
+		TextView actionMenuBookmarkButtonText = (TextView) getApplicationContainer().findViewById(R.id.bookmark_button_text);
+
+		if (!contentBookmarkButtonText.getText().toString().contains("Remove")) {
+			if ("place".equals(getEntityType())) {
+				mDb.createPlaceBookmark(mIdentifier, (String) name.getText());
+			} else if ("thing".equals(getEntityType())) {
+				mDb.createThingBookmark(mIdentifier, (String) name.getText());
+			}
+
+			contentBookmarkButtonText.setText("Remove Bookmark");
+			actionMenuBookmarkButtonText.setText("Remove Bookmark");
+			contentIcon.setImageResource(R.drawable.bookmark_icon);
+			actionMenuIcon.setImageResource(R.drawable.bookmark_icon);
+		} else {
+			if ("place".equals(getEntityType())) {
+				mDb.deletePlaceBookmark(mIdentifier);
+			} else if ("thing".equals(getEntityType())) {
+				mDb.deleteThingBookmark(mIdentifier);
+			}
+
+			contentBookmarkButtonText.setText("Bookmark "+getEntitySubType());
+			actionMenuBookmarkButtonText.setText("Bookmark "+getEntitySubType());
+			contentIcon.setImageResource(R.drawable.bookmark_unbookmark_icon);
+			actionMenuIcon.setImageResource(R.drawable.bookmark_unbookmark_icon);
+		}
   }
   
   public UiMenuHorizontalScrollView getApplicationContainer() {
@@ -167,4 +179,20 @@ public class DisplayInfo extends Activity {
   public void setIdentifier(int identifier) {
     this.mIdentifier = identifier;
   }
+
+	public String getEntityType() {
+		return mEntityType;
+	}
+
+	public void setEntityType(String entityType) {
+		this.mEntityType = entityType;
+	}
+
+	public String getEntitySubType() {
+		return mEntitySubType;
+	}
+
+	public void setEntitySubType(String entitySubType) {
+		this.mEntitySubType = entitySubType;
+	}
 }

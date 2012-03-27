@@ -22,6 +22,7 @@ import com.infoit.widgets.ThingMenuItemView;
 public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
   final private Activity mActivity;
   final private int mIdentifier;
+  private String mEntitySubType;
   
   public LoadInformationTask(Activity activity, int identifier) {
     mActivity = activity;
@@ -38,6 +39,10 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
     db.open();
     db.createHistoryItem(mIdentifier, basicInfo.getName(), basicInfo.getEntityType());
     db.close();
+    
+    ((DisplayInfo) mActivity).setEntityType(basicInfo.getEntityType());
+    ((DisplayInfo) mActivity).setEntitySubType(basicInfo.getEntitySubType());
+    mEntitySubType = basicInfo.getEntitySubType();
     
     LinearLayout child = null;
     
@@ -84,6 +89,9 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
     if (db.doesBookmarkExist(mIdentifier)) {
       bookmarkButtonText.setText("Remove Bookmark");
       icon.setImageResource(R.drawable.bookmark_icon);
+    } else {
+    	bookmarkButtonText.setText("Bookmark "+mEntitySubType);
+    	icon.setImageResource(R.drawable.bookmark_unbookmark_icon);
     }
     bookmarkButton.setOnClickListener(new OnClickListener() {
 

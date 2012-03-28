@@ -146,13 +146,22 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
   public void handleDecode(Result rawResult) {
     Log.w("InfoIt", "Scanned QR Code");
     if (rawResult.getText().contains("www.getinfoit.com")) {
-      int identifier = Integer.parseInt(rawResult.getText().split("/services/")[1]);
-      beepManager.playBeepSoundAndVibrate();
-      
-      Intent displayInfoIntent = new Intent(this, DisplayInfo.class);
-      displayInfoIntent.setAction(Constants.BOOKMARK);
-      displayInfoIntent.putExtra("identifier", identifier);
-      this.startActivity(displayInfoIntent);
+      if (rawResult.getText().contains("services")) {
+	      int identifier = Integer.parseInt(rawResult.getText().split("/services/")[1]);
+	      beepManager.playBeepSoundAndVibrate();
+	      
+	      Intent displayInfoIntent = new Intent(this, DisplayInfo.class);
+	      displayInfoIntent.setAction(Constants.QRCODE);
+	      displayInfoIntent.putExtra("identifier", identifier);
+	      this.startActivity(displayInfoIntent);
+      } else if (rawResult.getText().contains("menus")) {
+    	  int identifier = Integer.parseInt(rawResult.getText().split("/menus/")[1]);
+    	  
+	      Intent displayMenuIntent = new Intent(this, DisplayMenu.class);
+	      displayMenuIntent.setAction(Constants.QRCODE);
+	      displayMenuIntent.putExtra("identifier", identifier);
+	      this.startActivity(displayMenuIntent);
+      }
     } else {
       String url = rawResult.getText();
       Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

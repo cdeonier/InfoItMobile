@@ -1,5 +1,6 @@
 package com.infoit.main;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import org.codehaus.jackson.JsonNode;
@@ -8,7 +9,11 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -25,6 +30,8 @@ import com.infoit.adapters.MenuCategoryAdapter;
 import com.infoit.adapters.MenuItemListAdapter;
 import com.infoit.adapters.SeparatedListAdapter;
 import com.infoit.adapters.WebServiceAdapter;
+import com.infoit.async.LoadMenuTask;
+import com.infoit.constants.Constants;
 import com.infoit.record.MenuInformation;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
@@ -39,37 +46,57 @@ public class DisplayMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		String jsonAsString = getIntent().getExtras().getString("menu");
-		JsonNode json = WebServiceAdapter.createJsonFromString(jsonAsString);
-		mMenuInformation = new MenuInformation(json);
 		
+		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+			Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(
+					NfcAdapter.EXTRA_NDEF_MESSAGES);
+			NdefMessage rawUrl = (NdefMessage) rawMsgs[0];
+			NdefRecord rawUrlRecord = rawUrl.getRecords()[0];
+			byte[] payload = rawUrlRecord.getPayload();
+			String uri = new String(Arrays.copyOfRange(payload, 1,
+					payload.length));
+
+			int identifier = Integer.parseInt(uri.split("/menus/")[1]);
+			new LoadMenuTask(this, identifier).execute();
+			setSplashScreen();
+		} else if (Constants.QRCODE.equals(getIntent().getAction())) {
+			int identifier = getIntent().getExtras().getInt("identifier");
+			new LoadMenuTask(this, identifier).execute();
+		} else {
+			String jsonAsString = getIntent().getExtras().getString("menu");
+			JsonNode json = WebServiceAdapter.createJsonFromString(jsonAsString);
+			mMenuInformation = new MenuInformation(json.path("entity").path("place_details"));
+		    mCurrentMenuType = (String) ((Set<String>) mMenuInformation.getMenuTypes()).iterator().next();
+		}
+
 	    // Lock to Portrait Mode
 	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-	    
-	    mCurrentMenuType = (String) ((Set<String>) mMenuInformation.getMenuTypes()).iterator().next();
 	}
 
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-	    mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
-	            R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu,
-	            R.layout.menu);
-	    ShellUtil.clearActionMenuButton(mApplicationContainer);
 	    
-	    //50 should work, but not displaying correctly, so nudging to 70
-	    int menuBarHeight = (int) (75 * getResources().getDisplayMetrics().density);
-	    Display display = getWindowManager().getDefaultDisplay();
+	    //Adapters intialized in async for NFC
+	    if (Constants.DISPLAY_INFO.equals(getIntent().getAction())) {
+		    mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
+		            R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu,
+		            R.layout.menu);
+		    ShellUtil.clearActionMenuButton(mApplicationContainer);
+		    
+		    //50 should work, but not displaying correctly, so nudging to 70
+		    int menuBarHeight = (int) (75 * getResources().getDisplayMetrics().density);
+		    Display display = getWindowManager().getDefaultDisplay();
 
-	    LinearLayout container = (LinearLayout) findViewById(R.id.container);
-	    container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
-	    
-	    initializeMenuTypeSelector();
-	    initializeAdapters();
-	    
-	    mApplicationContainer.scrollToApplicationView();
+		    LinearLayout container = (LinearLayout) findViewById(R.id.container);
+		    container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
+	    	
+		    initializeMenuTypeSelector();
+		    initializeAdapters();
+		    
+		    mApplicationContainer.scrollToApplicationView();
+	    }
 	}
 	
 	@Override
@@ -102,7 +129,7 @@ public class DisplayMenu extends Activity {
 		}
 	}
 	
-	private void initializeAdapters() {
+	public void initializeAdapters() {
 		mMenuItemList = (ListView) findViewById(R.id.menu_item_list);
 		
 		Set<String> currentMenuCategories = mMenuInformation.getCategoriesForMenu(mCurrentMenuType);
@@ -121,7 +148,7 @@ public class DisplayMenu extends Activity {
 		mMenuItemList.setAdapter(menuAdapter);
 	}
 	
-	private void initializeMenuTypeSelector() {
+	public void initializeMenuTypeSelector() {
 		LinearLayout menuTypesContainer = (LinearLayout) findViewById(R.id.menu_types);
 		
 		Set<String> menuTypes = mMenuInformation.getMenuTypes();
@@ -164,4 +191,30 @@ public class DisplayMenu extends Activity {
 		
 	}
 
+	public void setMenuInformation(MenuInformation menuInformation) {
+		mMenuInformation = menuInformation;
+	}
+	
+	public void setCurrentMenuType(String currentMenuType) {
+		mCurrentMenuType = currentMenuType;
+	}
+
+	public UiMenuHorizontalScrollView getApplicationContainer() {
+		return mApplicationContainer;
+	}
+	
+	public void setApplicationContainer(UiMenuHorizontalScrollView applicationContainer) {
+		mApplicationContainer = applicationContainer;
+	}
+	
+	private void setSplashScreen() {
+		UiMenuHorizontalScrollView splashContainer = 
+				ShellUtil.initializeApplicationContainer(this,
+						R.layout.ui_navigation_menu,
+						R.layout.ui_empty_action_menu,
+						R.layout.ui_splash_screen);
+		TextView splashText = (TextView) splashContainer.findViewById(R.id.splash_text);
+		splashText.setText("Downloading information...");
+		setContentView(splashContainer);
+	}
 }

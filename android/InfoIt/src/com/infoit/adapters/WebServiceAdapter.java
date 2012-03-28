@@ -63,6 +63,16 @@ public class WebServiceAdapter {
 		return rootNode;
 	}
 	
+	public static JsonNode getMenuAsJson(int locationIdentifier) {
+		HttpGet httpGet = new HttpGet("http://www.getinfoit.com/menus/"
+				+ Integer.toString(locationIdentifier));
+		String response = callWebService(httpGet);
+		
+		JsonNode rootNode = createJsonFromString(response);
+
+		return rootNode;
+	}
+	
 	public static JsonNode createJsonFromString(String jsonAsString) {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = null;

@@ -9,4 +9,5 @@ public class Constants {
   public static final String BOOKMARK = "BOOKMARK";
   public static final String QRCODE = "QRCODE";
   public static final String MENU = "MENU";
+  public static final String DISPLAY_INFO = "DISPLAY_INFO";
 }

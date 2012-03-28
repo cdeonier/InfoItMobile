@@ -14,7 +14,7 @@ public class MenuInformation {
 		mRestaurantMenus = 
 				new LinkedHashMap<String, LinkedHashMap<String, ArrayList<MenuItemRecord>>>();
 		
-		JsonNode menuItems = rootNode.path("entity").path("place_details").path("menu_items");
+		JsonNode menuItems = rootNode.path("menu_items");
 		//State change variables
 		String currentMenuType = null;
 		String currentCategory = null;

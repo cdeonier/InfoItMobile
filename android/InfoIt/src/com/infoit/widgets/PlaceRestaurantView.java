@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.infoit.constants.Constants;
 import com.infoit.main.DisplayMenu;
 import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
@@ -53,13 +54,14 @@ public class PlaceRestaurantView extends LinearLayout {
 		AddressView addressView = new AddressView(this.getContext());
 		MenuView menuView = new MenuView(this.getContext());
 		
-		final String jsonAsString = rootNode.toString();
+		final String jsonAsString = rootNode.path("entity").path("place_details").toString();
 		
 		menuView.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				Intent menuIntent = new Intent(v.getContext(), DisplayMenu.class);
+				menuIntent.setAction(Constants.DISPLAY_INFO);
 				menuIntent.putExtra("menu", jsonAsString);
 			    v.getContext().startActivity(menuIntent);
 			}

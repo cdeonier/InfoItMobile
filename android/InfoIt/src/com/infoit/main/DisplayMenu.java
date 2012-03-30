@@ -45,7 +45,15 @@ public class DisplayMenu extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
+	    // Lock to Portrait Mode
+	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		
 		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
 			Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(
@@ -65,18 +73,9 @@ public class DisplayMenu extends Activity {
 		} else {
 			String jsonAsString = getIntent().getExtras().getString("menu");
 			JsonNode json = WebServiceAdapter.createJsonFromString(jsonAsString);
-			mMenuInformation = new MenuInformation(json.path("entity").path("place_details"));
+			mMenuInformation = new MenuInformation(json);
 		    mCurrentMenuType = (String) ((Set<String>) mMenuInformation.getMenuTypes()).iterator().next();
 		}
-
-	    // Lock to Portrait Mode
-	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-	}
-
-
-	@Override
-	protected void onResume() {
-		super.onResume();
 	    
 	    //Adapters intialized in async for NFC
 	    if (Constants.DISPLAY_INFO.equals(getIntent().getAction())) {

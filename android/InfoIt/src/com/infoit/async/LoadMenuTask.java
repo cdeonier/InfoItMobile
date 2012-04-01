@@ -35,25 +35,25 @@ public class LoadMenuTask  extends AsyncTask<Void, Void, JsonNode> {
 	@Override
 	protected void onPostExecute(JsonNode rootNode) {
 		MenuInformation menuInformation = new MenuInformation(rootNode.path("entity"));
-	    String currentMenuType = (String) ((Set<String>) menuInformation.getMenuTypes()).iterator().next();
-	    
-	    UiMenuHorizontalScrollView applicationContainer = ShellUtil.initializeApplicationContainer(mActivity,
-	            R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu,
-	            R.layout.menu);
-	    ShellUtil.clearActionMenuButton(applicationContainer);
-	    
-	    //50 should work, but not displaying correctly, so nudging to 70
-	    int menuBarHeight = (int) (75 * mActivity.getResources().getDisplayMetrics().density);
-	    Display display = mActivity.getWindowManager().getDefaultDisplay();
+		String currentMenuType = (String) ((Set<String>) menuInformation.getMenuTypes()).iterator().next();
 
-	    LinearLayout container = (LinearLayout) applicationContainer.findViewById(R.id.container);
-	    container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
-	    
-	    mActivity.setApplicationContainer(applicationContainer);
+		UiMenuHorizontalScrollView applicationContainer = ShellUtil.initializeApplicationContainer(mActivity,
+				R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu, R.layout.menu);
+		ShellUtil.clearActionMenuButton(applicationContainer);
+
+		// 50 should work, but not displaying correctly, so nudging to 70
+		int menuBarHeight = (int) (75 * mActivity.getResources().getDisplayMetrics().density);
+		Display display = mActivity.getWindowManager().getDefaultDisplay();
+
+		LinearLayout container = (LinearLayout) applicationContainer.findViewById(R.id.container);
+		container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
+
+		mActivity.setApplicationContainer(applicationContainer);
 		
 		mActivity.setMenuInformation(menuInformation);
 		mActivity.setCurrentMenuType(currentMenuType);
 		mActivity.initializeMenuTypeSelector();
+		mActivity.initializeList();
 		mActivity.initializeAdapters();
 	}
 

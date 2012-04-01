@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/restaurant_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <ImageView
+                android:id="@+id/restaurant_icon"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/Restaurant"
+                android:src="@drawable/restaurant_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/restaurant_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dip"
+                android:text="@string/Restaurant" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/most_liked_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:padding="5dip" >
+
+            <ImageView
+                android:id="@+id/most_liked_icon"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/Most_Liked"
+                android:src="@drawable/menu_item_like_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/most_liked_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dip"
+                android:text="@string/Most_Liked" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

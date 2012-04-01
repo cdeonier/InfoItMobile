@@ -26,6 +26,7 @@
 
             </LinearLayout>
         </HorizontalScrollView>
+        
 
         <ListView
             android:id="@+id/menu_item_list"

@@ -9,12 +9,17 @@ import org.codehaus.jackson.JsonNode;
 public class MenuInformation {
 	
 	private LinkedHashMap<String, LinkedHashMap<String, ArrayList<MenuItemRecord>>> mRestaurantMenus;
+	@SuppressWarnings("unused")
+	private int mRestaurantIdentifier;
 
 	public MenuInformation(JsonNode rootNode) {
 		mRestaurantMenus = 
 				new LinkedHashMap<String, LinkedHashMap<String, ArrayList<MenuItemRecord>>>();
 		
 		JsonNode menuItems = rootNode.path("menu_items");
+		
+		mRestaurantIdentifier = rootNode.path("restaurant_id").getIntValue();
+		
 		//State change variables
 		String currentMenuType = null;
 		String currentCategory = null;

@@ -156,7 +156,6 @@ public final class QrCodeCapture extends Activity implements SurfaceHolder.Callb
 	      this.startActivity(displayInfoIntent);
       } else if (rawResult.getText().contains("menus")) {
     	  int identifier = Integer.parseInt(rawResult.getText().split("/menus/")[1]);
-    	  
 	      Intent displayMenuIntent = new Intent(this, DisplayMenu.class);
 	      displayMenuIntent.setAction(Constants.QRCODE);
 	      displayMenuIntent.putExtra("identifier", identifier);

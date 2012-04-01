@@ -22,7 +22,7 @@ import com.infoit.widgetBlocks.MenuView;
 
 public class PlaceRestaurantView extends LinearLayout {
 	private Activity mActivity;
-
+	
 	private BasicInformation mBasicInformation;
 	private LocationInformation mLocationInformation;
 
@@ -63,7 +63,8 @@ public class PlaceRestaurantView extends LinearLayout {
 				Intent menuIntent = new Intent(v.getContext(), DisplayMenu.class);
 				menuIntent.setAction(Constants.DISPLAY_INFO);
 				menuIntent.putExtra("menu", jsonAsString);
-			    v.getContext().startActivity(menuIntent);
+				menuIntent.putExtra("identifier", mBasicInformation.getEntityId());
+				v.getContext().startActivity(menuIntent);
 			}
 		});
 
@@ -79,11 +80,8 @@ public class PlaceRestaurantView extends LinearLayout {
 
 		RelativeLayout spacer = new RelativeLayout(mActivity);
 		// 50 should work, but not displaying correctly, so nudging to 70
-		int menuBarHeight = (int) (50 * mActivity.getResources()
-				.getDisplayMetrics().density);
-		spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				menuBarHeight));
+		int menuBarHeight = (int) (50 * mActivity.getResources().getDisplayMetrics().density);
+		spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, menuBarHeight));
 		container.addView(spacer);
 	}
-
 }

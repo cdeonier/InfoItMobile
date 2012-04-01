@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.codehaus.jackson.JsonNode;
 
 public class BasicInformation implements InformationRecord {
+	private int mEntityId;
   private String mThumbnailUrl;
   private String mName;
   private String mDescription;
@@ -18,6 +19,7 @@ public class BasicInformation implements InformationRecord {
   
   public BasicInformation(JsonNode rootNode) {
     JsonNode entityNode = rootNode.path("entity");
+    mEntityId = entityNode.path("id").getIntValue();
     mName = entityNode.path("name").getTextValue();
     mDescription = entityNode.path("description").getTextValue();
     mEntityType = entityNode.path("entity_type").getTextValue();
@@ -67,5 +69,10 @@ public class BasicInformation implements InformationRecord {
   public void setEntitySubType(String entitySubType) {
 	  this.mEntitySubType = entitySubType;
   }
-  
+  public int getEntityId() {
+  	return mEntityId;
+  }
+  public void setEntityId(int entityId) {
+  	this.mEntityId = entityId;
+  }
 }

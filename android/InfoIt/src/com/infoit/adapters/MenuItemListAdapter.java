@@ -1,14 +1,16 @@
 package com.infoit.adapters;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -99,10 +101,24 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		return mMenuItems.indexOf(item);
 	}
 	
+	@Override
+	public void sort(Comparator<? super MenuItemRecord> comparator) {
+		Collections.sort(mMenuItems, comparator);
+		Collections.reverse(mMenuItems);
+		this.notifyDataSetChanged();
+	}
+
 	public void setMenuItems(ArrayList<MenuItemRecord> menuItems) {
 		mMenuItems = menuItems;
 	}
 
+	
+	/**
+	 * Simple OnClickListener to drill down to the menu item Display Info page.
+	 * 
+	 * @author Christian
+	 *
+	 */
 	private class MenuItemOnClickListener implements OnClickListener {
 		private int mIdentifier;
 		
@@ -117,6 +133,5 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		      displayInfoIntent.putExtra("identifier", mIdentifier);
 		      view.getContext().startActivity(displayInfoIntent);	
 		}
-		
 	}
 }

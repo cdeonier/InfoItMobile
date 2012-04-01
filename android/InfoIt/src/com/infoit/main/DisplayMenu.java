@@ -1,6 +1,7 @@
 package com.infoit.main;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Set;
 
 import org.codehaus.jackson.JsonNode;
@@ -35,6 +36,7 @@ import com.infoit.adapters.WebServiceAdapter;
 import com.infoit.async.LoadMenuTask;
 import com.infoit.constants.Constants;
 import com.infoit.record.MenuInformation;
+import com.infoit.record.MenuItemRecord;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
@@ -133,18 +135,33 @@ public class DisplayMenu extends TrackedActivity {
 	public void initializeAdapters() {	
 		Set<String> currentMenuCategories = mMenuInformation.getCategoriesForMenu(mCurrentMenuType);
 
-		MenuCategoryAdapter headerAdapter = new MenuCategoryAdapter(this, R.layout.menu_list_header,
-				R.id.list_header_title, null);
+		MenuCategoryAdapter headerAdapter = 
+				new MenuCategoryAdapter(this, R.layout.menu_list_header, R.id.list_header_title, null);
 		SeparatedListAdapter menuAdapter = new SeparatedListAdapter(this, headerAdapter);
 
 		for (String category : currentMenuCategories) {
-			MenuItemListAdapter menuItemListAdapter = new MenuItemListAdapter(this, R.layout.menu_list_item,
-					R.id.menu_item_name, null);
+			MenuItemListAdapter menuItemListAdapter = 
+					new MenuItemListAdapter(this, R.layout.menu_list_item, R.id.menu_item_name, null);
 			menuItemListAdapter.setMenuItems(mMenuInformation.getMenuItemsForCategory(mCurrentMenuType, category));
 
 			menuAdapter.addSection(category, menuItemListAdapter);
 		}
 
+		mMenuItemList.setAdapter(menuAdapter);
+	}
+	
+	public void initializeMostLikedAdapter() {
+		MenuCategoryAdapter headerAdapter = 
+				new MenuCategoryAdapter(this, R.layout.menu_list_header, R.id.list_header_title, null);
+		SeparatedListAdapter menuAdapter = new SeparatedListAdapter(this, headerAdapter);
+		
+		MenuItemListAdapter mostLikedAdapter = 
+				new MenuItemListAdapter(this, R.layout.menu_list_item, R.id.menu_item_name, null);
+		mostLikedAdapter.setMenuItems(mMenuInformation.getAllMenuItemsForMenuType(mCurrentMenuType));
+		mostLikedAdapter.sort(new MostLikedComparator());
+		
+		menuAdapter.addSection("Most Liked Items", mostLikedAdapter);
+		
 		mMenuItemList.setAdapter(menuAdapter);
 	}
 	
@@ -163,6 +180,15 @@ public class DisplayMenu extends TrackedActivity {
 	      displayInfoIntent.setAction(Constants.MENU);
 	      displayInfoIntent.putExtra("identifier", mRestaurantIdentifier);
 	      view.getContext().startActivity(displayInfoIntent);
+			}
+		});
+		
+		RelativeLayout mostLikedButton = (RelativeLayout) header.findViewById(R.id.most_liked_button);
+		mostLikedButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				initializeMostLikedAdapter();
 			}
 		});
 		
@@ -237,5 +263,25 @@ public class DisplayMenu extends TrackedActivity {
 		TextView splashText = (TextView) splashContainer.findViewById(R.id.splash_text);
 		splashText.setText("Downloading information...");
 		setContentView(splashContainer);
+	}
+	
+	/**
+	 * Comparator used when ordering items based on Like Count.
+	 * 
+	 * @author Christian
+	 *
+	 */
+	private class MostLikedComparator implements Comparator<MenuItemRecord> {
+
+		@Override
+		public int compare(MenuItemRecord lhs, MenuItemRecord rhs) {
+			if (lhs.getLikeCount() < rhs.getLikeCount()) {
+				return -1;
+			} else if (lhs.getLikeCount() > rhs.getLikeCount()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
 	}
 }

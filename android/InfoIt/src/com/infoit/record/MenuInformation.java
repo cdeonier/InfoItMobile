@@ -77,4 +77,14 @@ public class MenuInformation {
 	public ArrayList<MenuItemRecord> getMenuItemsForCategory(String menuType, String category) {
 		return mRestaurantMenus.get(menuType).get(category);
 	}
+	
+	public ArrayList<MenuItemRecord> getAllMenuItemsForMenuType(String menuType) {
+		ArrayList<MenuItemRecord> allMenuItemsForMenuType = new ArrayList<MenuItemRecord>();
+		
+		for (String category : getCategoriesForMenu(menuType)) {
+			allMenuItemsForMenuType.addAll(getMenuItemsForCategory(menuType, category));
+		}
+		
+		return allMenuItemsForMenuType;
+	}
 }

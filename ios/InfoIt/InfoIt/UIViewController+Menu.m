@@ -116,9 +116,6 @@ static char *menuStateKey;
         [UIView setAnimationDelegate:self];
     }
     
-    NSLog(@"%@", NSStringFromCGAffineTransform(self.view.transform));
-    
-    
     [UIView commitAnimations];
 }
 
@@ -148,8 +145,6 @@ static char *menuStateKey;
         [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
         [UIView setAnimationDelegate:self];
     }
-    
-    NSLog(@"%@", NSStringFromCGAffineTransform(self.view.transform));
     
     [UIView commitAnimations];
 }

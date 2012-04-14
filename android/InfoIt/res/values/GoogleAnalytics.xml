@@ -8,5 +8,12 @@
   
   <!-- We want to see simple, descriptive names in the Google Analytics reports
        instead of the canonical name for each Activity. -->
+  <string name="com.infoit.main.DisplayInfo">DisplayInfo</string>
   <string name="com.infoit.main.DisplayMenu">DisplayMenu</string>
+  <string name="com.infoit.main.InfoChooser">NFC_QR_GPS_Chooser</string>
+  <string name="com.infoit.main.ListBookmarks">ListBookmarks</string>
+  <string name="com.infoit.main.NfcInstructions">NfcInstructions</string>
+  <string name="com.infoit.main.PhotoGallery">PhotoGallery</string>
+  <string name="com.infoit.main.QrCodeCapture">QrCodeCapture</string>
+  <string name="com.infoit.main.RecentHistory">RecentHistory</string>
 </resources>

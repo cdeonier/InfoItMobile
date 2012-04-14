@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.infoit.main.R;
 import com.infoit.util.ImageUtil;
 
 public class DownloadThumbnailTask  extends AsyncTask<String, Void, Drawable> {
@@ -20,11 +21,15 @@ public class DownloadThumbnailTask  extends AsyncTask<String, Void, Drawable> {
 	}
 
 	@Override
-	protected Drawable doInBackground(String... params) {
-		//params[0] is the image url
-	    Drawable image = ImageUtil.getImage(params[0]);
-	    
-	    return image;
+	protected Drawable doInBackground(String... params) { 
+			Drawable image = null;
+			if (params[0] != null && !params[0].equals("")) {
+				image = ImageUtil.getImage(params[0]);
+			} else {
+				image = imageViewReference.get().getResources().getDrawable(R.drawable.basic_no_thumbnail);
+			}
+
+			return image;
 	}
 
 	@Override

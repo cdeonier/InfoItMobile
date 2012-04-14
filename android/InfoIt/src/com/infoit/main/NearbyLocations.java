@@ -1,6 +1,5 @@
 package com.infoit.main;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
@@ -13,12 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.adapters.GpsListAdapter;
 import com.infoit.async.GetNearbyLocationsTask;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
-public class NearbyLocations extends Activity {
+public class NearbyLocations extends TrackedActivity {
 	private UiMenuHorizontalScrollView mApplicationContainer;
 	private GpsListAdapter mListAdapter;
 	private ListView mGpsList;

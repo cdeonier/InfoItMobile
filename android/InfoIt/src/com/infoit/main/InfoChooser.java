@@ -1,6 +1,5 @@
 package com.infoit.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -12,10 +11,11 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
-public class InfoChooser extends Activity {
+public class InfoChooser extends TrackedActivity {
   private UiMenuHorizontalScrollView mApplicationContainer;
 
   @Override

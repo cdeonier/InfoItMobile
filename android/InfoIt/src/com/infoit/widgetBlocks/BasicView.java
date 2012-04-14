@@ -72,15 +72,17 @@ public class BasicView extends LinearLayout implements BaseInformationView {
     
     FrameLayout photosButton = (FrameLayout) findViewById(R.id.thumbnail_container);
 
-    photosButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), PhotoGallery.class);
-        intent.putExtra("photoUrls", mBasicInformation.getPhotoUrls());
-        v.getContext().startActivity(intent);
-      }
-    });
+    if (mBasicInformation.getThumbnailUrl() != null) {
+	    photosButton.setOnClickListener(new OnClickListener() {
+	
+	      @Override
+	      public void onClick(View v) {
+	        Intent intent = new Intent(v.getContext(), PhotoGallery.class);
+	        intent.putExtra("photoUrls", mBasicInformation.getPhotoUrls());
+	        v.getContext().startActivity(intent);
+	      }
+	    });
+    }
   }
   
   private void initView() {
@@ -88,7 +90,7 @@ public class BasicView extends LinearLayout implements BaseInformationView {
     TextView description = (TextView) findViewById(R.id.basic_description);
     FrameLayout thumbnailContainer = (FrameLayout) findViewById(R.id.thumbnail_container);
     
-    Drawable image = ImageUtil.getImage(mBasicInformation.getThumbnailUrl());
+    Drawable image = ImageUtil.getProfileImage(mBasicInformation.getThumbnailUrl(), this);
     
     ImageView thumbnail = new ImageView(this.getContext());
     thumbnail.setImageDrawable(image);
@@ -100,11 +102,15 @@ public class BasicView extends LinearLayout implements BaseInformationView {
     int height = width * image.getIntrinsicHeight() / image.getIntrinsicWidth();
     thumbnailContainer.addView(thumbnail, new FrameLayout.LayoutParams(width, height));
     
-    LinearLayout photoButton = (LinearLayout) View.inflate(this.getContext(), R.layout.ui_photos_button, null);
-    FrameLayout.LayoutParams photoButtonParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
-    int photoButtonOffset = (int) (20 * getResources().getDisplayMetrics().density);
-    photoButtonParams.setMargins(0, 0, 0, photoButtonOffset);
-    thumbnailContainer.addView(photoButton, photoButtonParams);
+    if (mBasicInformation.getThumbnailUrl() != null) {
+	    LinearLayout photoButton = (LinearLayout) View.inflate(this.getContext(), R.layout.ui_photos_button, null);
+	    FrameLayout.LayoutParams photoButtonParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 
+	    																																					LayoutParams.WRAP_CONTENT, 
+	    																																					Gravity.RIGHT | Gravity.BOTTOM);
+	    int photoButtonOffset = (int) (20 * getResources().getDisplayMetrics().density);
+	    photoButtonParams.setMargins(0, 0, 0, photoButtonOffset);
+	    thumbnailContainer.addView(photoButton, photoButtonParams);
+    }
 
     name.setText(mBasicInformation.getName());
     description.setText(mBasicInformation.getDescription());

@@ -37,38 +37,58 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View row = View.inflate(this.getContext(), R.layout.menu_list_item, null);
+		ViewHolder holder;
 		
 		MenuItemRecord currentMenuItem = mMenuItems.get(position);
 		
-		TextView rowName = (TextView) row.findViewById(R.id.menu_item_name);
-		rowName.setText(currentMenuItem.getName());
-		rowName.setTypeface(mFont, Typeface.BOLD);
-		TextView rowDescription = (TextView) row.findViewById(R.id.menu_item_description);
-		rowDescription.setText(currentMenuItem.getDescription());
-		rowDescription.setTypeface(mFont);
-		ImageView rowThumbnail = (ImageView) row.findViewById(R.id.menu_item_thumbnail);
-		ProgressBar rowImageProgress = (ProgressBar) row.findViewById(R.id.menu_item_thumbnail_progress);
-		new DownloadThumbnailTask(rowThumbnail, rowImageProgress).execute(currentMenuItem.getThumbnailUrl());
-		TextView rowPrice = (TextView) row.findViewById(R.id.menu_item_price);
-		rowPrice.setText("$"+currentMenuItem.getPrice());
-		rowPrice.setTypeface(mFont);
+		if (convertView == null) {
+			holder = new ViewHolder();
+		
+			if (currentMenuItem.getDescription() != null  && !currentMenuItem.getDescription().equals("")) {
+				convertView = View.inflate(this.getContext(), R.layout.menu_list_item, null);
+				holder.description = (TextView) convertView.findViewById(R.id.menu_item_description);
+			} else {
+				convertView = View.inflate(this.getContext(), R.layout.menu_list_item_no_description, null);
+			}
+		
+			holder.name = (TextView) convertView.findViewById(R.id.menu_item_name);
+			holder.price = (TextView) convertView.findViewById(R.id.menu_item_price);
+			holder.thumbnail = (ImageView) convertView.findViewById(R.id.menu_item_thumbnail);
+			holder.progressBar = (ProgressBar) convertView.findViewById(R.id.menu_item_thumbnail_progress);
+			holder.likeContainer = (RelativeLayout) convertView.findViewById(R.id.menu_item_like_container);
+			holder.likeText = (TextView) convertView.findViewById(R.id.menu_item_like_number);
+			
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		
+		//if (currentMenuItem.getDescription() != null  && !currentMenuItem.getDescription().equals("")) {
+		if(holder.description != null) {
+			holder.description.setText(currentMenuItem.getDescription());
+			holder.description.setTypeface(mFont);
+		}
+		
+		new DownloadThumbnailTask(holder.thumbnail, holder.progressBar).execute(currentMenuItem.getThumbnailUrl());
+		
+		holder.name.setText(currentMenuItem.getName());
+		holder.name.setTypeface(mFont, Typeface.BOLD);
+
+		holder.price.setText("$"+currentMenuItem.getPrice());
+		holder.price.setTypeface(mFont);
 		
 		
 		if (currentMenuItem.getLikeCount() == 0) {
-			RelativeLayout likeContainer = (RelativeLayout) row.findViewById(R.id.menu_item_like_container);
-			likeContainer.setVisibility(View.GONE);
+			holder.likeContainer.setVisibility(View.GONE);
 		} else if (currentMenuItem.getLikeCount() == 1) {
-			TextView likeText = (TextView) row.findViewById(R.id.menu_item_like_number);
-			likeText.setText("1 like");
+			holder.likeText.setText("1 like");
 		} else {
-			TextView likeText = (TextView) row.findViewById(R.id.menu_item_like_number);
-			likeText.setText(String.valueOf(currentMenuItem.getLikeCount())+" likes");
+			holder.likeText.setText(String.valueOf(currentMenuItem.getLikeCount())+" likes");
 		}
 		
-		row.setOnClickListener(new MenuItemOnClickListener(currentMenuItem.getEntityId()));
+		convertView.setOnClickListener(new MenuItemOnClickListener(currentMenuItem.getEntityId()));
 	    
-	    return row;
+	  return convertView;
 	}
 
 	@Override
@@ -133,5 +153,15 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		      displayInfoIntent.putExtra("identifier", mIdentifier);
 		      view.getContext().startActivity(displayInfoIntent);	
 		}
+	}
+	
+	private static class ViewHolder {
+		TextView name;
+		TextView description;
+		TextView price;
+		TextView likeText;
+		RelativeLayout likeContainer;
+		ProgressBar progressBar;
+		ImageView thumbnail;
 	}
 }

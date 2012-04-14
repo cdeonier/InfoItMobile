@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.adapters.MenuCategoryAdapter;
 import com.infoit.adapters.MenuItemListAdapter;
@@ -151,6 +152,8 @@ public class DisplayMenu extends TrackedActivity {
 	}
 	
 	public void initializeMostLikedAdapter() {
+		EasyTracker.getTracker().trackEvent(Constants.LIKE_CATEGORY, Constants.LIKE_ACTION_MOST_LIKED, null, 0);
+		
 		MenuCategoryAdapter headerAdapter = 
 				new MenuCategoryAdapter(this, R.layout.menu_list_header, R.id.list_header_title, null);
 		SeparatedListAdapter menuAdapter = new SeparatedListAdapter(this, headerAdapter);

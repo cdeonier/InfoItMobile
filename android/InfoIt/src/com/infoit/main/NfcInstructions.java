@@ -1,18 +1,18 @@
 package com.infoit.main;
 
-import com.infoit.util.ShellUtil;
-import com.infoit.widgets.UiMenuHorizontalScrollView;
-
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.LinearLayout;
 
-public class NfcInstructions extends Activity {
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
+import com.infoit.util.ShellUtil;
+import com.infoit.widgets.UiMenuHorizontalScrollView;
+
+public class NfcInstructions extends TrackedActivity {
 	private UiMenuHorizontalScrollView mApplicationContainer;
 
 	@Override

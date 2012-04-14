@@ -2,25 +2,27 @@ package com.infoit.main;
 
 import java.util.Arrays;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.adapters.DbAdapter;
 import com.infoit.async.LoadInformationTask;
+import com.infoit.async.TaskTrackerRunnable;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
-public class DisplayInfo extends Activity {
+public class DisplayInfo extends TrackedActivity {
   private DbAdapter mDb;
   private UiMenuHorizontalScrollView mApplicationContainer;
   private int mIdentifier;
@@ -55,12 +57,15 @@ public class DisplayInfo extends Activity {
     mDb = new DbAdapter(this);
     mDb.open();
 
-    new LoadInformationTask(this, mIdentifier).execute();
+    LoadInformationTask infoTask = new LoadInformationTask(this, mIdentifier);
+    infoTask.execute();
+    Handler handler = new Handler();
+    handler.postDelayed(new TaskTrackerRunnable(infoTask), 15000);
 
     mApplicationContainer.scrollToApplicationView();
   }
 
-  @Override
+	@Override
   protected void onPause() {
     super.onPause();
     

@@ -1,17 +1,17 @@
 package com.infoit.main;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.adapters.DbAdapter;
 import com.infoit.adapters.HistoryListAdapter;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
-public class RecentHistory extends Activity {
+public class RecentHistory extends TrackedActivity {
 
   private UiMenuHorizontalScrollView mApplicationContainer;
   private DbAdapter mDb;

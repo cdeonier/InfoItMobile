@@ -2,7 +2,6 @@ package com.infoit.main;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -14,11 +13,12 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.async.DownloadImageTask;
 import com.infoit.main.R.layout;
 import com.infoit.widgets.listeners.PhotoGalleryGestureListener;
 
-public class PhotoGallery extends Activity {
+public class PhotoGallery extends TrackedActivity {
   private final GestureDetector mGestureDetector 
     = new GestureDetector(new PhotoGalleryGestureListener(this));
   private ProgressDialog mProgressDialog;

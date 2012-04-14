@@ -41,13 +41,15 @@ public class MenuCategoryAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View row = View.inflate(this.getContext(), R.layout.menu_list_header, null);
+		if (convertView == null) {
+			convertView = View.inflate(this.getContext(), R.layout.menu_list_header, null);
+		}
 		
-		TextView menuCategory = (TextView) row.findViewById(R.id.list_header_title);
+		TextView menuCategory = (TextView) convertView.findViewById(R.id.list_header_title);
 		menuCategory.setTypeface(mFont, Typeface.BOLD);
 		menuCategory.setText(mMenuCategories.get(position));
 		
-		return row;
+		return convertView;
 	}
 
 	@Override

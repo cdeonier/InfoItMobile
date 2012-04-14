@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.adapters.BookmarkCategoryAdapter;
 import com.infoit.adapters.BookmarkListAdapter;
 import com.infoit.adapters.DbAdapter;
@@ -19,7 +20,7 @@ import com.infoit.constants.Constants;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
-public class ListBookmarks extends Activity {
+public class ListBookmarks extends TrackedActivity {
   private DbAdapter mDb;
   private BookmarkListAdapter mPlaceBookmarksListAdapter;
   private BookmarkListAdapter mThingBookmarksListAdapter;

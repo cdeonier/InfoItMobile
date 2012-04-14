@@ -2,7 +2,6 @@ package com.infoit.main;
 
 import java.io.IOException;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -17,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.google.zxing.Result;
 import com.infoit.constants.Constants;
 import com.infoit.qrcode.BeepManager;
@@ -24,7 +24,7 @@ import com.infoit.qrcode.CameraManager;
 import com.infoit.qrcode.QrCodeCaptureHandler;
 import com.infoit.qrcode.ViewfinderView;
 
-public final class QrCodeCapture extends Activity implements SurfaceHolder.Callback {
+public final class QrCodeCapture extends TrackedActivity implements SurfaceHolder.Callback {
   
   private static final String TAG = QrCodeCapture.class.getSimpleName();
   

@@ -28,45 +28,46 @@ public final class R {
         public static final int agent_details_button=0x7f020003;
         public static final int agent_photo_filler=0x7f020004;
         public static final int basic_button=0x7f020005;
-        public static final int basic_photo_filler=0x7f020006;
-        public static final int bookmark_icon=0x7f020007;
-        public static final int bookmark_unbookmark_icon=0x7f020008;
-        public static final int history_icon=0x7f020009;
-        public static final int infochooser_nearby_locations_icon=0x7f02000a;
-        public static final int infochooser_nfc_icon=0x7f02000b;
-        public static final int infochooser_qr_code=0x7f02000c;
-        public static final int infochooser_square_button=0x7f02000d;
-        public static final int launcher_icon=0x7f02000e;
-        public static final int menu_icon=0x7f02000f;
-        public static final int menu_item_like_icon=0x7f020010;
-        public static final int menu_item_neutral_icon=0x7f020011;
-        public static final int menu_item_thumbnail_border=0x7f020012;
-        public static final int menu_types_container=0x7f020013;
-        public static final int nfc_instructions=0x7f020014;
-        public static final int re_banding_box=0x7f020015;
-        public static final int restaurant_icon=0x7f020016;
-        public static final int ui_action_icon=0x7f020017;
-        public static final int ui_back_to_info_icon=0x7f020018;
-        public static final int ui_button_revised=0x7f020019;
-        public static final int ui_checked_box_icon=0x7f02001a;
-        public static final int ui_container=0x7f02001b;
-        public static final int ui_drop_shadow_left=0x7f02001c;
-        public static final int ui_drop_shadow_right=0x7f02001d;
-        public static final int ui_header_gradient=0x7f02001e;
-        public static final int ui_infoit_button=0x7f02001f;
-        public static final int ui_infoit_icon=0x7f020020;
-        public static final int ui_linen_background=0x7f020021;
-        public static final int ui_linen_backrepeat=0x7f020022;
-        public static final int ui_list_detail_icon=0x7f020023;
-        public static final int ui_menu_bar=0x7f020024;
-        public static final int ui_menu_header_separator=0x7f020025;
-        public static final int ui_menu_icon=0x7f020026;
-        public static final int ui_menu_separator=0x7f020027;
-        public static final int ui_nav_bar_gradient=0x7f020028;
-        public static final int ui_notification_shape=0x7f020029;
-        public static final int ui_photos_icon=0x7f02002a;
-        public static final int ui_transparent_button=0x7f02002b;
-        public static final int ui_unchecked_box_icon=0x7f02002c;
+        public static final int basic_no_image=0x7f020006;
+        public static final int basic_no_thumbnail=0x7f020007;
+        public static final int bookmark_icon=0x7f020008;
+        public static final int bookmark_unbookmark_icon=0x7f020009;
+        public static final int history_icon=0x7f02000a;
+        public static final int infochooser_nearby_locations_icon=0x7f02000b;
+        public static final int infochooser_nfc_icon=0x7f02000c;
+        public static final int infochooser_qr_code=0x7f02000d;
+        public static final int infochooser_square_button=0x7f02000e;
+        public static final int launcher_icon=0x7f02000f;
+        public static final int menu_icon=0x7f020010;
+        public static final int menu_item_like_icon=0x7f020011;
+        public static final int menu_item_neutral_icon=0x7f020012;
+        public static final int menu_item_thumbnail_border=0x7f020013;
+        public static final int menu_types_container=0x7f020014;
+        public static final int nfc_instructions=0x7f020015;
+        public static final int re_banding_box=0x7f020016;
+        public static final int restaurant_icon=0x7f020017;
+        public static final int ui_action_icon=0x7f020018;
+        public static final int ui_back_to_info_icon=0x7f020019;
+        public static final int ui_button_revised=0x7f02001a;
+        public static final int ui_checked_box_icon=0x7f02001b;
+        public static final int ui_container=0x7f02001c;
+        public static final int ui_drop_shadow_left=0x7f02001d;
+        public static final int ui_drop_shadow_right=0x7f02001e;
+        public static final int ui_header_gradient=0x7f02001f;
+        public static final int ui_infoit_button=0x7f020020;
+        public static final int ui_infoit_icon=0x7f020021;
+        public static final int ui_linen_background=0x7f020022;
+        public static final int ui_linen_backrepeat=0x7f020023;
+        public static final int ui_list_detail_icon=0x7f020024;
+        public static final int ui_menu_bar=0x7f020025;
+        public static final int ui_menu_header_separator=0x7f020026;
+        public static final int ui_menu_icon=0x7f020027;
+        public static final int ui_menu_separator=0x7f020028;
+        public static final int ui_nav_bar_gradient=0x7f020029;
+        public static final int ui_notification_shape=0x7f02002a;
+        public static final int ui_photos_icon=0x7f02002b;
+        public static final int ui_transparent_button=0x7f02002c;
+        public static final int ui_unchecked_box_icon=0x7f02002d;
     }
     public static final class id {
         public static final int action_button=0x7f08008d;
@@ -248,49 +249,57 @@ public final class R {
         public static final int menu_buttons=0x7f030011;
         public static final int menu_list_header=0x7f030012;
         public static final int menu_list_item=0x7f030013;
-        public static final int nfc_instructions=0x7f030014;
-        public static final int photo_gallery=0x7f030015;
-        public static final int place_real_estate=0x7f030016;
-        public static final int place_restaurant=0x7f030017;
-        public static final int qr_code_capture=0x7f030018;
-        public static final int thing_menu_item=0x7f030019;
-        public static final int ui_application_container=0x7f03001a;
-        public static final int ui_empty_action_menu=0x7f03001b;
-        public static final int ui_menu_bars=0x7f03001c;
-        public static final int ui_navigation_menu=0x7f03001d;
-        public static final int ui_notification=0x7f03001e;
-        public static final int ui_photos_button=0x7f03001f;
-        public static final int ui_splash_screen=0x7f030020;
+        public static final int menu_list_item_no_description=0x7f030014;
+        public static final int nfc_instructions=0x7f030015;
+        public static final int photo_gallery=0x7f030016;
+        public static final int place_real_estate=0x7f030017;
+        public static final int place_restaurant=0x7f030018;
+        public static final int qr_code_capture=0x7f030019;
+        public static final int thing_menu_item=0x7f03001a;
+        public static final int ui_application_container=0x7f03001b;
+        public static final int ui_empty_action_menu=0x7f03001c;
+        public static final int ui_menu_bars=0x7f03001d;
+        public static final int ui_navigation_menu=0x7f03001e;
+        public static final int ui_notification=0x7f03001f;
+        public static final int ui_photos_button=0x7f030020;
+        public static final int ui_splash_screen=0x7f030021;
     }
     public static final class string {
-        public static final int Most_Liked=0x7f050012;
-        public static final int Restaurant=0x7f050011;
+        public static final int Most_Liked=0x7f050019;
+        public static final int Restaurant=0x7f050018;
         /**  We want to see simple, descriptive names in the Google Analytics reports
        instead of the canonical name for each Activity. 
          */
-        public static final int com_infoit_main_DisplayMenu=0x7f050001;
+        public static final int com_infoit_main_DisplayInfo=0x7f050001;
+        public static final int com_infoit_main_DisplayMenu=0x7f050002;
+        public static final int com_infoit_main_InfoChooser=0x7f050003;
+        public static final int com_infoit_main_ListBookmarks=0x7f050004;
+        public static final int com_infoit_main_NfcInstructions=0x7f050005;
+        public static final int com_infoit_main_PhotoGallery=0x7f050006;
+        public static final int com_infoit_main_QrCodeCapture=0x7f050007;
+        public static final int com_infoit_main_RecentHistory=0x7f050008;
         public static final int ga_api_key=0x7f050000;
-        public static final int gps_button_bottom=0x7f050008;
-        public static final int gps_button_top=0x7f050007;
+        public static final int gps_button_bottom=0x7f05000f;
+        public static final int gps_button_top=0x7f05000e;
         /**  Headers 
          */
-        public static final int info_chooser_header=0x7f050002;
-        public static final int infoit=0x7f050010;
-        public static final int nearby_locations=0x7f05000b;
-        public static final int nearby_locations_header=0x7f05000c;
-        public static final int nfc_button_bottom=0x7f050004;
+        public static final int info_chooser_header=0x7f050009;
+        public static final int infoit=0x7f050017;
+        public static final int nearby_locations=0x7f050012;
+        public static final int nearby_locations_header=0x7f050013;
+        public static final int nfc_button_bottom=0x7f05000b;
         /**  InfoChooser 
          */
-        public static final int nfc_button_top=0x7f050003;
-        public static final int nfc_instructions=0x7f05000e;
-        public static final int nfc_instructions_bottom=0x7f05000f;
-        public static final int nfc_instructions_top=0x7f05000d;
-        public static final int qr_button_bottom=0x7f050006;
-        public static final int qr_button_top=0x7f050005;
+        public static final int nfc_button_top=0x7f05000a;
+        public static final int nfc_instructions=0x7f050015;
+        public static final int nfc_instructions_bottom=0x7f050016;
+        public static final int nfc_instructions_top=0x7f050014;
+        public static final int qr_button_bottom=0x7f05000d;
+        public static final int qr_button_top=0x7f05000c;
         /**  Widgets 
          */
-        public static final int view_menu=0x7f050009;
-        public static final int view_menu_icon=0x7f05000a;
+        public static final int view_menu=0x7f050010;
+        public static final int view_menu_icon=0x7f050011;
     }
     public static final class xml {
         public static final int nfc_tech_filter=0x7f040000;

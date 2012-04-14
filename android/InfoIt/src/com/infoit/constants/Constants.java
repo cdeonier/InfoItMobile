@@ -10,4 +10,16 @@ public class Constants {
   public static final String QRCODE = "QRCODE";
   public static final String MENU = "MENU";
   public static final String DISPLAY_INFO = "DISPLAY_INFO";
+  
+  //Tracking -- Categories
+  public static final String LIKE_CATEGORY = "LIKE";
+  public static final String DISPLAY_CATEGORY = "MENU ITEM";
+  public static final String ERROR_CATEGORY = "ERROR";
+  
+  //Tracking -- Actions
+  public static final String LIKE_ACTION_MOST_LIKED = "MOST LIKED";
+  public static final String RESTAURANT_DRILLDOWN = "RESTAURANT DRILLDOWN";
+  public static final String MENU_ITEM_ACTION_DRILLDOWN = "MENU ITEM DRILLDOWN";
+  public static final String DISPLAY_ERROR = "DISPLAY ERROR";
+
 }

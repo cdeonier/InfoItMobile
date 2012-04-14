@@ -11,12 +11,15 @@
 #import "UIViewController+Menu.h"
 #import "UINavigationController+Menu.h"
 #import "UINavigationItem+Menu.h"
+#import "NavigationMenuViewController.h"
 
 @interface BookmarkViewController ()
 
 @end
 
 @implementation BookmarkViewController
+
+@synthesize navigationMenuViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +36,8 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(revealLeftMenu:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(revealRightMenu:)];
+    
+    self.navigationItem.menuDelegate = self;
 }
 
 - (void)viewDidUnload
@@ -62,6 +67,18 @@
         state = MenuStateNone;
     }
     [self.navigationController setMenuState:state];
+}
+
+- (UIView *) viewForLeftMenu {
+    CGRect viewFrame = self.navigationController.applicationViewFrame;
+    UIViewController *controller = self.navigationMenuViewController;
+    if ( ! controller) {
+        self.navigationMenuViewController = [[NavigationMenuViewController alloc] init];
+        controller = self.navigationMenuViewController;
+    }
+    controller.view.frame = CGRectMake(0, viewFrame.origin.y, 270, viewFrame.size.height);
+    controller.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;
+    return controller.view;
 }
 
 @end

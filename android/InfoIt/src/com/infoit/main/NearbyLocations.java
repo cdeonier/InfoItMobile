@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Display;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.adapters.GpsListAdapter;
 import com.infoit.async.GetNearbyLocationsTask;
+import com.infoit.async.TaskTrackerRunnable;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
@@ -46,8 +48,7 @@ public class NearbyLocations extends TrackedActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 
 		LinearLayout container = (LinearLayout) findViewById(R.id.container);
-		container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				display.getHeight() - menuBarHeight));
+		container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
 		
 		setupLocationListening();
 		
@@ -64,8 +65,7 @@ public class NearbyLocations extends TrackedActivity {
 	protected void onPause() {
 		super.onPause();
 		
-		LocationManager locationManager = (LocationManager) this
-				.getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		locationManager.removeUpdates(mLocationListener);
 		
 		//Because the task is kicked off from a location change even, its possibly null right before exit
@@ -124,6 +124,8 @@ public class NearbyLocations extends TrackedActivity {
 		
 		mTask = new GetNearbyLocationsTask(this, location);
 		mTask.execute();
+    Handler handler = new Handler();
+    handler.postDelayed(new TaskTrackerRunnable(mTask), 20000);
 	}
 	
 	public GpsListAdapter getGpsListAdapter() {

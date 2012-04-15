@@ -16,4 +16,5 @@
   <string name="com.infoit.main.PhotoGallery">PhotoGallery</string>
   <string name="com.infoit.main.QrCodeCapture">QrCodeCapture</string>
   <string name="com.infoit.main.RecentHistory">RecentHistory</string>
+  <string name="com.infoit.main.NearbyLocations">NearbyLocations</string>
 </resources>

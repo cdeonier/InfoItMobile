@@ -269,8 +269,8 @@ public final class R {
         public static final int ui_splash_screen=0x7f030021;
     }
     public static final class string {
-        public static final int Most_Liked=0x7f050019;
-        public static final int Restaurant=0x7f050018;
+        public static final int Most_Liked=0x7f05001a;
+        public static final int Restaurant=0x7f050019;
         /**  We want to see simple, descriptive names in the Google Analytics reports
        instead of the canonical name for each Activity. 
          */
@@ -278,32 +278,33 @@ public final class R {
         public static final int com_infoit_main_DisplayMenu=0x7f050002;
         public static final int com_infoit_main_InfoChooser=0x7f050003;
         public static final int com_infoit_main_ListBookmarks=0x7f050004;
+        public static final int com_infoit_main_NearbyLocations=0x7f050009;
         public static final int com_infoit_main_NfcInstructions=0x7f050005;
         public static final int com_infoit_main_PhotoGallery=0x7f050006;
         public static final int com_infoit_main_QrCodeCapture=0x7f050007;
         public static final int com_infoit_main_RecentHistory=0x7f050008;
         public static final int ga_api_key=0x7f050000;
-        public static final int gps_button_bottom=0x7f05000f;
-        public static final int gps_button_top=0x7f05000e;
+        public static final int gps_button_bottom=0x7f050010;
+        public static final int gps_button_top=0x7f05000f;
         /**  Headers 
          */
-        public static final int info_chooser_header=0x7f050009;
-        public static final int infoit=0x7f050017;
-        public static final int nearby_locations=0x7f050012;
-        public static final int nearby_locations_header=0x7f050013;
-        public static final int nfc_button_bottom=0x7f05000b;
+        public static final int info_chooser_header=0x7f05000a;
+        public static final int infoit=0x7f050018;
+        public static final int nearby_locations=0x7f050013;
+        public static final int nearby_locations_header=0x7f050014;
+        public static final int nfc_button_bottom=0x7f05000c;
         /**  InfoChooser 
          */
-        public static final int nfc_button_top=0x7f05000a;
-        public static final int nfc_instructions=0x7f050015;
-        public static final int nfc_instructions_bottom=0x7f050016;
-        public static final int nfc_instructions_top=0x7f050014;
-        public static final int qr_button_bottom=0x7f05000d;
-        public static final int qr_button_top=0x7f05000c;
+        public static final int nfc_button_top=0x7f05000b;
+        public static final int nfc_instructions=0x7f050016;
+        public static final int nfc_instructions_bottom=0x7f050017;
+        public static final int nfc_instructions_top=0x7f050015;
+        public static final int qr_button_bottom=0x7f05000e;
+        public static final int qr_button_top=0x7f05000d;
         /**  Widgets 
          */
-        public static final int view_menu=0x7f050010;
-        public static final int view_menu_icon=0x7f050011;
+        public static final int view_menu=0x7f050011;
+        public static final int view_menu_icon=0x7f050012;
     }
     public static final class xml {
         public static final int nfc_tech_filter=0x7f040000;

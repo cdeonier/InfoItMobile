@@ -16,10 +16,10 @@ public class TaskTrackerRunnable implements Runnable {
 	public void run() {
 		if (AsyncTask.Status.RUNNING.equals(mTask.getStatus())) {
 			if (mTask instanceof LoadInformationTask) {
-				EasyTracker.getTracker().trackEvent(Constants.ERROR_CATEGORY, 
-																						Constants.DISPLAY_ERROR, 
-																						null, 
-																						((LoadInformationTask) mTask).getIdentifier());
+				EasyTracker.getTracker().trackEvent(Constants.ERROR_CATEGORY, Constants.ASYNC_DISPLAY_ERROR, null,
+						((LoadInformationTask) mTask).getIdentifier());
+			} else if (mTask instanceof GetNearbyLocationsTask) {
+				EasyTracker.getTracker().trackEvent(Constants.ERROR_CATEGORY, Constants.ASYNC_NEARBY_LOCATIONS_ERROR, null, 0);
 			}
 			mTask.cancel(true);
 		}

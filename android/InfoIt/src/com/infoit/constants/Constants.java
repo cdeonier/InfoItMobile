@@ -20,6 +20,7 @@ public class Constants {
   public static final String LIKE_ACTION_MOST_LIKED = "MOST LIKED";
   public static final String RESTAURANT_DRILLDOWN = "RESTAURANT DRILLDOWN";
   public static final String MENU_ITEM_ACTION_DRILLDOWN = "MENU ITEM DRILLDOWN";
-  public static final String DISPLAY_ERROR = "DISPLAY ERROR";
+  public static final String ASYNC_DISPLAY_ERROR = "ASYNC DISPLAY ERROR";
+  public static final String ASYNC_NEARBY_LOCATIONS_ERROR = "ASYNC NEARBY LOCATIONS ERROR";
 
 }

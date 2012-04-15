@@ -8,6 +8,8 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.infoit.async.DownloadThumbnailTask;
+import com.infoit.async.TaskTrackerRunnable;
 import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
@@ -25,6 +28,7 @@ import com.infoit.record.MenuItemRecord;
 
 public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 	private ArrayList<MenuItemRecord> mMenuItems;
+	private Drawable[] mThumbnails;
 	private Typeface mFont;
 	
 	
@@ -32,7 +36,7 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 			List<MenuItemRecord> objects) {
 		super(context, textViewResourceId, objects);
 		mMenuItems = new ArrayList<MenuItemRecord>();
-		mFont = Typeface.createFromAsset(context.getAssets(), "fonts/nyala.ttf"); 
+		mFont = Typeface.createFromAsset(context.getAssets(), "fonts/nyala.ttf");
 	}
 	
 	@Override
@@ -69,8 +73,24 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 		}
 		
 		holder.thumbnail.setImageDrawable(null);
-		holder.progressBar.setVisibility(View.VISIBLE);
-		new DownloadThumbnailTask(holder.thumbnail, holder.progressBar).execute(currentMenuItem.getThumbnailUrl());
+		
+		if (mThumbnails[position] == null) {
+			if (currentMenuItem.getThumbnailUrl() != null && !currentMenuItem.getThumbnailUrl().equals("")) {
+				holder.progressBar.setVisibility(View.VISIBLE);
+				DownloadThumbnailTask thumbnailsTask = 
+						new DownloadThumbnailTask(holder.thumbnail, holder.progressBar, mThumbnails, position);
+				thumbnailsTask.execute(currentMenuItem.getThumbnailUrl());
+				Handler handler = new Handler();
+		    handler.postDelayed(new TaskTrackerRunnable(thumbnailsTask), 20000);
+			} else {
+				Drawable thumbnail = convertView.getResources().getDrawable(R.drawable.basic_no_thumbnail);
+				holder.progressBar.setVisibility(View.GONE);
+				holder.thumbnail.setImageDrawable(thumbnail);
+				mThumbnails[position] = thumbnail;
+			}
+		} else {
+			holder.thumbnail.setImageDrawable(mThumbnails[position]);
+		}
 		
 		holder.name.setText(currentMenuItem.getName());
 		holder.name.setTypeface(mFont, Typeface.BOLD);
@@ -131,6 +151,7 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 
 	public void setMenuItems(ArrayList<MenuItemRecord> menuItems) {
 		mMenuItems = menuItems;
+		mThumbnails = new Drawable[mMenuItems.size()];
 	}
 
 	

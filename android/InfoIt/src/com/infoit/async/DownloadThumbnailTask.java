@@ -8,40 +8,44 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.infoit.main.R;
 import com.infoit.util.ImageUtil;
 
-public class DownloadThumbnailTask  extends AsyncTask<String, Void, Drawable> {
+public class DownloadThumbnailTask extends AsyncTask<String, Void, Drawable> {
 	private final WeakReference<ImageView> imageViewReference;
 	private final WeakReference<ProgressBar> progressBarReference;
-	
-	public DownloadThumbnailTask(ImageView imageView, ProgressBar progressBar) {
+	private final WeakReference<Drawable[]> thumbnailsReference;
+	private final int thumbnailPosition;
+
+	public DownloadThumbnailTask(ImageView imageView, ProgressBar progressBar, Drawable[] thumbnails, int position) {
 		imageViewReference = new WeakReference<ImageView>(imageView);
 		progressBarReference = new WeakReference<ProgressBar>(progressBar);
+		thumbnailsReference = new WeakReference<Drawable[]>(thumbnails);
+		thumbnailPosition = position;
 	}
 
 	@Override
-	protected Drawable doInBackground(String... params) { 
-			Drawable image = null;
-			if (params[0] != null && !params[0].equals("")) {
-				image = ImageUtil.getImage(params[0]);
-			} else {
-				image = imageViewReference.get().getResources().getDrawable(R.drawable.basic_no_thumbnail);
-			}
-
-			return image;
+	protected Drawable doInBackground(String... params) {
+		Drawable image = null;
+		image = ImageUtil.getImage(params[0]);
+		Drawable[] thumbnails = thumbnailsReference.get();
+		thumbnails[thumbnailPosition] = image;
+		return image;
 	}
 
 	@Override
 	protected void onPostExecute(Drawable result) {
-        if (imageViewReference != null) {
-            ImageView imageView = imageViewReference.get();
-            if (imageView != null) {
-                imageView.setImageDrawable(result);
-                ProgressBar progressBarView = progressBarReference.get();
-                progressBarView.setVisibility(View.GONE);
-            }
-        }
+		if (imageViewReference != null) {
+			ProgressBar progressBarView = progressBarReference.get();
+			progressBarView.setVisibility(View.GONE);
+
+			ImageView imageView = imageViewReference.get();
+			
+			//Check to see if there is already an existing drawable; Gingerbread bug seems
+			//to overwrite image for row even if populated for no thumbnail case.
+			if (imageView != null && imageView.getDrawable() == null) {
+				imageView.setImageDrawable(result);
+			}
+		}
 	}
 
 }

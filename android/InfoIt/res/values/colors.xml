@@ -3,4 +3,9 @@
   <color name="menu_type">#6c6c6c</color>
   <color name="transparent">#00000000</color>
   <color name="possible_result_points">#c0ffff00</color>
+  
+  <color name="menu_type_bg">#dddddd</color>
+  <color name="menu_type_text">#6c6c6c</color>
+  <color name="menu_type_bg_pressed">#6c6c6c</color>
+  <color name="menu_type_text_pressed">#dddddd</color>
 </resources>

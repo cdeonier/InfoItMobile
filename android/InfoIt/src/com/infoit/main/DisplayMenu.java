@@ -113,7 +113,7 @@ public class DisplayMenu extends TrackedActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (mApplicationContainer.isApplicationView()) {
+		if (mApplicationContainer == null || mApplicationContainer.isApplicationView()) {
 			finish();
 		} else {
 			mApplicationContainer.scrollToApplicationView();
@@ -228,6 +228,8 @@ public class DisplayMenu extends TrackedActivity {
 		Drawable menuTypeDrawable = getResources().getDrawable(R.drawable.menu_types_container);
 		blank.setBackgroundDrawable(menuTypeDrawable);
 		menuTypesContainer.addView(blank);
+		
+		menuTypesContainer.getChildAt(0).setSelected(true);
 	}
 
 	private class MenuTypeOnClickListener implements OnClickListener {
@@ -236,6 +238,14 @@ public class DisplayMenu extends TrackedActivity {
 		public void onClick(View view) {
 			mCurrentMenuType = (String) ((TextView) view).getText();
 			initializeAdapters();
+			
+			LinearLayout menuTypeContainer = (LinearLayout) view.getParent();
+			for (int i = 0; i < menuTypeContainer.getChildCount() - 1; i++) {
+				TextView child = (TextView) (menuTypeContainer.getChildAt(i));
+				child.setSelected(false);
+			}
+			
+			view.setSelected(true);
 		}
 
 	}

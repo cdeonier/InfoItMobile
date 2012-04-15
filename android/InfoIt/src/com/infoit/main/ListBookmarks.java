@@ -70,7 +70,7 @@ public class ListBookmarks extends TrackedActivity {
   
   @Override
   public void onBackPressed() {
-    if(mApplicationContainer.isApplicationView()) {
+    if(mApplicationContainer == null ||  mApplicationContainer.isApplicationView()) {
       finish();
     } else {
       mApplicationContainer.scrollToApplicationView();

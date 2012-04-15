@@ -30,32 +30,33 @@ public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 	protected void onPostExecute(JsonNode result) {
 		super.onPostExecute(result);
 		
-		GpsListAdapter adapter = mActivity.getGpsListAdapter();
-		adapter.clear();
-		
-		for (JsonNode node : result) {
-			JsonNode location = node.path("entity");
+		if (mActivity != null) {
+			GpsListAdapter adapter = mActivity.getGpsListAdapter();
+			adapter.clear();
 			
-			String name = location.path("name").getTextValue();
-			int identifier = location.path("id").getIntValue();
-			String distance = String.valueOf(location.path("distance").getDoubleValue());
-			String entityType = location.path("entity_type").getTextValue();
-			String entitySubType = location.path("entity_sub_type").getTextValue();
+			for (JsonNode node : result) {
+				JsonNode location = node.path("entity");
+				
+				String name = location.path("name").getTextValue();
+				int identifier = location.path("id").getIntValue();
+				String distance = String.valueOf(location.path("distance").getDoubleValue());
+				String entityType = location.path("entity_type").getTextValue();
+				String entitySubType = location.path("entity_sub_type").getTextValue();
+				
+				GpsRecord nearbyLocation = new GpsRecord();
+				nearbyLocation.setName(name);
+				nearbyLocation.setIdentifier(identifier);
+				nearbyLocation.setDistance(distance);
+				nearbyLocation.setEntityType(entityType);
+				nearbyLocation.setEntitySubType(entitySubType);
+				
+				adapter.add(nearbyLocation);
+			}
 			
-			GpsRecord nearbyLocation = new GpsRecord();
-			nearbyLocation.setName(name);
-			nearbyLocation.setIdentifier(identifier);
-			nearbyLocation.setDistance(distance);
-			nearbyLocation.setEntityType(entityType);
-			nearbyLocation.setEntitySubType(entitySubType);
+			adapter.notifyDataSetChanged();
+			mActivity.setContentView(mActivity.getApplicationContainer());
 			
-			adapter.add(nearbyLocation);
 		}
-		
-		adapter.notifyDataSetChanged();
-		mActivity.setContentView(mActivity.getApplicationContainer());
-		
 	}
-
 	
 }

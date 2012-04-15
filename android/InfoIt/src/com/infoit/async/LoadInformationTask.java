@@ -18,6 +18,7 @@ import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
+import com.infoit.util.CacheUtil;
 import com.infoit.widgets.PlaceRealEstateView;
 import com.infoit.widgets.PlaceRestaurantView;
 import com.infoit.widgets.ThingMenuItemView;
@@ -38,10 +39,18 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
 		LinearLayout child = null;
   	
 		try {
-			final JsonNode webServiceResponse = WebServiceAdapter.getInformationAsJson(mIdentifier);
-
+			JsonNode jsonResult = null;
+			if (CacheUtil.entityJsonExists(mActivity, mIdentifier)) {
+				String cachedJsonString = CacheUtil.getEntityJsonString(mActivity, mIdentifier);
+				jsonResult = WebServiceAdapter.createJsonFromString(cachedJsonString);
+			} else {
+				jsonResult = WebServiceAdapter.getInformationAsJson(mIdentifier);
+				CacheUtil.saveEntityJson(mActivity, jsonResult, mIdentifier);
+			}
+			
+			final JsonNode jsonResponse = jsonResult;
 			// Save to recent history
-			BasicInformation basicInfo = new BasicInformation(webServiceResponse);
+			BasicInformation basicInfo = new BasicInformation(jsonResponse);
 			DbAdapter db = new DbAdapter(mActivity);
 			db.open();
 			db.createHistoryItem(mIdentifier, basicInfo.getName(), basicInfo.getEntityType());
@@ -53,20 +62,20 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
 
 
 
-			if ("place".equals(WebServiceAdapter.getEntityType(webServiceResponse))) {
-				if ("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))) {
+			if ("place".equals(WebServiceAdapter.getEntityType(jsonResponse))) {
+				if ("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(jsonResponse))) {
 					child = new PlaceRealEstateView(mActivity);
-					((PlaceRealEstateView) child).initializeView(webServiceResponse);
-				} else if ("Restaurant".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))) {
+					((PlaceRealEstateView) child).initializeView(jsonResponse);
+				} else if ("Restaurant".equals(WebServiceAdapter.getEntitySubType(jsonResponse))) {
 					EasyTracker.getTracker().trackEvent(Constants.DISPLAY_CATEGORY, Constants.RESTAURANT_DRILLDOWN, null, 0);
 					child = new PlaceRestaurantView(mActivity);
-					((PlaceRestaurantView) child).initializeView(webServiceResponse);
+					((PlaceRestaurantView) child).initializeView(jsonResponse);
 				}
-			} else if ("thing".equals(WebServiceAdapter.getEntityType(webServiceResponse))) {
-				if ("Menu Item".equals(WebServiceAdapter.getEntitySubType(webServiceResponse))) {
+			} else if ("thing".equals(WebServiceAdapter.getEntityType(jsonResponse))) {
+				if ("Menu Item".equals(WebServiceAdapter.getEntitySubType(jsonResponse))) {
 					EasyTracker.getTracker().trackEvent(Constants.DISPLAY_CATEGORY, Constants.MENU_ITEM_ACTION_DRILLDOWN, null, 0);
 					child = new ThingMenuItemView(mActivity);
-					((ThingMenuItemView) child).initializeView(webServiceResponse);
+					((ThingMenuItemView) child).initializeView(jsonResponse);
 				}
 			}
 			

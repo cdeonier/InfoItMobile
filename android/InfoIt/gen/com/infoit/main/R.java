@@ -17,7 +17,11 @@ public final class R {
     }
     public static final class color {
         public static final int menu_type=0x7f070000;
-        public static final int menu_type_button_text=0x7f070003;
+        public static final int menu_type_bg=0x7f070003;
+        public static final int menu_type_bg_pressed=0x7f070005;
+        public static final int menu_type_button_text=0x7f070007;
+        public static final int menu_type_text=0x7f070004;
+        public static final int menu_type_text_pressed=0x7f070006;
         public static final int possible_result_points=0x7f070002;
         public static final int transparent=0x7f070001;
     }

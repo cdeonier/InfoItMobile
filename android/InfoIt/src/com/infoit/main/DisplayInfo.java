@@ -28,6 +28,7 @@ public class DisplayInfo extends TrackedActivity {
   private int mIdentifier;
   private String mEntityType;
   private String mEntitySubType;
+  private LoadInformationTask mTask;
 
 @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,10 @@ public class DisplayInfo extends TrackedActivity {
     mDb = new DbAdapter(this);
     mDb.open();
 
-    LoadInformationTask infoTask = new LoadInformationTask(this, mIdentifier);
-    infoTask.execute();
+    mTask = new LoadInformationTask(this, mIdentifier);
+    mTask.execute();
     Handler handler = new Handler();
-    handler.postDelayed(new TaskTrackerRunnable(infoTask), 15000);
+    handler.postDelayed(new TaskTrackerRunnable(mTask), 20000);
 
     mApplicationContainer.scrollToApplicationView();
   }
@@ -69,6 +70,7 @@ public class DisplayInfo extends TrackedActivity {
   protected void onPause() {
     super.onPause();
     
+    mTask.cancel(true);
     unbindDrawables(mApplicationContainer);
     mApplicationContainer = null;
     mDb.close();
@@ -82,7 +84,7 @@ public class DisplayInfo extends TrackedActivity {
   
   @Override
   public void onBackPressed() {
-    if(mApplicationContainer.isApplicationView()) {
+    if(mApplicationContainer == null ||  mApplicationContainer.isApplicationView()) {
       finish();
     } else {
       mApplicationContainer.scrollToApplicationView();

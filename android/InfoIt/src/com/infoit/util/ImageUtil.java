@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -28,8 +29,16 @@ public class ImageUtil {
 	public static Drawable getProfileImage(String url, View view) {
 		if (url != null) {
 			try {
-				InputStream is = (InputStream) fetch(url);
-				Drawable d = Drawable.createFromStream(is, "src");
+				Drawable d = null;
+				
+				if (CacheUtil.imageExists((Activity) view.getContext(), url)) {
+					d = CacheUtil.getImage((Activity) view.getContext(), url);
+				} else {
+					InputStream is = (InputStream) fetch(url);
+					d = Drawable.createFromStream(is, "src");
+					CacheUtil.saveImage((Activity) view.getContext(), d, url);
+				}
+				
 				return d;
 			} catch (MalformedURLException e) {
 				e.printStackTrace();

@@ -23,6 +23,7 @@ public class NearbyLocations extends TrackedActivity {
 	private GpsListAdapter mListAdapter;
 	private ListView mGpsList;
 	private LocationListener mLocationListener;
+	private GetNearbyLocationsTask mTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,10 @@ public class NearbyLocations extends TrackedActivity {
 				.getSystemService(Context.LOCATION_SERVICE);
 		locationManager.removeUpdates(mLocationListener);
 		
+		//Because the task is kicked off from a location change even, its possibly null right before exit
+		if (mTask != null)
+			mTask.cancel(true);
+		
 		mGpsList.setAdapter(null);
 		mListAdapter = null;
 		mApplicationContainer = null;
@@ -74,7 +79,7 @@ public class NearbyLocations extends TrackedActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (mApplicationContainer.isApplicationView()) {
+		if (mApplicationContainer == null || mApplicationContainer.isApplicationView()) {
 			finish();
 		} else {
 			mApplicationContainer.scrollToApplicationView();
@@ -85,8 +90,7 @@ public class NearbyLocations extends TrackedActivity {
 	private void setupLocationListening() {
 
 		// Acquire a reference to the system Location Manager
-		LocationManager locationManager = (LocationManager) this
-				.getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
 		// Define a listener that responds to location updates
 		mLocationListener = new LocationListener() {
@@ -114,7 +118,12 @@ public class NearbyLocations extends TrackedActivity {
 	}
 
 	private void makeUseOfNewLocation(Location location) {
-		new GetNearbyLocationsTask(this, location).execute();
+		if (mTask != null) {
+			mTask.cancel(true);
+		}
+		
+		mTask = new GetNearbyLocationsTask(this, location);
+		mTask.execute();
 	}
 	
 	public GpsListAdapter getGpsListAdapter() {

@@ -63,12 +63,13 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		//if (currentMenuItem.getDescription() != null  && !currentMenuItem.getDescription().equals("")) {
 		if(holder.description != null) {
 			holder.description.setText(currentMenuItem.getDescription());
 			holder.description.setTypeface(mFont);
 		}
 		
+		holder.thumbnail.setImageDrawable(null);
+		holder.progressBar.setVisibility(View.VISIBLE);
 		new DownloadThumbnailTask(holder.thumbnail, holder.progressBar).execute(currentMenuItem.getThumbnailUrl());
 		
 		holder.name.setText(currentMenuItem.getName());

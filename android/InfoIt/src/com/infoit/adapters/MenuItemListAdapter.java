@@ -24,18 +24,18 @@ import com.infoit.async.TaskTrackerRunnable;
 import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
-import com.infoit.record.MenuItemRecord;
+import com.infoit.record.MenuItemListRecord;
 
-public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
-	private ArrayList<MenuItemRecord> mMenuItems;
+public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
+	private ArrayList<MenuItemListRecord> mMenuItems;
 	private Drawable[] mThumbnails;
 	private Typeface mFont;
 	
 	
 	public MenuItemListAdapter(Context context, int resource, int textViewResourceId, 
-			List<MenuItemRecord> objects) {
+			List<MenuItemListRecord> objects) {
 		super(context, textViewResourceId, objects);
-		mMenuItems = new ArrayList<MenuItemRecord>();
+		mMenuItems = new ArrayList<MenuItemListRecord>();
 		mFont = Typeface.createFromAsset(context.getAssets(), "fonts/nyala.ttf");
 	}
 	
@@ -43,7 +43,7 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		
-		MenuItemRecord currentMenuItem = mMenuItems.get(position);
+		MenuItemListRecord currentMenuItem = mMenuItems.get(position);
 		
 		if (convertView == null) {
 			holder = new ViewHolder();
@@ -113,7 +113,7 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 	}
 
 	@Override
-	public void add(MenuItemRecord menuItem) {
+	public void add(MenuItemListRecord menuItem) {
 		mMenuItems.add(menuItem);
 	}
 
@@ -128,7 +128,7 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 	}
 
 	@Override
-	public MenuItemRecord getItem(int position) {
+	public MenuItemListRecord getItem(int position) {
 		return mMenuItems.get(position);
 	}
 
@@ -138,18 +138,18 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemRecord> {
 	}
 
 	@Override
-	public int getPosition(MenuItemRecord item) {
+	public int getPosition(MenuItemListRecord item) {
 		return mMenuItems.indexOf(item);
 	}
 	
 	@Override
-	public void sort(Comparator<? super MenuItemRecord> comparator) {
+	public void sort(Comparator<? super MenuItemListRecord> comparator) {
 		Collections.sort(mMenuItems, comparator);
 		Collections.reverse(mMenuItems);
 		this.notifyDataSetChanged();
 	}
 
-	public void setMenuItems(ArrayList<MenuItemRecord> menuItems) {
+	public void setMenuItems(ArrayList<MenuItemListRecord> menuItems) {
 		mMenuItems = menuItems;
 		mThumbnails = new Drawable[mMenuItems.size()];
 	}

@@ -37,7 +37,7 @@ import com.infoit.adapters.WebServiceAdapter;
 import com.infoit.async.LoadMenuTask;
 import com.infoit.constants.Constants;
 import com.infoit.record.MenuInformation;
-import com.infoit.record.MenuItemRecord;
+import com.infoit.record.MenuItemListRecord;
 import com.infoit.util.ShellUtil;
 import com.infoit.widgets.UiMenuHorizontalScrollView;
 
@@ -66,23 +66,25 @@ public class DisplayMenu extends TrackedActivity {
 			NdefRecord rawUrlRecord = rawUrl.getRecords()[0];
 			byte[] payload = rawUrlRecord.getPayload();
 			String uri = new String(Arrays.copyOfRange(payload, 1, payload.length));
-
 			mRestaurantIdentifier = Integer.parseInt(uri.split("/menus/")[1]);
 			new LoadMenuTask(this, mRestaurantIdentifier).execute();
 			setSplashScreen();
 		} else if (Constants.QRCODE.equals(getIntent().getAction())) {
 			mRestaurantIdentifier = getIntent().getExtras().getInt("identifier");
 			new LoadMenuTask(this, mRestaurantIdentifier).execute();
-		} else {
+		} else if (Constants.RESTAURANT.equals(getIntent().getAction())) {
 			String jsonAsString = getIntent().getExtras().getString("menu");
 			JsonNode json = WebServiceAdapter.createJsonFromString(jsonAsString);
 			mRestaurantIdentifier = getIntent().getExtras().getInt("identifier");
 			mMenuInformation = new MenuInformation(json);
 			mCurrentMenuType = (String) ((Set<String>) mMenuInformation.getMenuTypes()).iterator().next();
+		} else if (Constants.DISPLAY_INFO.equals(getIntent().getAction())){
+			mRestaurantIdentifier = getIntent().getExtras().getInt("identifier");
+			new LoadMenuTask(this, mRestaurantIdentifier).execute();
 		}
 
 		// Adapters intialized in async for NFC
-		if (Constants.DISPLAY_INFO.equals(getIntent().getAction())) {
+		if (Constants.RESTAURANT.equals(getIntent().getAction())) {
 			mApplicationContainer = ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu,
 					R.layout.ui_empty_action_menu, R.layout.menu);
 			ShellUtil.clearActionMenuButton(mApplicationContainer);
@@ -284,10 +286,10 @@ public class DisplayMenu extends TrackedActivity {
 	 * @author Christian
 	 *
 	 */
-	private class MostLikedComparator implements Comparator<MenuItemRecord> {
+	private class MostLikedComparator implements Comparator<MenuItemListRecord> {
 
 		@Override
-		public int compare(MenuItemRecord lhs, MenuItemRecord rhs) {
+		public int compare(MenuItemListRecord lhs, MenuItemListRecord rhs) {
 			if (lhs.getLikeCount() < rhs.getLikeCount()) {
 				return -1;
 			} else if (lhs.getLikeCount() > rhs.getLikeCount()) {

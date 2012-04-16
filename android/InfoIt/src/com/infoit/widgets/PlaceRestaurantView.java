@@ -57,11 +57,10 @@ public class PlaceRestaurantView extends LinearLayout {
 		final String jsonAsString = rootNode.path("entity").path("place_details").toString();
 		
 		menuView.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				Intent menuIntent = new Intent(v.getContext(), DisplayMenu.class);
-				menuIntent.setAction(Constants.DISPLAY_INFO);
+				menuIntent.setAction(Constants.RESTAURANT);
 				menuIntent.putExtra("menu", jsonAsString);
 				menuIntent.putExtra("identifier", mBasicInformation.getEntityId());
 				v.getContext().startActivity(menuIntent);

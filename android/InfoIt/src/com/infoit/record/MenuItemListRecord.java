@@ -1,6 +1,6 @@
 package com.infoit.record;
 
-public class MenuItemRecord {
+public class MenuItemListRecord {
 	private String mName;
 	private String mDescription;
 	private String mPrice;
@@ -10,7 +10,7 @@ public class MenuItemRecord {
 	private String mMenuType;
 	private int mEntityId;
 
-	public MenuItemRecord() {
+	public MenuItemListRecord() {
 	}
 	
 	public String getName() {

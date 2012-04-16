@@ -8,13 +8,13 @@ import org.codehaus.jackson.JsonNode;
 
 public class MenuInformation {
 	
-	private LinkedHashMap<String, LinkedHashMap<String, ArrayList<MenuItemRecord>>> mRestaurantMenus;
+	private LinkedHashMap<String, LinkedHashMap<String, ArrayList<MenuItemListRecord>>> mRestaurantMenus;
 	@SuppressWarnings("unused")
 	private int mRestaurantIdentifier;
 
 	public MenuInformation(JsonNode rootNode) {
 		mRestaurantMenus = 
-				new LinkedHashMap<String, LinkedHashMap<String, ArrayList<MenuItemRecord>>>();
+				new LinkedHashMap<String, LinkedHashMap<String, ArrayList<MenuItemListRecord>>>();
 		
 		JsonNode menuItems = rootNode.path("menu_items");
 		
@@ -24,8 +24,8 @@ public class MenuInformation {
 		String currentMenuType = null;
 		String currentCategory = null;
 		
-		LinkedHashMap<String, ArrayList<MenuItemRecord>> menu = null;
-		ArrayList<MenuItemRecord> categoryItems = null;
+		LinkedHashMap<String, ArrayList<MenuItemListRecord>> menu = null;
+		ArrayList<MenuItemListRecord> categoryItems = null;
 		
 		
 		for (JsonNode nodeItem : menuItems) {
@@ -39,8 +39,8 @@ public class MenuInformation {
 				currentCategory = itemCategory;
 				
 				//Create new empty sets to fill up
-				menu = new LinkedHashMap<String, ArrayList<MenuItemRecord>>();
-				categoryItems = new ArrayList<MenuItemRecord>();
+				menu = new LinkedHashMap<String, ArrayList<MenuItemListRecord>>();
+				categoryItems = new ArrayList<MenuItemListRecord>();
 				
 				menu.put(currentCategory, categoryItems);
 				mRestaurantMenus.put(currentMenuType, menu);
@@ -48,11 +48,11 @@ public class MenuInformation {
 			
 			if(!itemCategory.equals(currentCategory)) {
 				currentCategory = itemCategory;
-				categoryItems = new ArrayList<MenuItemRecord>();
+				categoryItems = new ArrayList<MenuItemListRecord>();
 				menu.put(currentCategory, categoryItems);
 			}
 			
-			MenuItemRecord menuItemRecord = new MenuItemRecord();
+			MenuItemListRecord menuItemRecord = new MenuItemListRecord();
 			menuItemRecord.setName(item.path("name").getTextValue());
 			menuItemRecord.setDescription(item.path("description").getTextValue());
 			menuItemRecord.setCategory(item.path("menu_category").getTextValue());
@@ -74,12 +74,12 @@ public class MenuInformation {
 		return mRestaurantMenus.get(menuType).keySet();
 	}
 	
-	public ArrayList<MenuItemRecord> getMenuItemsForCategory(String menuType, String category) {
+	public ArrayList<MenuItemListRecord> getMenuItemsForCategory(String menuType, String category) {
 		return mRestaurantMenus.get(menuType).get(category);
 	}
 	
-	public ArrayList<MenuItemRecord> getAllMenuItemsForMenuType(String menuType) {
-		ArrayList<MenuItemRecord> allMenuItemsForMenuType = new ArrayList<MenuItemRecord>();
+	public ArrayList<MenuItemListRecord> getAllMenuItemsForMenuType(String menuType) {
+		ArrayList<MenuItemListRecord> allMenuItemsForMenuType = new ArrayList<MenuItemListRecord>();
 		
 		for (String category : getCategoriesForMenu(menuType)) {
 			allMenuItemsForMenuType.addAll(getMenuItemsForCategory(menuType, category));

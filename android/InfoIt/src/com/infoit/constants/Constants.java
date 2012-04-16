@@ -10,6 +10,7 @@ public class Constants {
   public static final String QRCODE = "QRCODE";
   public static final String MENU = "MENU";
   public static final String DISPLAY_INFO = "DISPLAY_INFO";
+  public static final String RESTAURANT = "RESTAURANT";
   
   //Tracking -- Categories
   public static final String LIKE_CATEGORY = "LIKE";

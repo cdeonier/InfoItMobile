@@ -32,7 +32,6 @@
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$660,000"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>
@@ -62,7 +61,6 @@
             android:id="@+id/property_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Condo / Townhome"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>
@@ -91,7 +89,6 @@
             android:id="@+id/bedrooms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>
@@ -121,7 +118,6 @@
             android:id="@+id/bathrooms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2.0"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>
@@ -150,7 +146,6 @@
             android:id="@+id/sqft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1350"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>
@@ -180,7 +175,6 @@
             android:id="@+id/lot_sqft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3024"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>
@@ -210,7 +204,6 @@
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1975"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>

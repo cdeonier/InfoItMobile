@@ -26,5 +26,16 @@
     <string name="Restaurant">Restaurant</string>
     <string name="back_to_restaurant">Back to Restaurant</string>
     <string name="Most_Liked">Most Liked</string>
+    
+    <!-- Actions Menu -->
+    <string name="things_you_can_do">Things you can do</string>
+
+    <!-- Accessibility -->
+    <string name="separator">separator</string>
+    <string name="drop_shadow">drop_shadow</string>
+    
+    <!-- Titles -->
+    <string name="bookmarks">Bookmarks</string>
+    <string name="recent_history">Recent History</string>
 
 </resources>

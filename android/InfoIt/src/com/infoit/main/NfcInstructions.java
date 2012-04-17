@@ -2,19 +2,10 @@ package com.infoit.main;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.LinearLayout;
 
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
-import com.infoit.util.ShellUtil;
-import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class NfcInstructions extends TrackedActivity {
-	private UiMenuHorizontalScrollView mApplicationContainer;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,48 +17,25 @@ public class NfcInstructions extends TrackedActivity {
 	protected void onResume() {
 		super.onResume();
 		
-	    mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
-	            R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu,
-	            R.layout.nfc_instructions);
-	    ShellUtil.clearActionMenuButton(mApplicationContainer);
-	    
-	    //50 should work, but not displaying correctly, so nudging to 70
-	    int menuBarHeight = (int) (70 * getResources().getDisplayMetrics().density);
-	    Display display = getWindowManager().getDefaultDisplay();
-
-	    LinearLayout container = (LinearLayout) findViewById(R.id.container);
-	    container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
-	    
-	    mApplicationContainer.scrollToApplicationView();
+		BaseApplication.initializeShell(this, R.layout.nfc_instructions);
+		BaseApplication.hideActionsMenu();
+		setContentView(BaseApplication.getView());
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		
-		unbindDrawables(mApplicationContainer);
-		mApplicationContainer = null;
+		BaseApplication.detachShell();
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (mApplicationContainer == null || mApplicationContainer.isApplicationView()) {
+		if (BaseApplication.getView() == null || BaseApplication.getView().isActivityView()) {
 			finish();
 		} else {
-			mApplicationContainer.scrollToApplicationView();
+			BaseApplication.getView().scrollToApplicationView();
 		}
 		return;
-	}
-	
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 }

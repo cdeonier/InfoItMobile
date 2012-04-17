@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.infoit.adapters.DbAdapter;
+import com.infoit.main.BaseApplication;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.PhotoGallery;
 import com.infoit.main.R;
@@ -77,9 +78,9 @@ public class BasicView extends LinearLayout implements BaseInformationView {
 	
 	      @Override
 	      public void onClick(View v) {
-	        Intent intent = new Intent(v.getContext(), PhotoGallery.class);
+	        Intent intent = new Intent(BaseApplication.getCurrentActivity(), PhotoGallery.class);
 	        intent.putExtra("photoUrls", mBasicInformation.getPhotoUrls());
-	        v.getContext().startActivity(intent);
+	        BaseApplication.getCurrentActivity().startActivity(intent);
 	      }
 	    });
     }

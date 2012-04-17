@@ -2,19 +2,15 @@ package com.infoit.async;
 
 import org.codehaus.jackson.JsonNode;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.apps.analytics.easytracking.EasyTracker;
 import com.infoit.adapters.DbAdapter;
 import com.infoit.adapters.WebServiceAdapter;
 import com.infoit.constants.Constants;
+import com.infoit.main.BaseApplication;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
@@ -23,13 +19,12 @@ import com.infoit.widgets.PlaceRealEstateView;
 import com.infoit.widgets.PlaceRestaurantView;
 import com.infoit.widgets.ThingMenuItemView;
 
-public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
-  final private Activity mActivity;
+public class DisplayInfoTask extends AsyncTask<Void, Void, LinearLayout> {
+  final private DisplayInfo mActivity;
   final private int mIdentifier;
-  private String mEntitySubType;
   private Exception mException;
   
-  public LoadInformationTask(Activity activity, int identifier) {
+  public DisplayInfoTask(DisplayInfo activity, int identifier) {
     mActivity = activity;
     mIdentifier = identifier;
   }
@@ -56,11 +51,8 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
 			db.createHistoryItem(mIdentifier, basicInfo.getName(), basicInfo.getEntityType());
 			db.close();
 
-			((DisplayInfo) mActivity).setEntityType(basicInfo.getEntityType());
-			((DisplayInfo) mActivity).setEntitySubType(basicInfo.getEntitySubType());
-			mEntitySubType = basicInfo.getEntitySubType();
-
-
+			mActivity.setEntityType(basicInfo.getEntityType());
+			mActivity.setEntitySubType(basicInfo.getEntitySubType());
 
 			if ("place".equals(WebServiceAdapter.getEntityType(jsonResponse))) {
 				if ("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(jsonResponse))) {
@@ -93,44 +85,12 @@ public class LoadInformationTask extends AsyncTask<Void, Void, LinearLayout> {
   		Log.w("LoadInformation Async", mException.getMessage());
   	}
   	
-  	DisplayInfo displayActivity = (DisplayInfo) mActivity;
-  	
-  	if (child != null && displayActivity != null && displayActivity.getApplicationContainer() != null) {
-	    
-	    LinearLayout content = (LinearLayout) displayActivity.getApplicationContainer().findViewById(R.id.content);
-	    content.removeViewAt(content.getChildCount() - 1);
-	    content.addView(child, content.getChildCount() - 1);
-	    
-	    initializeActionMenu();
-	    
-	    displayActivity.setContentView(displayActivity.getApplicationContainer());
+  	if (child != null && mActivity != null) {
+  		LinearLayout displayedContent = (LinearLayout) BaseApplication.getView().findViewById(R.id.displayed_content);
+  		displayedContent.addView(child, displayedContent.getChildCount() - 1);
   	}
-  }
-  
-  private void initializeActionMenu() {
-    final DisplayInfo displayActivity = (DisplayInfo) mActivity;
-    final DbAdapter db = displayActivity.getDbAdapter();
-    
-    LinearLayout bookmarkButton = (LinearLayout) displayActivity.getApplicationContainer()
-        .findViewById(R.id.action_display_info_bookmark_button);
-    final ImageView icon = (ImageView) displayActivity.getApplicationContainer().findViewById(R.id.bookmark_icon);
-    final TextView bookmarkButtonText = 
-    		(TextView) displayActivity.getApplicationContainer().findViewById(R.id.bookmark_button_text);
-    
-    if (db.doesBookmarkExist(mIdentifier)) {
-      bookmarkButtonText.setText("Remove Bookmark");
-      icon.setImageResource(R.drawable.bookmark_icon);
-    } else {
-    	bookmarkButtonText.setText("Bookmark "+mEntitySubType);
-    	icon.setImageResource(R.drawable.bookmark_unbookmark_icon);
-    }
-    bookmarkButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        displayActivity.syncBookmarkButtons();
-      }
-    });
+  	
+  	BaseApplication.removeSplashScreen();
   }
 
   public int getIdentifier() {

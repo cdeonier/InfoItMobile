@@ -17,7 +17,7 @@
             android:paddingTop="5dip"
             android:paddingBottom="5dip"
             android:paddingLeft="10dip"
-            android:text="Things you can do"
+            android:text="@string/things_you_can_do"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
 
@@ -25,35 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
+            android:contentDescription="@string/separator"
             android:src="@drawable/ui_menu_header_separator" />
 
         <LinearLayout
-            android:id="@+id/action_display_info_bookmark_button"
+            android:id="@+id/action_buttons_container"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:id="@+id/bookmark_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dip"
-                android:src="@drawable/bookmark_unbookmark_icon" />
-
-            <TextView
-                android:id="@+id/bookmark_button_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dip"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
+            android:layout_height="wrap_content">
+            
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/ui_menu_separator" />
     </LinearLayout>
 
     <ImageView
@@ -61,6 +42,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:scaleType="fitXY"
+        android:contentDescription="@string/drop_shadow"
         android:src="@drawable/ui_drop_shadow_right" />
 
 </FrameLayout>

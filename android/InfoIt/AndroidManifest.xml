@@ -18,6 +18,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
+        android:name=".BaseApplication"
         android:debuggable="true"
         android:icon="@drawable/launcher_icon"
         android:label="@string/infoit" >

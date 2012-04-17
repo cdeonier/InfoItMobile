@@ -27,18 +27,4 @@
             android:cacheColorHint="#ffffffff" />
     </LinearLayout>
 
-    <include
-        android:id="@+id/menu_bars"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        layout="@layout/ui_menu_bars" />
-
-    <RelativeLayout
-        android:id="@+id/touch_interceptor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:visibility="gone" />
-
 </FrameLayout>

@@ -1,35 +1,34 @@
 package com.infoit.widgets.listeners;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.infoit.main.R;
-import com.infoit.widgets.UiMenuHorizontalScrollView;
+import com.infoit.widgets.UiShell;
 
 public class UiNavigationItemOnClickListener implements OnClickListener {
-  private UiMenuHorizontalScrollView mParent;
+  private UiShell mParent;
   private Class<?> mTargetContext;
+  private Activity mCurrentActivity;
   
-  public UiNavigationItemOnClickListener(UiMenuHorizontalScrollView parent, Class<?> currentContext) {
+  public UiNavigationItemOnClickListener(UiShell parent, Class<?> targetContext, Activity activity) {
     mParent = parent;
-    mTargetContext = currentContext;
+    mTargetContext = targetContext;
+    mCurrentActivity = activity;
   }
 
   @Override
   public void onClick(View v) {
-    Context currentContext = v.getContext();
-    if(currentContext.getClass().equals(mTargetContext)){
-      Activity currentActivity = (Activity) currentContext;
-      RelativeLayout touchInterceptor = (RelativeLayout) currentActivity.findViewById(R.id.touch_interceptor);
+    if(mCurrentActivity.getClass().equals(mTargetContext)){
+      RelativeLayout touchInterceptor = (RelativeLayout) mCurrentActivity.findViewById(R.id.touch_interceptor);
       touchInterceptor.setVisibility(View.GONE);
       mParent.scrollToApplicationView();
     } else {
-      Intent intent = new Intent(v.getContext(), mTargetContext);
-      v.getContext().startActivity(intent);
+      Intent intent = new Intent(mCurrentActivity, mTargetContext);
+      mCurrentActivity.startActivity(intent);
     }
   }
 }

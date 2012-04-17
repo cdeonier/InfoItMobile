@@ -1,6 +1,6 @@
 package com.infoit.widgets.listeners;
 
-import com.infoit.widgets.UiMenuHorizontalScrollView;
+import com.infoit.widgets.UiShell;
 
 import android.os.Handler;
 import android.view.View;
@@ -13,7 +13,7 @@ public class UiMenuOnGlobalLayoutListener implements OnGlobalLayoutListener {
   View[] children;
   int scrollToViewIndex;
   int scrollToViewPos = 0;
-  UiMenuHorizontalScrollView scrollView;
+  UiShell scrollView;
 
   /**
    * @param parent
@@ -26,7 +26,7 @@ public class UiMenuOnGlobalLayoutListener implements OnGlobalLayoutListener {
    *          A SizeCallback to interact with the HSV.
    */
   public UiMenuOnGlobalLayoutListener(ViewGroup parent, View[] children,
-      int scrollToViewIndex, UiMenuHorizontalScrollView scrollView) {
+      int scrollToViewIndex, UiShell scrollView) {
     this.parent = parent;
     this.children = children;
     this.scrollToViewIndex = scrollToViewIndex;

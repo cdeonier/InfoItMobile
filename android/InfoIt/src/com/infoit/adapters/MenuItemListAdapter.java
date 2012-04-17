@@ -102,8 +102,10 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
 		if (currentMenuItem.getLikeCount() == 0) {
 			holder.likeContainer.setVisibility(View.GONE);
 		} else if (currentMenuItem.getLikeCount() == 1) {
+			holder.likeContainer.setVisibility(View.VISIBLE);
 			holder.likeText.setText("1 like");
 		} else {
+			holder.likeContainer.setVisibility(View.VISIBLE);
 			holder.likeText.setText(String.valueOf(currentMenuItem.getLikeCount())+" likes");
 		}
 		

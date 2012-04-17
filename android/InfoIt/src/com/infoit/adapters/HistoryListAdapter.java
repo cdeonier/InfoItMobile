@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.infoit.constants.Constants;
+import com.infoit.main.BaseApplication;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
 import com.infoit.record.ListItemRecord;
@@ -55,10 +56,10 @@ public class HistoryListAdapter extends CursorAdapter {
 
     @Override
     public void onClick(View view) {
-      Intent displayInfoIntent = new Intent(view.getContext(), DisplayInfo.class);
+      Intent displayInfoIntent = new Intent(BaseApplication.getCurrentActivity(), DisplayInfo.class);
       displayInfoIntent.setAction(Constants.BOOKMARK);
       displayInfoIntent.putExtra("identifier", mListItem.getIdentifier());
-      view.getContext().startActivity(displayInfoIntent);
+      BaseApplication.getCurrentActivity().startActivity(displayInfoIntent);
     }
   }
 }

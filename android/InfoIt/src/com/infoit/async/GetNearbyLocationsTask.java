@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 
 import com.infoit.adapters.GpsListAdapter;
 import com.infoit.adapters.WebServiceAdapter;
+import com.infoit.main.BaseApplication;
 import com.infoit.main.NearbyLocations;
 import com.infoit.record.GpsRecord;
 
@@ -30,7 +31,7 @@ public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 	protected void onPostExecute(JsonNode result) {
 		super.onPostExecute(result);
 		
-		if (mActivity != null) {
+		if (mActivity != null && result != null) {
 			GpsListAdapter adapter = mActivity.getGpsListAdapter();
 			adapter.clear();
 			
@@ -54,8 +55,7 @@ public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 			}
 			
 			adapter.notifyDataSetChanged();
-			mActivity.setContentView(mActivity.getApplicationContainer());
-			
+			BaseApplication.removeSplashScreen();
 		}
 	}
 	

@@ -4,41 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!-- Begin Content -->
-
     <ScrollView
         android:id="@+id/scroll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <LinearLayout
-            android:id="@+id/content"
+            android:id="@+id/displayed_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <RelativeLayout
-                android:id="@+id/bottom_spacer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="50dip" />
         </LinearLayout>
     </ScrollView>
-
-    <!-- End Content -->
-
-    <include
-        android:id="@+id/menu_bars"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        layout="@layout/ui_menu_bars" />
-
-    <RelativeLayout
-        android:id="@+id/touch_interceptor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:visibility="gone" />
 
 </FrameLayout>

@@ -3,20 +3,13 @@ package com.infoit.main;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.LinearLayout;
 
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
-import com.infoit.util.ShellUtil;
-import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class InfoChooser extends TrackedActivity {
-  private UiMenuHorizontalScrollView mApplicationContainer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -29,73 +22,46 @@ public class InfoChooser extends TrackedActivity {
   protected void onResume() {
     super.onResume();
     
-    mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
-        R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu,
-        R.layout.info_chooser);
-    ShellUtil.clearActionMenuButton(mApplicationContainer);
+    BaseApplication.initializeShell(this, R.layout.info_chooser);
     
-    //50 should work, but not displaying correctly, so nudging to 70
-    int menuBarHeight = (int) (70 * getResources().getDisplayMetrics().density);
-    Display display = getWindowManager().getDefaultDisplay();
-
-    LinearLayout container = (LinearLayout) findViewById(R.id.container);
-    container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
+    setContentView(BaseApplication.getView());
     
     FrameLayout nfcInstructionsView = (FrameLayout) findViewById(R.id.nfc_choice);
     nfcInstructionsView.setOnClickListener(new OnClickListener(){
 
       @Override
       public void onClick(View v) {
-        Intent nfcIntent = new Intent(v.getContext(),
-            NfcInstructions.class);
-        v.getContext().startActivity(nfcIntent);
+        Intent nfcIntent = new Intent(BaseApplication.getCurrentActivity(), NfcInstructions.class);
+        BaseApplication.getCurrentActivity().startActivity(nfcIntent);
       }
     });
     
     FrameLayout qrCodeView = (FrameLayout) findViewById(R.id.qr_choice);
     qrCodeView.setOnClickListener(new OnClickListener(){
-
       @Override
       public void onClick(View v) {
-        Intent qrCaptureIntent = new Intent(v.getContext(),
-            QrCodeCapture.class);
-        v.getContext().startActivity(qrCaptureIntent);
+        Intent qrCaptureIntent = new Intent(BaseApplication.getCurrentActivity(),QrCodeCapture.class);
+        BaseApplication.getCurrentActivity().startActivity(qrCaptureIntent);
       }
     });
     
     FrameLayout gpsView = (FrameLayout) findViewById(R.id.gps_choice);
     gpsView.setOnClickListener(new OnClickListener(){
-
       @Override
       public void onClick(View v) {
-        Intent nearbyLocations = new Intent(v.getContext(),
-            NearbyLocations.class);
-        v.getContext().startActivity(nearbyLocations);
+        Intent nearbyLocations = new Intent(BaseApplication.getCurrentActivity(), NearbyLocations.class);
+        BaseApplication.getCurrentActivity().startActivity(nearbyLocations);
       }
     });
-    
-    mApplicationContainer.scrollToApplicationView();
   }
   
   @Override
   protected void onPause() {
     super.onPause();
     
-    unbindDrawables(mApplicationContainer);
-    mApplicationContainer = null;
+    BaseApplication.detachShell();
   }
-  
-  private void unbindDrawables(View view) {
-    if (view.getBackground() != null) {
-      view.getBackground().setCallback(null);
-    }
-    if (view instanceof ViewGroup) {
-      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-        unbindDrawables(((ViewGroup) view).getChildAt(i));
-      }
-      ((ViewGroup) view).removeAllViews();
-    }
-  }
+
   
   @Override
   protected void onNewIntent(Intent intent) {
@@ -105,10 +71,10 @@ public class InfoChooser extends TrackedActivity {
   
   @Override
   public void onBackPressed() {
-    if(mApplicationContainer == null || mApplicationContainer.isApplicationView()) {
+    if(BaseApplication.getView() == null || BaseApplication.getView().isActivityView()) {
       finish();
     } else {
-      mApplicationContainer.scrollToApplicationView();
+    	BaseApplication.getView().scrollToApplicationView();
     }
     return;
   }

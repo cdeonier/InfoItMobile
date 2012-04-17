@@ -8,12 +8,8 @@ import android.widget.ListView;
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.infoit.adapters.DbAdapter;
 import com.infoit.adapters.HistoryListAdapter;
-import com.infoit.util.ShellUtil;
-import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class RecentHistory extends TrackedActivity {
-
-  private UiMenuHorizontalScrollView mApplicationContainer;
   private DbAdapter mDb;
   private ListView mRecentHistory;
   private HistoryListAdapter mHistoryListAdapter;
@@ -25,11 +21,6 @@ public class RecentHistory extends TrackedActivity {
     // Lock to Portrait Mode
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-    mApplicationContainer = ShellUtil.initializeApplicationContainer(this,
-        R.layout.ui_navigation_menu, R.layout.history_actions_menu,
-        R.layout.history_list);
-    ShellUtil.clearActionMenuButton(mApplicationContainer);
-    
     mDb = new DbAdapter(this);
   }
 
@@ -37,15 +28,19 @@ public class RecentHistory extends TrackedActivity {
   protected void onResume() {
     super.onResume();
     
+    BaseApplication.initializeShell(this, R.layout.history_list);
+    BaseApplication.hideActionsMenu();
+    setContentView(BaseApplication.getView());
+    
     mDb.open();
     initializeRecentHistory();
-    
-    mApplicationContainer.scrollToApplicationView();
   }
 
   @Override
   protected void onPause() {
     super.onPause();
+    
+    BaseApplication.detachShell();
     
     mDb.close();
   }
@@ -57,10 +52,10 @@ public class RecentHistory extends TrackedActivity {
 
   @Override
   public void onBackPressed() {
-    if (mApplicationContainer == null || mApplicationContainer.isApplicationView()) {
+    if (BaseApplication.getView() == null || BaseApplication.getView().isActivityView()) {
       finish();
     } else {
-      mApplicationContainer.scrollToApplicationView();
+    	BaseApplication.getView().scrollToApplicationView();
     }
     return;
   }

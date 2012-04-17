@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,11 +12,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bookmarks"
-            android:textColor="@android:color/black"
+            android:background="@drawable/ui_header_gradient"
             android:padding="5dip"
-            android:textSize="20sp"
-            android:background="@drawable/ui_header_gradient" />
+            android:text="@string/bookmarks"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <ListView
             android:id="@+id/bookmarks_list"
@@ -26,27 +25,11 @@
             android:cacheColorHint="#ffffffff" />
     </LinearLayout>
 
-    <!-- End Content -->
-    
     <include
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="70dip"
         layout="@layout/ui_notification" />
-    
-    <include
-        android:id="@+id/menu_bars"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        layout="@layout/ui_menu_bars" />
-
-    <RelativeLayout
-        android:id="@+id/touch_interceptor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:visibility="gone" />
 
 </FrameLayout>

@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.infoit.constants.Constants;
 import com.infoit.main.DisplayMenu;
@@ -76,11 +75,5 @@ public class PlaceRestaurantView extends LinearLayout {
 
 		basicView.setContentButtons(mActivity);
 		addressView.setContentButtons(mActivity);
-
-		RelativeLayout spacer = new RelativeLayout(mActivity);
-		// 50 should work, but not displaying correctly, so nudging to 70
-		int menuBarHeight = (int) (50 * mActivity.getResources().getDisplayMetrics().density);
-		spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, menuBarHeight));
-		container.addView(spacer);
 	}
 }

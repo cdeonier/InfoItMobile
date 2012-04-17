@@ -1,6 +1,5 @@
 package com.infoit.main;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,32 +16,22 @@ import com.infoit.adapters.DbAdapter;
 import com.infoit.adapters.SeparatedListAdapter;
 import com.infoit.async.BookmarksListTask;
 import com.infoit.constants.Constants;
-import com.infoit.util.ShellUtil;
-import com.infoit.widgets.UiMenuHorizontalScrollView;
 
 public class ListBookmarks extends TrackedActivity {
   private DbAdapter mDb;
   private BookmarkListAdapter mPlaceBookmarksListAdapter;
   private BookmarkListAdapter mThingBookmarksListAdapter;
   private SeparatedListAdapter mListAdapter;
-  private UiMenuHorizontalScrollView mApplicationContainer;
   private ListView mBookmarksList;
   private int mDeleteCount;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    
-
     super.onCreate(savedInstanceState);
 
     // Lock to Portrait Mode
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     
-    mApplicationContainer 
-      = ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu, 
-                                                       R.layout.ui_empty_action_menu, 
-                                                       R.layout.bookmarks_list);
-    ShellUtil.clearActionMenuButton(mApplicationContainer);
     mDb = new DbAdapter(this);
   }
   
@@ -50,17 +39,21 @@ public class ListBookmarks extends TrackedActivity {
   protected void onResume(){
     super.onResume();
  
+    BaseApplication.initializeShell(this, R.layout.bookmarks_list);
+    BaseApplication.hideActionsMenu();
+    
+    setContentView(BaseApplication.getView());
+    
     mDb.open();
     initializeBookmarkList();
-
     resetNotification();
-    
-    mApplicationContainer.scrollToApplicationView();
   }
   
   @Override 
   protected void onPause(){
     super.onPause();
+    
+    BaseApplication.detachShell();
     mBookmarksList.setAdapter(null);
     mListAdapter = null;
     mPlaceBookmarksListAdapter = null;
@@ -70,10 +63,10 @@ public class ListBookmarks extends TrackedActivity {
   
   @Override
   public void onBackPressed() {
-    if(mApplicationContainer == null ||  mApplicationContainer.isApplicationView()) {
+    if(BaseApplication.getView() == null ||  BaseApplication.getView().isActivityView()) {
       finish();
     } else {
-      mApplicationContainer.scrollToApplicationView();
+    	BaseApplication.getView().scrollToApplicationView();
     }
     return;
   }
@@ -102,15 +95,15 @@ public class ListBookmarks extends TrackedActivity {
     mBookmarksList.setAdapter(mListAdapter);
   }
   
-  public void resetNotification() {
-	mDeleteCount--;
-	
-	if (mDeleteCount < 1) {
-	    FrameLayout notificationBox = (FrameLayout) findViewById(R.id.notification);
-	    mDeleteCount = 0;
-	    notificationBox.setVisibility(View.GONE);
+	public void resetNotification() {
+		mDeleteCount--;
+
+		if (mDeleteCount < 1) {
+			FrameLayout notificationBox = (FrameLayout) findViewById(R.id.notification);
+			mDeleteCount = 0;
+			notificationBox.setVisibility(View.GONE);
+		}
 	}
-  }
   
   public void setNotificationDelete() {
     FrameLayout notificationBox = (FrameLayout) findViewById(R.id.notification);
@@ -124,11 +117,11 @@ public class ListBookmarks extends TrackedActivity {
       @Override
       public void onClick(View v) {
     	if (mPlaceBookmarksListAdapter != null) {
-    		new BookmarksListTask((Activity) v.getContext(), mPlaceBookmarksListAdapter, 
+    		new BookmarksListTask(BaseApplication.getCurrentActivity(), mPlaceBookmarksListAdapter, 
         					  BookmarksListTask.DELETE_BOOKMARKS, Constants.PLACE).execute();
     	}
     	if (mThingBookmarksListAdapter != null) {
-    		new BookmarksListTask((Activity) v.getContext(), mThingBookmarksListAdapter, 
+    		new BookmarksListTask(BaseApplication.getCurrentActivity(), mThingBookmarksListAdapter, 
 				  			  BookmarksListTask.DELETE_BOOKMARKS, Constants.THING).execute();
     	}
         mDeleteCount = 0;
@@ -150,11 +143,11 @@ public class ListBookmarks extends TrackedActivity {
       @Override
       public void onClick(View v) {
     	if (mPlaceBookmarksListAdapter != null) {
-    		new BookmarksListTask((Activity) v.getContext(), mPlaceBookmarksListAdapter, 
+    		new BookmarksListTask(BaseApplication.getCurrentActivity(), mPlaceBookmarksListAdapter, 
         					  BookmarksListTask.UNDO_DELETE_BOOKMARKS, Constants.PLACE).execute();
     	}
     	if (mThingBookmarksListAdapter != null) {
-    		new BookmarksListTask((Activity) v.getContext(), mThingBookmarksListAdapter, 
+    		new BookmarksListTask(BaseApplication.getCurrentActivity(), mThingBookmarksListAdapter, 
 				  			  BookmarksListTask.UNDO_DELETE_BOOKMARKS, Constants.THING).execute();
     	}
         resetNotification();

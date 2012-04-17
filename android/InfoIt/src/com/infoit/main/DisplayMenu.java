@@ -15,14 +15,11 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -38,11 +35,10 @@ import com.infoit.async.LoadMenuTask;
 import com.infoit.constants.Constants;
 import com.infoit.record.MenuInformation;
 import com.infoit.record.MenuItemListRecord;
-import com.infoit.util.ShellUtil;
-import com.infoit.widgets.UiMenuHorizontalScrollView;
+import com.infoit.widgets.UiShell;
 
 public class DisplayMenu extends TrackedActivity {
-	private UiMenuHorizontalScrollView mApplicationContainer;
+	private UiShell mApplicationContainer;
 	private ListView mMenuItemList;
 	private MenuInformation mMenuInformation;
 	private String mCurrentMenuType;
@@ -59,48 +55,24 @@ public class DisplayMenu extends TrackedActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		getIdentifier();
+		
+		BaseApplication.initializeShell(this, R.layout.menu);
+		BaseApplication.hideActionsMenu();
+		setContentView(BaseApplication.getView());
 
-		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
-			Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-			NdefMessage rawUrl = (NdefMessage) rawMsgs[0];
-			NdefRecord rawUrlRecord = rawUrl.getRecords()[0];
-			byte[] payload = rawUrlRecord.getPayload();
-			String uri = new String(Arrays.copyOfRange(payload, 1, payload.length));
-			mRestaurantIdentifier = Integer.parseInt(uri.split("/menus/")[1]);
-			new LoadMenuTask(this, mRestaurantIdentifier).execute();
-			setSplashScreen();
-		} else if (Constants.QRCODE.equals(getIntent().getAction())) {
-			mRestaurantIdentifier = getIntent().getExtras().getInt("identifier");
-			new LoadMenuTask(this, mRestaurantIdentifier).execute();
-		} else if (Constants.RESTAURANT.equals(getIntent().getAction())) {
+		if(Constants.RESTAURANT.equals(getIntent().getAction())) {
 			String jsonAsString = getIntent().getExtras().getString("menu");
 			JsonNode json = WebServiceAdapter.createJsonFromString(jsonAsString);
-			mRestaurantIdentifier = getIntent().getExtras().getInt("identifier");
 			mMenuInformation = new MenuInformation(json);
 			mCurrentMenuType = (String) ((Set<String>) mMenuInformation.getMenuTypes()).iterator().next();
-		} else if (Constants.DISPLAY_INFO.equals(getIntent().getAction())){
-			mRestaurantIdentifier = getIntent().getExtras().getInt("identifier");
-			new LoadMenuTask(this, mRestaurantIdentifier).execute();
-		}
-
-		// Adapters intialized in async for NFC
-		if (Constants.RESTAURANT.equals(getIntent().getAction())) {
-			mApplicationContainer = ShellUtil.initializeApplicationContainer(this, R.layout.ui_navigation_menu,
-					R.layout.ui_empty_action_menu, R.layout.menu);
-			ShellUtil.clearActionMenuButton(mApplicationContainer);
-
-			// 50 should work, but not displaying correctly, so nudging to 70
-			int menuBarHeight = (int) (75 * getResources().getDisplayMetrics().density);
-			Display display = getWindowManager().getDefaultDisplay();
-
-			LinearLayout container = (LinearLayout) findViewById(R.id.container);
-			container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, display.getHeight() - menuBarHeight));
-
 			initializeMenuTypeSelector();
 			initializeList();
 			initializeAdapters();
-
-			mApplicationContainer.scrollToApplicationView();
+		} else {
+			BaseApplication.setSplashScreen();
+			new LoadMenuTask(this, mRestaurantIdentifier).execute();
 		}
 	}
 
@@ -108,31 +80,19 @@ public class DisplayMenu extends TrackedActivity {
 	protected void onPause() {
 		super.onPause();
 
-		unbindDrawables(mApplicationContainer);
-		mApplicationContainer = null;
+		BaseApplication.detachShell();
+
 		mMenuItemList = null;
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (mApplicationContainer == null || mApplicationContainer.isApplicationView()) {
+		if (BaseApplication.getView() == null || BaseApplication.getView().isActivityView()) {
 			finish();
 		} else {
-			mApplicationContainer.scrollToApplicationView();
+			BaseApplication.getView().scrollToApplicationView();
 		}
 		return;
-	}
-
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 
 	public void initializeAdapters() {	
@@ -181,10 +141,10 @@ public class DisplayMenu extends TrackedActivity {
 			
 			@Override
 			public void onClick(View view) {
-	      Intent displayInfoIntent = new Intent(view.getContext(), DisplayInfo.class);
+	      Intent displayInfoIntent = new Intent(BaseApplication.getCurrentActivity(), DisplayInfo.class);
 	      displayInfoIntent.setAction(Constants.MENU);
 	      displayInfoIntent.putExtra("identifier", mRestaurantIdentifier);
-	      view.getContext().startActivity(displayInfoIntent);
+	      BaseApplication.getCurrentActivity().startActivity(displayInfoIntent);
 			}
 		});
 		
@@ -264,20 +224,25 @@ public class DisplayMenu extends TrackedActivity {
 		mRestaurantIdentifier = restaurantIdentifier;
 	}
 
-	public UiMenuHorizontalScrollView getApplicationContainer() {
+	public UiShell getApplicationContainer() {
 		return mApplicationContainer;
 	}
 
-	public void setApplicationContainer(UiMenuHorizontalScrollView applicationContainer) {
+	public void setApplicationContainer(UiShell applicationContainer) {
 		mApplicationContainer = applicationContainer;
 	}
-
-	private void setSplashScreen() {
-		UiMenuHorizontalScrollView splashContainer = ShellUtil.initializeApplicationContainer(this,
-				R.layout.ui_navigation_menu, R.layout.ui_empty_action_menu, R.layout.ui_splash_screen);
-		TextView splashText = (TextView) splashContainer.findViewById(R.id.splash_text);
-		splashText.setText("Downloading information...");
-		setContentView(splashContainer);
+	
+	private void getIdentifier() {
+		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+			Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+			NdefMessage rawUrl = (NdefMessage) rawMsgs[0];
+			NdefRecord rawUrlRecord = rawUrl.getRecords()[0];
+			byte[] payload = rawUrlRecord.getPayload();
+			String uri = new String(Arrays.copyOfRange(payload, 1, payload.length));
+			mRestaurantIdentifier = Integer.parseInt(uri.split("/menus/")[1]);
+		} else {
+			mRestaurantIdentifier = getIntent().getExtras().getInt("identifier");
+		}
 	}
 	
 	/**

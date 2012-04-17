@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.infoit.constants.Constants;
 import com.infoit.main.DisplayMenu;
@@ -69,11 +68,5 @@ public class ThingMenuItemView extends LinearLayout {
 		
 		MenuItemView menuItemView = new MenuItemView(this.getContext());
 		container.addView(menuItemView, container.getChildCount());
-
-		RelativeLayout spacer = new RelativeLayout(mActivity);
-		// 50 should work, but not displaying correctly, so nudging to 70
-		int menuBarHeight = (int) (75 * mActivity.getResources().getDisplayMetrics().density);
-		spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, menuBarHeight));
-		container.addView(spacer);
 	}
 }

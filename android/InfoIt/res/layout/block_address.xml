@@ -12,7 +12,6 @@
         android:id="@+id/address_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="855 Spruance Lane"
         android:textColor="@android:color/black"
         android:textSize="15sp"
         android:textStyle="bold" />
@@ -37,7 +36,6 @@
             android:id="@+id/city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="San Mateo, "
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -46,7 +44,6 @@
             android:id="@+id/state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CA "
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -55,7 +52,6 @@
             android:id="@+id/zip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="94404"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textStyle="bold" />

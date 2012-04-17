@@ -12,21 +12,21 @@ import android.widget.RelativeLayout;
 import com.infoit.main.R;
 import com.infoit.widgets.listeners.UiMenuOnGlobalLayoutListener;
 
-public class UiMenuHorizontalScrollView extends HorizontalScrollView {
+public class UiShell extends HorizontalScrollView {
   private int mPosition;
 
-  public UiMenuHorizontalScrollView(Context context, AttributeSet attrs,
+  public UiShell(Context context, AttributeSet attrs,
       int defStyle) {
     super(context, attrs, defStyle);
     init(context);
   }
 
-  public UiMenuHorizontalScrollView(Context context, AttributeSet attrs) {
+  public UiShell(Context context, AttributeSet attrs) {
     super(context, attrs);
     init(context);
   }
 
-  public UiMenuHorizontalScrollView(Context context) {
+  public UiShell(Context context) {
     super(context);
     init(context);
   }
@@ -58,8 +58,7 @@ public class UiMenuHorizontalScrollView extends HorizontalScrollView {
 
     // Add a layout listener to this HSV
     // This listener is responsible for arranging the child views.
-    OnGlobalLayoutListener listener = new UiMenuOnGlobalLayoutListener(parent,
-        children, scrollToViewIndex, this);
+    OnGlobalLayoutListener listener = new UiMenuOnGlobalLayoutListener(parent, children, scrollToViewIndex, this);
     getViewTreeObserver().addOnGlobalLayoutListener(listener);
   }
 
@@ -151,16 +150,30 @@ public class UiMenuHorizontalScrollView extends HorizontalScrollView {
     mPosition = 2;
   }
   
-  public boolean isApplicationView() {
+  public boolean isActivityView() {
     return mPosition == 1;
   }
   
-  public boolean isMenuView() {
+  public boolean isNavMenuView() {
     return mPosition == 0;
   }
   
-  public boolean isActionView() {
+  public boolean isActionMenuView() {
     return mPosition == 2;
   }
   
+  public View getActivityView() {
+  	ViewGroup parent = (ViewGroup) getChildAt(0);
+  	return parent.getChildAt(1);
+  }
+  
+  public View getNavMenuView() {
+  	ViewGroup parent = (ViewGroup) getChildAt(0);
+  	return parent.getChildAt(0);
+  }
+  
+  public View getActionMenuView() {
+  	ViewGroup parent = (ViewGroup) getChildAt(0);
+  	return parent.getChildAt(2);
+  }
 }

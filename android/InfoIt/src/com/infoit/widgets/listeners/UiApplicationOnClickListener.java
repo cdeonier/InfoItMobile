@@ -1,14 +1,14 @@
 package com.infoit.widgets.listeners;
 
-import com.infoit.widgets.UiMenuHorizontalScrollView;
+import com.infoit.widgets.UiShell;
 
 import android.view.View;
 import android.view.View.OnClickListener;
 
 public class UiApplicationOnClickListener implements OnClickListener {
-  private UiMenuHorizontalScrollView mParent;
+  private UiShell mParent;
 
-  public UiApplicationOnClickListener(UiMenuHorizontalScrollView parent) {
+  public UiApplicationOnClickListener(UiShell parent) {
     mParent = parent;
   }
 

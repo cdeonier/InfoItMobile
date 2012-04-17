@@ -150,16 +150,18 @@ public final class QrCodeCapture extends TrackedActivity implements SurfaceHolde
 	      int identifier = Integer.parseInt(rawResult.getText().split("/services/")[1]);
 	      beepManager.playBeepSoundAndVibrate();
 	      
-	      Intent displayInfoIntent = new Intent(this, DisplayInfo.class);
+	      Intent displayInfoIntent = new Intent(BaseApplication.getCurrentActivity(), DisplayInfo.class);
 	      displayInfoIntent.setAction(Constants.QRCODE);
 	      displayInfoIntent.putExtra("identifier", identifier);
-	      this.startActivity(displayInfoIntent);
+	      BaseApplication.getCurrentActivity().startActivity(displayInfoIntent);
+	      finish();
       } else if (rawResult.getText().contains("menus")) {
     	  int identifier = Integer.parseInt(rawResult.getText().split("/menus/")[1]);
-	      Intent displayMenuIntent = new Intent(this, DisplayMenu.class);
+	      Intent displayMenuIntent = new Intent(BaseApplication.getCurrentActivity(), DisplayMenu.class);
 	      displayMenuIntent.setAction(Constants.QRCODE);
 	      displayMenuIntent.putExtra("identifier", identifier);
-	      this.startActivity(displayMenuIntent);
+	      BaseApplication.getCurrentActivity().startActivity(displayMenuIntent);
+	      finish();
       }
     } else {
       String url = rawResult.getText();

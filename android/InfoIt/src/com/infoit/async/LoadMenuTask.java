@@ -28,16 +28,18 @@ public class LoadMenuTask  extends AsyncTask<Void, Void, JsonNode> {
 	
 	@Override
 	protected void onPostExecute(JsonNode rootNode) {
-		MenuInformation menuInformation = new MenuInformation(rootNode.path("entity"));
-		String currentMenuType = (String) ((Set<String>) menuInformation.getMenuTypes()).iterator().next();
+		if (rootNode != null) {
+			MenuInformation menuInformation = new MenuInformation(rootNode.path("entity"));
+			String currentMenuType = (String) ((Set<String>) menuInformation.getMenuTypes()).iterator().next();
 
-		mActivity.setMenuInformation(menuInformation);
-		mActivity.setCurrentMenuType(currentMenuType);
-		mActivity.initializeMenuTypeSelector();
-		mActivity.initializeList();
-		mActivity.initializeAdapters();
-		
-		BaseApplication.removeSplashScreen();
+			mActivity.setMenuInformation(menuInformation);
+			mActivity.setCurrentMenuType(currentMenuType);
+			mActivity.initializeMenuTypeSelector();
+			mActivity.initializeList();
+			mActivity.initializeAdapters();
+
+			BaseApplication.removeSplashScreen();
+		}
 	}
 
 }

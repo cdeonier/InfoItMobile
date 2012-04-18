@@ -11,6 +11,7 @@ public class Constants {
   public static final String MENU = "MENU";
   public static final String DISPLAY_INFO = "DISPLAY_INFO";
   public static final String RESTAURANT = "RESTAURANT";
+  public static final String MENU_ITEM = "MENU_ITEM";
   
   //Tracking -- Categories
   public static final String LIKE_CATEGORY = "LIKE";

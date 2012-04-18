@@ -15,9 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.infoit.adapters.DbAdapter;
 import com.infoit.main.BaseApplication;
-import com.infoit.main.DisplayInfo;
 import com.infoit.main.PhotoGallery;
 import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
@@ -50,27 +48,6 @@ public class BasicView extends LinearLayout implements BaseInformationView {
   
   @Override
   public void setContentButtons(Activity activity) {
-    final DisplayInfo displayActivity = (DisplayInfo) activity;
-    
-    final DbAdapter db = displayActivity.getDbAdapter();
-    final int identifier = displayActivity.getIdentifier();
-    final ImageView icon = (ImageView) findViewById(R.id.basic_bookmark_icon);
-    final TextView bookmarkButtonText = (TextView) findViewById(R.id.basic_bookmark_text);  
-    
-    LinearLayout bookmarkButton = (LinearLayout) findViewById(R.id.basic_bookmark_button);
-    
-    if (db.doesBookmarkExist(identifier)) {
-      bookmarkButtonText.setText("Remove Bookmark");
-      icon.setImageResource(R.drawable.bookmark_icon);
-    }
-    bookmarkButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        displayActivity.syncBookmarkButtons();
-      }
-    });
-    
     FrameLayout photosButton = (FrameLayout) findViewById(R.id.thumbnail_container);
 
     if (mBasicInformation.getThumbnailUrl() != null) {
@@ -115,9 +92,6 @@ public class BasicView extends LinearLayout implements BaseInformationView {
 
     name.setText(mBasicInformation.getName());
     description.setText(mBasicInformation.getDescription());
-    
-    TextView basicBookmarkText = (TextView) findViewById(R.id.basic_bookmark_text);
-    basicBookmarkText.setText("Bookmark "+mBasicInformation.getEntitySubType());
   }
 
 }

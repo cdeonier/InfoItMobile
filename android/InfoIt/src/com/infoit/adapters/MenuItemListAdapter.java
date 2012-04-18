@@ -65,6 +65,32 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
+			String currentDescription = currentMenuItem.getDescription();
+			
+			//We have a description for item, but the view doesn't have description field means we inflate new view
+			if (currentDescription != null  && !currentDescription.equals("") && holder.description == null) {
+				holder = new ViewHolder();
+				convertView = View.inflate(this.getContext(), R.layout.menu_list_item, null);
+				holder.description = (TextView) convertView.findViewById(R.id.menu_item_description);
+				holder.name = (TextView) convertView.findViewById(R.id.menu_item_name);
+				holder.price = (TextView) convertView.findViewById(R.id.menu_item_price);
+				holder.thumbnail = (ImageView) convertView.findViewById(R.id.menu_item_thumbnail);
+				holder.progressBar = (ProgressBar) convertView.findViewById(R.id.menu_item_thumbnail_progress);
+				holder.likeContainer = (RelativeLayout) convertView.findViewById(R.id.menu_item_like_container);
+				holder.likeText = (TextView) convertView.findViewById(R.id.menu_item_like_number);
+				convertView.setTag(holder);
+			} else if ((currentDescription == null || currentDescription.equals("")) && holder.description != null) {
+				holder = new ViewHolder();
+				convertView = View.inflate(this.getContext(), R.layout.menu_list_item_no_description, null);
+				holder.description = null;
+				holder.name = (TextView) convertView.findViewById(R.id.menu_item_name);
+				holder.price = (TextView) convertView.findViewById(R.id.menu_item_price);
+				holder.thumbnail = (ImageView) convertView.findViewById(R.id.menu_item_thumbnail);
+				holder.progressBar = (ProgressBar) convertView.findViewById(R.id.menu_item_thumbnail_progress);
+				holder.likeContainer = (RelativeLayout) convertView.findViewById(R.id.menu_item_like_container);
+				holder.likeText = (TextView) convertView.findViewById(R.id.menu_item_like_number);
+				convertView.setTag(holder);
+			}
 		}
 		
 		if(holder.description != null) {

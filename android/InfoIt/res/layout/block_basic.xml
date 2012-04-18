@@ -30,28 +30,11 @@
         android:textSize="13sp" />
     
     <LinearLayout
-        android:id="@+id/basic_bookmark_button"
+        android:id="@+id/basic_button_container"
         android:layout_width="match_parent"
-        android:layout_height="45dip"
-        android:layout_margin="10dip"
-        android:orientation="horizontal"
-        android:background="@drawable/basic_button">
-        
-            <ImageView
-                android:id="@+id/basic_bookmark_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dip"
-                android:src="@drawable/bookmark_unbookmark_icon" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/basic_bookmark_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dip"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

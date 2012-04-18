@@ -41,7 +41,6 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:launchMode="singleTop"
             android:name=".DisplayInfo"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
@@ -54,13 +53,6 @@
                     android:pathPrefix="/services"
                     android:scheme="http" />
             </intent-filter>
-            <intent-filter >
-                <action android:name="android.nfc.action.TECH_DISCOVERED" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.nfc.action.TECH_DISCOVERED"
-                android:resource="@xml/nfc_tech_filter" />
         </activity>
         <activity
             android:launchMode="singleInstance"

@@ -21,6 +21,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.infoit.buttons.BaseButton;
 import com.infoit.widgets.UiShell;
 import com.infoit.widgets.listeners.UiMenuOnClickListener;
 import com.infoit.widgets.listeners.UiNavigationItemOnClickListener;
@@ -97,9 +98,16 @@ public class BaseApplication extends Application {
 		actionsButton.setVisibility(View.INVISIBLE);
 	}
 	
-	public static void addActionsButton(int id, int iconId, String text, OnClickListener clickListener) {
-		LinearLayout actionsButtons = (LinearLayout) mShell.findViewById(R.id.action_buttons_container);
-		Drawable iconImage = mShell.getResources().getDrawable(iconId);
+	public static void showActionsMenu() {
+		RelativeLayout actionsButton = (RelativeLayout) mShell.findViewById(R.id.action_button);
+		RelativeLayout touchInterceptor = (RelativeLayout) mShell.findViewById(R.id.touch_interceptor);
+		View actionsMenu = mShell.getActionMenuView();
+		actionsButton.setOnClickListener(new UiMenuOnClickListener(mShell, actionsMenu, touchInterceptor, 2));
+		actionsButton.setVisibility(View.VISIBLE);
+	}
+	
+	public static void addActionsButton(BaseButton baseButton) {
+		Drawable iconImage = mShell.getResources().getDrawable(baseButton.getButtonIconId());
 		
 		int ten_dip = (int) (10 * mShell.getResources().getDisplayMetrics().density);
 		
@@ -110,26 +118,23 @@ public class BaseApplication extends Application {
 		iconParams.gravity = Gravity.CENTER_VERTICAL;
 		
 		TextView buttonText = new TextView(mShell.getContext());
-		buttonText.setText(text);
+		buttonText.setText(baseButton.getButtonText());
 		buttonText.setTextColor(Color.WHITE);
 		buttonText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 		LayoutParams textParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		buttonText.setPadding(ten_dip, ten_dip, ten_dip, ten_dip);
 		
-		ImageView menuSeparator = new ImageView(mShell.getContext());
-		Drawable menuSeparatorImage = mShell.getResources().getDrawable(R.drawable.ui_menu_separator);
-		menuSeparator.setImageDrawable(menuSeparatorImage);
-		menuSeparator.setScaleType(ScaleType.FIT_XY);
-		LayoutParams separatorParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
 		LinearLayout button = new LinearLayout(mShell.getContext());
 		button.addView(buttonIcon, iconParams);
 		button.addView(buttonText, textParams);
 		
-		button.setOnClickListener(clickListener);
+		baseButton.setActionImageView(buttonIcon);
+		baseButton.setActionTextView(buttonText);
 		
-		actionsButtons.addView(button, actionsButtons.getChildCount());
-		actionsButtons.addView(menuSeparator, separatorParams);
+		button.setOnClickListener(baseButton.getOnClickListener());
+		
+		ActionButtonRunnable addButtonRunnable = new ActionButtonRunnable(button);
+		mCurrentActivity.runOnUiThread(addButtonRunnable);
 	}
 	
 	public static void setSplashScreen() {
@@ -188,6 +193,28 @@ public class BaseApplication extends Application {
 				unbindDrawables(((ViewGroup) view).getChildAt(i));
 			}
 			((ViewGroup) view).removeAllViews();
+		}
+	}
+	
+	private static class ActionButtonRunnable implements Runnable {
+		private LinearLayout mButton;
+		
+		public ActionButtonRunnable(LinearLayout button) {
+			mButton = button;
+		}
+
+		@Override
+		public void run() {
+			LinearLayout actionsButtons = (LinearLayout) mShell.findViewById(R.id.action_buttons_container);
+			
+			ImageView menuSeparator = new ImageView(mShell.getContext());
+			Drawable menuSeparatorImage = mShell.getResources().getDrawable(R.drawable.ui_menu_separator);
+			menuSeparator.setImageDrawable(menuSeparatorImage);
+			menuSeparator.setScaleType(ScaleType.FIT_XY);
+			LayoutParams separatorParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			
+			actionsButtons.addView(mButton, actionsButtons.getChildCount());
+			actionsButtons.addView(menuSeparator, separatorParams);
 		}
 	}
 }

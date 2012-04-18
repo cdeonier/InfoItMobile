@@ -51,8 +51,7 @@ public class DisplayInfoTask extends AsyncTask<Void, Void, LinearLayout> {
 			db.createHistoryItem(mIdentifier, basicInfo.getName(), basicInfo.getEntityType());
 			db.close();
 
-			mActivity.setEntityType(basicInfo.getEntityType());
-			mActivity.setEntitySubType(basicInfo.getEntitySubType());
+			mActivity.setBasicInformation(basicInfo);
 
 			if ("place".equals(WebServiceAdapter.getEntityType(jsonResponse))) {
 				if ("Real Estate Property".equals(WebServiceAdapter.getEntitySubType(jsonResponse))) {

@@ -13,6 +13,7 @@ public class DownloadThumbnailTask extends AsyncTask<String, Void, Drawable> {
 	private final ProgressBar mProgressBar;
 	private final Drawable[] mThumbnails;
 	private final int thumbnailPosition;
+	private String mUrl;
 
 	public DownloadThumbnailTask(ImageView imageView, ProgressBar progressBar, Drawable[] thumbnails, int position) {
 		mImageView = imageView;
@@ -23,6 +24,7 @@ public class DownloadThumbnailTask extends AsyncTask<String, Void, Drawable> {
 
 	@Override
 	protected Drawable doInBackground(String... params) {
+		mUrl = params[0];
 		Drawable image = null;
 		image = ImageUtil.getImage(params[0]);
 		mThumbnails[thumbnailPosition] = image;
@@ -34,12 +36,14 @@ public class DownloadThumbnailTask extends AsyncTask<String, Void, Drawable> {
 		if (mImageView != null) {
 			mProgressBar.setVisibility(View.INVISIBLE);
 			
-			//Check to see if there is already an existing drawable; Gingerbread bug seems
-			//to overwrite image for row even if populated for no thumbnail case.
-			if (mImageView != null && mImageView.getDrawable() == null) {
+			DownloadThumbnailTask thumbnailTask = ImageUtil.getDownloadThumbnailTask(mImageView);
+			if (this == thumbnailTask) {
 				mImageView.setImageDrawable(result);
 			}
 		}
 	}
 
+	public String getUrl() {
+		return mUrl;
+	}
 }

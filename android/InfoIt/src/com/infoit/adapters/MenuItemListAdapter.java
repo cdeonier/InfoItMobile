@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,12 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.infoit.async.DownloadThumbnailTask;
-import com.infoit.async.TaskTrackerRunnable;
 import com.infoit.constants.Constants;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
 import com.infoit.record.MenuItemListRecord;
+import com.infoit.util.ImageUtil;
 
 public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
 	private ArrayList<MenuItemListRecord> mMenuItems;
@@ -103,11 +101,9 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
 		if (mThumbnails[position] == null) {
 			if (currentMenuItem.getThumbnailUrl() != null && !currentMenuItem.getThumbnailUrl().equals("")) {
 				holder.progressBar.setVisibility(View.VISIBLE);
-				DownloadThumbnailTask thumbnailsTask = 
-						new DownloadThumbnailTask(holder.thumbnail, holder.progressBar, mThumbnails, position);
-				thumbnailsTask.execute(currentMenuItem.getThumbnailUrl());
-				Handler handler = new Handler();
-		    handler.postDelayed(new TaskTrackerRunnable(thumbnailsTask), 20000);
+				
+				String thumbnailUrl = currentMenuItem.getThumbnailUrl();
+				ImageUtil.downloadThumbnail(thumbnailUrl, holder.thumbnail, holder.progressBar, mThumbnails, position);
 			} else {
 				Drawable thumbnail = convertView.getResources().getDrawable(R.drawable.basic_no_thumbnail);
 				holder.progressBar.setVisibility(View.GONE);

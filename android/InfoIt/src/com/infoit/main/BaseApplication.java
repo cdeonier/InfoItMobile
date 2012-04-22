@@ -65,6 +65,8 @@ public class BaseApplication extends Application {
     bookmarksListButton.setOnClickListener(new UiNavigationItemOnClickListener(mShell, ListBookmarks.class, activity));
     LinearLayout historyListButton = (LinearLayout) mShell.findViewById(R.id.nav_recent_history_button);
     historyListButton.setOnClickListener(new UiNavigationItemOnClickListener(mShell, RecentHistory.class, activity));
+    LinearLayout accountsButton = (LinearLayout) mShell.findViewById(R.id.nav_account_button);
+    accountsButton.setOnClickListener(new UiNavigationItemOnClickListener(mShell, Account.class, activity));
     
     //Then Actions menu
     clearActionsMenu();
@@ -77,6 +79,8 @@ public class BaseApplication extends Application {
         mCurrentActivity.startActivity(intent);
       }
     });
+    
+    setBackgroundColor(R.color.standard_bg);
     
     setActivityContent(layoutId);
     mShell.scrollToApplicationView();
@@ -169,6 +173,11 @@ public class BaseApplication extends Application {
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		setContentContainerSize();
 		mContentContainer.addView(content, lp);
+	}
+	
+	public static void setBackgroundColor(int color) {
+		FrameLayout activityContainer = (FrameLayout) mShell.findViewById(R.id.activity_container);
+		activityContainer.setBackgroundResource(color);
 	}
 	
 	public static UiShell getView() {

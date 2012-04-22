@@ -14,9 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#888888"
-            android:paddingTop="5dip"
             android:paddingBottom="5dip"
             android:paddingLeft="10dip"
+            android:paddingTop="5dip"
             android:text="Go to..."
             android:textColor="@android:color/white"
             android:textSize="14sp" />
@@ -71,6 +71,33 @@
                 android:layout_height="wrap_content"
                 android:padding="10dip"
                 android:text="Recent History"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ui_menu_separator" />
+
+        <LinearLayout
+            android:id="@+id/nav_account_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/account_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:text="Account"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
         </LinearLayout>

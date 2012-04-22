@@ -91,7 +91,12 @@ public class BasicView extends LinearLayout implements BaseInformationView {
     }
 
     name.setText(mBasicInformation.getName());
-    description.setText(mBasicInformation.getDescription());
+    if (mBasicInformation.getDescription() != null && !mBasicInformation.getDescription().equals("")) {
+    	description.setText(mBasicInformation.getDescription());
+    } else {
+    	description.setVisibility(View.GONE);
+    }
+    
   }
 
 }

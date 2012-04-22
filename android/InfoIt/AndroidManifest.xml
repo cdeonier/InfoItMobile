@@ -68,6 +68,10 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
+            android:name=".Account"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
             android:name=".DisplayMenu"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >

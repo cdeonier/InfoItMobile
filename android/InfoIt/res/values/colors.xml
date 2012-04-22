@@ -8,4 +8,10 @@
   <color name="menu_type_text">#6c6c6c</color>
   <color name="menu_type_bg_pressed">#6c6c6c</color>
   <color name="menu_type_text_pressed">#dddddd</color>
+  
+  <color name="account_status_blue">#548dd4</color>
+  <color name="account_status_red">#ff6161</color>
+  
+  <color name="standard_bg">#ffffff</color>
+  <color name="settings_bg">#333333</color>
 </resources>

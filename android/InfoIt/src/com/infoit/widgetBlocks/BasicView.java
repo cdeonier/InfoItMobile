@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.infoit.main.BaseApplication;
+import com.infoit.main.CapturePhoto;
 import com.infoit.main.PhotoGallery;
 import com.infoit.main.R;
 import com.infoit.record.BasicInformation;
@@ -88,6 +89,15 @@ public class BasicView extends LinearLayout implements BaseInformationView {
 	    int photoButtonOffset = (int) (20 * getResources().getDisplayMetrics().density);
 	    photoButtonParams.setMargins(0, 0, 0, photoButtonOffset);
 	    thumbnailContainer.addView(photoButton, photoButtonParams);
+    } else {
+    	thumbnail.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					Intent capturePhotoIntent = new Intent(BaseApplication.getCurrentActivity(), CapturePhoto.class);
+					capturePhotoIntent.putExtra("identifier", mBasicInformation.getEntityId());
+					BaseApplication.getCurrentActivity().startActivity(capturePhotoIntent);
+				}
+			});
     }
 
     name.setText(mBasicInformation.getName());

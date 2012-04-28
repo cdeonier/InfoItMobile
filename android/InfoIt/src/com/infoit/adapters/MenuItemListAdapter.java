@@ -101,13 +101,19 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
 		if (mThumbnails[position] == null) {
 			if (currentMenuItem.getThumbnailUrl() != null && !currentMenuItem.getThumbnailUrl().equals("")) {
 				holder.progressBar.setVisibility(View.VISIBLE);
-				
 				String thumbnailUrl = currentMenuItem.getThumbnailUrl();
 				ImageUtil.downloadThumbnail(thumbnailUrl, holder.thumbnail, holder.progressBar, mThumbnails, position);
 			} else {
 				Drawable thumbnail = convertView.getResources().getDrawable(R.drawable.basic_no_thumbnail);
 				holder.progressBar.setVisibility(View.GONE);
 				holder.thumbnail.setImageDrawable(thumbnail);
+//				holder.thumbnail.setOnClickListener(new OnClickListener() {
+//					@Override
+//					public void onClick(View arg0) {
+//						Intent capturePhotoIntent = new Intent(BaseApplication.getCurrentActivity(), CapturePhoto.class);
+//						BaseApplication.getCurrentActivity().startActivity(capturePhotoIntent);
+//					}
+//				});
 				mThumbnails[position] = thumbnail;
 			}
 		} else {

@@ -1,6 +1,6 @@
 package com.infoit.widgets.listeners;
 
-import com.infoit.widgets.UiShell;
+import com.infoit.ui.UiShell;
 
 import android.os.Handler;
 import android.view.View;

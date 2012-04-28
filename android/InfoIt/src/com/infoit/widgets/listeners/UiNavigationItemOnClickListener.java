@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.infoit.main.R;
-import com.infoit.widgets.UiShell;
+import com.infoit.ui.UiShell;
 
 public class UiNavigationItemOnClickListener implements OnClickListener {
   private UiShell mParent;

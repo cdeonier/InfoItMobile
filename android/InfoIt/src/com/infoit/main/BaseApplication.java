@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.infoit.buttons.BaseButton;
-import com.infoit.widgets.UiShell;
+import com.infoit.ui.UiShell;
 import com.infoit.widgets.listeners.UiMenuOnClickListener;
 import com.infoit.widgets.listeners.UiNavigationItemOnClickListener;
 

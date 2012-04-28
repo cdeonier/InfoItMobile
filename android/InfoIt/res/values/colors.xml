@@ -14,4 +14,7 @@
   
   <color name="standard_bg">#ffffff</color>
   <color name="settings_bg">#333333</color>
+  
+  <color name="mask">#60000000</color>
+  <color name="frame">#70000000</color>
 </resources>

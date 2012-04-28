@@ -15,11 +15,13 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -35,7 +37,7 @@ import com.infoit.async.LoadMenuTask;
 import com.infoit.constants.Constants;
 import com.infoit.record.MenuInformation;
 import com.infoit.record.MenuItemListRecord;
-import com.infoit.widgets.UiShell;
+import com.infoit.ui.UiShell;
 
 public class DisplayMenu extends TrackedActivity {
 	private UiShell mApplicationContainer;
@@ -185,12 +187,18 @@ public class DisplayMenu extends TrackedActivity {
 			menuTypesContainer.addView(menuTypeTextView);
 		}
 
-		RelativeLayout blank = new RelativeLayout(this);
-		blank.setLayoutParams(new LinearLayout.LayoutParams(menuTypeWidth, menuTypeHeight));
-		Drawable menuTypeDrawable = getResources().getDrawable(R.drawable.menu_types_container);
-		blank.setBackgroundDrawable(menuTypeDrawable);
-		menuTypesContainer.addView(blank);
-		
+		WindowManager w = getWindowManager();
+		Display d = w.getDefaultDisplay();
+		int screenWidth = d.getWidth();
+		if (menuTypesContainer.getChildCount() * menuTypeWidth < screenWidth) {
+			RelativeLayout blank = new RelativeLayout(this);
+			int blankWidth = screenWidth - menuTypesContainer.getChildCount() * menuTypeWidth;
+			blank.setLayoutParams(new LinearLayout.LayoutParams(blankWidth, menuTypeHeight));
+			Drawable menuTypeDrawable = getResources().getDrawable(R.drawable.menu_types_container);
+			blank.setBackgroundDrawable(menuTypeDrawable);
+			menuTypesContainer.addView(blank);
+		}
+
 		menuTypesContainer.getChildAt(0).setSelected(true);
 	}
 

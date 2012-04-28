@@ -4,14 +4,27 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -121,5 +134,80 @@ public class WebServiceAdapter {
 			e.printStackTrace();
 		}
 		return builder.toString();
+	}
+	
+	public static boolean createAccount(String email, String password) throws WebServiceException {
+		SchemeRegistry schemeRegistry = new SchemeRegistry();
+		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+		HttpParams params = new BasicHttpParams();
+		SingleClientConnManager mgr = new SingleClientConnManager(params, schemeRegistry);
+		HttpClient client = new DefaultHttpClient(mgr, params);	
+		HttpPost httpPost = new HttpPost("https://infoit.heroku.com/users.json");
+		
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+    nameValuePairs.add(new BasicNameValuePair("user[email]", email));
+    nameValuePairs.add(new BasicNameValuePair("user[password]", password));
+    nameValuePairs.add(new BasicNameValuePair("user[password_confirmation]", password));
+		
+    HttpResponse response = null;
+    
+    try {
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			response = client.execute(httpPost);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    
+    if (response != null) {
+    	StatusLine statusLine = response.getStatusLine();
+    	if (statusLine.getStatusCode() == 200) {
+				return true;
+    	} else {
+    		return false;
+    	}
+    } else {
+    	throw new WebServiceException();
+    }
+	}
+	
+	public static boolean login(String email, String password) throws WebServiceException {
+		SchemeRegistry schemeRegistry = new SchemeRegistry();
+		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+		HttpParams params = new BasicHttpParams();
+		SingleClientConnManager mgr = new SingleClientConnManager(params, schemeRegistry);
+		HttpClient client = new DefaultHttpClient(mgr, params);	
+		HttpPost httpPost = new HttpPost("https://infoit.heroku.com/sessions");
+		
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+    nameValuePairs.add(new BasicNameValuePair("user[email]", email));
+    nameValuePairs.add(new BasicNameValuePair("user[password]", password));
+		
+    HttpResponse response = null;
+    
+    try {
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			response = client.execute(httpPost);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    
+    if (response != null) {
+    	StatusLine statusLine = response.getStatusLine();
+    	if (statusLine.getStatusCode() == 200) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    } else {
+    	throw new WebServiceException();
+    }
 	}
 }

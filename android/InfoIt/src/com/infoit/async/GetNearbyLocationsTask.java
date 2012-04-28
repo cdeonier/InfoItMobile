@@ -31,7 +31,7 @@ public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 	protected void onPostExecute(JsonNode result) {
 		super.onPostExecute(result);
 		
-		if (mActivity != null && result != null) {
+		if (mActivity != null && result != null && BaseApplication.getCurrentActivity() == mActivity) {
 			GpsListAdapter adapter = mActivity.getGpsListAdapter();
 			adapter.clear();
 			

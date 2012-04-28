@@ -7,7 +7,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,9 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.infoit.constants.Constants;
+import com.infoit.main.BaseApplication;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
 import com.infoit.record.MenuItemListRecord;
+import com.infoit.ui.NoImageDrawable;
 import com.infoit.util.ImageUtil;
 
 public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
@@ -104,20 +109,21 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
 				String thumbnailUrl = currentMenuItem.getThumbnailUrl();
 				ImageUtil.downloadThumbnail(thumbnailUrl, holder.thumbnail, holder.progressBar, mThumbnails, position);
 			} else {
-				Drawable thumbnail = convertView.getResources().getDrawable(R.drawable.basic_no_thumbnail);
 				holder.progressBar.setVisibility(View.GONE);
-				holder.thumbnail.setImageDrawable(thumbnail);
-//				holder.thumbnail.setOnClickListener(new OnClickListener() {
-//					@Override
-//					public void onClick(View arg0) {
-//						Intent capturePhotoIntent = new Intent(BaseApplication.getCurrentActivity(), CapturePhoto.class);
-//						BaseApplication.getCurrentActivity().startActivity(capturePhotoIntent);
-//					}
-//				});
-				mThumbnails[position] = thumbnail;
+				
+				Resources res = BaseApplication.getCurrentActivity().getResources();
+				Drawable thumbnail = convertView.getResources().getDrawable(R.drawable.basic_no_thumbnail);
+				Bitmap bm = ((BitmapDrawable) thumbnail).getBitmap();
+				NoImageDrawable noImage = new NoImageDrawable(currentMenuItem.getEntityId(), res, bm);
+				holder.thumbnail.setImageDrawable(noImage);
+				holder.thumbnail.setOnClickListener(noImage.getOnClickListener());
+				mThumbnails[position] = noImage;
 			}
 		} else {
 			holder.thumbnail.setImageDrawable(mThumbnails[position]);
+			if (mThumbnails[position] instanceof NoImageDrawable) {
+				holder.thumbnail.setOnClickListener(((NoImageDrawable) mThumbnails[position]).getOnClickListener());
+			}
 		}
 		
 		holder.name.setText(currentMenuItem.getName());
@@ -206,6 +212,8 @@ public class MenuItemListAdapter extends ArrayAdapter<MenuItemListRecord> {
 		      view.getContext().startActivity(displayInfoIntent);	
 		}
 	}
+	
+
 	
 	private static class ViewHolder {
 		TextView name;

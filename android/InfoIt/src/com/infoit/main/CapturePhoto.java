@@ -101,6 +101,8 @@ public class CapturePhoto extends TrackedActivity {
 					Log.e("Camera", e.toString());
 				}
 
+			} else {
+				finish();
 			}
 		}
 	}

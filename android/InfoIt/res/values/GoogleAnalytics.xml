@@ -14,8 +14,9 @@
   <string name="com.infoit.main.ListBookmarks">ListBookmarks</string>
   <string name="com.infoit.main.NfcInstructions">NfcInstructions</string>
   <string name="com.infoit.main.PhotoGallery">PhotoGallery</string>
+  <string name="com.infoit.main.CapturePhoto">CapturePhoto</string>
   <string name="com.infoit.main.QrCodeCapture">QrCodeCapture</string>
   <string name="com.infoit.main.RecentHistory">RecentHistory</string>
   <string name="com.infoit.main.NearbyLocations">NearbyLocations</string>
-  <string name="com.infoit.main.Settings">Settings</string>
+  <string name="com.infoit.main.Account">Account</string>
 </resources>

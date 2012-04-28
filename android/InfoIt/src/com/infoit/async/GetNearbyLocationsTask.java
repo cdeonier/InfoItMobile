@@ -51,7 +51,8 @@ public class GetNearbyLocationsTask extends AsyncTask<Void, Void, JsonNode> {
 				nearbyLocation.setEntityType(entityType);
 				nearbyLocation.setEntitySubType(entitySubType);
 				
-				adapter.add(nearbyLocation);
+				if (entitySubType.equals("Restaurant"))
+					adapter.add(nearbyLocation);
 			}
 			
 			adapter.notifyDataSetChanged();

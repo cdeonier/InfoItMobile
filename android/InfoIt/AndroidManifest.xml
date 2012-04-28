@@ -57,7 +57,7 @@
         <activity
             android:launchMode="singleInstance"
             android:name=".QrCodeCapture"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".NearbyLocations"

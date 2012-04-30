@@ -19,17 +19,13 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:name=".BaseApplication"
         android:debuggable="true"
         android:icon="@drawable/launcher_icon"
-        android:label="@string/infoit" >
+        android:label="@string/infoit"
+        android:name=".BaseApplication" >
         <activity
             android:name=".ListBookmarks"
             android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".RecentHistory"
@@ -93,6 +89,11 @@
             android:launchMode="singleTop"
             android:name=".InfoChooser"
             android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

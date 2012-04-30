@@ -21,7 +21,9 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
 import com.infoit.buttons.BaseButton;
+import com.infoit.constants.Constants;
 import com.infoit.ui.UiShell;
 import com.infoit.widgets.listeners.UiMenuOnClickListener;
 import com.infoit.widgets.listeners.UiNavigationItemOnClickListener;
@@ -75,6 +77,7 @@ public class BaseApplication extends Application {
     infoItButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
+      	EasyTracker.getTracker().trackEvent(Constants.SHELL_CATEGORY, Constants.SHELL_INFOIT_BUTTON, getCurrentActivity().getClass().getName(), 0);
         Intent intent = new Intent(mCurrentActivity, InfoChooser.class);
         mCurrentActivity.startActivity(intent);
       }

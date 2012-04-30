@@ -7,6 +7,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
+import com.infoit.constants.Constants;
 import com.infoit.main.BaseApplication;
 import com.infoit.main.CapturePhoto;
 
@@ -31,6 +33,7 @@ public class NoImageDrawable extends BitmapDrawable {
 
 		@Override
 		public void onClick(View view) {
+			EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.PHOTO_BUTTON, 0);
 			Intent capturePhotoIntent = new Intent(BaseApplication.getCurrentActivity(), CapturePhoto.class);
 			capturePhotoIntent.putExtra("identifier", mIdentifier);
 			BaseApplication.getCurrentActivity().startActivity(capturePhotoIntent);

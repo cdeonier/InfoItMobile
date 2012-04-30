@@ -10,9 +10,11 @@
 #import "MenuDelegate.h"
 
 @class NavigationMenuViewController;
+@class RestaurantActionMenuViewController;
 
 @interface BookmarkViewController : UIViewController <MenuDelegate>
 
 @property (nonatomic, strong) NavigationMenuViewController *navigationMenuViewController;
+@property (nonatomic, strong) RestaurantActionMenuViewController *actionMenuViewController;
 
 @end

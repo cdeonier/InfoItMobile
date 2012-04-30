@@ -22,8 +22,6 @@ public class UiMenuOnClickListener implements OnClickListener {
 
   @Override
   public void onClick(View view) {
-    
-
     // Ensure menu is visible
     mMenu.setVisibility(View.VISIBLE);
 

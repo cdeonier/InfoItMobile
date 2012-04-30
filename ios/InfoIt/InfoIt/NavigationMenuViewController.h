@@ -13,8 +13,6 @@
     IBOutlet UIButton *recentHistoryButton;
 }
 
-+(UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
-
 -(void) initializeBookmarkButton;
 -(void) initializeRecentHistoryButton;
 

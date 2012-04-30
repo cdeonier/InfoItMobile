@@ -1,23 +1,23 @@
 //
-//  NavigationMenuViewController.m
+//  RestaurantActionMenuViewController.m
 //  InfoIt
 //
-//  Created by Christian Deonier on 4/3/12.
+//  Created by Christian Deonier on 4/7/12.
 //  Copyright (c) 2012 MIT. All rights reserved.
 //
 
-#import "NavigationMenuViewController.h"
+#import "RestaurantActionMenuViewController.h"
 #import "ImageUtil.h"
 
-@interface NavigationMenuViewController ()
+@interface RestaurantActionMenuViewController ()
 
 @end
 
-@implementation NavigationMenuViewController
+@implementation RestaurantActionMenuViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:@"NavigationMenuViewController" bundle:nibBundleOrNil];
+    self = [super initWithNibName:@"RestaurantActionMenuViewController" bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     [self initializeBookmarkButton];
-    [self initializeRecentHistoryButton];
+    [self initializeViewMenuButton];
 }
 
 - (void)viewDidUnload
@@ -50,21 +50,19 @@
         [ImageUtil imageWithImage:bookmarkImage scaledToSize:CGSizeMake(25, 25)];
     [bookmarkButton setImage:bookmarkIcon forState:UIControlStateNormal];
     
-    [bookmarkButton setTitle:@"My Bookmarks" forState:UIControlStateNormal];
+    [bookmarkButton setTitle:@"Bookmark" forState:UIControlStateNormal];
     [bookmarkButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
 }
 
-- (void) initializeRecentHistoryButton
+- (void) initializeViewMenuButton
 {
-    UIImage *recentHistoryImage = [UIImage imageNamed:@"history_icon.png"];
-    UIImage *recentHistoryIcon = 
-        [ImageUtil imageWithImage:recentHistoryImage scaledToSize:CGSizeMake(25, 25)];
-    [recentHistoryButton setImage:recentHistoryIcon forState:UIControlStateNormal];
+    UIImage *viewMenuImage = [UIImage imageNamed:@"menu_icon.png"];
+    UIImage *viewMenuIcon = 
+        [ImageUtil imageWithImage:viewMenuImage scaledToSize:CGSizeMake(25, 25)];
+    [viewMenuButton setImage:viewMenuIcon forState:UIControlStateNormal];
     
-    [recentHistoryButton setTitle:@"Recent History" forState:UIControlStateNormal];
-    [recentHistoryButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [viewMenuButton setTitle:@"View Menu" forState:UIControlStateNormal];
+    [viewMenuButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
 }
-
-
 
 @end

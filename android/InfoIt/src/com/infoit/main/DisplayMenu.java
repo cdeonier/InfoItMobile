@@ -116,8 +116,6 @@ public class DisplayMenu extends TrackedActivity {
 	}
 	
 	public void initializeMostLikedAdapter() {
-		EasyTracker.getTracker().trackEvent(Constants.LIKE_CATEGORY, Constants.LIKE_ACTION_MOST_LIKED, null, 0);
-		
 		MenuCategoryAdapter headerAdapter = 
 				new MenuCategoryAdapter(this, R.layout.menu_list_header, R.id.list_header_title, null);
 		SeparatedListAdapter menuAdapter = new SeparatedListAdapter(this, headerAdapter);
@@ -140,9 +138,9 @@ public class DisplayMenu extends TrackedActivity {
 		
 		RelativeLayout restaurantButton = (RelativeLayout) header.findViewById(R.id.restaurant_button);
 		restaurantButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View view) {
+				EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.RESTAURANT_BUTTON, 0);
 	      Intent displayInfoIntent = new Intent(BaseApplication.getCurrentActivity(), DisplayInfo.class);
 	      displayInfoIntent.setAction(Constants.MENU);
 	      displayInfoIntent.putExtra("identifier", mRestaurantIdentifier);
@@ -155,6 +153,7 @@ public class DisplayMenu extends TrackedActivity {
 
 			@Override
 			public void onClick(View view) {
+				EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.MOST_LIKED_BUTTON, 0);
 				initializeMostLikedAdapter();
 			}
 		});

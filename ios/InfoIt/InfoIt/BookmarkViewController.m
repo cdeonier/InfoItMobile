@@ -12,6 +12,7 @@
 #import "UINavigationController+Menu.h"
 #import "UINavigationItem+Menu.h"
 #import "NavigationMenuViewController.h"
+#import "RestaurantActionMenuViewController.h"
 
 @interface BookmarkViewController ()
 
@@ -20,6 +21,7 @@
 @implementation BookmarkViewController
 
 @synthesize navigationMenuViewController;
+@synthesize actionMenuViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -75,6 +77,18 @@
     if ( ! controller) {
         self.navigationMenuViewController = [[NavigationMenuViewController alloc] init];
         controller = self.navigationMenuViewController;
+    }
+    controller.view.frame = CGRectMake(0, viewFrame.origin.y, 270, viewFrame.size.height);
+    controller.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;
+    return controller.view;
+}
+
+- (UIView * ) viewForRightMenu {
+    CGRect viewFrame = self.navigationController.applicationViewFrame;
+    UIViewController *controller = self.actionMenuViewController;
+    if ( ! controller) {
+        self.actionMenuViewController = [[RestaurantActionMenuViewController alloc] init];
+        controller = self.actionMenuViewController;
     }
     controller.view.frame = CGRectMake(0, viewFrame.origin.y, 270, viewFrame.size.height);
     controller.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;

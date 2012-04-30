@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
+import com.infoit.constants.Constants;
 import com.infoit.main.BaseApplication;
 import com.infoit.main.CapturePhoto;
 import com.infoit.main.PhotoGallery;
@@ -56,6 +58,7 @@ public class BasicView extends LinearLayout implements BaseInformationView {
 	
 	      @Override
 	      public void onClick(View v) {
+	      	EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.GALLERY_BUTTON, 0);
 	        Intent intent = new Intent(BaseApplication.getCurrentActivity(), PhotoGallery.class);
 	        intent.putExtra("photoUrls", mBasicInformation.getPhotoUrls());
 	        BaseApplication.getCurrentActivity().startActivity(intent);
@@ -93,6 +96,7 @@ public class BasicView extends LinearLayout implements BaseInformationView {
     	thumbnail.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
+					EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.PHOTO_BUTTON, 0);
 					Intent capturePhotoIntent = new Intent(BaseApplication.getCurrentActivity(), CapturePhoto.class);
 					capturePhotoIntent.putExtra("identifier", mBasicInformation.getEntityId());
 					BaseApplication.getCurrentActivity().startActivity(capturePhotoIntent);

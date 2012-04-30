@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
 import com.infoit.constants.Constants;
 import com.infoit.main.BaseApplication;
 import com.infoit.main.DisplayInfo;
@@ -86,6 +87,7 @@ public class RestaurantButton extends BaseButton implements ActionButton {
 	private class ButtonOnClickListener implements OnClickListener {
 		@Override
 		public void onClick(View view) {
+			EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.RESTAURANT_BUTTON, 0);
 			Intent displayIntent = new Intent(BaseApplication.getCurrentActivity(), DisplayInfo.class);
 			displayIntent.setAction(Constants.MENU_ITEM);
 			displayIntent.putExtra("identifier", mRestaurantIdentifier);

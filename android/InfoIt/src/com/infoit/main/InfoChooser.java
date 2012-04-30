@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
+import com.infoit.constants.Constants;
 
 public class InfoChooser extends TrackedActivity {
 
@@ -31,6 +33,7 @@ public class InfoChooser extends TrackedActivity {
 
       @Override
       public void onClick(View v) {
+      	EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.NFC_BUTTON, 0);
         Intent nfcIntent = new Intent(BaseApplication.getCurrentActivity(), NfcInstructions.class);
         BaseApplication.getCurrentActivity().startActivity(nfcIntent);
       }
@@ -40,6 +43,7 @@ public class InfoChooser extends TrackedActivity {
     qrCodeView.setOnClickListener(new OnClickListener(){
       @Override
       public void onClick(View v) {
+      	EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.QR_BUTTON, 0);
         Intent qrCaptureIntent = new Intent(BaseApplication.getCurrentActivity(),QrCodeCapture.class);
         BaseApplication.getCurrentActivity().startActivity(qrCaptureIntent);
       }
@@ -49,6 +53,7 @@ public class InfoChooser extends TrackedActivity {
     gpsView.setOnClickListener(new OnClickListener(){
       @Override
       public void onClick(View v) {
+      	EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.GPS_BUTTON, 0);
         Intent nearbyLocations = new Intent(BaseApplication.getCurrentActivity(), NearbyLocations.class);
         BaseApplication.getCurrentActivity().startActivity(nearbyLocations);
       }

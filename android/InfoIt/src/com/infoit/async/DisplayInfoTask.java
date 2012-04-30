@@ -58,13 +58,13 @@ public class DisplayInfoTask extends AsyncTask<Void, Void, LinearLayout> {
 					child = new PlaceRealEstateView(mActivity);
 					((PlaceRealEstateView) child).initializeView(jsonResponse);
 				} else if ("Restaurant".equals(WebServiceAdapter.getEntitySubType(jsonResponse))) {
-					EasyTracker.getTracker().trackEvent(Constants.DISPLAY_CATEGORY, Constants.RESTAURANT_DRILLDOWN, null, 0);
+					EasyTracker.getTracker().trackEvent(Constants.DISPLAY_CATEGORY, Constants.DISPLAY_RESTAURANT, String.valueOf(basicInfo.getEntityId()), 0);
 					child = new PlaceRestaurantView(mActivity);
 					((PlaceRestaurantView) child).initializeView(jsonResponse);
 				}
 			} else if ("thing".equals(WebServiceAdapter.getEntityType(jsonResponse))) {
 				if ("Menu Item".equals(WebServiceAdapter.getEntitySubType(jsonResponse))) {
-					EasyTracker.getTracker().trackEvent(Constants.DISPLAY_CATEGORY, Constants.MENU_ITEM_ACTION_DRILLDOWN, null, 0);
+					EasyTracker.getTracker().trackEvent(Constants.DISPLAY_CATEGORY, Constants.DISPLAY_MENU_ITEM, String.valueOf(basicInfo.getEntityId()), 0);
 					child = new ThingMenuItemView(mActivity);
 					((ThingMenuItemView) child).initializeView(jsonResponse);
 				}

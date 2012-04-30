@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
+import com.infoit.constants.Constants;
 import com.infoit.main.R;
 import com.infoit.record.InformationRecord;
 import com.infoit.record.LocationInformation;
@@ -48,6 +50,7 @@ public class AddressView extends LinearLayout implements BaseInformationView {
 
       @Override
       public void onClick(View v) {
+      	EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.OPEN_MAP_BUTTON, 0);
         String mapUrl = "http://maps.google.com/maps?q="+
                         mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
                         mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+
@@ -62,6 +65,7 @@ public class AddressView extends LinearLayout implements BaseInformationView {
 
       @Override
       public void onClick(View v) {
+      	EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.GET_DIRECTIONS_BUTTON, 0);
         String mapUrl = "http://maps.google.com/maps?saddr=&daddr="+
                         mLocationInformation.getAddressOne().replaceAll("\\s", "+")+"+"+
                         mLocationInformation.getCity().replaceAll("\\s", "+")+"+"+

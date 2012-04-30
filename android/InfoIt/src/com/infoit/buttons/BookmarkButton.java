@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.easytracking.EasyTracker;
+import com.infoit.constants.Constants;
 import com.infoit.main.BaseApplication;
 import com.infoit.main.DisplayInfo;
 import com.infoit.main.R;
@@ -106,6 +108,8 @@ public class BookmarkButton extends BaseButton implements ActionButton {
 				getImageView().setImageDrawable(newIcon);
 				getActionTextView().setText("Add Bookmark");
 				getTextView().setText("Add Bookmark");	
+				
+				EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.BOOKMARK_BUTTON, 0);
 			} else {
 				if ("place".equals(entityType)) {
 					activity.getDbAdapter().createPlaceBookmark(identifier, name);
@@ -118,6 +122,8 @@ public class BookmarkButton extends BaseButton implements ActionButton {
 				getImageView().setImageDrawable(newIcon);
 				getActionTextView().setText("Remove Bookmark");
 				getTextView().setText("Remove Bookmark");
+				
+				EasyTracker.getTracker().trackEvent(Constants.ACTIVITY_CATEGORY, Constants.ACTIVITY_BUTTON, Constants.REMOVE_BOOKMARK_BUTTON, 0);
 			}
 		}
 	}

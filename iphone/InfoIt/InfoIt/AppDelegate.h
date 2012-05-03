@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class ViewController;
+@class NavController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) ViewController *viewController;
+@property (retain, nonatomic) NavController *navController;
+@property (strong, nonatomic) UIViewController *centerViewController;
 
 @end

@@ -1,13 +1,13 @@
 //
-//  ViewController.h
+//  NavController.h
 //  InfoIt
 //
-//  Created by Christian Deonier on 5/1/12.
+//  Created by Christian Deonier on 5/2/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface NavController : UIViewController
 
 @end

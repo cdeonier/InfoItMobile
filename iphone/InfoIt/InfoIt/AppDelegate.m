@@ -8,19 +8,30 @@
 
 #import "AppDelegate.h"
 
-#import "ViewController.h"
+#import "InfoChooserViewController.h"
+#import "NavController.h"
+#import "IIViewDeckController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize viewController = _viewController;
+@synthesize navController = _navController;
+@synthesize centerViewController = _centerViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    self.navController = [[NavController alloc] initWithNibName:@"NavController" bundle:nil];
+    
     // Override point for customization after application launch.
-    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    InfoChooserViewController *infoChooserViewController = [[InfoChooserViewController alloc] initWithNibName:@"InfoChooserViewController" bundle:nil];
+    
+    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:infoChooserViewController];
+    
+    IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.centerViewController leftViewController:self.navController];
+    
+    self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];
     return YES;
 }

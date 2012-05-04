@@ -3,7 +3,7 @@
 //  InfoIt
 //
 //  Created by Christian Deonier on 5/1/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

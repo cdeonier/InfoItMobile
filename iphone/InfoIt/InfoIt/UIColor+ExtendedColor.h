@@ -1,5 +1,5 @@
 //
-//  InfoChooserViewController.h
+//  UIColor+ExtendedColor.h
 //  InfoIt
 //
 //  Created by Christian Deonier on 5/3/12.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InfoChooserViewController : UIViewController
+@interface UIColor (ExtendedColor)
 
-- (IBAction)pressedNearbyLocations:(id)sender;
++ (UIColor *)navButtonPressedColor;
 
 @end

@@ -25,8 +25,20 @@
 		3C95947C1552554600627182 /* menu_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C95947B1552554600627182 /* menu_separator.png */; };
 		3C9594851552794C00627182 /* InfoChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594831552794C00627182 /* InfoChooserViewController.m */; };
 		3C9594861552794C00627182 /* InfoChooserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594841552794C00627182 /* InfoChooserViewController.xib */; };
-		3C95948815527C8900627182 /* nav_menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C95948715527C8900627182 /* nav_menu_icon.png */; };
 		3C95948C1552851C00627182 /* ImageUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C95948B1552851C00627182 /* ImageUtil.m */; };
+		3C95949B155338FA00627182 /* NearbyLocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C959499155338FA00627182 /* NearbyLocationsViewController.m */; };
+		3C95949C155338FA00627182 /* NearbyLocationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C95949A155338FA00627182 /* NearbyLocationsViewController.xib */; };
+		3C9594A715533E9900627182 /* BookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594A515533E9900627182 /* BookmarksViewController.m */; };
+		3C9594A815533E9900627182 /* BookmarksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594A615533E9900627182 /* BookmarksViewController.xib */; };
+		3C9594AB15536CA300627182 /* UIColor+ExtendedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */; };
+		3C9594AF155374B200627182 /* RecentHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594AD155374B200627182 /* RecentHistoryViewController.m */; };
+		3C9594B0155374B200627182 /* RecentHistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594AE155374B200627182 /* RecentHistoryViewController.xib */; };
+		3C9594B4155374D000627182 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594B2155374D000627182 /* AccountViewController.m */; };
+		3C9594B5155374D000627182 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594B3155374D000627182 /* AccountViewController.xib */; };
+		3C9594B71553870500627182 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9594B61553870500627182 /* CoreLocation.framework */; };
+		3C9594B91553AB1E00627182 /* info_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594B81553AB1E00627182 /* info_icon.png */; };
+		3C9594C21553B7B200627182 /* nav_menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594C11553B7B200627182 /* nav_menu_icon.png */; };
+		3C9594C41553B95B00627182 /* nav_menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594C31553B95A00627182 /* nav_menu_icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,9 +68,26 @@
 		3C9594821552794C00627182 /* InfoChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoChooserViewController.h; sourceTree = "<group>"; };
 		3C9594831552794C00627182 /* InfoChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoChooserViewController.m; sourceTree = "<group>"; };
 		3C9594841552794C00627182 /* InfoChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoChooserViewController.xib; sourceTree = "<group>"; };
-		3C95948715527C8900627182 /* nav_menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_menu_icon.png; sourceTree = "<group>"; };
 		3C95948A1552851C00627182 /* ImageUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtil.h; sourceTree = "<group>"; };
 		3C95948B1552851C00627182 /* ImageUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUtil.m; sourceTree = "<group>"; };
+		3C959498155338FA00627182 /* NearbyLocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyLocationsViewController.h; sourceTree = "<group>"; };
+		3C959499155338FA00627182 /* NearbyLocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyLocationsViewController.m; sourceTree = "<group>"; };
+		3C95949A155338FA00627182 /* NearbyLocationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyLocationsViewController.xib; sourceTree = "<group>"; };
+		3C9594A415533E9900627182 /* BookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarksViewController.h; sourceTree = "<group>"; };
+		3C9594A515533E9900627182 /* BookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarksViewController.m; sourceTree = "<group>"; };
+		3C9594A615533E9900627182 /* BookmarksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookmarksViewController.xib; sourceTree = "<group>"; };
+		3C9594A915536CA300627182 /* UIColor+ExtendedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ExtendedColor.h"; sourceTree = "<group>"; };
+		3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ExtendedColor.m"; sourceTree = "<group>"; };
+		3C9594AC155374B200627182 /* RecentHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentHistoryViewController.h; sourceTree = "<group>"; };
+		3C9594AD155374B200627182 /* RecentHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentHistoryViewController.m; sourceTree = "<group>"; };
+		3C9594AE155374B200627182 /* RecentHistoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecentHistoryViewController.xib; sourceTree = "<group>"; };
+		3C9594B1155374D000627182 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		3C9594B2155374D000627182 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
+		3C9594B3155374D000627182 /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
+		3C9594B61553870500627182 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3C9594B81553AB1E00627182 /* info_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info_icon.png; path = ../../../../../Dropbox/InfoIt/Graphics/Icons/info_icon.png; sourceTree = "<group>"; };
+		3C9594C11553B7B200627182 /* nav_menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_menu_icon.png; sourceTree = "<group>"; };
+		3C9594C31553B95A00627182 /* nav_menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_menu_icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C9594B71553870500627182 /* CoreLocation.framework in Frameworks */,
 				3C9594351550C7D100627182 /* UIKit.framework in Frameworks */,
 				3C9594371550C7D100627182 /* Foundation.framework in Frameworks */,
 				3C9594391550C7D100627182 /* CoreGraphics.framework in Frameworks */,
@@ -96,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				3C9594341550C7D100627182 /* UIKit.framework */,
+				3C9594B61553870500627182 /* CoreLocation.framework */,
 				3C9594361550C7D100627182 /* Foundation.framework */,
 				3C9594381550C7D100627182 /* CoreGraphics.framework */,
 			);
@@ -105,12 +136,13 @@
 		3C95943A1550C7D100627182 /* InfoIt */ = {
 			isa = PBXGroup;
 			children = (
-				3C959489155284CE00627182 /* Util */,
+				3C9594A215533E3F00627182 /* Account */,
+				3C9594A015533E0700627182 /* RecentHistory */,
+				3C95949D15533D4200627182 /* Bookmarks */,
+				3C95948D15531C7900627182 /* NearbyLocations */,
 				3C959481155278FD00627182 /* InfoChooser */,
-				3C95946A1552225D00627182 /* Images */,
 				3C9594511550E83700627182 /* Shell */,
-				3C9594431550C7D100627182 /* AppDelegate.h */,
-				3C9594441550C7D100627182 /* AppDelegate.m */,
+				3C959489155284CE00627182 /* Util */,
 				3C95943B1550C7D100627182 /* Supporting Files */,
 			);
 			path = InfoIt;
@@ -130,6 +162,11 @@
 		3C9594511550E83700627182 /* Shell */ = {
 			isa = PBXGroup;
 			children = (
+				3C95949F15533DEB00627182 /* Images */,
+				3C9594431550C7D100627182 /* AppDelegate.h */,
+				3C9594441550C7D100627182 /* AppDelegate.m */,
+				3C9594A915536CA300627182 /* UIColor+ExtendedColor.h */,
+				3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */,
 				3C9594691552213800627182 /* ViewDeck */,
 				3C959463155220E100627182 /* Navigation */,
 			);
@@ -157,23 +194,10 @@
 			name = ViewDeck;
 			sourceTree = "<group>";
 		};
-		3C95946A1552225D00627182 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				3C95948715527C8900627182 /* nav_menu_icon.png */,
-				3C959477155252BA00627182 /* menu_header_separator.png */,
-				3C95947B1552554600627182 /* menu_separator.png */,
-				3C9594751552346D00627182 /* account_icon.png */,
-				3C95946C1552227900627182 /* bookmark_icon.png */,
-				3C95946B1552227900627182 /* history_icon.png */,
-				3C95946F1552227900627182 /* unbookmark_icon.png */,
-			);
-			name = Images;
-			sourceTree = "<group>";
-		};
 		3C959481155278FD00627182 /* InfoChooser */ = {
 			isa = PBXGroup;
 			children = (
+				3C9594BA1553AB2D00627182 /* Images */,
 				3C9594821552794C00627182 /* InfoChooserViewController.h */,
 				3C9594831552794C00627182 /* InfoChooserViewController.m */,
 				3C9594841552794C00627182 /* InfoChooserViewController.xib */,
@@ -188,6 +212,93 @@
 				3C95948B1552851C00627182 /* ImageUtil.m */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		3C95948D15531C7900627182 /* NearbyLocations */ = {
+			isa = PBXGroup;
+			children = (
+				3C959498155338FA00627182 /* NearbyLocationsViewController.h */,
+				3C959499155338FA00627182 /* NearbyLocationsViewController.m */,
+				3C95949A155338FA00627182 /* NearbyLocationsViewController.xib */,
+			);
+			name = NearbyLocations;
+			sourceTree = "<group>";
+		};
+		3C95949D15533D4200627182 /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				3C95949E15533DDC00627182 /* Images */,
+				3C9594A415533E9900627182 /* BookmarksViewController.h */,
+				3C9594A515533E9900627182 /* BookmarksViewController.m */,
+				3C9594A615533E9900627182 /* BookmarksViewController.xib */,
+			);
+			name = Bookmarks;
+			sourceTree = "<group>";
+		};
+		3C95949E15533DDC00627182 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C95946C1552227900627182 /* bookmark_icon.png */,
+				3C95946F1552227900627182 /* unbookmark_icon.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		3C95949F15533DEB00627182 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C9594C11553B7B200627182 /* nav_menu_icon.png */,
+				3C9594C31553B95A00627182 /* nav_menu_icon@2x.png */,
+				3C959477155252BA00627182 /* menu_header_separator.png */,
+				3C95947B1552554600627182 /* menu_separator.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		3C9594A015533E0700627182 /* RecentHistory */ = {
+			isa = PBXGroup;
+			children = (
+				3C9594A115533E1200627182 /* Images */,
+				3C9594AC155374B200627182 /* RecentHistoryViewController.h */,
+				3C9594AD155374B200627182 /* RecentHistoryViewController.m */,
+				3C9594AE155374B200627182 /* RecentHistoryViewController.xib */,
+			);
+			name = RecentHistory;
+			sourceTree = "<group>";
+		};
+		3C9594A115533E1200627182 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C95946B1552227900627182 /* history_icon.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		3C9594A215533E3F00627182 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				3C9594A315533E4E00627182 /* Images */,
+				3C9594B1155374D000627182 /* AccountViewController.h */,
+				3C9594B2155374D000627182 /* AccountViewController.m */,
+				3C9594B3155374D000627182 /* AccountViewController.xib */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
+		3C9594A315533E4E00627182 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C9594751552346D00627182 /* account_icon.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		3C9594BA1553AB2D00627182 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C9594B81553AB1E00627182 /* info_icon.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,6 +328,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "InfoIt Labs, Inc.";
 			};
 			buildConfigurationList = 3C95942A1550C7D000627182 /* Build configuration list for PBXProject "InfoIt" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -249,7 +361,13 @@
 				3C959478155252BA00627182 /* menu_header_separator.png in Resources */,
 				3C95947C1552554600627182 /* menu_separator.png in Resources */,
 				3C9594861552794C00627182 /* InfoChooserViewController.xib in Resources */,
-				3C95948815527C8900627182 /* nav_menu_icon.png in Resources */,
+				3C95949C155338FA00627182 /* NearbyLocationsViewController.xib in Resources */,
+				3C9594A815533E9900627182 /* BookmarksViewController.xib in Resources */,
+				3C9594B0155374B200627182 /* RecentHistoryViewController.xib in Resources */,
+				3C9594B5155374D000627182 /* AccountViewController.xib in Resources */,
+				3C9594B91553AB1E00627182 /* info_icon.png in Resources */,
+				3C9594C21553B7B200627182 /* nav_menu_icon.png in Resources */,
+				3C9594C41553B95B00627182 /* nav_menu_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +385,11 @@
 				3C9594671552211300627182 /* NavController.m in Sources */,
 				3C9594851552794C00627182 /* InfoChooserViewController.m in Sources */,
 				3C95948C1552851C00627182 /* ImageUtil.m in Sources */,
+				3C95949B155338FA00627182 /* NearbyLocationsViewController.m in Sources */,
+				3C9594A715533E9900627182 /* BookmarksViewController.m in Sources */,
+				3C9594AB15536CA300627182 /* UIColor+ExtendedColor.m in Sources */,
+				3C9594AF155374B200627182 /* RecentHistoryViewController.m in Sources */,
+				3C9594B4155374D000627182 /* AccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

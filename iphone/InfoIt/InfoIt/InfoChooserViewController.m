@@ -3,10 +3,11 @@
 //  InfoIt
 //
 //  Created by Christian Deonier on 5/3/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
 #import "InfoChooserViewController.h"
+#import "NearbyLocationsViewController.h"
 #import "IIViewDeckController.h"
 
 #import "ImageUtil.h"
@@ -30,11 +31,8 @@
 {
     [super viewDidLoad];
     
-    UIImage *menuImage = [UIImage imageNamed:@"nav_menu_icon.png"];
-    UIImage *scaledImage = [ImageUtil resizeImage:menuImage newSize:CGSizeMake(20.0f, 20.0f)];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:scaledImage style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
-    // Do any additional setup after loading the view from its nib.
+    UIImage *menuImage = [[UIImage imageNamed:@"nav_menu_icon.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
 }
 
 - (void)viewDidUnload
@@ -47,6 +45,12 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (IBAction)pressedNearbyLocations:(id)sender
+{
+    NearbyLocationsViewController *viewController = [[NearbyLocationsViewController alloc] initWithNibName:@"NearbyLocationsViewController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
                                 
 @end

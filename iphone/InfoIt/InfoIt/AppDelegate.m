@@ -3,7 +3,7 @@
 //  InfoIt
 //
 //  Created by Christian Deonier on 5/1/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -11,6 +11,7 @@
 #import "InfoChooserViewController.h"
 #import "NavController.h"
 #import "IIViewDeckController.h"
+#import "UIColor+ExtendedColor.h"
 
 @implementation AppDelegate
 

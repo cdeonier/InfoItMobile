@@ -7,6 +7,8 @@
 //
 
 #import "FindMenuViewController.h"
+#import "UIImageView+WebCache.h"
+#import "Location.h"
 
 @interface FindMenuViewController ()
 
@@ -15,9 +17,12 @@
 @implementation FindMenuViewController
 
 @synthesize responseData = _responseData;
-
 @synthesize tableView = _tableView;
 @synthesize locationManager = _locationManager;
+@synthesize locationsTableData = _locationsTableData;
+@synthesize searchBar = _searchBar;
+
+#pragma mark ViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +38,9 @@
     [super viewDidLoad];
     
     self.responseData = [[NSMutableData alloc] init];
+    self.locationsTableData = [[NSMutableArray alloc] init];
+    
+    self.tableView.tableFooterView = [UIView new];
     
     [self initializeLocationManager];
 }
@@ -47,19 +55,42 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark TableViewDelegate
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"LocationCellIdentifier";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"LocationCell" owner:self options:nil];
+        cell = locationCell;
+        locationCell = nil;
+    }
+    
+    Location *location = [self.locationsTableData objectAtIndex:indexPath.row];
+    
+    UILabel *name = (UILabel *)[cell viewWithTag:1];
+    name.text = [location name];
+    UILabel *distance = (UILabel *)[cell viewWithTag:2];
+    distance.text = [[NSString alloc] initWithFormat:@"%@%@", [[location distance] description], @" miles"];
+    UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:3];
+    [thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]]];
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.locationsTableData.count;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.0f;
+}
+
+#pragma mark Location
 
 - (void)initializeLocationManager 
 {
@@ -77,9 +108,11 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    NSLog(@"latitude %+.6f, longitude %+.6f\n", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     [self restGetNearbyLocations:newLocation];
+    [self.locationManager stopUpdatingLocation];
 }
+
+#pragma mark REST Calls
 
 - (void)restGetNearbyLocations:(CLLocation *)location 
 {
@@ -90,7 +123,6 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response 
 {
-    NSLog(@"didReceiveResponse");
     [self.responseData setLength:0];
 }
 
@@ -106,24 +138,63 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection 
 {
-    NSLog(@"connectionDidFinishLoading");
-    NSLog([[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding]);
     NSError *myError = nil;
-    NSArray *res = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableLeaves error:&myError];
-    NSDictionary *objectAtOne = [[res objectAtIndex:1] objectForKey:@"entity"];
-    NSLog([[objectAtOne objectForKey:@"distance"] description]);
+    NSArray *jsonResponse = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableLeaves error:&myError];
     
-//    // show all values
-//    for(id key in res) {
-//        
-//        id value = [res objectForKey:key];
-//        
-//        NSString *keyAsString = (NSString *)key;
-//        NSString *valueAsString = (NSString *)value;
-//        
-//        NSLog(@"key: %@", keyAsString);
-//        NSLog(@"value: %@", valueAsString);
-//    }
+    //NSLog([jsonResponse description]);
+    
+    NSMutableArray *locations = [[NSMutableArray alloc] init];
+    for (id locationJson in jsonResponse) {
+        NSDictionary *location = [locationJson objectForKey:@"entity"];
+        
+        //Only deal with restaurants at this point
+        NSString *entitySubType = [location objectForKey:@"entity_sub_type"];
+        if ([entitySubType isEqualToString:@"Restaurant"]) {
+            Location *locationRecord = [[Location alloc] init];
+            
+            NSString *name = [location objectForKey:@"name"];
+            NSNumber *distance = [location objectForKey:@"distance"];
+            NSNumber *entityId = [location objectForKey:@"id"];
+            NSString *thumbnailUrl = [location objectForKey:@"profile_photo_thumbnail_url"];
+            
+            [locationRecord setName:name];
+            [locationRecord setDistance:distance];
+            [locationRecord setEntityId:entityId];
+            [locationRecord setThumbnailUrl:thumbnailUrl];
+            
+            [locations addObject:locationRecord];
+        }
+    }
+    
+    self.locationsTableData = locations;
+    [self.tableView reloadData];
+}
+
+#pragma mark UISearchBarDelegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    searchBar.showsCancelButton = YES;
+    searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = NO;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    searchBar.text = nil;
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    //NSLog([[NSString alloc] initWithFormat:@"Searching for %@", searchBar.text]);
+    [searchBar resignFirstResponder];
 }
 
 @end

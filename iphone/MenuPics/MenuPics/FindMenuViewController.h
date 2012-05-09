@@ -9,12 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface FindMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
+@interface FindMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate>
+{
+    IBOutlet UITableViewCell *locationCell;
+}
 
 @property (nonatomic, strong) NSMutableData *responseData;
-
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSMutableArray *locationsTableData;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 
 - (void)initializeLocationManager;
 

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C1F96001559981C0062C7E1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1F95FF1559981C0062C7E1 /* Location.m */; };
+		3C1F96021559CE280062C7E1 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F96011559CE280062C7E1 /* LocationCell.xib */; };
+		3C1F9604155A074A0062C7E1 /* FindMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F9603155A074A0062C7E1 /* FindMenuViewController.xib */; };
 		3C256E131558FEE50092FD9C /* find_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C256E121558FEE50092FD9C /* find_menu@2x.png */; };
 		3C256E171558FEF50092FD9C /* view_profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C256E151558FEF50092FD9C /* view_profile@2x.png */; };
 		3C256E181558FEF50092FD9C /* take_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C256E161558FEF50092FD9C /* take_photo@2x.png */; };
@@ -24,7 +27,6 @@
 		3C95947C1552554600627182 /* menu_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C95947B1552554600627182 /* menu_separator.png */; };
 		3C95948C1552851C00627182 /* ImageUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C95948B1552851C00627182 /* ImageUtil.m */; };
 		3C95949B155338FA00627182 /* FindMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C959499155338FA00627182 /* FindMenuViewController.m */; };
-		3C95949C155338FA00627182 /* FindMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C95949A155338FA00627182 /* FindMenuViewController.xib */; };
 		3C9594AB15536CA300627182 /* UIColor+ExtendedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */; };
 		3C9594B71553870500627182 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9594B61553870500627182 /* CoreLocation.framework */; };
 		3C9594C21553B7B200627182 /* nav_menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594C11553B7B200627182 /* nav_menu_icon.png */; };
@@ -38,6 +40,8 @@
 		3C9594DD1558BA5500627182 /* view_profile_nav.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594DC1558BA5500627182 /* view_profile_nav.png */; };
 		3C9594E31558BE9C00627182 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594E11558BE9A00627182 /* HomeViewController.m */; };
 		3C9594E41558BE9C00627182 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594E21558BE9B00627182 /* HomeViewController.xib */; };
+		3C9CBA39155A313A007023D2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9CBA38155A313A007023D2 /* MapKit.framework */; };
+		3C9CBA4C155A38DD007023D2 /* libSDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9CBA4B155A38DD007023D2 /* libSDWebImage.a */; };
 		3CD8BDC71558C4A600890F62 /* find_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC61558C4A600890F62 /* find_menu.png */; };
 		3CD8BDC91558C4B900890F62 /* take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC81558C4B900890F62 /* take_photo.png */; };
 		3CD8BDCB1558C4C700890F62 /* view_profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDCA1558C4C700890F62 /* view_profile.png */; };
@@ -47,6 +51,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C1F95FE1559981C0062C7E1 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		3C1F95FF1559981C0062C7E1 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		3C1F96011559CE280062C7E1 /* LocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
+		3C1F9603155A074A0062C7E1 /* FindMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindMenuViewController.xib; sourceTree = "<group>"; };
 		3C256E121558FEE50092FD9C /* find_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "find_menu@2x.png"; sourceTree = "<group>"; };
 		3C256E151558FEF50092FD9C /* view_profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view_profile@2x.png"; sourceTree = "<group>"; };
 		3C256E161558FEF50092FD9C /* take_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "take_photo@2x.png"; sourceTree = "<group>"; };
@@ -73,7 +81,6 @@
 		3C95948B1552851C00627182 /* ImageUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUtil.m; sourceTree = "<group>"; };
 		3C959498155338FA00627182 /* FindMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindMenuViewController.h; sourceTree = "<group>"; };
 		3C959499155338FA00627182 /* FindMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindMenuViewController.m; sourceTree = "<group>"; };
-		3C95949A155338FA00627182 /* FindMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindMenuViewController.xib; sourceTree = "<group>"; };
 		3C9594A915536CA300627182 /* UIColor+ExtendedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ExtendedColor.h"; sourceTree = "<group>"; };
 		3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ExtendedColor.m"; sourceTree = "<group>"; };
 		3C9594B61553870500627182 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -91,6 +98,8 @@
 		3C9594E01558BE9A00627182 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		3C9594E11558BE9A00627182 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		3C9594E21558BE9B00627182 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		3C9CBA38155A313A007023D2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		3C9CBA4B155A38DD007023D2 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libSDWebImage.a; path = "SDWebImage/build/Release-iphoneos/libSDWebImage.a"; sourceTree = "<group>"; };
 		3CD8BDC61558C4A600890F62 /* find_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = find_menu.png; sourceTree = "<group>"; };
 		3CD8BDC81558C4B900890F62 /* take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = take_photo.png; sourceTree = "<group>"; };
 		3CD8BDCA1558C4C700890F62 /* view_profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = view_profile.png; sourceTree = "<group>"; };
@@ -104,6 +113,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C9CBA4C155A38DD007023D2 /* libSDWebImage.a in Frameworks */,
+				3C9CBA39155A313A007023D2 /* MapKit.framework in Frameworks */,
 				3C9594B71553870500627182 /* CoreLocation.framework in Frameworks */,
 				3C9594351550C7D100627182 /* UIKit.framework in Frameworks */,
 				3C9594371550C7D100627182 /* Foundation.framework in Frameworks */,
@@ -114,6 +125,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C1F95FB155997CE0062C7E1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		3C1F95FD155997D70062C7E1 /* Records */ = {
+			isa = PBXGroup;
+			children = (
+				3C1F95FE1559981C0062C7E1 /* Location.h */,
+				3C1F95FF1559981C0062C7E1 /* Location.m */,
+			);
+			name = Records;
+			sourceTree = "<group>";
+		};
 		3C9594251550C7D000627182 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +161,8 @@
 		3C9594331550C7D100627182 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C9CBA4B155A38DD007023D2 /* libSDWebImage.a */,
+				3C9CBA38155A313A007023D2 /* MapKit.framework */,
 				3C9594341550C7D100627182 /* UIKit.framework */,
 				3C9594B61553870500627182 /* CoreLocation.framework */,
 				3C9594361550C7D100627182 /* Foundation.framework */,
@@ -152,7 +181,6 @@
 				3C959489155284CE00627182 /* Util */,
 				3C95943B1550C7D100627182 /* Supporting Files */,
 			);
-			name = MenuPics;
 			path = MenuPics;
 			sourceTree = "<group>";
 		};
@@ -217,9 +245,12 @@
 		3C95948D15531C7900627182 /* FindMenu */ = {
 			isa = PBXGroup;
 			children = (
+				3C1F95FB155997CE0062C7E1 /* Images */,
+				3C1F95FD155997D70062C7E1 /* Records */,
 				3C959498155338FA00627182 /* FindMenuViewController.h */,
 				3C959499155338FA00627182 /* FindMenuViewController.m */,
-				3C95949A155338FA00627182 /* FindMenuViewController.xib */,
+				3C1F9603155A074A0062C7E1 /* FindMenuViewController.xib */,
+				3C1F96011559CE280062C7E1 /* LocationCell.xib */,
 			);
 			name = FindMenu;
 			sourceTree = "<group>";
@@ -362,7 +393,6 @@
 				3C9594681552211300627182 /* NavController.xib in Resources */,
 				3C959478155252BA00627182 /* menu_header_separator.png in Resources */,
 				3C95947C1552554600627182 /* menu_separator.png in Resources */,
-				3C95949C155338FA00627182 /* FindMenuViewController.xib in Resources */,
 				3C9594C21553B7B200627182 /* nav_menu_icon.png in Resources */,
 				3C9594C41553B95B00627182 /* nav_menu_icon@2x.png in Resources */,
 				3C9594CF15589E2600627182 /* ViewProfileViewController.xib in Resources */,
@@ -380,6 +410,8 @@
 				3C256E131558FEE50092FD9C /* find_menu@2x.png in Resources */,
 				3C256E171558FEF50092FD9C /* view_profile@2x.png in Resources */,
 				3C256E181558FEF50092FD9C /* take_photo@2x.png in Resources */,
+				3C1F96021559CE280062C7E1 /* LocationCell.xib in Resources */,
+				3C1F9604155A074A0062C7E1 /* FindMenuViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +433,7 @@
 				3C9594CE15589E2600627182 /* ViewProfileViewController.m in Sources */,
 				3C9594D515589FE900627182 /* TakePhotoViewController.m in Sources */,
 				3C9594E31558BE9C00627182 /* HomeViewController.m in Sources */,
+				3C1F96001559981C0062C7E1 /* Location.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +473,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 			};
 			name = Debug;
 		};
@@ -459,6 +493,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(PROJECT_DIR)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -468,8 +503,11 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MenuPics/MenuPics-Prefix.pch";
+				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "$(BUILT_PRODUCTS_DIR)/../../Headers";
 				INFOPLIST_FILE = "MenuPics/MenuPics-Info.plist";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = MenuPics;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/../../Headers/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -479,8 +517,11 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MenuPics/MenuPics-Prefix.pch";
+				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "$(BUILT_PRODUCTS_DIR)/../../Headers";
 				INFOPLIST_FILE = "MenuPics/MenuPics-Info.plist";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = MenuPics;
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/../../Headers/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

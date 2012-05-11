@@ -41,6 +41,12 @@
     
     UIImage *menuImage = [[UIImage imageNamed:@"nav_menu_icon.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
+    
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
+    }
+    [navigationBar.topItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_logo"]]];
 }
 
 - (void)viewDidUnload

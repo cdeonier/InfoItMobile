@@ -7,6 +7,8 @@
 //
 
 #import "FindMenuViewController.h"
+#import "MenuViewController.h"
+
 #import "UIImageView+WebCache.h"
 #import "Location.h"
 
@@ -78,6 +80,18 @@
     [thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]]];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Location *location = [self.locationsTableData objectAtIndex:indexPath.row];
+    
+    MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
+    viewController.restaurantIdentifier = location.entityId;
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Find Menu" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

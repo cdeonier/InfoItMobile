@@ -1,6 +1,6 @@
 //
 //  HomeViewController.m
-//  InfoIt
+//  MenuPics
 //
 //  Created by Christian Deonier on 5/7/12.
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "FindMenuViewController.h"
 #import "IIViewDeckController.h"
+#import "UIColor+ExtendedColor.h"
 
 @interface HomeViewController ()
 
@@ -41,6 +42,7 @@
     
     UIImage *menuImage = [[UIImage imageNamed:@"nav_menu_icon.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor navBarButtonColor];
     
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
@@ -63,7 +65,9 @@
 {
     FindMenuViewController *viewController = [[FindMenuViewController alloc] initWithNibName:@"FindMenuViewController" bundle:nil];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
     self.navigationItem.backBarButtonItem = backButton;
+    [viewController setTitle:@"Restaurants"];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

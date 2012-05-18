@@ -1,6 +1,6 @@
 //
 //  main.m
-//  InfoIt
+//  MenuPics
 //
 //  Created by Christian Deonier on 5/1/12.
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.

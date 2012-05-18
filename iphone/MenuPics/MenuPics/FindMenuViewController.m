@@ -1,13 +1,14 @@
 //
 //  NearbyLocationsViewController.m
-//  InfoIt
+//  MenuPics
 //
 //  Created by Christian Deonier on 5/3/12.
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
 #import "FindMenuViewController.h"
-#import "MenuViewController.h"
+#import "RootMenuViewController.h"
+#import "UIColor+ExtendedColor.h"
 
 #import "UIImageView+WebCache.h"
 #import "Location.h"
@@ -86,11 +87,13 @@
 {
     Location *location = [self.locationsTableData objectAtIndex:indexPath.row];
     
-    MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
+    RootMenuViewController *viewController = [[RootMenuViewController alloc] initWithNibName:@"RootMenuViewController" bundle:nil];
     viewController.restaurantIdentifier = location.entityId;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Find Menu" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [backButton setTintColor:[UIColor navBarButtonColor]];
     self.navigationItem.backBarButtonItem = backButton;
+
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -154,8 +157,6 @@
 {
     NSError *myError = nil;
     NSArray *jsonResponse = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableLeaves error:&myError];
-    
-    //NSLog([jsonResponse description]);
     
     NSMutableArray *locations = [[NSMutableArray alloc] init];
     for (id locationJson in jsonResponse) {

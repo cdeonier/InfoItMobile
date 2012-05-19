@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class OrderedDictionary;
+@class Restaurant;
 
 enum {
     CurrentMenuTab = 1,
@@ -23,20 +24,27 @@ typedef NSInteger MenuTab;
     IBOutlet UITableViewCell *menuItemCell;
 }
 
+/* General */
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
-@property (nonatomic, strong) IBOutlet UITableView *currentMenuTable;
-@property (nonatomic, strong) IBOutlet UITableView *mostLikedTable;
-@property (nonatomic, strong) IBOutlet UITableView *allMenusTable;
-
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic) NSNumber *restaurantIdentifier;
 @property (nonatomic, strong) NSMutableArray *menuTypes;
 @property (nonatomic, strong) OrderedDictionary *restaurantMenus;
-
 @property (nonatomic, strong) NSString *currentMenuType;
 @property (nonatomic, strong) OrderedDictionary *currentMenu;
 
+/* Current Menu */
+@property (nonatomic, strong) IBOutlet UITableView *currentMenuTable;
+
+/* Most Liked Menu */
+@property (nonatomic, strong) IBOutlet UITableView *mostLikedTable;
 @property (nonatomic, strong) NSArray *mostLikedMenuItems;
+
+/* Restaurant */
+@property (nonatomic, strong) Restaurant *restaurant;
+
+/* All Menus */
+@property (nonatomic, strong) IBOutlet UITableView *allMenusTable;
 
 - (void)restGetRestaurantMenus:(NSNumber *)restaurantIdentifier;
 

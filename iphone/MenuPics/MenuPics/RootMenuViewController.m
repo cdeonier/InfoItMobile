@@ -10,6 +10,7 @@
 #import "OrderedDictionary.h"
 #import "UIImageView+WebCache.h"
 #import "MenuItem.h"
+#import "Restaurant.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface RootMenuViewController ()
@@ -18,18 +19,27 @@
 
 @implementation RootMenuViewController
 
+/* General */
 @synthesize tabBar = _tabBar;
-@synthesize currentMenuTable = _currentMenuTable;
-@synthesize mostLikedTable = _mostLikedTable;
-@synthesize allMenusTable = _allMenusTable;
-
 @synthesize responseData = _responseData;
 @synthesize restaurantIdentifier = _restaurantIdentifier;
 @synthesize restaurantMenus = _restaurantMenus;
 @synthesize menuTypes = _menuTypes;
 @synthesize currentMenuType = _currentMenuType;
 @synthesize currentMenu = _currentMenu;
+
+/* Current Menu */
+@synthesize currentMenuTable = _currentMenuTable;
+
+/* Most Liked */
 @synthesize mostLikedMenuItems = _mostLikedMenuItems;
+@synthesize mostLikedTable = _mostLikedTable;
+
+/* Restaurant */
+@synthesize restaurant = _restaurant;
+
+/* All Menus */
+@synthesize allMenusTable = _allMenusTable;
 
 #pragma mark View
 
@@ -49,6 +59,8 @@
     
     self.restaurantMenus = [[OrderedDictionary alloc] init];
     self.menuTypes = [[NSMutableArray alloc] init];
+    
+    self.restaurant = [[Restaurant alloc] init];
 
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     
@@ -103,7 +115,17 @@
     
     NSDictionary *entityJson = [jsonResponse objectForKey:@"entity"];
     NSDictionary *placeDetailsJson = [entityJson objectForKey:@"place_details"];
+    NSDictionary *addressJson = [placeDetailsJson objectForKey:@"address"];
     NSArray *menuItemsJson = [placeDetailsJson objectForKey:@"menu_items"];
+    
+    [self.restaurant setName:[entityJson objectForKey:@"name"]];
+    [self.restaurant setDescription:[entityJson objectForKey:@"description"]];
+    [self.restaurant setProfilePictureUrl:[entityJson objectForKey:@"profile_photo_url"]];
+    [self.restaurant setStreetOne:[addressJson objectForKey:@"street_address_one"]];
+    [self.restaurant setStreetTwo:[addressJson objectForKey:@"street_address_two"]];
+    [self.restaurant setCity:[addressJson objectForKey:@"city"]];
+    [self.restaurant setState:[addressJson objectForKey:@"state"]];
+    [self.restaurant setZipCode:[addressJson objectForKey:@"zip_code"]];
     
     OrderedDictionary *menu;
     NSMutableArray *categoryItems;
@@ -317,6 +339,47 @@
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"RestaurantView" owner:self options:nil]; 
             UIView *restaurantView = [xib objectAtIndex:0];
             [self.view addSubview:restaurantView];
+            UIScrollView *scrollView = (UIScrollView *)[restaurantView viewWithTag:200];
+            [scrollView setFrame:CGRectMake(0, 0, 320, 367)];
+            [scrollView setContentSize:CGSizeMake(320, 600)];
+            
+            UIView *contentContainer = (UIView *)[restaurantView viewWithTag:201];
+            
+            if ([[self.restaurant profilePictureUrl] length] > 0) {
+                UIImageView *profileImage = [[UIImageView alloc] init];
+                NSURL *profileImageUrl = [NSURL URLWithString:[self.restaurant profilePictureUrl]];
+                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+                
+                dispatch_async(queue, ^{
+                    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:profileImageUrl]];
+                    [profileImage setImage:image];
+                    CGFloat ratio = image.size.height / image.size.width;
+                    CGFloat height = 320.0 * ratio;
+                    [profileImage setFrame:CGRectMake(0, 0, 320, height)];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                       [scrollView insertSubview:profileImage atIndex:0];
+                        CGRect contentContainerFrame = contentContainer.frame;
+                        contentContainerFrame.origin.y += profileImage.frame.size.height;
+                        contentContainer.frame = contentContainerFrame;
+                    });
+                });
+            }
+            
+            UILabel *restaurantName = (UILabel *)[restaurantView viewWithTag:202];
+            [restaurantName setText:[self.restaurant name]];
+
+            UILabel *restaurantDescription = (UILabel *)[restaurantView viewWithTag:203];
+            [restaurantDescription setText:[self.restaurant description]];
+            UIFont *descriptionFont = [UIFont fontWithName:@"GillSans" size:13.0];
+            CGSize maximumLabelSize = CGSizeMake(296,9999);
+            
+            CGSize expectedLabelSize = [[self.restaurant description] sizeWithFont:descriptionFont
+                                                                      constrainedToSize:maximumLabelSize
+                                                                      lineBreakMode:UILineBreakModeWordWrap]; 
+            
+            CGRect newFrame = restaurantDescription.frame;
+            newFrame.size.height = expectedLabelSize.height;
+            restaurantDescription.frame = newFrame;
             break;
         }
         case AllMenusTab: {

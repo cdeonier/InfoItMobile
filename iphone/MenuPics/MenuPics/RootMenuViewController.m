@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "MenuItem.h"
 #import "Restaurant.h"
+#import "ImageUtil.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface RootMenuViewController ()
@@ -248,6 +249,8 @@
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (tableView == self.currentMenuTable) {
         return [self.currentMenu keyAtIndex:section];
+    } else if (tableView == self.mostLikedTable) {
+        return @"Most Popular Dishes";
     }
     
     return nil;
@@ -324,6 +327,7 @@
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"MostLikedView" owner:self options:nil]; 
             UIView *mostLikedView = [xib objectAtIndex:0];
             [self.view addSubview:mostLikedView];
+            [self setTitle:self.currentMenuType];
             if ([self.mostLikedMenuItems count] > 0) {
                 [self.mostLikedTable setHidden:NO];
                 self.allMenusTable.tableFooterView = [UIView new];
@@ -348,8 +352,24 @@
             if ([[self.restaurant profilePictureUrl] length] > 0) {
                 UIImageView *profileImage = [[UIImageView alloc] init];
                 NSURL *profileImageUrl = [NSURL URLWithString:[self.restaurant profilePictureUrl]];
-                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
                 
+                UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_loading"]];
+                [placeholderImage setTag:9];
+                [scrollView insertSubview:placeholderImage atIndex:0];
+                CGRect contentContainerFrame = contentContainer.frame;
+                contentContainerFrame.origin.y += placeholderImage.frame.size.height;
+                contentContainer.frame = contentContainerFrame;
+                
+                UIImageView *loadingAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+                [loadingAnimation setTag:10];
+                [loadingAnimation setAnimationImages:[ImageUtil getSweepImageArray]];
+                [loadingAnimation setAnimationDuration:4.0f];
+                [loadingAnimation setAnimationRepeatCount:INFINITY];
+                [loadingAnimation startAnimating];
+                [loadingAnimation setCenter:CGPointMake(160, 120)];
+                [scrollView addSubview:loadingAnimation];
+                
+                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
                 dispatch_async(queue, ^{
                     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:profileImageUrl]];
                     [profileImage setImage:image];
@@ -357,8 +377,11 @@
                     CGFloat height = 320.0 * ratio;
                     [profileImage setFrame:CGRectMake(0, 0, 320, height)];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                       [scrollView insertSubview:profileImage atIndex:0];
+                        [placeholderImage removeFromSuperview];
+                        [loadingAnimation removeFromSuperview];
+                        [scrollView insertSubview:profileImage atIndex:0];
                         CGRect contentContainerFrame = contentContainer.frame;
+                        contentContainerFrame.origin.y -= placeholderImage.frame.size.height;
                         contentContainerFrame.origin.y += profileImage.frame.size.height;
                         contentContainer.frame = contentContainerFrame;
                     });

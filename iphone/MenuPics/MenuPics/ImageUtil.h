@@ -11,5 +11,6 @@
 @interface ImageUtil : NSObject
 
 + (UIImage *)resizeImage:(UIImage*)image newSize:(CGSize)newSize; 
++ (NSArray *)getSweepImageArray;
 
 @end

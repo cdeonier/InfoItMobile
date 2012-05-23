@@ -83,4 +83,61 @@
             [UIImage imageNamed:@"unsweep_64"],nil];
 }
 
+/*
+ * Assumes XIB file of outer scrollview with tag 1000, and view with tag 1001 acting as content container
+ *
+ */
++ (void) initializeProfileImage:(UIView *) view withUrl:(NSString *)url
+{
+    if (![url isEqual:[NSNull null]] && [url length] > 0) {
+        UIScrollView *scrollView = (UIScrollView *)[view viewWithTag:1000];
+        UIView *contentContainer = [view viewWithTag:1001];
+        
+        UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_loading"]];
+        CGRect contentContainerFrame = contentContainer.frame;
+        contentContainerFrame.origin.y += placeholderImage.frame.size.height;
+        contentContainer.frame = contentContainerFrame;
+        [scrollView insertSubview:placeholderImage atIndex:0];
+        
+        UIImageView *loadingAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        [loadingAnimation setAnimationImages:[ImageUtil getSweepImageArray]];
+        [loadingAnimation setAnimationDuration:4.0f];
+        [loadingAnimation setAnimationRepeatCount:INFINITY];
+        [loadingAnimation startAnimating];
+        [loadingAnimation setCenter:CGPointMake(160, 120)];
+        [scrollView addSubview:loadingAnimation];
+        
+        UIImageView *profileImage = [[UIImageView alloc] init];
+        NSURL *profileImageUrl = [NSURL URLWithString:url];
+        
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:profileImageUrl]];
+            [profileImage setImage:image];
+            CGFloat ratio = image.size.height / image.size.width;
+            CGFloat height = 320.0 * ratio;
+            [profileImage setFrame:CGRectMake(0, 0, 320, height)];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [placeholderImage removeFromSuperview];
+                [loadingAnimation removeFromSuperview];
+                [scrollView insertSubview:profileImage atIndex:0];
+                CGRect contentContainerFrame = contentContainer.frame;
+                contentContainerFrame.origin.y -= placeholderImage.frame.size.height;
+                contentContainerFrame.origin.y += profileImage.frame.size.height;
+                contentContainer.frame = contentContainerFrame;
+            });
+        });
+    } else {
+        UIScrollView *scrollView = (UIScrollView *)[view viewWithTag:1000];
+        UIView *contentContainer = [view viewWithTag:1001];
+        
+        UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_no_image.jpg"]];
+        [placeholderImage setFrame:CGRectMake(0, 0, 320, 240)];
+        CGRect contentContainerFrame = contentContainer.frame;
+        contentContainerFrame.origin.y += placeholderImage.frame.size.height;
+        contentContainer.frame = contentContainerFrame;
+        [scrollView insertSubview:placeholderImage atIndex:0];
+    }
+}
+
 @end

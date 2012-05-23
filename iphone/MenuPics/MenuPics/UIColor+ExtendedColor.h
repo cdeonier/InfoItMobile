@@ -12,5 +12,6 @@
 
 + (UIColor *)navButtonPressedColor;
 + (UIColor *)navBarButtonColor;
++ (UIColor *)normalButtonColor;
 
 @end

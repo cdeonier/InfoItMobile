@@ -7,8 +7,10 @@
 //
 
 #import "RootMenuViewController.h"
+#import "MenuItemViewController.h"
 #import "OrderedDictionary.h"
 #import "UIImageView+WebCache.h"
+#import "UIColor+ExtendedColor.h"
 #import "MenuItem.h"
 #import "Restaurant.h"
 #import "ImageUtil.h"
@@ -28,6 +30,7 @@
 @synthesize menuTypes = _menuTypes;
 @synthesize currentMenuType = _currentMenuType;
 @synthesize currentMenu = _currentMenu;
+@synthesize requestedTab = _requestedTab;
 
 /* Current Menu */
 @synthesize currentMenuTable = _currentMenuTable;
@@ -63,7 +66,11 @@
     
     self.restaurant = [[Restaurant alloc] init];
 
-    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+    if (![self.requestedTab isEqual:[NSNull null]] && [self.requestedTab isEqualToString:@"Restaurant"]) {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:3]];
+    } else {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+    }
     
     NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"CurrentMenuView" owner:self options:nil]; 
     UIView *currentMenuView = [xib objectAtIndex:0];
@@ -171,6 +178,7 @@
         [menuItemRecord setThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_url"]];
         [menuItemRecord setProfilePictureUrl:[menuItem objectForKey:@"profile_photo_url"]];
         [menuItemRecord setEntityId:[menuItem objectForKey:@"entity_id"]];
+        [menuItemRecord setRestaurantId:self.restaurantIdentifier];
         
         [categoryItems addObject:menuItemRecord];
     }
@@ -178,10 +186,18 @@
     self.currentMenu = [self.restaurantMenus objectForKey:[self.menuTypes objectAtIndex:0]];
     self.currentMenuType = [self.menuTypes objectAtIndex:0];
     [self populateMostLikedTable];
-    [self setTitle:self.currentMenuType];
     [self.currentMenuTable reloadData];
     [self.mostLikedTable reloadData];
     [self.allMenusTable reloadData];
+    
+    if (![self.requestedTab isEqual:[NSNull null]] && [self.requestedTab isEqualToString:@"Restaurant"]) {
+        [self setTitle:[self.restaurant name]];
+        [self changeViewForTabIndex:RestaurantTab];
+    } else {
+        [self setTitle:self.currentMenuType];
+    }
+    
+        
     
 }
 
@@ -235,7 +251,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.currentMenuTable) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
+        NSString *sectionKey = [self.currentMenu keyAtIndex:indexPath.section];
+        MenuItem *menuItem = [[self.currentMenu objectForKey:sectionKey] objectAtIndex:indexPath.row];
+        
+        MenuItemViewController *viewController = [[MenuItemViewController alloc] initWithNibName:@"MenuItemViewController" bundle:nil];
+        [viewController setMenuItem:menuItem];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:nil action:nil];
+        [backButton setTintColor:[UIColor navBarButtonColor]];
+        [self.navigationItem setBackBarButtonItem:backButton];
+        [self.navigationController pushViewController:viewController animated:YES];
     } else if (tableView == self.allMenusTable) {
         self.currentMenuType = [self.menuTypes objectAtIndex:indexPath.row];
         self.currentMenu = [self.restaurantMenus objectForKey:self.currentMenuType];
@@ -343,51 +369,12 @@
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"RestaurantView" owner:self options:nil]; 
             UIView *restaurantView = [xib objectAtIndex:0];
             [self.view addSubview:restaurantView];
-            UIScrollView *scrollView = (UIScrollView *)[restaurantView viewWithTag:200];
+            UIScrollView *scrollView = (UIScrollView *)[restaurantView viewWithTag:1000];
             [scrollView setFrame:CGRectMake(0, 0, 320, 367)];
             [scrollView setContentSize:CGSizeMake(320, 600)];
             
-            UIView *contentContainer = (UIView *)[restaurantView viewWithTag:201];
-            
-            if ([[self.restaurant profilePictureUrl] length] > 0) {
-                UIImageView *profileImage = [[UIImageView alloc] init];
-                NSURL *profileImageUrl = [NSURL URLWithString:[self.restaurant profilePictureUrl]];
-                
-                UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_loading"]];
-                [placeholderImage setTag:9];
-                [scrollView insertSubview:placeholderImage atIndex:0];
-                CGRect contentContainerFrame = contentContainer.frame;
-                contentContainerFrame.origin.y += placeholderImage.frame.size.height;
-                contentContainer.frame = contentContainerFrame;
-                
-                UIImageView *loadingAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-                [loadingAnimation setTag:10];
-                [loadingAnimation setAnimationImages:[ImageUtil getSweepImageArray]];
-                [loadingAnimation setAnimationDuration:4.0f];
-                [loadingAnimation setAnimationRepeatCount:INFINITY];
-                [loadingAnimation startAnimating];
-                [loadingAnimation setCenter:CGPointMake(160, 120)];
-                [scrollView addSubview:loadingAnimation];
-                
-                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-                dispatch_async(queue, ^{
-                    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:profileImageUrl]];
-                    [profileImage setImage:image];
-                    CGFloat ratio = image.size.height / image.size.width;
-                    CGFloat height = 320.0 * ratio;
-                    [profileImage setFrame:CGRectMake(0, 0, 320, height)];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [placeholderImage removeFromSuperview];
-                        [loadingAnimation removeFromSuperview];
-                        [scrollView insertSubview:profileImage atIndex:0];
-                        CGRect contentContainerFrame = contentContainer.frame;
-                        contentContainerFrame.origin.y -= placeholderImage.frame.size.height;
-                        contentContainerFrame.origin.y += profileImage.frame.size.height;
-                        contentContainer.frame = contentContainerFrame;
-                    });
-                });
-            }
-            
+            [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePictureUrl]];
+                        
             UILabel *restaurantName = (UILabel *)[restaurantView viewWithTag:202];
             [restaurantName setText:[self.restaurant name]];
 

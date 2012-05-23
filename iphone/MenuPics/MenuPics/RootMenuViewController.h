@@ -32,6 +32,7 @@ typedef NSInteger MenuTab;
 @property (nonatomic, strong) OrderedDictionary *restaurantMenus;
 @property (nonatomic, strong) NSString *currentMenuType;
 @property (nonatomic, strong) OrderedDictionary *currentMenu;
+@property (nonatomic, strong) NSString *requestedTab;
 
 /* Current Menu */
 @property (nonatomic, strong) IBOutlet UITableView *currentMenuTable;

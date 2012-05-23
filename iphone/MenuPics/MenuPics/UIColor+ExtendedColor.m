@@ -18,4 +18,8 @@
     return [UIColor colorWithRed:12.0f/255.0f green:80.0f/255.0f blue:162.0f/255.0f alpha:1.0f];
 }
 
++ (UIColor *)normalButtonColor {
+    return [UIColor colorWithRed:26.0f/255.0f green:26.0f/255.0f blue:26.0f/255.0f alpha:1.0f];
+}
+
 @end

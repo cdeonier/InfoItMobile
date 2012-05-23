@@ -14,6 +14,7 @@
 @synthesize price = _price;
 @synthesize description = _description;
 @synthesize entityId = _entityId;
+@synthesize restaurantId = _restaurantId;
 @synthesize likeCount = _likeCount;
 @synthesize profilePictureUrl = _profilePictureUrl;
 @synthesize thumbnailUrl = _thumbnailUrl;

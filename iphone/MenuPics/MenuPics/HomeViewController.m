@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "FindMenuViewController.h"
+#import "TakePhotoViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
 
@@ -69,6 +70,13 @@
     self.navigationItem.backBarButtonItem = backButton;
     [viewController setTitle:@"Restaurants"];
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)takePhoto:(id)sender
+{
+    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
+    
 }
 
 

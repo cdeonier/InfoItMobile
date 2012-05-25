@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CaptureSessionManager.h"
 
 @interface TakePhotoViewController : UIViewController
+
+@property (retain) CaptureSessionManager *captureSessionManager;
 
 @end

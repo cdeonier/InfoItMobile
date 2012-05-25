@@ -14,6 +14,8 @@
 
 @implementation TakePhotoViewController
 
+@synthesize captureSessionManager = _captureSessionManager;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,19 +28,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    [self setCaptureSessionManager:[[CaptureSessionManager alloc] init]];
+    [[self captureSessionManager] addVideoInput];
+    [[self captureSessionManager] addVideoPreviewLayer];
+    CGRect layerRect = [[[self view] layer] bounds];
+	[[[self captureSessionManager] previewLayer] setBounds:layerRect];
+	[[[self captureSessionManager] previewLayer] setPosition:CGPointMake(CGRectGetMidX(layerRect),
+                                                                         CGRectGetMidY(layerRect))];
+	[[[self view] layer] addSublayer:[[self captureSessionManager] previewLayer]];
+    [[self.captureSessionManager captureSession] startRunning];
+    
+    [[self.navigationController navigationBar] setHidden:YES];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait || 
+            interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 @end

@@ -15,5 +15,6 @@
 @property IBOutlet UILabel *viewProfileTitle;
 
 - (IBAction)findMenu:(id)sender;
+- (IBAction)takePhoto:(id)sender;
 
 @end

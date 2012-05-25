@@ -10,7 +10,7 @@
 #import "RootMenuViewController.h"
 #import "UIColor+ExtendedColor.h"
 
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "Location.h"
 
 @interface FindMenuViewController ()

@@ -9,7 +9,7 @@
 #import "RootMenuViewController.h"
 #import "MenuItemViewController.h"
 #import "OrderedDictionary.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "UIColor+ExtendedColor.h"
 #import "MenuItem.h"
 #import "Restaurant.h"

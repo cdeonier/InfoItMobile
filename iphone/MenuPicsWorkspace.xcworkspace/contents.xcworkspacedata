@@ -4,7 +4,4 @@
    <FileRef
       location = "container:MenuPics/MenuPics.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:MenuPics/SDWebImage/SDWebImage.xcodeproj">
-   </FileRef>
 </Workspace>

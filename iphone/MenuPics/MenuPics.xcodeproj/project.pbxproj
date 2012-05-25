@@ -27,6 +27,8 @@
 		3C5F9D7E155E6760002ED96E /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5F9D7D155E6760002ED96E /* MenuItem.m */; };
 		3C5F9D8A1561897F002ED96E /* nav_bar_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5F9D891561897F002ED96E /* nav_bar_background.png */; };
 		3C5F9D8C15618A2F002ED96E /* nav_bar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5F9D8B15618A2F002ED96E /* nav_bar_background@2x.png */; };
+		3C6D9491156F135800331EB3 /* libSDWebImageARC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D9490156F135800331EB3 /* libSDWebImageARC.a */; };
+		3C6D949E156F141B00331EB3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D949D156F141B00331EB3 /* ImageIO.framework */; };
 		3C81BF88156C2006005FC0A1 /* MenuItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C81BF86156C2006005FC0A1 /* MenuItemViewController.m */; };
 		3C81BF89156C2006005FC0A1 /* MenuItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C81BF87156C2006005FC0A1 /* MenuItemViewController.xib */; };
 		3C81BF8B156C829A005FC0A1 /* profile_no_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C81BF8A156C829A005FC0A1 /* profile_no_image.jpg */; };
@@ -86,7 +88,6 @@
 		3C99ACEA155C73B100656885 /* more_menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACE8155C73B000656885 /* more_menu_icon@2x.png */; };
 		3C99ACF8155CE34D00656885 /* nav_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACF7155CE34D00656885 /* nav_logo.png */; };
 		3C99ACFA155CE43200656885 /* nav_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACF9155CE43200656885 /* nav_logo@2x.png */; };
-		3C99AD0E155DE25700656885 /* libSDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C99AD0D155DE25700656885 /* libSDWebImage.a */; };
 		3C9CBA39155A313A007023D2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9CBA38155A313A007023D2 /* MapKit.framework */; };
 		3CD8BDC71558C4A600890F62 /* find_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC61558C4A600890F62 /* find_menu.png */; };
 		3CD8BDC91558C4B900890F62 /* take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC81558C4B900890F62 /* take_photo.png */; };
@@ -224,6 +225,30 @@
 		3CFD37D5156B9F1E006CEC4F /* unsweep.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFD3755156B9F1D006CEC4F /* unsweep.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3C6D9497156F13A100331EB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 53922D6F148C55820056699D;
+			remoteInfo = SDWebImage;
+		};
+		3C6D9499156F13A100331EB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 53761325155AD0D5005750A4;
+			remoteInfo = "SDWebImage ARC";
+		};
+		3C6D949B156F13B200331EB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 53761307155AD0D5005750A4;
+			remoteInfo = "SDWebImage ARC";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3C141D45156B679C000D884E /* image_loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_loading.png; sourceTree = "<group>"; };
 		3C1F95FE1559981C0062C7E1 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -249,6 +274,9 @@
 		3C5F9D7D155E6760002ED96E /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItem.m; sourceTree = "<group>"; };
 		3C5F9D891561897F002ED96E /* nav_bar_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_bar_background.png; sourceTree = "<group>"; };
 		3C5F9D8B15618A2F002ED96E /* nav_bar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bar_background@2x.png"; sourceTree = "<group>"; };
+		3C6D9490156F135800331EB3 /* libSDWebImageARC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImageARC.a; path = "SDWebImage/build/Release-iphoneos/libSDWebImageARC.a"; sourceTree = "<group>"; };
+		3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDWebImage.xcodeproj; path = SDWebImage/SDWebImage.xcodeproj; sourceTree = "<group>"; };
+		3C6D949D156F141B00331EB3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		3C81BF85156C2006005FC0A1 /* MenuItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemViewController.h; sourceTree = "<group>"; };
 		3C81BF86156C2006005FC0A1 /* MenuItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemViewController.m; sourceTree = "<group>"; };
 		3C81BF87156C2006005FC0A1 /* MenuItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuItemViewController.xib; sourceTree = "<group>"; };
@@ -324,7 +352,6 @@
 		3C99ACE8155C73B000656885 /* more_menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_menu_icon@2x.png"; sourceTree = "<group>"; };
 		3C99ACF7155CE34D00656885 /* nav_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_logo.png; sourceTree = "<group>"; };
 		3C99ACF9155CE43200656885 /* nav_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_logo@2x.png"; sourceTree = "<group>"; };
-		3C99AD0D155DE25700656885 /* libSDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDWebImage.a; path = "SDWebImage/build/Release-iphoneos/libSDWebImage.a"; sourceTree = "<group>"; };
 		3C9CBA38155A313A007023D2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3CD8BDC61558C4A600890F62 /* find_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = find_menu.png; sourceTree = "<group>"; };
 		3CD8BDC81558C4B900890F62 /* take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = take_photo.png; sourceTree = "<group>"; };
@@ -467,10 +494,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C6D949E156F141B00331EB3 /* ImageIO.framework in Frameworks */,
+				3C6D9491156F135800331EB3 /* libSDWebImageARC.a in Frameworks */,
 				3C978CB4156DC3D500B95E77 /* AVFoundation.framework in Frameworks */,
 				3C978CB2156DC3B800B95E77 /* CoreMedia.framework in Frameworks */,
 				3C5D56B41564E31E003F3EC7 /* QuartzCore.framework in Frameworks */,
-				3C99AD0E155DE25700656885 /* libSDWebImage.a in Frameworks */,
 				3C9CBA39155A313A007023D2 /* MapKit.framework in Frameworks */,
 				3C9594B71553870500627182 /* CoreLocation.framework in Frameworks */,
 				3C9594351550C7D100627182 /* UIKit.framework in Frameworks */,
@@ -665,6 +693,15 @@
 			name = AllMenus;
 			sourceTree = "<group>";
 		};
+		3C6D9493156F13A100331EB3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3C6D9498156F13A100331EB3 /* libSDWebImage.a */,
+				3C6D949A156F13A100331EB3 /* libSDWebImageARC.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3C81BF83156C1EE3005FC0A1 /* MenuItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -698,6 +735,7 @@
 		3C9594251550C7D000627182 = {
 			isa = PBXGroup;
 			children = (
+				3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */,
 				3C95943A1550C7D100627182 /* MenuPics */,
 				3C9594331550C7D100627182 /* Frameworks */,
 				3C9594311550C7D100627182 /* Products */,
@@ -715,7 +753,8 @@
 		3C9594331550C7D100627182 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3C99AD0D155DE25700656885 /* libSDWebImage.a */,
+				3C6D9490156F135800331EB3 /* libSDWebImageARC.a */,
+				3C6D949D156F141B00331EB3 /* ImageIO.framework */,
 				3C978CB3156DC3D500B95E77 /* AVFoundation.framework */,
 				3C978CB1156DC3B700B95E77 /* CoreMedia.framework */,
 				3C5D56B31564E31E003F3EC7 /* QuartzCore.framework */,
@@ -961,6 +1000,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3C6D949C156F13B200331EB3 /* PBXTargetDependency */,
 			);
 			name = MenuPics;
 			productName = MenuPics;
@@ -986,12 +1026,35 @@
 			mainGroup = 3C9594251550C7D000627182;
 			productRefGroup = 3C9594311550C7D100627182 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 3C6D9493156F13A100331EB3 /* Products */;
+					ProjectRef = 3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				3C95942F1550C7D100627182 /* MenuPics */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3C6D9498156F13A100331EB3 /* libSDWebImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDWebImage.a;
+			remoteRef = 3C6D9497156F13A100331EB3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3C6D949A156F13A100331EB3 /* libSDWebImageARC.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDWebImageARC.a;
+			remoteRef = 3C6D9499156F13A100331EB3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3C95942E1550C7D100627182 /* Resources */ = {
@@ -1219,6 +1282,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3C6D949C156F13B200331EB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SDWebImage ARC";
+			targetProxy = 3C6D949B156F13B200331EB3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		3C95943D1550C7D100627182 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -1283,6 +1354,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MenuPics/MenuPics-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"”$(OBJROOT)/UninstalledProducts/include”",
+					"”$(TARGET_BUILD_DIR)/usr/local/lib/include”",
+				);
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "$(BUILT_PRODUCTS_DIR)/../../Headers";
 				INFOPLIST_FILE = "MenuPics/MenuPics-Info.plist";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
@@ -1297,6 +1372,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MenuPics/MenuPics-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"”$(OBJROOT)/UninstalledProducts/include”",
+					"”$(TARGET_BUILD_DIR)/usr/local/lib/include”",
+				);
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "$(BUILT_PRODUCTS_DIR)/../../Headers";
 				INFOPLIST_FILE = "MenuPics/MenuPics-Info.plist";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";

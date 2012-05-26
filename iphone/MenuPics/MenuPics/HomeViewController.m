@@ -52,6 +52,14 @@
     [navigationBar.topItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_logo"]]];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
+    [self.viewDeckController.view setNeedsDisplay];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -75,6 +83,7 @@
 - (IBAction)takePhoto:(id)sender
 {
     TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewController" bundle:nil];
+    [viewController wantsFullScreenLayout];
     [self.navigationController pushViewController:viewController animated:YES];
     
 }

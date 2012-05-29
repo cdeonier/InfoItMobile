@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "CaptureSessionManager.h"
 
-@interface TakePhotoViewController : UIViewController
+@interface TakePhotoViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (retain) CaptureSessionManager *captureSessionManager;
+@property (retain, strong) UIView *cameraOverlay;
+
+- (void) cancelPhoto;
 
 @end

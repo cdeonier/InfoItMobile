@@ -7,7 +7,7 @@
 //
 
 #import "TakePhotoViewController.h"
-#import "IIViewDeckController.h"
+#import "CameraOverlayView.h"
 
 @interface TakePhotoViewController ()
 
@@ -16,6 +16,7 @@
 @implementation TakePhotoViewController
 
 @synthesize captureSessionManager = _captureSessionManager;
+@synthesize cameraOverlay = _cameraOverlay;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,36 +31,22 @@
 {
     [super viewDidLoad];
     
-    [self wantsFullScreenLayout];
-
-    [self.view.layer setBorderColor:[UIColor blueColor].CGColor];
-    [self.view.layer setBorderWidth:1.0f];  
-
-
-    [self setCaptureSessionManager:[[CaptureSessionManager alloc] init]];
-    [[self captureSessionManager] addVideoInput];
-    [[self captureSessionManager] addVideoPreviewLayer];
-
+    CameraOverlayView *cameraOverlay = [[CameraOverlayView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    UIView *landscapeOverlay = (UIView *)[cameraOverlay viewWithTag:20];
+    [landscapeOverlay setHidden:YES];
     
-    [[self.captureSessionManager captureSession] startRunning];
+    self.cameraOverlay = cameraOverlay;
     
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    [imagePicker setDelegate:self];
+    [imagePicker setAllowsEditing:NO];
+    [imagePicker setShowsCameraControls:NO];
+    [imagePicker setCameraOverlayView:self.cameraOverlay];
+    [self presentModalViewController:imagePicker animated:YES];
     
-    [self initPortraitUI];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
-    [self.viewDeckController.view setNeedsDisplay];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
 }
 
 - (void)viewDidUnload
@@ -74,59 +61,34 @@
             interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void) didOrientation: (id)object 
 {
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        [self initLandscapeUI];
-    }
-    else
-    {
-        [self initPortraitUI];
+    UIInterfaceOrientation interfaceOrientation = [[object object] orientation];
+    
+    if (interfaceOrientation == UIInterfaceOrientationPortrait) {
+        UIView *portraitView = [self.cameraOverlay viewWithTag:10];
+        [portraitView setHidden:NO];
+        UIView *landscapeView = [self.cameraOverlay viewWithTag:20];
+        [landscapeView setHidden:YES];
+    } else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        UIView *portraitView = [self.cameraOverlay viewWithTag:10];
+        [portraitView setHidden:YES];
+        UIView *landscapeView = [self.cameraOverlay viewWithTag:20];
+        [landscapeView setHidden:NO];
+        UIButton *cameraButton = (UIButton *)[landscapeView viewWithTag:4];
+        [cameraButton setImage:[UIImage imageNamed:@"camera_button_ccw"] forState:UIControlStateNormal];
+        [cameraButton setImage:[UIImage imageNamed:@"camera_button_ccw_pressed"] forState:UIControlStateHighlighted];
+    } else if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft ){
+        UIView *portraitView = [self.cameraOverlay viewWithTag:10];
+        [portraitView setHidden:YES];
+        UIView *landscapeView = [self.cameraOverlay viewWithTag:20];
+        [landscapeView setHidden:NO];
+        UIButton *cameraButton = (UIButton *)[landscapeView viewWithTag:4];
+        [cameraButton setImage:[UIImage imageNamed:@"camera_button_cw"] forState:UIControlStateNormal];
+        [cameraButton setImage:[UIImage imageNamed:@"camera_button_cw_pressed"] forState:UIControlStateHighlighted];
     }
 }
 
-- (void) initPortraitUI
-{
-    for (UIView *view in self.view.subviews) {
-        [view removeFromSuperview]; 
-    }
-    
-    CGRect layerRect = [[[self view] layer] bounds];
-	[[[self captureSessionManager] previewLayer] setBounds:layerRect];
-	[[[self captureSessionManager] previewLayer] setPosition:CGPointMake(CGRectGetMidX(layerRect),
-                                                                         CGRectGetMidY(layerRect))];
-	[[[self view] layer] addSublayer:[[self captureSessionManager] previewLayer]];
-    
-    //Crop image
-    UIView *topCrop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 120)];
-    [topCrop setBackgroundColor:[UIColor blackColor]];
-    [[self view] addSubview:topCrop];
-    
-    UIView *bottomCrop = [[UIView alloc] initWithFrame:CGRectMake(0, 360, 320, 120)];
-    [bottomCrop setBackgroundColor:[UIColor blackColor]];
-    [[self view] addSubview:bottomCrop];
-
-    
-    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [cancelButton setFrame:CGRectMake(0, 0, 45, 45)];
-    [[self view] addSubview:cancelButton];
-    [cancelButton addTarget:self action:@selector(cancelPhoto) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void) initLandscapeUI
-{
-    for (UIView *view in self.view.subviews) {
-        [view removeFromSuperview]; 
-    }
-    
-    CGRect layerRect = [[[self view] layer] bounds];
-	[[[self captureSessionManager] previewLayer] setBounds:layerRect];
-	[[[self captureSessionManager] previewLayer] setPosition:CGPointMake(CGRectGetMidX(layerRect),
-                                                                         CGRectGetMidY(layerRect))];
-	[[[self view] layer] addSublayer:[[self captureSessionManager] previewLayer]];
-}
 
 - (void) cancelPhoto
 {

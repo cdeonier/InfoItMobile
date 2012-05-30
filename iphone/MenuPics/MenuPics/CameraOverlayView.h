@@ -15,6 +15,7 @@
 @property (nonatomic, strong) IBOutlet UIView *view;
 @property (nonatomic, strong) TakePhotoViewController *viewController;
 
--(IBAction)cancelButton:(id)sender;
+-(IBAction)cancelPicture:(id)sender;
+-(IBAction)takePicture:(id)sender;
 
 @end

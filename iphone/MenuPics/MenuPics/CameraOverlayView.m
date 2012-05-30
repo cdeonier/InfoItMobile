@@ -24,9 +24,14 @@
     return self;
 }
 
-- (IBAction)cancelButton:(id)sender
+- (IBAction)cancelPicture:(id)sender
 {
-    [self.viewController cancelPhoto];
+    [self.viewController cancelPicture];
+}
+
+- (IBAction)takePicture:(id)sender
+{
+    [self.viewController takePicture];
 }
 
 /*

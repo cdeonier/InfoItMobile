@@ -83,7 +83,9 @@
 - (IBAction)takePhoto:(id)sender
 {
     TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewController" bundle:nil];
-    [viewController wantsFullScreenLayout];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
+    self.navigationItem.backBarButtonItem = backButton;
     [self.navigationController pushViewController:viewController animated:YES];
     
 }

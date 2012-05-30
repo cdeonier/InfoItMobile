@@ -15,7 +15,8 @@
 
 @property (retain, strong) IBOutlet UIImageView *preview;
 
-- (void) cancelPicture;
-- (void) takePicture;
+- (void)cancelPicture;
+- (void)takePicture;
+- (void)toggleFlash;
 
 @end

@@ -127,6 +127,17 @@
     [self.imagePicker takePicture];
 }
 
+- (void)toggleFlash
+{
+    if ([self.imagePicker cameraFlashMode] == UIImagePickerControllerCameraFlashModeAuto) {
+        [self.imagePicker setCameraFlashMode:UIImagePickerControllerCameraFlashModeOn];
+    } else if ([self.imagePicker cameraFlashMode] == UIImagePickerControllerCameraFlashModeOn) {
+        [self.imagePicker setCameraFlashMode:UIImagePickerControllerCameraFlashModeOff];
+    } else {
+        [self.imagePicker setCameraFlashMode:UIImagePickerControllerCameraFlashModeAuto];
+    }
+}
+
 #pragma mark UIImagePickerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

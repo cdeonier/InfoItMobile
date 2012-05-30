@@ -12,7 +12,12 @@
 @implementation CameraOverlayView
 
 @synthesize view = _view;
+@synthesize flashMode = _flashMode;
+
 @synthesize viewController = _viewController;
+@synthesize portraitFlashButton = _portraitFlashButton;
+@synthesize landscapeLeftFlashButton = _landscapeLeftFlashButton;
+@synthesize landscapeRightFlashButton = _landscapeRightFlashButton;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -20,6 +25,7 @@
     if (self) {
         [[NSBundle mainBundle] loadNibNamed:@"CameraOverlayView" owner:self options:nil];
         [self addSubview:self.view];
+        self.flashMode = UIImagePickerControllerCameraFlashModeAuto;
     }
     return self;
 }
@@ -32,6 +38,23 @@
 - (IBAction)takePicture:(id)sender
 {
     [self.viewController takePicture];
+}
+
+- (IBAction)toggleFlash:(id)sender
+{
+    if (self.flashMode == UIImagePickerControllerCameraFlashModeAuto) {
+        self.flashMode = UIImagePickerControllerCameraFlashModeOn;
+        [self.portraitFlashButton setImage:[UIImage imageNamed:@"flash_button_on"] forState:UIControlStateNormal];
+        [self.viewController toggleFlash];
+    } else if (self.flashMode == UIImagePickerControllerCameraFlashModeOn) {
+        self.flashMode = UIImagePickerControllerCameraFlashModeOff;
+        [self.portraitFlashButton setImage:[UIImage imageNamed:@"flash_button_off"] forState:UIControlStateNormal];
+        [self.viewController toggleFlash];
+    } else {
+        self.flashMode = UIImagePickerControllerCameraFlashModeAuto;
+        [self.portraitFlashButton setImage:[UIImage imageNamed:@"flash_button_auto"] forState:UIControlStateNormal];
+        [self.viewController toggleFlash];
+    }
 }
 
 /*

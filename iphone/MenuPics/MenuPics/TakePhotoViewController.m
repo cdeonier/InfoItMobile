@@ -7,7 +7,12 @@
 //
 
 #import "TakePhotoViewController.h"
+#import "GMGridView.h"
+#import "GMGridViewLayoutStrategies.h"
 #import "CameraOverlayView.h"
+#import <QuartzCore/QuartzCore.h>
+#import "IIViewDeckController.h"
+#import "Photo.h"
 
 @interface TakePhotoViewController ()
 
@@ -16,8 +21,14 @@
 @implementation TakePhotoViewController
 
 @synthesize cameraOverlay = _cameraOverlay;
+@synthesize portraitView = _portraitView;
+@synthesize landscapeView = _landscapeView;
 @synthesize imagePicker = _imagePicker;
 @synthesize preview = _preview;
+@synthesize dummyThumbs = _dummyThumbs;
+@synthesize dummyImages = _dummyImages;
+@synthesize landscapeGridView = _landscapeGridView;
+@synthesize portraitGridView = _portraitGridView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,15 +43,39 @@
 {
     [super viewDidLoad];
     
+    [self setTitle:@"Select and Save"];
+    
+    self.portraitView = [[[NSBundle mainBundle] loadNibNamed:@"TakePhotoViewPortrait" owner:self options:nil] objectAtIndex:0];
+    self.landscapeView = [[[NSBundle mainBundle] loadNibNamed:@"TakePhotoViewLandscape" owner:self options:nil] objectAtIndex:0];
+
+    GMGridView *portraitGridView = [[GMGridView alloc] initWithFrame:CGRectMake(0, 240, 320, 136)];
+    portraitGridView.layoutStrategy = [GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal];
+    portraitGridView.minEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+    portraitGridView.dataSource = self;
+    portraitGridView.actionDelegate = self;
+    self.portraitGridView = portraitGridView;
+    [self.portraitView addSubview:portraitGridView];
+    
+    GMGridView *landscapeGridView = [[GMGridView alloc] initWithFrame:CGRectMake(357, 0, 123, 228)];
+    landscapeGridView.layoutStrategy = [GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutVertical];
+    landscapeGridView.minEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 0);
+    landscapeGridView.dataSource = self;
+    landscapeGridView.actionDelegate = self;
+    self.landscapeGridView = landscapeGridView;
+    [self.landscapeView addSubview:landscapeGridView];
+    [self.landscapeView sendSubviewToBack:landscapeGridView];
+    
+    [self populateData];
+    
     CameraOverlayView *cameraOverlay = [[CameraOverlayView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
     [cameraOverlay setViewController:self];
     
     self.cameraOverlay = cameraOverlay;
     
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    if (orientation == UIDeviceOrientationPortrait) {
+    UIInterfaceOrientation deviceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (deviceOrientation == UIInterfaceOrientationPortrait) {
         [self setPortraitView];
-    } else if (orientation == UIDeviceOrientationLandscapeLeft) {
+    } else if (deviceOrientation == UIInterfaceOrientationLandscapeLeft) {
         [self setLandscapeLeftView];
     } else {
         [self setLandscapeRightView];
@@ -62,6 +97,19 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [[self imagePicker] dismissModalViewControllerAnimated:YES];
+    [self setImagePicker:nil];
+    [self.viewDeckController setPanningMode:IIViewDeckNoPanning];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    
+    [self.viewDeckController setPanningMode:IIViewDeckPanningViewPanning];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -94,6 +142,12 @@
     [landscapeLeftView setHidden:YES];
     UIView *landscapeRightView = [self.cameraOverlay viewWithTag:30];
     [landscapeRightView setHidden:YES];
+    
+    self.view = self.portraitView;
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
+    }
 }
 
 - (void) setLandscapeLeftView
@@ -104,6 +158,12 @@
     [landscapeLeftView setHidden:NO];
     UIView *landscapeRightView = [self.cameraOverlay viewWithTag:30];
     [landscapeRightView setHidden:YES];
+    
+    self.view = self.landscapeView;
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background_landscape"] forBarMetrics:UIBarMetricsDefault];
+    }
 }
 
 - (void) setLandscapeRightView
@@ -114,6 +174,12 @@
     [landscapeLeftView setHidden:YES];
     UIView *landscapeRightView = [self.cameraOverlay viewWithTag:30];
     [landscapeRightView setHidden:NO];
+    
+    self.view = self.landscapeView;
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background_landscape"] forBarMetrics:UIBarMetricsDefault];
+    }
 }
 
 
@@ -138,6 +204,23 @@
     }
 }
 
+- (void)populateData
+{
+    self.dummyThumbs = [[NSMutableArray alloc] initWithCapacity:20];
+    [self.dummyThumbs addObject:[UIImage imageNamed:@"1.jpg"]];
+    [self.dummyThumbs addObject:[UIImage imageNamed:@"2.jpg"]];
+    [self.dummyThumbs addObject:[UIImage imageNamed:@"3.jpg"]];
+    [self.dummyThumbs addObject:[UIImage imageNamed:@"4.jpg"]];
+    [self.dummyThumbs addObject:[UIImage imageNamed:@"5.jpg"]];
+    [self.dummyThumbs addObject:[UIImage imageNamed:@"6.jpg"]];
+    [self.portraitGridView reloadData];
+    [self.landscapeGridView reloadData];
+    
+    self.dummyImages = [[NSMutableArray alloc] initWithCapacity:10];
+    [self.dummyImages addObject:[UIImage imageNamed:@"1_1.jpg"]];
+    [self.dummyImages addObject:[UIImage imageNamed:@"2_2.jpg"]];
+}
+
 #pragma mark UIImagePickerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -152,9 +235,13 @@
         CGFloat croppedImageWidth = CGImageGetWidth(portraitImage);
         CGImageRef imageRef = CGImageCreateWithImageInRect(portraitImage, CGRectMake(0, croppedImageOffset, croppedImageWidth, croppedImageHeight));
         UIImage *croppedPicture = [UIImage imageWithCGImage:imageRef];
-        [self.preview setImage:croppedPicture];
+        
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:0 longitude:0];
+        [Photo uploadPhotoAtLocation:location image:croppedPicture];
+        
+        //[self.preview setImage:croppedPicture];
     } else {
-        [self.preview setImage:picture];
+        //[self.preview setImage:picture];
     }
 }
 
@@ -185,6 +272,57 @@
 	CFRelease(bmContext);
     
 	return rotatedImage;
+}
+
+//////////////////////////////////////////////////////////////
+#pragma mark GMGridViewDataSource
+//////////////////////////////////////////////////////////////
+
+- (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
+{
+    return [self.dummyThumbs count];
+}
+
+- (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    return CGSizeMake(100, 100);
+}
+
+- (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
+{
+    CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    
+    GMGridViewCell *cell = [gridView dequeueReusableCell];
+    
+    if (!cell) 
+    {
+        cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+        
+        UIImageView *thumbnail = [[UIImageView alloc] initWithImage:[self.dummyThumbs objectAtIndex:index]];
+        [thumbnail.layer setMasksToBounds:YES];
+        [thumbnail.layer setCornerRadius:5];
+        [thumbnail.layer setBorderColor:[[UIColor grayColor] CGColor]];
+        [thumbnail.layer setBorderWidth:1.0];
+        
+        cell.contentView = thumbnail;
+    }
+    
+    [(UIImageView *)cell.contentView setImage:[self.dummyThumbs objectAtIndex:index]];
+    
+    return cell;
+}
+
+//////////////////////////////////////////////////////////////
+#pragma mark Protocol GMGridViewActionDelegate
+//////////////////////////////////////////////////////////////
+
+- (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
+{
+    UIImageView *previewImagePortrait = (UIImageView *)[self.portraitView viewWithTag:1];
+    UIImageView *previewImageLandscape = (UIImageView *)[self.landscapeView viewWithTag:1];
+    
+    [previewImagePortrait setImage:[self.dummyImages objectAtIndex:position]];
+    [previewImageLandscape setImage:[self.dummyImages objectAtIndex:position]];
 }
 
 @end

@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *description;
-@property (nonatomic, strong) NSString *profilePictureUrl;
+@property (nonatomic, strong) NSString *profilePhotoUrl;
 @property (nonatomic, strong) NSString *thumbnailUrl;
 @property (nonatomic, strong) NSString *streetOne;
 @property (nonatomic, strong) NSString *streetTwo;

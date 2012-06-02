@@ -128,7 +128,7 @@
     
     [self.restaurant setName:[entityJson objectForKey:@"name"]];
     [self.restaurant setDescription:[entityJson objectForKey:@"description"]];
-    [self.restaurant setProfilePictureUrl:[entityJson objectForKey:@"profile_photo_url"]];
+    [self.restaurant setProfilePhotoUrl:[entityJson objectForKey:@"profile_photo"]];
     [self.restaurant setStreetOne:[addressJson objectForKey:@"street_address_one"]];
     [self.restaurant setStreetTwo:[addressJson objectForKey:@"street_address_two"]];
     [self.restaurant setCity:[addressJson objectForKey:@"city"]];
@@ -175,8 +175,9 @@
         [menuItemRecord setPrice:[menuItem objectForKey:@"price"]];
         [menuItemRecord setLikeCount:[menuItem objectForKey:@"like_count"]];
         [menuItemRecord setMenuType:[menuItem objectForKey:@"menu_type"]];
-        [menuItemRecord setThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_url"]];
-        [menuItemRecord setProfilePictureUrl:[menuItem objectForKey:@"profile_photo_url"]];
+        [menuItemRecord setSmallThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_100x100"]];
+        [menuItemRecord setLargeThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_200x200"]];
+        [menuItemRecord setProfilePhotoUrl:[menuItem objectForKey:@"profile_photo"]];
         [menuItemRecord setEntityId:[menuItem objectForKey:@"entity_id"]];
         [menuItemRecord setRestaurantId:self.restaurantIdentifier];
         
@@ -252,10 +253,17 @@
 {
     if (tableView == self.currentMenuTable) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        
         NSString *sectionKey = [self.currentMenu keyAtIndex:indexPath.section];
         MenuItem *menuItem = [[self.currentMenu objectForKey:sectionKey] objectAtIndex:indexPath.row];
-        
+        MenuItemViewController *viewController = [[MenuItemViewController alloc] initWithNibName:@"MenuItemViewController" bundle:nil];
+        [viewController setMenuItem:menuItem];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:nil action:nil];
+        [backButton setTintColor:[UIColor navBarButtonColor]];
+        [self.navigationItem setBackBarButtonItem:backButton];
+        [self.navigationController pushViewController:viewController animated:YES];
+    } else if (tableView == self.mostLikedTable) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        MenuItem *menuItem = [self.mostLikedMenuItems objectAtIndex:indexPath.row];
         MenuItemViewController *viewController = [[MenuItemViewController alloc] initWithNibName:@"MenuItemViewController" bundle:nil];
         [viewController setMenuItem:menuItem];
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -373,7 +381,7 @@
             [scrollView setFrame:CGRectMake(0, 0, 320, 367)];
             [scrollView setContentSize:CGSizeMake(320, 600)];
             
-            [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePictureUrl]];
+            [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePhotoUrl]];
                         
             UILabel *restaurantName = (UILabel *)[restaurantView viewWithTag:202];
             [restaurantName setText:[self.restaurant name]];
@@ -460,12 +468,23 @@
     }
     
     UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:4];
+    UIButton *addPhotoButton = (UIButton *)[cell viewWithTag:7];
     [thumbnail.layer setBorderColor:[[UIColor grayColor] CGColor]];
     [thumbnail.layer setBorderWidth:1.0];
-    if (![menuItem.thumbnailUrl isEqual:[NSNull null]]) {
-        [thumbnail setImageWithURL:[NSURL URLWithString:menuItem.thumbnailUrl]];
+    if (![menuItem.smallThumbnailUrl isEqual:[NSNull null]]) {
+        [thumbnail setHidden:NO];
+        [addPhotoButton setHidden:YES];
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+            ([UIScreen mainScreen].scale == 2.0)) {
+            [thumbnail setImageWithURL:[NSURL URLWithString:menuItem.largeThumbnailUrl]];
+        } else {
+            [thumbnail setImageWithURL:[NSURL URLWithString:menuItem.smallThumbnailUrl]];
+        }
     } else {
-        [thumbnail setImage:[UIImage imageNamed:@"add_photo"]];
+        [thumbnail setHidden:YES];
+        [addPhotoButton setHidden:NO];
+        [addPhotoButton.layer setBorderColor:[[UIColor grayColor] CGColor]];
+        [addPhotoButton.layer setBorderWidth:1.0];
     }
     
     UIImageView *likeIcon = (UIImageView *)[cell viewWithTag:5];

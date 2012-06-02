@@ -82,7 +82,7 @@
 
 - (IBAction)takePhoto:(id)sender
 {
-    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewController" bundle:nil];
+    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
     backButton.tintColor = [UIColor navBarButtonColor];
     self.navigationItem.backBarButtonItem = backButton;

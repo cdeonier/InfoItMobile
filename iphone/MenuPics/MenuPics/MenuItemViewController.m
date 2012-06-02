@@ -76,7 +76,7 @@
 
 - (void) initializeProfileImage
 {
-    [ImageUtil initializeProfileImage:self.view withUrl:[self.menuItem profilePictureUrl]];
+    [ImageUtil initializeProfileImage:self.view withUrl:[self.menuItem profilePhotoUrl]];
 }
 
 #pragma mark Button Actions

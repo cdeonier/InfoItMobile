@@ -12,7 +12,7 @@
 
 @synthesize name = _name;
 @synthesize description = _description;
-@synthesize profilePictureUrl = _profilePictureUrl;
+@synthesize profilePhotoUrl = _profilePhotoUrl;
 @synthesize thumbnailUrl = _thumbnailUrl;
 @synthesize streetOne = _streetOne;
 @synthesize streetTwo = _streetTwo;

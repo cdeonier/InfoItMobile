@@ -12,6 +12,7 @@
 
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Location.h"
+#import "TakePhotoViewController.h"
 
 @interface FindMenuViewController ()
 
@@ -170,7 +171,7 @@
             NSString *name = [location objectForKey:@"name"];
             NSNumber *distance = [location objectForKey:@"distance"];
             NSNumber *entityId = [location objectForKey:@"id"];
-            NSString *thumbnailUrl = [location objectForKey:@"profile_photo_thumbnail_url"];
+            NSString *thumbnailUrl = [location objectForKey:@"profile_photo_thumbnail_100x100"];
             
             [locationRecord setName:name];
             [locationRecord setDistance:distance];

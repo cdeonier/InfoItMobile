@@ -23,10 +23,10 @@
     NSMutableURLRequest *mutableURLRequest = [[MenuPicsAPIClient sharedClient] multipartFormRequestWithMethod:@"POST" path:@"/services/photos?access_token=72d41492785ebe68fc9e46d5510dda17a21e8c2b46c27bf7535324b3e72d6401" parameters:mutableParameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.8) name:@"photo[photo_attachment]" fileName:@"image.jpg" mimeType:@"image/jpeg"];
     }];
-    NSLog([mutableURLRequest description]);
+    //NSLog([mutableURLRequest description]);
     
     AFHTTPRequestOperation *operation = [[MenuPicsAPIClient sharedClient] HTTPRequestOperationWithRequest:mutableURLRequest success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog([JSON description]);
+        //NSLog([JSON description]);
         NSLog(@"Upload Success");
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Upload Failure");

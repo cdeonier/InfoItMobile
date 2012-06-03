@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "TakePhotoViewController.h"
 #import "GMGridView.h"
 #import "GMGridViewLayoutStrategies.h"
@@ -29,6 +30,8 @@
 @synthesize dummyImages = _dummyImages;
 @synthesize landscapeGridView = _landscapeGridView;
 @synthesize portraitGridView = _portraitGridView;
+@synthesize locationManager = _locationManager;
+@synthesize presentLocation = _presentLocation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -80,6 +83,8 @@
     } else {
         [self setLandscapeRightView];
     }
+    
+    [self initializeLocationManager];
 
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     [self setImagePicker:imagePicker];
@@ -88,7 +93,7 @@
     [imagePicker setAllowsEditing:NO];
     [imagePicker setShowsCameraControls:NO];
     [imagePicker setCameraOverlayView:self.cameraOverlay];
-    [self presentModalViewController:imagePicker animated:YES];
+    [self presentModalViewController:imagePicker animated:NO];
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
@@ -101,15 +106,25 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [[self imagePicker] dismissModalViewControllerAnimated:YES];
-    [self setImagePicker:nil];
-    [self.viewDeckController setPanningMode:IIViewDeckNoPanning];
+    [super viewDidAppear:animated];
+    
+    //Need to disable ViewDeck scrolling because it interferes with gridview.
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate disableNavigationMenu];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+
+    //View disappears when presenting image picker-- but only stop locations when we leave actual view
+    if ([self imagePicker] == nil) {
+        [self finishUpdatingLocation];
+    }
     
-    [self.viewDeckController setPanningMode:IIViewDeckPanningViewPanning];
+    //Anytime we're done with this view, we should be able to 
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate enableNavigationMenu];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -186,6 +201,7 @@
 - (void)cancelPicture
 {
     [[self imagePicker] dismissModalViewControllerAnimated:YES];
+    [self setImagePicker:nil];
 }
 
 - (void)takePicture
@@ -274,9 +290,7 @@
 	return rotatedImage;
 }
 
-//////////////////////////////////////////////////////////////
 #pragma mark GMGridViewDataSource
-//////////////////////////////////////////////////////////////
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
@@ -312,9 +326,7 @@
     return cell;
 }
 
-//////////////////////////////////////////////////////////////
-#pragma mark Protocol GMGridViewActionDelegate
-//////////////////////////////////////////////////////////////
+#pragma mark GMGridViewActionDelegate
 
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
 {
@@ -323,6 +335,46 @@
     
     [previewImagePortrait setImage:[self.dummyImages objectAtIndex:position]];
     [previewImageLandscape setImage:[self.dummyImages objectAtIndex:position]];
+}
+
+#pragma mark Location
+
+#pragma mark Location
+
+- (void)initializeLocationManager 
+{
+    if (nil == [self locationManager])
+        self.locationManager = [[CLLocationManager alloc] init];
+    
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [self.locationManager startUpdatingLocation];
+    [self performSelector:@selector(finishUpdatingLocation) withObject:nil afterDelay:20.0];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    /* Refuse updates more than an hour old */
+    if (abs([newLocation.timestamp timeIntervalSinceNow]) > 3600.0) {
+        return;
+    }
+    /* Save the new location to an instance variable */
+    [self setPresentLocation:newLocation];
+    
+    /* If it's accurate enough (<=10m), cancel the timer */
+    if (newLocation.horizontalAccuracy <= 10.0) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self 
+                                                 selector:@selector(finishUpdatingLocation) 
+                                                   object:nil];
+        /* And fire it manually instead */
+        [self finishUpdatingLocation];
+    }
+}
+
+- (void)finishUpdatingLocation 
+{
+    [[self locationManager] stopUpdatingLocation];
 }
 
 @end

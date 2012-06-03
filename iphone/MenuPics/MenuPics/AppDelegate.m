@@ -18,6 +18,7 @@
 @synthesize window = _window;
 @synthesize navController = _navController;
 @synthesize centerViewController = _centerViewController;
+@synthesize deckController = _deckController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -26,10 +27,10 @@
     self.navController = [[NavController alloc] initWithNibName:@"NavController" bundle:nil];
     
     HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    
     self.centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     
     IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.centerViewController leftViewController:self.navController];
+    self.deckController = deckController;
     
     self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];
@@ -61,6 +62,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)disableNavigationMenu
+{
+    [self.deckController setLeftController:nil];
+}
+
+- (void)enableNavigationMenu
+{
+    [self.deckController setLeftController:self.navController];
 }
 
 @end

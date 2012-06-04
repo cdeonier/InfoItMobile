@@ -21,6 +21,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *landscapeRightFlashButton;
 
 -(IBAction)cancelPicture:(id)sender;
+-(IBAction)donePicture:(id)sender;
 -(IBAction)takePicture:(id)sender;
 -(IBAction)toggleFlash:(id)sender;
 

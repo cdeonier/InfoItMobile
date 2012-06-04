@@ -27,6 +27,7 @@
 @property (nonatomic, strong) CLLocation *presentLocation;
 
 - (void)cancelPicture;
+- (void)donePicture;
 - (void)takePicture;
 - (void)toggleFlash;
 

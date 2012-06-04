@@ -19,6 +19,19 @@
 
 @end
 
+NSInteger const CameraOverlayPortraitView = 10;
+NSInteger const CameraFlashOverlayPortrait = 11;
+NSInteger const CameraPortraitCancelButton = 12;
+NSInteger const CameraPortraitDoneButton = 13;
+NSInteger const CameraOverlayLandscapeLeftView = 20;
+NSInteger const CameraFlashOverlayLandscapeLeft = 21;
+NSInteger const CameraLandscapeLeftCancelButton = 22;
+NSInteger const CameraLandscapeLeftDoneButton = 23;
+NSInteger const CameraOverlayLandscapeRightView = 30;
+NSInteger const CameraFlashOverlayLandscapeRight = 31;
+NSInteger const CameraLandscapeRightCancelButton = 32;
+NSInteger const CameraLandscapeRightDoneButton = 33;
+
 @implementation TakePhotoViewController
 
 @synthesize cameraOverlay = _cameraOverlay;
@@ -151,11 +164,11 @@
 
 - (void) setPortraitView
 {
-    UIView *portraitView = [self.cameraOverlay viewWithTag:10];
+    UIView *portraitView = [self.cameraOverlay viewWithTag:CameraOverlayPortraitView];
     [portraitView setHidden:NO];
-    UIView *landscapeLeftView = [self.cameraOverlay viewWithTag:20];
+    UIView *landscapeLeftView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView];
     [landscapeLeftView setHidden:YES];
-    UIView *landscapeRightView = [self.cameraOverlay viewWithTag:30];
+    UIView *landscapeRightView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView];
     [landscapeRightView setHidden:YES];
     
     self.view = self.portraitView;
@@ -167,11 +180,11 @@
 
 - (void) setLandscapeLeftView
 {
-    UIView *portraitView = [self.cameraOverlay viewWithTag:10];
+    UIView *portraitView = [self.cameraOverlay viewWithTag:CameraOverlayPortraitView];
     [portraitView setHidden:YES];
-    UIView *landscapeLeftView = [self.cameraOverlay viewWithTag:20];
+    UIView *landscapeLeftView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView];
     [landscapeLeftView setHidden:NO];
-    UIView *landscapeRightView = [self.cameraOverlay viewWithTag:30];
+    UIView *landscapeRightView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView];
     [landscapeRightView setHidden:YES];
     
     self.view = self.landscapeView;
@@ -183,11 +196,11 @@
 
 - (void) setLandscapeRightView
 {
-    UIView *portraitView = [self.cameraOverlay viewWithTag:10];
+    UIView *portraitView = [self.cameraOverlay viewWithTag:CameraOverlayPortraitView];
     [portraitView setHidden:YES];
-    UIView *landscapeLeftView = [self.cameraOverlay viewWithTag:20];
+    UIView *landscapeLeftView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView];
     [landscapeLeftView setHidden:YES];
-    UIView *landscapeRightView = [self.cameraOverlay viewWithTag:30];
+    UIView *landscapeRightView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView];
     [landscapeRightView setHidden:NO];
     
     self.view = self.landscapeView;
@@ -202,10 +215,47 @@
 {
     [[self imagePicker] dismissModalViewControllerAnimated:YES];
     [self setImagePicker:nil];
+    [self.navigationController popViewControllerAnimated:NO];
+}
+
+- (void)donePicture
+{
+    [[self imagePicker] dismissModalViewControllerAnimated:YES];
+    [self setImagePicker:nil];
 }
 
 - (void)takePicture
 {
+    if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
+        [self setCancelAndDoneButtons];
+        
+        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayPortrait];
+        [portraitFlashOverlay setAlpha:1.0f];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1.0];
+        [portraitFlashOverlay setAlpha:0.0f];
+        [UIView commitAnimations];
+    } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] isHidden]) {
+        [self setCancelAndDoneButtons];
+        
+        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeLeft];
+        [portraitFlashOverlay setAlpha:1.0f];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1.0];
+        [portraitFlashOverlay setAlpha:0.0f];
+        [UIView commitAnimations];
+    } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] isHidden]) {
+        [self setCancelAndDoneButtons];
+        
+        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeRight];
+        [portraitFlashOverlay setAlpha:1.0f];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1.0];
+        [portraitFlashOverlay setAlpha:0.0f];
+        [UIView commitAnimations];
+    }
+    
+    
     [self.imagePicker takePicture];
 }
 
@@ -217,6 +267,24 @@
         [self.imagePicker setCameraFlashMode:UIImagePickerControllerCameraFlashModeOff];
     } else {
         [self.imagePicker setCameraFlashMode:UIImagePickerControllerCameraFlashModeAuto];
+    }
+}
+
+- (void)setCancelAndDoneButtons
+{
+    UIButton *portraitDoneButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] viewWithTag:CameraPortraitDoneButton];
+    if ([portraitDoneButton isHidden]) {
+        UIButton *landscapeLeftDoneButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] viewWithTag:CameraLandscapeLeftDoneButton];
+        UIButton *landscapeRightDoneButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] viewWithTag:CameraLandscapeRightDoneButton];
+        UIButton *portraitCancelButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] viewWithTag:CameraPortraitCancelButton];
+        UIButton *landscapeLeftCancelButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] viewWithTag:CameraLandscapeLeftCancelButton];
+        UIButton *landscapeRightCancelButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] viewWithTag:CameraLandscapeRightCancelButton];
+        [portraitDoneButton setHidden:NO];
+        [landscapeLeftDoneButton setHidden:NO];
+        [landscapeRightDoneButton setHidden:NO];
+        [portraitCancelButton setHidden:YES];
+        [landscapeLeftCancelButton setHidden:YES];
+        [landscapeRightCancelButton setHidden:YES];
     }
 }
 
@@ -241,24 +309,24 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [[self imagePicker] dismissModalViewControllerAnimated:YES];
-    UIImage *picture = [info objectForKey:UIImagePickerControllerOriginalImage];
-    UIView *portraitView = [self.cameraOverlay viewWithTag:10];
-    if (![portraitView isHidden]) {
-        CGImageRef portraitImage = [self CGImageRotatedByAngle:[picture CGImage] angle:-90];
-        CGFloat croppedImageOffset = CGImageGetHeight(portraitImage) * 115 / 426;
-        CGFloat croppedImageHeight = CGImageGetHeight(portraitImage) * 240 / 426;
-        CGFloat croppedImageWidth = CGImageGetWidth(portraitImage);
-        CGImageRef imageRef = CGImageCreateWithImageInRect(portraitImage, CGRectMake(0, croppedImageOffset, croppedImageWidth, croppedImageHeight));
-        UIImage *croppedPicture = [UIImage imageWithCGImage:imageRef];
-        
-        CLLocation *location = [[CLLocation alloc] initWithLatitude:0 longitude:0];
-        [Photo uploadPhotoAtLocation:location image:croppedPicture];
-        
-        //[self.preview setImage:croppedPicture];
-    } else {
-        //[self.preview setImage:picture];
-    }
+    //[[self imagePicker] dismissModalViewControllerAnimated:YES];
+    NSLog(@"Called didFinishPickingMediaWithInfo");
+    
+//    UIImage *picture = [info objectForKey:UIImagePickerControllerOriginalImage];
+//    UIView *portraitView = [self.cameraOverlay viewWithTag:CameraOverlayPortraitView];
+//    if (![portraitView isHidden]) {
+//        CGImageRef portraitImage = [self CGImageRotatedByAngle:[picture CGImage] angle:-90];
+//        CGFloat croppedImageOffset = CGImageGetHeight(portraitImage) * 115 / 426;
+//        CGFloat croppedImageHeight = CGImageGetHeight(portraitImage) * 240 / 426;
+//        CGFloat croppedImageWidth = CGImageGetWidth(portraitImage);
+//        CGImageRef imageRef = CGImageCreateWithImageInRect(portraitImage, CGRectMake(0, croppedImageOffset, croppedImageWidth, croppedImageHeight));
+//        UIImage *croppedPicture = [UIImage imageWithCGImage:imageRef];
+//        
+//        CLLocation *location = [[CLLocation alloc] initWithLatitude:0 longitude:0];
+//        [Photo uploadPhotoAtLocation:location image:croppedPicture];
+//    } else {
+//        
+//    }
 }
 
 //https://gist.github.com/585377

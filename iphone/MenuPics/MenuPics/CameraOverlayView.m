@@ -35,6 +35,11 @@
     [self.viewController cancelPicture];
 }
 
+- (IBAction)donePicture:(id)sender
+{
+    [self.viewController donePicture];
+}
+
 - (IBAction)takePicture:(id)sender
 {
     [self.viewController takePicture];

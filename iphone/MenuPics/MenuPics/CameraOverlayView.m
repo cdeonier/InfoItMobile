@@ -50,14 +50,26 @@
     if (self.flashMode == UIImagePickerControllerCameraFlashModeAuto) {
         self.flashMode = UIImagePickerControllerCameraFlashModeOn;
         [self.portraitFlashButton setImage:[UIImage imageNamed:@"flash_button_on"] forState:UIControlStateNormal];
+        [self.landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_on"] forState:UIControlStateNormal];
+        [self.landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_on_pressed"] forState:UIControlStateHighlighted];
+        [self.landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_on"] forState:UIControlStateNormal];
+        [self.landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_on_pressed"] forState:UIControlStateHighlighted];
         [self.viewController toggleFlash];
     } else if (self.flashMode == UIImagePickerControllerCameraFlashModeOn) {
         self.flashMode = UIImagePickerControllerCameraFlashModeOff;
         [self.portraitFlashButton setImage:[UIImage imageNamed:@"flash_button_off"] forState:UIControlStateNormal];
+        [self.landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_off"] forState:UIControlStateNormal];
+        [self.landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_off_pressed"] forState:UIControlStateHighlighted];
+        [self.landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_off"] forState:UIControlStateNormal];
+        [self.landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_off_pressed"] forState:UIControlStateHighlighted];
         [self.viewController toggleFlash];
     } else {
         self.flashMode = UIImagePickerControllerCameraFlashModeAuto;
         [self.portraitFlashButton setImage:[UIImage imageNamed:@"flash_button_auto"] forState:UIControlStateNormal];
+        [self.landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_auto"] forState:UIControlStateNormal];
+        [self.landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_auto_pressed"] forState:UIControlStateHighlighted];
+        [self.landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_auto"] forState:UIControlStateNormal];
+        [self.landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_auto_pressed"] forState:UIControlStateHighlighted];
         [self.viewController toggleFlash];
     }
 }

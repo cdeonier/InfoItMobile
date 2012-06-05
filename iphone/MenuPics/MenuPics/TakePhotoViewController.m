@@ -14,6 +14,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "IIViewDeckController.h"
 #import "Photo.h"
+#import "SVProgressHUD.h"
+#import "ImageUtil.h"
 
 @interface TakePhotoViewController ()
 
@@ -39,8 +41,7 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
 @synthesize landscapeView = _landscapeView;
 @synthesize imagePicker = _imagePicker;
 @synthesize preview = _preview;
-@synthesize dummyThumbs = _dummyThumbs;
-@synthesize dummyImages = _dummyImages;
+@synthesize photos = _photos;
 @synthesize landscapeGridView = _landscapeGridView;
 @synthesize portraitGridView = _portraitGridView;
 @synthesize locationManager = _locationManager;
@@ -66,7 +67,8 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
 
     GMGridView *portraitGridView = [[GMGridView alloc] initWithFrame:CGRectMake(0, 240, 320, 136)];
     portraitGridView.layoutStrategy = [GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal];
-    portraitGridView.minEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+    portraitGridView.minEdgeInsets = UIEdgeInsetsMake(18, 10, 18, 10);
+    portraitGridView.centerGrid = NO;
     portraitGridView.dataSource = self;
     portraitGridView.actionDelegate = self;
     self.portraitGridView = portraitGridView;
@@ -74,14 +76,13 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
     
     GMGridView *landscapeGridView = [[GMGridView alloc] initWithFrame:CGRectMake(357, 0, 123, 228)];
     landscapeGridView.layoutStrategy = [GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutVertical];
-    landscapeGridView.minEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 0);
+    landscapeGridView.minEdgeInsets = UIEdgeInsetsMake(5, 11, 5, 12);
+    landscapeGridView.centerGrid = NO;
     landscapeGridView.dataSource = self;
     landscapeGridView.actionDelegate = self;
     self.landscapeGridView = landscapeGridView;
     [self.landscapeView addSubview:landscapeGridView];
     [self.landscapeView sendSubviewToBack:landscapeGridView];
-    
-    [self populateData];
     
     CameraOverlayView *cameraOverlay = [[CameraOverlayView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
     [cameraOverlay setViewController:self];
@@ -110,6 +111,8 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    
+    [self setPhotos:[[NSMutableArray alloc] initWithCapacity:20]];
 }
 
 - (void)viewDidUnload
@@ -288,29 +291,105 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
     }
 }
 
-- (void)populateData
-{
-    self.dummyThumbs = [[NSMutableArray alloc] initWithCapacity:20];
-    [self.dummyThumbs addObject:[UIImage imageNamed:@"1.jpg"]];
-    [self.dummyThumbs addObject:[UIImage imageNamed:@"2.jpg"]];
-    [self.dummyThumbs addObject:[UIImage imageNamed:@"3.jpg"]];
-    [self.dummyThumbs addObject:[UIImage imageNamed:@"4.jpg"]];
-    [self.dummyThumbs addObject:[UIImage imageNamed:@"5.jpg"]];
-    [self.dummyThumbs addObject:[UIImage imageNamed:@"6.jpg"]];
-    [self.portraitGridView reloadData];
-    [self.landscapeGridView reloadData];
-    
-    self.dummyImages = [[NSMutableArray alloc] initWithCapacity:10];
-    [self.dummyImages addObject:[UIImage imageNamed:@"1_1.jpg"]];
-    [self.dummyImages addObject:[UIImage imageNamed:@"2_2.jpg"]];
-}
-
 #pragma mark UIImagePickerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    //[[self imagePicker] dismissModalViewControllerAnimated:YES];
     NSLog(@"Called didFinishPickingMediaWithInfo");
+    /* 
+     * Basically 3 tasks that need to be done, each with their own async:
+     *
+     * 1) If this is the first photo, we need to update the preview image.
+     * 2) We need create thumbnail images to add to gridview.
+     * 3) We need to save the images to cache directory, in preparation for Save Photos.
+     *
+     */
+    
+    //Update preview image, if necessary
+    if ([self.photos count] == 0) {
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            //Crop image if portrait view
+            UIImage *photoImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+            if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
+                CGSize scaledSize = CGSizeMake(852, 640);
+                UIGraphicsBeginImageContext(scaledSize);
+                [photoImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
+                UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                CGImageRef portraitImage = scaledImage.CGImage;
+                CGFloat croppedImageOffset = CGImageGetHeight(portraitImage) * 115 / 426;
+                CGFloat croppedImageHeight = CGImageGetHeight(portraitImage) * 240 / 426;
+                CGFloat croppedImageWidth = CGImageGetWidth(portraitImage);
+                CGImageRef imageRef = CGImageCreateWithImageInRect(portraitImage, CGRectMake(0, croppedImageOffset, croppedImageWidth, croppedImageHeight));
+                photoImage = [UIImage imageWithCGImage:imageRef];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIImageView *portraitPreview = (UIImageView *)[self.portraitView viewWithTag:1];
+                UIImageView *landscapePreview = (UIImageView *)[self.landscapeView viewWithTag:1];
+                [portraitPreview setImage:photoImage];
+                [landscapePreview setImage:photoImage];
+            });
+        });
+    }
+    
+    Photo *photo = [[Photo alloc] init];
+    [self.photos addObject:photo];
+
+    //Save image to disk & create thumbnail
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *photoImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        
+        //Crop if portrait
+        if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
+            //Expensive rotation, ~1.5-2s
+            CGImageRef portraitImage = [self CGImageRotatedByAngle:[photoImage CGImage] angle:-90];
+            
+            CGFloat croppedImageOffset = CGImageGetHeight(portraitImage) * 115 / 426;
+            CGFloat croppedImageHeight = CGImageGetHeight(portraitImage) * 240 / 426;
+            CGFloat croppedImageWidth = CGImageGetWidth(portraitImage);
+            CGImageRef imageRef = CGImageCreateWithImageInRect(portraitImage, CGRectMake(0, croppedImageOffset, croppedImageWidth, croppedImageHeight));
+            photoImage = [UIImage imageWithCGImage:imageRef];
+        }
+        
+        //Then save to disk
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        });
+        
+        //Create thumbnail
+        CGFloat height = photoImage.size.height;
+        CGFloat offset = (photoImage.size.width - photoImage.size.height) / 2;
+        CGImageRef preThumbnailSquare = CGImageCreateWithImageInRect(photoImage.CGImage, CGRectMake(offset, 0, height, height));
+        
+        //Compress to thumbnail size (expensive, ~0.5-1s)
+        CGSize thumbnailSize = CGSizeMake(200, 200);
+        UIGraphicsBeginImageContext(thumbnailSize);
+        [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
+        UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        [photo setThumbnail:thumbnail];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.portraitGridView reloadData];
+            [self.landscapeGridView reloadData];
+        });
+    });
+                   
+    //Create Thumbnail and add to gridview
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Crop if portrait
+        if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
+            
+        }
+        
+        //Then save
+    });
+               
+                   
+                   
     
 //    UIImage *picture = [info objectForKey:UIImagePickerControllerOriginalImage];
 //    UIView *portraitView = [self.cameraOverlay viewWithTag:CameraOverlayPortraitView];
@@ -349,9 +428,11 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
 						  +(rotatedRect.size.width/2),
 						  +(rotatedRect.size.height/2));
 	CGContextRotateCTM(bmContext, angleInRadians);
+    CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
 	CGContextDrawImage(bmContext, CGRectMake(-width/2, -height/2, width, height),
 					   imgRef);
-    
+    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
+    NSLog(@"Draw operation took %2.5f seconds", end-start);
 	CGImageRef rotatedImage = CGBitmapContextCreateImage(bmContext);
 	CFRelease(bmContext);
     
@@ -362,7 +443,7 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    return [self.dummyThumbs count];
+    return [self.photos count];
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
@@ -380,7 +461,7 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
     {
         cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
         
-        UIImageView *thumbnail = [[UIImageView alloc] initWithImage:[self.dummyThumbs objectAtIndex:index]];
+        UIImageView *thumbnail = [[UIImageView alloc] initWithImage:[[self.photos objectAtIndex:index] thumbnail]];
         [thumbnail.layer setMasksToBounds:YES];
         [thumbnail.layer setCornerRadius:5];
         [thumbnail.layer setBorderColor:[[UIColor grayColor] CGColor]];
@@ -389,7 +470,7 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
         cell.contentView = thumbnail;
     }
     
-    [(UIImageView *)cell.contentView setImage:[self.dummyThumbs objectAtIndex:index]];
+    [(UIImageView *)cell.contentView setImage:[[self.photos objectAtIndex:index] thumbnail]];
     
     return cell;
 }
@@ -401,8 +482,8 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
     UIImageView *previewImagePortrait = (UIImageView *)[self.portraitView viewWithTag:1];
     UIImageView *previewImageLandscape = (UIImageView *)[self.landscapeView viewWithTag:1];
     
-    [previewImagePortrait setImage:[self.dummyImages objectAtIndex:position]];
-    [previewImageLandscape setImage:[self.dummyImages objectAtIndex:position]];
+    //[previewImagePortrait setImage:[self.dummyImages objectAtIndex:position]];
+    //[previewImageLandscape setImage:[self.dummyImages objectAtIndex:position]];
 }
 
 #pragma mark Location

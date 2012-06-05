@@ -117,6 +117,8 @@
 		3CCDB983157D650800590DB3 /* right_flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB981157D650800590DB3 /* right_flash_off.png */; };
 		3CCDB986157D651700590DB3 /* left_flash_off_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB984157D651700590DB3 /* left_flash_off_pressed.png */; };
 		3CCDB987157D651700590DB3 /* left_flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB985157D651700590DB3 /* left_flash_off.png */; };
+		3CCDB990157D7CC200590DB3 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB98D157D7CC200590DB3 /* SVProgressHUD.bundle */; };
+		3CCDB991157D7CC200590DB3 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCDB98F157D7CC200590DB3 /* SVProgressHUD.m */; };
 		3CD8BDC71558C4A600890F62 /* find_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC61558C4A600890F62 /* find_menu.png */; };
 		3CD8BDC91558C4B900890F62 /* take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC81558C4B900890F62 /* take_photo.png */; };
 		3CD8BDCB1558C4C700890F62 /* view_profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDCA1558C4C700890F62 /* view_profile.png */; };
@@ -463,6 +465,9 @@
 		3CCDB981157D650800590DB3 /* right_flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_flash_off.png; sourceTree = "<group>"; };
 		3CCDB984157D651700590DB3 /* left_flash_off_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_flash_off_pressed.png; sourceTree = "<group>"; };
 		3CCDB985157D651700590DB3 /* left_flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_flash_off.png; sourceTree = "<group>"; };
+		3CCDB98D157D7CC200590DB3 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		3CCDB98E157D7CC200590DB3 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		3CCDB98F157D7CC200590DB3 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		3CD8BDC61558C4A600890F62 /* find_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = find_menu.png; sourceTree = "<group>"; };
 		3CD8BDC81558C4B900890F62 /* take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = take_photo.png; sourceTree = "<group>"; };
 		3CD8BDCA1558C4C700890F62 /* view_profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = view_profile.png; sourceTree = "<group>"; };
@@ -886,6 +891,7 @@
 		3C4F2D7F15795F140088E486 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				3CCDB98C157D7C5300590DB3 /* SVProgressHUD */,
 				3C2E7F611579906900DED59B /* OrderedDictionary */,
 				3C4F2D81157985810088E486 /* AFNetworking */,
 				3C4F2D80157985790088E486 /* ViewDeck */,
@@ -1222,6 +1228,16 @@
 				3CDA5C49157593DA00FF2507 /* cancel_button@2x.png */,
 			);
 			name = "Cancel Button";
+			sourceTree = "<group>";
+		};
+		3CCDB98C157D7C5300590DB3 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3CCDB98D157D7CC200590DB3 /* SVProgressHUD.bundle */,
+				3CCDB98E157D7CC200590DB3 /* SVProgressHUD.h */,
+				3CCDB98F157D7CC200590DB3 /* SVProgressHUD.m */,
+			);
+			name = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 		3CD8BDC31558C45800890F62 /* Home */ = {
@@ -1621,6 +1637,7 @@
 				3CCDB983157D650800590DB3 /* right_flash_off.png in Resources */,
 				3CCDB986157D651700590DB3 /* left_flash_off_pressed.png in Resources */,
 				3CCDB987157D651700590DB3 /* left_flash_off.png in Resources */,
+				3CCDB990157D7CC200590DB3 /* SVProgressHUD.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1661,6 +1678,7 @@
 				3C4F2DA0157986420088E486 /* UIImageView+AFNetworking.m in Sources */,
 				3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */,
 				3C2E7F681579913C00DED59B /* Photo.m in Sources */,
+				3CCDB991157D7CC200590DB3 /* SVProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

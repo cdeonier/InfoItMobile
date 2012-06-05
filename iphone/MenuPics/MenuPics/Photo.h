@@ -12,6 +12,8 @@
 @interface Photo : NSObject
 
 @property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, strong) UIImage *thumbnail;
+@property (nonatomic, strong) NSString *fileLocation;
 
 + (void)uploadPhotoAtLocation:(CLLocation *)location image:(UIImage *)image;
 

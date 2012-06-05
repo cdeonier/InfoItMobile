@@ -12,6 +12,8 @@
 @implementation Photo
 
 @synthesize location = _location;
+@synthesize thumbnail = _thumbnail;
+@synthesize fileLocation = _fileLocation;
 
 + (void)uploadPhotoAtLocation:(CLLocation *)location
                         image:(UIImage *)image

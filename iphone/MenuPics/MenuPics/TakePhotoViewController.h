@@ -12,6 +12,8 @@
 
 @interface TakePhotoViewController : UIViewController <CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 
+@property NSInteger displayedPhotoIndex;
+
 @property (nonatomic, strong) UIView *cameraOverlay;
 @property (strong) UIView *portraitView;
 @property (strong) UIView *landscapeView;
@@ -24,6 +26,9 @@
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *presentLocation;
+
+- (IBAction)toggleSelectionBox:(id)sender;
+- (IBAction)savePhotos:(id)sender;
 
 - (void)cancelPicture;
 - (void)donePicture;

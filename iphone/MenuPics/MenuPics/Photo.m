@@ -12,6 +12,7 @@
 @implementation Photo
 
 @synthesize location = _location;
+@synthesize isSelected = _isSelected;
 @synthesize thumbnail = _thumbnail;
 @synthesize fileLocation = _fileLocation;
 

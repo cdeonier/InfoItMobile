@@ -10,10 +10,11 @@
 
 @class TakePhotoViewController;
 
-@interface CameraOverlayView : UIView
+@interface CameraOverlayView : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) TakePhotoViewController *viewController;
 @property (nonatomic) UIImagePickerControllerCameraFlashMode flashMode;
+@property (nonatomic, strong) UIImageView *focusAnimation;
 
 @property (nonatomic, strong) IBOutlet UIView *view;
 @property (nonatomic, strong) IBOutlet UIButton *portraitFlashButton;
@@ -24,5 +25,6 @@
 -(IBAction)donePicture:(id)sender;
 -(IBAction)takePicture:(id)sender;
 -(IBAction)toggleFlash:(id)sender;
+-(IBAction)showFocusIndicator:(id)sender;
 
 @end

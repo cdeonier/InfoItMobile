@@ -13,6 +13,7 @@
 
 @synthesize view = _view;
 @synthesize flashMode = _flashMode;
+@synthesize focusAnimation = _focusAnimation;
 
 @synthesize viewController = _viewController;
 @synthesize portraitFlashButton = _portraitFlashButton;
@@ -26,6 +27,16 @@
         [[NSBundle mainBundle] loadNibNamed:@"CameraOverlayView" owner:self options:nil];
         [self addSubview:self.view];
         self.flashMode = UIImagePickerControllerCameraFlashModeAuto;
+        
+        UIImageView *focusAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        [focusAnimation setAnimationImages:[NSArray arrayWithObjects:
+                                              [UIImage imageNamed:@"focus_indicator"],[UIImage imageNamed:@"focus_indicator_dark"],
+                                              [UIImage imageNamed:@"focus_indicator"],[UIImage imageNamed:@"focus_indicator_dark"],
+                                              [UIImage imageNamed:@"focus_indicator"],[UIImage imageNamed:@"focus_indicator_dark"],
+                                              [UIImage imageNamed:@"focus_indicator"],nil]];
+        [focusAnimation setAnimationDuration:1.5f];
+        [focusAnimation setAnimationRepeatCount:1];
+        [self setFocusAnimation:focusAnimation];
     }
     return self;
 }
@@ -72,6 +83,40 @@
         [self.landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_auto_pressed"] forState:UIControlStateHighlighted];
         [self.viewController toggleFlash];
     }
+}
+
+-(IBAction)showFocusIndicator:(id)sender
+{
+    UIGestureRecognizer *gestureRecognizer = (UIGestureRecognizer *)sender;
+    CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view];
+    
+    UIView *portrait = (UIView *)[self viewWithTag:10];
+    UIView *landscapeLeft = (UIView *)[self viewWithTag:20];
+    UIView *landscapeRight = (UIView *)[self viewWithTag:30];
+    
+    [[self focusAnimation] stopAnimating];
+    
+    if (![portrait isHidden]) {
+        UIView *focusIndicatorView = [portrait viewWithTag:14];
+        [focusIndicatorView addSubview:[self focusAnimation]];
+        [[self focusAnimation] setCenter:touchPoint];
+        [[self focusAnimation] startAnimating];
+    } else if (![landscapeLeft isHidden]) {
+        UIView *focusIndicatorView = [landscapeLeft viewWithTag:24];
+        [focusIndicatorView addSubview:[self focusAnimation]];
+        [[self focusAnimation] setCenter:touchPoint];
+        [[self focusAnimation] startAnimating];
+    } else if (![landscapeRight isHidden]) {
+        UIView *focusIndicatorView = [landscapeRight viewWithTag:34];
+        [focusIndicatorView addSubview:[self focusAnimation]];
+        [[self focusAnimation] setCenter:touchPoint];
+        [[self focusAnimation] startAnimating];
+    }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 /*

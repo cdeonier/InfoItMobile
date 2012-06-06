@@ -12,6 +12,7 @@
 @interface Photo : NSObject
 
 @property (nonatomic, strong) CLLocation *location;
+@property BOOL isSelected;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSString *fileLocation;
 

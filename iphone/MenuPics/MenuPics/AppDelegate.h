@@ -15,7 +15,6 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (retain, nonatomic) NavController *navController;
 @property (strong, nonatomic) IIViewDeckController *deckController;
 @property (strong, nonatomic) UIViewController *centerViewController;

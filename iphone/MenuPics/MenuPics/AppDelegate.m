@@ -34,6 +34,23 @@
     
     self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];
+    
+    NSFileManager *filemgr;
+    NSArray *dirPaths;
+    NSString *docsDir;
+    
+    filemgr =[NSFileManager defaultManager];
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
+    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
+    
+    if (![filemgr fileExistsAtPath:takePhotosDirectory]) {
+        [filemgr createDirectoryAtPath:takePhotosDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+        [filemgr createDirectoryAtPath:photosDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
+    
     return YES;
 }
 

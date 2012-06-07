@@ -42,7 +42,7 @@
 						<string key="NSFrameSize">{357, 268}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="959757868"/>
+						<reference key="NSNextKeyView" ref="645357185"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="IBUITag">1</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -52,7 +52,7 @@
 							<string key="NSResourceName">image_loading.png</string>
 						</object>
 					</object>
-					<object class="IBUIButton" id="959757868">
+					<object class="IBUIButton" id="645357185">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{5, 223}, {40, 40}}</string>
@@ -65,7 +65,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="527208907">
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="554801263">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
 						</object>
@@ -73,7 +73,7 @@
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
-						<object class="NSColor" key="IBUINormalTitleShadowColor" id="334527298">
+						<object class="NSColor" key="IBUINormalTitleShadowColor" id="702817764">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
@@ -81,11 +81,11 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">selected_picture_yes@2x.png</string>
 						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="981685825">
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="685862069">
 							<int key="type">2</int>
 							<double key="pointSize">15</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="921774438">
+						<object class="NSFont" key="IBUIFont" id="979382653">
 							<string key="NSName">Helvetica-Bold</string>
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
@@ -112,18 +112,17 @@
 						<string key="NSFrame">{{367, 233}, {103, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<reference key="IBUIHighlightedTitleColor" ref="527208907"/>
+						<reference key="IBUIHighlightedTitleColor" ref="554801263"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
-						<reference key="IBUINormalTitleShadowColor" ref="334527298"/>
+						<reference key="IBUINormalTitleShadowColor" ref="702817764"/>
 						<object class="NSCustomResource" key="IBUIHighlightedImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">save_photos_button_pressed@2x.png</string>
@@ -132,8 +131,8 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">save_photos_button@2x.png</string>
 						</object>
-						<reference key="IBUIFontDescription" ref="981685825"/>
-						<reference key="IBUIFont" ref="921774438"/>
+						<reference key="IBUIFontDescription" ref="685862069"/>
+						<reference key="IBUIFont" ref="979382653"/>
 					</object>
 					<object class="IBUIView" id="265397384">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -182,7 +181,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">toggleSelectionBox:</string>
-						<reference key="source" ref="959757868"/>
+						<reference key="source" ref="645357185"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -205,7 +204,7 @@
 							<reference ref="357326588"/>
 							<reference ref="265397384"/>
 							<reference ref="391747405"/>
-							<reference ref="959757868"/>
+							<reference ref="645357185"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -229,6 +228,7 @@
 						<int key="objectID">5</int>
 						<reference key="object" ref="357326588"/>
 						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Save Button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
@@ -243,7 +243,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">15</int>
-						<reference key="object" ref="959757868"/>
+						<reference key="object" ref="645357185"/>
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">Selection Box</string>
 					</object>

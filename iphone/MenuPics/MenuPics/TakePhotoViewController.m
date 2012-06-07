@@ -24,16 +24,11 @@
 
 NSInteger const CameraOverlayPortraitView = 10;
 NSInteger const CameraFlashOverlayPortrait = 11;
-NSInteger const CameraPortraitCancelButton = 12;
-NSInteger const CameraPortraitDoneButton = 13;
 NSInteger const CameraOverlayLandscapeLeftView = 20;
 NSInteger const CameraFlashOverlayLandscapeLeft = 21;
-NSInteger const CameraLandscapeLeftCancelButton = 22;
-NSInteger const CameraLandscapeLeftDoneButton = 23;
 NSInteger const CameraOverlayLandscapeRightView = 30;
 NSInteger const CameraFlashOverlayLandscapeRight = 31;
-NSInteger const CameraLandscapeRightCancelButton = 32;
-NSInteger const CameraLandscapeRightDoneButton = 33;
+
 
 @implementation TakePhotoViewController
 
@@ -91,8 +86,6 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
-    
-
     
     [self clearTakePhotosDirectory];
 }
@@ -226,8 +219,6 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
     [self.imagePicker takePicture];
     
     if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
-        [self setCancelAndDoneButtons];
-        
         UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayPortrait];
         [portraitFlashOverlay setAlpha:1.0f];
         [UIView beginAnimations:nil context:NULL];
@@ -235,8 +226,6 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
         [portraitFlashOverlay setAlpha:0.0f];
         [UIView commitAnimations];
     } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] isHidden]) {
-        [self setCancelAndDoneButtons];
-        
         UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeLeft];
         [portraitFlashOverlay setAlpha:1.0f];
         [UIView beginAnimations:nil context:NULL];
@@ -244,8 +233,6 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
         [portraitFlashOverlay setAlpha:0.0f];
         [UIView commitAnimations];
     } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] isHidden]) {
-        [self setCancelAndDoneButtons];
-        
         UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeRight];
         [portraitFlashOverlay setAlpha:1.0f];
         [UIView beginAnimations:nil context:NULL];
@@ -263,24 +250,6 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
         [self.imagePicker setCameraFlashMode:UIImagePickerControllerCameraFlashModeOff];
     } else {
         [self.imagePicker setCameraFlashMode:UIImagePickerControllerCameraFlashModeAuto];
-    }
-}
-
-- (void)setCancelAndDoneButtons
-{
-    UIButton *portraitDoneButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] viewWithTag:CameraPortraitDoneButton];
-    if ([portraitDoneButton isHidden]) {
-        UIButton *landscapeLeftDoneButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] viewWithTag:CameraLandscapeLeftDoneButton];
-        UIButton *landscapeRightDoneButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] viewWithTag:CameraLandscapeRightDoneButton];
-        UIButton *portraitCancelButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] viewWithTag:CameraPortraitCancelButton];
-        UIButton *landscapeLeftCancelButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] viewWithTag:CameraLandscapeLeftCancelButton];
-        UIButton *landscapeRightCancelButton = (UIButton *)[[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] viewWithTag:CameraLandscapeRightCancelButton];
-        [portraitDoneButton setHidden:NO];
-        [landscapeLeftDoneButton setHidden:NO];
-        [landscapeRightDoneButton setHidden:NO];
-        [portraitCancelButton setHidden:YES];
-        [landscapeLeftCancelButton setHidden:YES];
-        [landscapeRightCancelButton setHidden:YES];
     }
 }
 
@@ -336,7 +305,22 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
 }
 
 - (IBAction)savePhotos:(id)sender
-{
+{    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docsDir = [dirPaths objectAtIndex:0];
+    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
+    
+    CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+    for (Photo *photo in self.photos) {
+        if ([photo isSelected]) {
+            [fileManager moveItemAtPath:[photo fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[photo fileName]] error:nil];
+        }
+    }
+    
+    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
+    NSLog(@"Move operation took %2.5f seconds", end-start);
+    
     [self.navigationController popViewControllerAnimated:NO];
 }
 
@@ -402,7 +386,10 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
         //Crop if portrait
         if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
             //Expensive rotation, ~1.5-2s-- can be optimized if we shrink first before calling, but it messes up thumbnail orientation when I tried.
+            CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
             CGImageRef portraitImage = [self CGImageRotatedByAngle:[photoImage CGImage] angle:-90];
+            CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
+            NSLog(@"Draw operation took %2.5f seconds", end-start);
             
             CGFloat croppedImageOffset = CGImageGetHeight(portraitImage) * 115 / 426;
             CGFloat croppedImageHeight = CGImageGetHeight(portraitImage) * 240 / 426;
@@ -430,6 +417,7 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
             NSString *imageFileName = [NSString stringWithFormat:@"%f", currentTime];
             imageFileName = [imageFileName stringByReplacingOccurrencesOfString:@"." withString:@""];
             imageFileName = [imageFileName stringByAppendingString:@".jpg"];
+            [photo setFileName:imageFileName];
             NSString *filePath = [takePhotosDirectory stringByAppendingPathComponent:imageFileName];
             NSData *imageData = UIImageJPEGRepresentation(shrunkImage, 0.8);
             [imageData writeToFile:filePath atomically:YES];
@@ -477,11 +465,7 @@ NSInteger const CameraLandscapeRightDoneButton = 33;
 						  +(rotatedRect.size.width/2),
 						  +(rotatedRect.size.height/2));
 	CGContextRotateCTM(bmContext, angleInRadians);
-    CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-	CGContextDrawImage(bmContext, CGRectMake(-width/2, -height/2, width, height),
-					   imgRef);
-    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
-    NSLog(@"Draw operation took %2.5f seconds", end-start);
+	CGContextDrawImage(bmContext, CGRectMake(-width/2, -height/2, width, height), imgRef);
 	CGImageRef rotatedImage = CGBitmapContextCreateImage(bmContext);
 	CFRelease(bmContext);
     

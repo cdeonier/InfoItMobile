@@ -15,6 +15,7 @@
 @synthesize isSelected = _isSelected;
 @synthesize thumbnail = _thumbnail;
 @synthesize fileLocation = _fileLocation;
+@synthesize fileName = _fileName;
 
 + (void)uploadPhotoAtLocation:(CLLocation *)location
                         image:(UIImage *)image

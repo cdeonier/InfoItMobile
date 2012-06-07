@@ -20,6 +20,10 @@
 @property (nonatomic, strong) IBOutlet UIButton *portraitFlashButton;
 @property (nonatomic, strong) IBOutlet UIButton *landscapeLeftFlashButton;
 @property (nonatomic, strong) IBOutlet UIButton *landscapeRightFlashButton;
+@property (nonatomic, strong) IBOutlet UILabel *numberPhotosStatus;
+@property (nonatomic, strong) IBOutlet UIImageView *numberPhotosIcon;
+@property (nonatomic, strong) IBOutlet UIButton *cancelButton;
+@property (nonatomic, strong) IBOutlet UIButton *doneButton;
 
 -(IBAction)cancelPicture:(id)sender;
 -(IBAction)donePicture:(id)sender;

@@ -19,6 +19,10 @@
 @synthesize portraitFlashButton = _portraitFlashButton;
 @synthesize landscapeLeftFlashButton = _landscapeLeftFlashButton;
 @synthesize landscapeRightFlashButton = _landscapeRightFlashButton;
+@synthesize numberPhotosIcon = _numberPhotosIcon;
+@synthesize numberPhotosStatus = _numberPhotosStatus;
+@synthesize cancelButton = _cancelButton;
+@synthesize doneButton = _doneButton;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -54,6 +58,12 @@
 - (IBAction)takePicture:(id)sender
 {
     [self.viewController takePicture];
+    [self.cancelButton setHidden:YES];
+    [self.doneButton setHidden:NO];
+    [self.numberPhotosStatus setHidden:NO];
+    [self.numberPhotosIcon setHidden:NO];
+    int numberPhotos = [self.numberPhotosStatus.text intValue] + 1;
+    [self.numberPhotosStatus setText:[NSString stringWithFormat:@"%i", numberPhotos]];
 }
 
 - (IBAction)toggleFlash:(id)sender

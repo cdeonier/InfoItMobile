@@ -15,6 +15,7 @@
 @property BOOL isSelected;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSString *fileLocation;
+@property (nonatomic, strong) NSString *fileName;
 
 + (void)uploadPhotoAtLocation:(CLLocation *)location image:(UIImage *)image;
 

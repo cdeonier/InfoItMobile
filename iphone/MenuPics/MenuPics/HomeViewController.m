@@ -58,6 +58,36 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
     [self.viewDeckController.view setNeedsDisplay];
+    
+    NSFileManager *filemgr;
+    NSArray *dirPaths;
+    NSString *docsDir;
+    
+    filemgr =[NSFileManager defaultManager];
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
+    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
+    
+    NSArray *fileList = [filemgr contentsOfDirectoryAtPath:docsDir error:NULL];
+    NSLog(@"Contents of Documents Directory:");
+    for (NSString *file in fileList) {
+        NSLog(file);
+    }
+    
+    fileList = [filemgr contentsOfDirectoryAtPath:takePhotosDirectory error:NULL];
+    NSLog(@"Contents of Take Photos Directory:");
+    for (NSString *file in fileList) {
+        NSLog(file);
+    }
+    
+    fileList = [filemgr contentsOfDirectoryAtPath:photosDirectory error:NULL];
+    NSLog(@"Contents of Photos Directory:");
+    for (NSString *file in fileList) {
+        NSLog(file);
+    }
+    
 }
 
 - (void)viewDidUnload

@@ -502,7 +502,14 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [thumbnail.layer setCornerRadius:5];
         [thumbnail.layer setBorderWidth:1.0];
         
+        UIView *deselectOverlay = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
+        [deselectOverlay.layer setMasksToBounds:YES];
+        [deselectOverlay.layer setCornerRadius:5];
+        [deselectOverlay setBackgroundColor:[UIColor blackColor]];
+        [deselectOverlay setAlpha:0.0];
+        
         [imageViewHolder addSubview:thumbnail];
+        [imageViewHolder addSubview:deselectOverlay];
         
         cell.contentView = imageViewHolder;
     }
@@ -510,8 +517,16 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     UIImageView *thumbnail = [cell.contentView.subviews objectAtIndex:0];
     [thumbnail setImage:[[self.photos objectAtIndex:index] thumbnail]];
 
+    UIView *selectionOverlay = [cell.contentView.subviews objectAtIndex:1];
     if ([[self.photos objectAtIndex:index] isSelected]) {
+        [selectionOverlay setAlpha:0.0];
+    } else {
+        [selectionOverlay setAlpha:0.8];
+    }
+    
+    if (index == [self displayedPhotoIndex]) {
         [cell.contentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"grid_cell_selected_background"]]];
+        thumbnail = [cell.contentView.subviews objectAtIndex:0];
         [thumbnail.layer setBorderColor:[[UIColor clearColor] CGColor]];
     } else {
         [cell.contentView setBackgroundColor:[UIColor clearColor]];
@@ -548,6 +563,9 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [(UIButton *)[self.portraitView viewWithTag:2] setImage:[UIImage imageNamed:@"selected_picture_no"] forState:UIControlStateNormal];
         [(UIButton *)[self.landscapeView viewWithTag:2] setImage:[UIImage imageNamed:@"selected_picture_no"] forState:UIControlStateNormal];
     }
+    
+    [self.portraitGridView reloadData];
+    [self.landscapeGridView reloadData];
 }
 
 #pragma mark Location

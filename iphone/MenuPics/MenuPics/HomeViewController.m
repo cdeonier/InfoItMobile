@@ -50,6 +50,9 @@
         [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
     }
     [navigationBar.topItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_logo"]]];
+    
+    //Title not actually displayed on Home screen, used for back button title acquisition in NavController
+    [self setTitle:@"Home"];
 }
 
 - (void)viewWillAppear:(BOOL)animated

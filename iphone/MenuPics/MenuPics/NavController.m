@@ -9,8 +9,7 @@
 #import "NavController.h"
 #import "FindMenuViewController.h"
 #import "TakePhotoViewController.h"
-
-
+#import "ViewProfileViewController.h"
 #import "UIColor+ExtendedColor.h"
 #import "IIViewDeckController.h"
 
@@ -54,32 +53,78 @@
 
 - (IBAction)pressTakePhoto:(id)sender
 {
-    
+    [self.takePhotoButton setBackgroundColor:[UIColor navButtonPressedColor]];   
 }
 
 - (IBAction)pressViewProfile:(id)sender
 {
-    
+    [self.viewProfileButton setBackgroundColor:[UIColor navButtonPressedColor]];
+}
+
+- (IBAction)releaseFindMenu:(id)sender
+{
+    [self.findMenuButton setBackgroundColor:[UIColor clearColor]];
+}
+
+- (IBAction)releaseTakePhoto:(id)sender
+{
+    [self.takePhotoButton setBackgroundColor:[UIColor clearColor]];
+}
+
+- (IBAction)releaseViewProfile:(id)sender
+{
+    [self.viewProfileButton setBackgroundColor:[UIColor clearColor]];
 }
 
 - (IBAction)findMenu:(id)sender 
 {
     [self.findMenuButton setBackgroundColor:[UIColor clearColor]];
-    FindMenuViewController *viewController = [[FindMenuViewController alloc] initWithNibName:@"FindMenuViewController" bundle:nil];
     
-    [self.navigationController pushViewController:viewController animated:YES];
+    NSArray *navigationStack = [(UINavigationController *)self.viewDeckController.centerController viewControllers];
+    UINavigationController *topController = [navigationStack objectAtIndex:([navigationStack count] - 1)];
+    
+    if (![topController isKindOfClass:[FindMenuViewController class]]) {
+        FindMenuViewController *viewController = [[FindMenuViewController alloc] initWithNibName:@"FindMenuViewController" bundle:nil];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:[topController title] style:UIBarButtonItemStylePlain target:nil action:nil];
+        backButton.tintColor = [UIColor navBarButtonColor];
+        topController.navigationItem.backBarButtonItem = backButton;
+        [topController.navigationController pushViewController:viewController animated:YES];
+    }
     
     [self.viewDeckController toggleLeftView];
 }
 
 - (IBAction)takePhoto:(id)sender 
 {
-
+    [self.takePhotoButton setBackgroundColor:[UIColor clearColor]];
+    
+    NSArray *navigationStack = [(UINavigationController *)self.viewDeckController.centerController viewControllers];
+    UINavigationController *topController = [navigationStack objectAtIndex:([navigationStack count] - 1)];
+    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewController" bundle:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:[topController title] style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
+    topController.navigationItem.backBarButtonItem = backButton;
+    [topController.navigationController pushViewController:viewController animated:YES];
+    
+    [self.viewDeckController toggleLeftView];
 }
 
 - (IBAction)viewProfile:(id)sender
 {
-
+    [self.viewProfileButton setBackgroundColor:[UIColor clearColor]];
+    
+    NSArray *navigationStack = [(UINavigationController *)self.viewDeckController.centerController viewControllers];
+    UINavigationController *topController = [navigationStack objectAtIndex:([navigationStack count] - 1)];
+    
+    if (![topController isKindOfClass:[ViewProfileViewController class]]) {
+        ViewProfileViewController *viewController = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:[topController title] style:UIBarButtonItemStylePlain target:nil action:nil];
+        backButton.tintColor = [UIColor navBarButtonColor];
+        topController.navigationItem.backBarButtonItem = backButton;
+        [topController.navigationController pushViewController:viewController animated:YES];
+    }
+    
+    [self.viewDeckController toggleLeftView];
 }
 
 

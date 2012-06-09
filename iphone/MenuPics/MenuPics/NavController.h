@@ -14,6 +14,12 @@
 @property IBOutlet UIButton *takePhotoButton;
 @property IBOutlet UIButton *viewProfileButton;
 
+- (IBAction)pressFindMenu:(id)sender;
+- (IBAction)pressTakePhoto:(id)sender;
+- (IBAction)pressViewProfile:(id)sender;
+- (IBAction)releaseFindMenu:(id)sender;
+- (IBAction)releaseTakePhoto:(id)sender;
+- (IBAction)releaseViewProfile:(id)sender;
 - (IBAction)findMenu:(id)sender;
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)viewProfile:(id)sender;

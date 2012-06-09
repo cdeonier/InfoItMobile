@@ -9,7 +9,7 @@
 #import "FindMenuViewController.h"
 #import "RootMenuViewController.h"
 #import "UIColor+ExtendedColor.h"
-
+#import "AppDelegate.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Location.h"
 #import "TakePhotoViewController.h"

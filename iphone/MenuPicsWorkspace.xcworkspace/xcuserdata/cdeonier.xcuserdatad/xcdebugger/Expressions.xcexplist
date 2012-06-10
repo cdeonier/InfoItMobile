@@ -6,6 +6,14 @@
          contextName = "-[NearbyLocationsViewController restGetNearbyLocations:]:NearbyLocationsViewController.m">
       </ContextState>
       <ContextState
+         contextName = "-[TakePhotoViewController imagePickerController:didFinishPickingMediaWithInfo:]:TakePhotoViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[cameraImage imageOrienation]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[NearbyLocationsViewController connectionDidFinishLoading:]:NearbyLocationsViewController.m">
          <PersistentStrings>
             <PersistentString

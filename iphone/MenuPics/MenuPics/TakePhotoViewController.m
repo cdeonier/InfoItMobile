@@ -328,108 +328,74 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    NSLog(@"Called didFinishPickingMediaWithInfo");
-    /* 
-     * Basically 3 tasks that need to be done, each with their own async:
-     *
-     * 1) If this is the first photo, we need to update the preview image.
-     * 2) We need create thumbnail images to add to gridview.
-     * 3) We need to save the images to cache directory, in preparation for Save Photos.
-     *
-     */
+    //Basic steps: Take original image and scale it down (cropping if necessary for portrait, which will take ~50% longer because of rotation)
+    //If first image, set preview image to scaled image
+    //Save image to disk on its own async
+    //Create a thumbnail and add to gridview
+    UIImage *cameraImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     
-    //Update preview image, if necessary
-    if ([self.photos count] == 0) {
-        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        UIImage *scaledImage;
+        
+        if ([cameraImage imageOrientation] == UIImageOrientationUp || [cameraImage imageOrientation] == UIImageOrientationDown) {
+            CGSize scaledSize = CGSizeMake(1024, 768);
+            UIGraphicsBeginImageContext(scaledSize);
+            [cameraImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
+            scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+        } else {
+            //We're doing the cropping as if the image is on its side because orientation gets lost.
+            CGImageRef cameraImageRef = cameraImage.CGImage;
+            CGFloat croppedImageOffset = CGImageGetWidth(cameraImageRef) * 115 / 426;
+            CGFloat croppedImageHeight = CGImageGetWidth(cameraImageRef) * 240 / 426;
+            CGFloat croppedImageWidth = CGImageGetHeight(cameraImageRef);
+            //Since cropped image is presently on it's side, reverse x & y to draw it in the right box shape
+            CGImageRef imageRef = CGImageCreateWithImageInRect(cameraImageRef, CGRectMake(croppedImageOffset, 0, croppedImageHeight, croppedImageWidth));
+            UIImage *croppedCameraImage = [UIImage imageWithCGImage:imageRef scale:1.0 orientation:cameraImage.imageOrientation];
             
-            //Crop image if portrait view
-            UIImage *photoImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-            if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
-                CGSize scaledSize = CGSizeMake(852, 640);
-                UIGraphicsBeginImageContext(scaledSize);
-                [photoImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
-                UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-                
-                CGImageRef portraitImage = scaledImage.CGImage;
-                CGFloat croppedImageOffset = CGImageGetHeight(portraitImage) * 115 / 426;
-                CGFloat croppedImageHeight = CGImageGetHeight(portraitImage) * 240 / 426;
-                CGFloat croppedImageWidth = CGImageGetWidth(portraitImage);
-                CGImageRef imageRef = CGImageCreateWithImageInRect(portraitImage, CGRectMake(0, croppedImageOffset, croppedImageWidth, croppedImageHeight));
-                photoImage = [UIImage imageWithCGImage:imageRef];
-            }
-            
+            CGSize scaledSize = CGSizeMake(1024, 768);
+            UIGraphicsBeginImageContext(scaledSize);
+            [croppedCameraImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
+            scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+        }
+        
+        if ([self.photos count] == 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setDisplayedPhotoIndex:0];
                 
                 UIImageView *portraitPreview = (UIImageView *)[self.portraitView viewWithTag:1];
                 UIImageView *landscapePreview = (UIImageView *)[self.landscapeView viewWithTag:1];
-                [portraitPreview setImage:photoImage];
-                [landscapePreview setImage:photoImage];
+                [portraitPreview setImage:scaledImage];
+                [landscapePreview setImage:scaledImage];
             });
-        });
-    }
-    
-    Photo *photo = [[Photo alloc] init];
-    [self.photos addObject:photo];
-    
-    [photo setIsSelected:YES];
-    
-    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
-
-    //Save image to disk & create thumbnail
-    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *photoImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-        
-        //Crop if portrait
-        if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
-            //Expensive rotation, ~1.5-2s-- can be optimized if we shrink first before calling, but it messes up thumbnail orientation when I tried.
-            CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-            CGImageRef portraitImage = [self CGImageRotatedByAngle:[photoImage CGImage] angle:-90];
-            CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
-            NSLog(@"Draw operation took %2.5f seconds", end-start);
-            
-            CGFloat croppedImageOffset = CGImageGetHeight(portraitImage) * 115 / 426;
-            CGFloat croppedImageHeight = CGImageGetHeight(portraitImage) * 240 / 426;
-            CGFloat croppedImageWidth = CGImageGetWidth(portraitImage);
-            CGImageRef imageRef = CGImageCreateWithImageInRect(portraitImage, CGRectMake(0, croppedImageOffset, croppedImageWidth, croppedImageHeight));
-            photoImage = [UIImage imageWithCGImage:imageRef];
         }
         
-        //Flip if landscape right to get orietnation correct
-        if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] isHidden]) {
-            CGImageRef landscapeRightImage = [self CGImageRotatedByAngle:[photoImage CGImage] angle:180];
-            photoImage = [UIImage imageWithCGImage:landscapeRightImage];
-        }
+        Photo *photo = [[Photo alloc] init];
+        [self.photos addObject:photo];
+        [photo setIsSelected:YES];
+        
+        NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *docsDir = [dirPaths objectAtIndex:0];
+        NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
         
         //Then save to disk
-        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            //Shrink photo
-            CGSize scaledSize = CGSizeMake(1024, 768);
-            UIGraphicsBeginImageContext(scaledSize);
-            [photoImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
-            UIImage *shrunkImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ 
             CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
             NSString *imageFileName = [NSString stringWithFormat:@"%f", currentTime];
             imageFileName = [imageFileName stringByReplacingOccurrencesOfString:@"." withString:@""];
             imageFileName = [imageFileName stringByAppendingString:@".jpg"];
             [photo setFileName:imageFileName];
             NSString *filePath = [takePhotosDirectory stringByAppendingPathComponent:imageFileName];
-            NSData *imageData = UIImageJPEGRepresentation(shrunkImage, 0.8);
+            NSData *imageData = UIImageJPEGRepresentation(scaledImage, 0.8);
             [imageData writeToFile:filePath atomically:YES];
             [photo setFileLocation:filePath];
         });
         
         //Create thumbnail
-        CGFloat height = photoImage.size.height;
-        CGFloat offset = (photoImage.size.width - photoImage.size.height) / 2;
-        CGImageRef preThumbnailSquare = CGImageCreateWithImageInRect(photoImage.CGImage, CGRectMake(offset, 0, height, height));
-        
-        //Compress to thumbnail size (expensive, ~0.5-1s)
+        CGFloat height = scaledImage.size.height;
+        CGFloat offset = (scaledImage.size.width - scaledImage.size.height) / 2;
+        CGImageRef preThumbnailSquare = CGImageCreateWithImageInRect(scaledImage.CGImage, CGRectMake(offset, 0, height, height));
         CGSize thumbnailSize = CGSizeMake(200, 200);
         UIGraphicsBeginImageContext(thumbnailSize);
         [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
@@ -443,33 +409,6 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
             [self.landscapeGridView reloadData];
         });
     });
-}
-
-//https://gist.github.com/585377 -- Slow, use with restraint
-- (CGImageRef)CGImageRotatedByAngle:(CGImageRef)imgRef angle:(CGFloat)angle
-{
-	CGFloat angleInRadians = angle * (M_PI / 180);
-	CGFloat width = CGImageGetWidth(imgRef);
-	CGFloat height = CGImageGetHeight(imgRef);
-    
-	CGRect imgRect = CGRectMake(0, 0, width, height);
-	CGAffineTransform transform = CGAffineTransformMakeRotation(angleInRadians);
-	CGRect rotatedRect = CGRectApplyAffineTransform(imgRect, transform);
-    
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGContextRef bmContext = CGBitmapContextCreate(NULL, rotatedRect.size.width, rotatedRect.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
-	CGContextSetAllowsAntialiasing(bmContext, YES);
-	CGContextSetInterpolationQuality(bmContext, kCGInterpolationHigh);
-	CGColorSpaceRelease(colorSpace);
-	CGContextTranslateCTM(bmContext,
-						  +(rotatedRect.size.width/2),
-						  +(rotatedRect.size.height/2));
-	CGContextRotateCTM(bmContext, angleInRadians);
-	CGContextDrawImage(bmContext, CGRectMake(-width/2, -height/2, width, height), imgRef);
-	CGImageRef rotatedImage = CGBitmapContextCreateImage(bmContext);
-	CFRelease(bmContext);
-    
-	return rotatedImage;
 }
 
 #pragma mark GMGridViewDataSource

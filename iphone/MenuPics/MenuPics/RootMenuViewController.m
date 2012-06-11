@@ -404,7 +404,8 @@
             
             CGRect newFrame = restaurantDescription.frame;
             newFrame.size.height = expectedLabelSize.height;
-            restaurantDescription.frame = newFrame;
+            restaurantDescription.frame = newFrame; 
+
             break;
         }
         case AllMenusTab: {

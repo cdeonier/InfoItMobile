@@ -12,6 +12,7 @@
 #import "NavController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
+#import "ImageUtil.h"
 
 @implementation AppDelegate
 
@@ -52,6 +53,11 @@
     
     [self clearApp];
     
+    //Ping the animation array because it's slow loading
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [ImageUtil getSweepImageArray];
+    });
+
     return YES;
 }
 

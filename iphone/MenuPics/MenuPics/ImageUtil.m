@@ -107,6 +107,7 @@
         [loadingAnimation setCenter:CGPointMake(160, 120)];
         [scrollView addSubview:loadingAnimation];
         
+        
         UIImageView *profileImage = [[UIImageView alloc] init];
         NSURL *profileImageUrl = [NSURL URLWithString:url];
         

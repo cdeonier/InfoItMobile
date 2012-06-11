@@ -25,7 +25,7 @@
 @property (strong) GMGridView *landscapeGridView;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) CLLocation *presentLocation;
+@property (nonatomic, strong) CLLocation *currentLocation;
 
 - (IBAction)toggleSelectionBox:(id)sender;
 - (IBAction)savePhotos:(id)sender;

@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import "AppDelegate.h"
 #import "FindMenuViewController.h"
 #import "TakePhotoViewController.h"
 #import "IIViewDeckController.h"
@@ -62,35 +63,7 @@
     self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
     [self.viewDeckController.view setNeedsDisplay];
     
-    NSFileManager *filemgr;
-    NSArray *dirPaths;
-    NSString *docsDir;
-    
-    filemgr =[NSFileManager defaultManager];
-    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    docsDir = [dirPaths objectAtIndex:0];
-    
-    NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
-    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
-    
-    NSArray *fileList = [filemgr contentsOfDirectoryAtPath:docsDir error:NULL];
-    NSLog(@"Contents of Documents Directory:");
-    for (NSString *file in fileList) {
-        NSLog(file);
-    }
-    
-    fileList = [filemgr contentsOfDirectoryAtPath:takePhotosDirectory error:NULL];
-    NSLog(@"Contents of Take Photos Directory:");
-    for (NSString *file in fileList) {
-        NSLog(file);
-    }
-    
-    fileList = [filemgr contentsOfDirectoryAtPath:photosDirectory error:NULL];
-    NSLog(@"Contents of Photos Directory:");
-    for (NSString *file in fileList) {
-        NSLog(file);
-    }
-    
+    [self outputState];
 }
 
 - (void)viewDidUnload
@@ -121,6 +94,58 @@
     self.navigationItem.backBarButtonItem = backButton;
     [self.navigationController pushViewController:viewController animated:YES];
     
+}
+
+- (void)outputState
+{
+    NSFileManager *filemgr;
+    NSArray *dirPaths;
+    NSString *docsDir;
+    
+    filemgr =[NSFileManager defaultManager];
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
+    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
+    
+    NSLog(@"*************************************");
+    
+    NSArray *fileList = [filemgr contentsOfDirectoryAtPath:docsDir error:NULL];
+    NSLog(@"Contents of Documents Directory:");
+    for (NSString *file in fileList) {
+        NSLog(file);
+    }
+    
+    fileList = [filemgr contentsOfDirectoryAtPath:takePhotosDirectory error:NULL];
+    NSLog(@"Contents of Take Photos Directory:");
+    for (NSString *file in fileList) {
+        NSLog(file);
+    }
+    
+    fileList = [filemgr contentsOfDirectoryAtPath:photosDirectory error:NULL];
+    NSLog(@"Contents of Photos Directory:");
+    for (NSString *file in fileList) {
+        NSLog(file);
+    }
+    
+    NSLog(@"-------------------------------------");
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    NSError *error = nil;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+    if (mutableFetchResults == nil) {
+        NSLog(@"Error fetching from Core Data");
+    }
+    
+    NSLog(@"Core Data row count: %i", [mutableFetchResults count]);
+    
+    NSLog(@"*************************************");
 }
 
 

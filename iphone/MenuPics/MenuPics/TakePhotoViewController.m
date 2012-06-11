@@ -42,7 +42,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 @synthesize landscapeGridView = _landscapeGridView;
 @synthesize portraitGridView = _portraitGridView;
 @synthesize locationManager = _locationManager;
-@synthesize presentLocation = _presentLocation;
+@synthesize currentLocation = _currentLocation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -315,11 +315,20 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     for (Photo *photo in self.photos) {
         if ([photo isSelected]) {
             [fileManager moveItemAtPath:[photo fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[photo fileName]] error:nil];
+            [photo setFileLocation:[photosDirectory stringByAppendingPathComponent:[photo fileName]]];
         }
     }
     
     CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
     NSLog(@"Move operation took %2.5f seconds", end-start);
+    
+    NSIndexSet *indexSet = [self.photos indexesOfObjectsPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+        return [(Photo *)obj isSelected]; 
+    }];
+    NSArray *selectedPhotos = [self.photos objectsAtIndexes:indexSet];
+    NSLog(@"Selected photos count: %i", [selectedPhotos count]);
+    
+    [Photo savePhotos:selectedPhotos creationDate:[NSDate date] creationLocation:[self currentLocation]];
     
     [self.navigationController popViewControllerAnimated:NO];
 }
@@ -528,7 +537,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         return;
     }
     /* Save the new location to an instance variable */
-    [self setPresentLocation:newLocation];
+    [self setCurrentLocation:newLocation];
     
     /* If it's accurate enough (<=10m), cancel the timer */
     if (newLocation.horizontalAccuracy <= 10.0) {

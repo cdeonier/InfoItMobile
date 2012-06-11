@@ -14,10 +14,17 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 @property (strong, nonatomic) UIWindow *window;
 @property (retain, nonatomic) NavController *navController;
 @property (strong, nonatomic) IIViewDeckController *deckController;
 @property (strong, nonatomic) UIViewController *centerViewController;
+
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
 - (void)disableNavigationMenu;
 - (void)enableNavigationMenu;

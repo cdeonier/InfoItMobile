@@ -7,15 +7,16 @@
 //
 
 #import "Photo.h"
+#import "SavedPhoto.h"
+#import "AppDelegate.h"
 #import "MenuPicsAPIClient.h"
 
 @implementation Photo
 
-@synthesize location = _location;
-@synthesize isSelected = _isSelected;
-@synthesize thumbnail = _thumbnail;
-@synthesize fileLocation = _fileLocation;
 @synthesize fileName = _fileName;
+@synthesize fileLocation = _fileLocation;
+@synthesize thumbnail = _thumbnail;
+@synthesize isSelected = _isSelected;
 
 + (void)uploadPhotoAtLocation:(CLLocation *)location
                         image:(UIImage *)image
@@ -36,6 +37,39 @@
         NSLog(@"Upload Failure");
     }];
     [[MenuPicsAPIClient sharedClient] enqueueHTTPRequestOperation:operation];
+}
+
++ (void)savePhotos:(NSArray *)photoArray creationDate:(NSDate *)date creationLocation:(CLLocation *)location
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+
+    for (Photo *photo in photoArray) {
+        SavedPhoto *savedPhoto = (SavedPhoto *)[NSEntityDescription insertNewObjectForEntityForName:@"SavedPhoto" inManagedObjectContext:context];
+        [savedPhoto setFileName:[photo fileName]];
+        [savedPhoto setFileLocation:[photo fileLocation]];
+        [savedPhoto setThumbnail:[photo thumbnail]];
+        [savedPhoto setLatitude:[NSNumber numberWithDouble:location.coordinate.latitude]];
+        [savedPhoto setLongitude:[NSNumber numberWithDouble:location.coordinate.longitude]];
+        [savedPhoto setCreationDate:date];
+        [savedPhoto setIsUploaded:[NSNumber numberWithBool:NO]];
+    }
+    
+    NSError *error = nil;
+    if (![[delegate managedObjectContext] save:&error]) {
+        NSLog(@"Error saving to Core Data");
+    }
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+    if (mutableFetchResults == nil) {
+        NSLog(@"Error fetching from Core Data");
+    }
+    
+    NSLog(@"Total saved photos in Core Data: %i", [mutableFetchResults count]);
 }
 
 @end

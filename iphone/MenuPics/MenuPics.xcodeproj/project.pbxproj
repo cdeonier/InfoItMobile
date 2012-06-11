@@ -58,6 +58,9 @@
 		3C81BFAB156CAC8F005FC0A1 /* restaurant_button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C81BFA5156CAC8F005FC0A1 /* restaurant_button_pressed.png */; };
 		3C81BFAE156CAD9E005FC0A1 /* restaurant_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C81BFAD156CAD9E005FC0A1 /* restaurant_button.png */; };
 		3C81BFB0156CADD2005FC0A1 /* like_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C81BFAF156CADD2005FC0A1 /* like_button.png */; };
+		3C8488B71585483E00D697AC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8488B61585483E00D697AC /* CoreData.framework */; };
+		3C8488EC15854BC800D697AC /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C8488EA15854BC800D697AC /* CoreData.xcdatamodeld */; };
+		3C8488F3158555D400D697AC /* SavedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8488F2158555D400D697AC /* SavedPhoto.m */; };
 		3C901B0415744029002C0DCB /* camera_button_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C901B0315744029002C0DCB /* camera_button_pressed@2x.png */; };
 		3C9594351550C7D100627182 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9594341550C7D100627182 /* UIKit.framework */; };
 		3C9594371550C7D100627182 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9594361550C7D100627182 /* Foundation.framework */; };
@@ -409,6 +412,10 @@
 		3C81BFA5156CAC8F005FC0A1 /* restaurant_button_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_button_pressed.png; sourceTree = "<group>"; };
 		3C81BFAD156CAD9E005FC0A1 /* restaurant_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_button.png; sourceTree = "<group>"; };
 		3C81BFAF156CADD2005FC0A1 /* like_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like_button.png; sourceTree = "<group>"; };
+		3C8488B61585483E00D697AC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3C8488EB15854BC800D697AC /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
+		3C8488F1158555D400D697AC /* SavedPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavedPhoto.h; sourceTree = "<group>"; };
+		3C8488F2158555D400D697AC /* SavedPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavedPhoto.m; sourceTree = "<group>"; };
 		3C901B0315744029002C0DCB /* camera_button_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_button_pressed@2x.png"; sourceTree = "<group>"; };
 		3C9594301550C7D100627182 /* MenuPics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuPics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9594341550C7D100627182 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -654,6 +661,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C978CB4156DC3D500B95E77 /* AVFoundation.framework in Frameworks */,
+				3C8488B71585483E00D697AC /* CoreData.framework in Frameworks */,
 				3C9594391550C7D100627182 /* CoreGraphics.framework in Frameworks */,
 				3C9594B71553870500627182 /* CoreLocation.framework in Frameworks */,
 				3C978CB2156DC3B800B95E77 /* CoreMedia.framework in Frameworks */,
@@ -905,6 +913,8 @@
 			children = (
 				3C2E7F661579913C00DED59B /* Photo.h */,
 				3C2E7F671579913C00DED59B /* Photo.m */,
+				3C8488F1158555D400D697AC /* SavedPhoto.h */,
+				3C8488F2158555D400D697AC /* SavedPhoto.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1044,6 +1054,7 @@
 		3C9594331550C7D100627182 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C8488B61585483E00D697AC /* CoreData.framework */,
 				3C2D9CA515801B36001DAC77 /* CoreVideo.framework */,
 				3C2D9C96158019AD001DAC77 /* OpenGLES.framework */,
 				3C6D949D156F141B00331EB3 /* ImageIO.framework */,
@@ -1094,6 +1105,7 @@
 				3C95949F15533DEB00627182 /* Images */,
 				3C9594431550C7D100627182 /* AppDelegate.h */,
 				3C9594441550C7D100627182 /* AppDelegate.m */,
+				3C8488EA15854BC800D697AC /* CoreData.xcdatamodeld */,
 				3C9594A915536CA300627182 /* UIColor+ExtendedColor.h */,
 				3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */,
 				3CD8BDC31558C45800890F62 /* Home */,
@@ -1750,6 +1762,8 @@
 				3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */,
 				3C2E7F681579913C00DED59B /* Photo.m in Sources */,
 				3CCDB991157D7CC200590DB3 /* SVProgressHUD.m in Sources */,
+				3C8488EC15854BC800D697AC /* CoreData.xcdatamodeld in Sources */,
+				3C8488F3158555D400D697AC /* SavedPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1882,6 +1896,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3C8488EA15854BC800D697AC /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3C8488EB15854BC800D697AC /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 3C8488EB15854BC800D697AC /* CoreData.xcdatamodel */;
+			name = CoreData.xcdatamodeld;
+			path = ../../../../CoreData/CoreData/CoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3C9594271550C7D000627182 /* Project object */;
 }

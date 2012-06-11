@@ -471,7 +471,8 @@
     UIButton *addPhotoButton = (UIButton *)[cell viewWithTag:7];
     [thumbnail.layer setBorderColor:[[UIColor grayColor] CGColor]];
     [thumbnail.layer setBorderWidth:1.0];
-    if (![menuItem.smallThumbnailUrl isEqual:[NSNull null]]) {
+    //if (![menuItem.smallThumbnailUrl isEqual:[NSNull null]]) {
+    if (menuItem.smallThumbnailUrl) {    
         [thumbnail setHidden:NO];
         [addPhotoButton setHidden:YES];
         if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&

@@ -175,8 +175,15 @@
         [menuItemRecord setPrice:[menuItem objectForKey:@"price"]];
         [menuItemRecord setLikeCount:[menuItem objectForKey:@"like_count"]];
         [menuItemRecord setMenuType:[menuItem objectForKey:@"menu_type"]];
-        [menuItemRecord setSmallThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_100x100"]];
-        [menuItemRecord setLargeThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_200x200"]];
+        
+        if ([[menuItem objectForKey:@"profile_photo_type"] isEqualToString:@"ExternalPhoto"]) {
+            [menuItemRecord setSmallThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail"]];
+            [menuItemRecord setLargeThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail"]];
+        } else {
+            [menuItemRecord setSmallThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_100x100"]];
+            [menuItemRecord setLargeThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_200x200"]];
+        }
+
         [menuItemRecord setProfilePhotoUrl:[menuItem objectForKey:@"profile_photo"]];
         [menuItemRecord setEntityId:[menuItem objectForKey:@"entity_id"]];
         [menuItemRecord setRestaurantId:self.restaurantIdentifier];

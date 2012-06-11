@@ -95,6 +95,7 @@
     [backButton setTintColor:[UIColor navBarButtonColor]];
     self.navigationItem.backBarButtonItem = backButton;
 
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

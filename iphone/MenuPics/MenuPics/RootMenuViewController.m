@@ -360,14 +360,14 @@
         case CurrentMenuTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"CurrentMenuView" owner:self options:nil]; 
             UIView *currentMenuView = [xib objectAtIndex:0];
-            [self.view addSubview:currentMenuView];
+            [self.view insertSubview:currentMenuView atIndex:0];
             [self setTitle:self.currentMenuType];
             break;
         }
         case MostLikedTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"MostLikedView" owner:self options:nil]; 
             UIView *mostLikedView = [xib objectAtIndex:0];
-            [self.view addSubview:mostLikedView];
+            [self.view insertSubview:mostLikedView atIndex:0];
             [self setTitle:self.currentMenuType];
             if ([self.mostLikedMenuItems count] > 0) {
                 [self.mostLikedTable setHidden:NO];
@@ -383,7 +383,7 @@
         case RestaurantTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"RestaurantView" owner:self options:nil]; 
             UIView *restaurantView = [xib objectAtIndex:0];
-            [self.view addSubview:restaurantView];
+            [self.view insertSubview:restaurantView atIndex:0];
             UIScrollView *scrollView = (UIScrollView *)[restaurantView viewWithTag:1000];
             [scrollView setFrame:CGRectMake(0, 0, 320, 367)];
             [scrollView setContentSize:CGSizeMake(320, 600)];
@@ -411,7 +411,7 @@
         case AllMenusTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"AllMenusView" owner:self options:nil]; 
             UIView *allMenusView = [xib objectAtIndex:0];
-            [self.view addSubview:allMenusView];
+            [self.view insertSubview:allMenusView atIndex:0];
             [self setTitle:@"All Menus"];
             break;
         }

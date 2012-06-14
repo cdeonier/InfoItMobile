@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *fileLocation;
+@property (nonatomic, strong) UIImage *smallThumbnail;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;

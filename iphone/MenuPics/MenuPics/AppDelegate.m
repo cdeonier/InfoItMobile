@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ShellNavigationController.h"
 #import "SavedPhoto.h"
 #import "HomeViewController.h"
 #import "NavController.h"
@@ -32,9 +33,11 @@
     self.navController = [[NavController alloc] initWithNibName:@"NavController" bundle:nil];
     
     HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    self.centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    self.centerViewController = [[ShellNavigationController alloc] initWithRootViewController:homeViewController];
     
     IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.centerViewController leftViewController:self.navController];
+    [deckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose];
+    [deckController setPanningMode:IIViewDeckNavigationBarPanning];
     self.deckController = deckController;
     
     self.window.rootViewController = deckController;
@@ -51,7 +54,7 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:photosDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
     }
     
-    [self clearApp];
+    //[self clearApp];
     
     //Ping the animation array because it's slow loading
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{

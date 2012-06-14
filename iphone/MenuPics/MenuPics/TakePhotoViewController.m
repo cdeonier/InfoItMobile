@@ -312,10 +312,19 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
     
     CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+    
+    NSDate *saveDate = [NSDate date];
+    
     for (Photo *photo in self.photos) {
         if ([photo isSelected]) {
             [fileManager moveItemAtPath:[photo fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[photo fileName]] error:nil];
             [photo setFileLocation:[photosDirectory stringByAppendingPathComponent:[photo fileName]]];
+            
+            dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSData *imageData = [NSData dataWithContentsOfFile:[photo fileLocation]];
+                UIImage *image = [UIImage imageWithData:imageData];
+                [Photo uploadPhotoAtLocation:self.currentLocation image:image photoDate:saveDate];
+            });
         }
     }
     
@@ -405,13 +414,22 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         CGFloat height = scaledImage.size.height;
         CGFloat offset = (scaledImage.size.width - scaledImage.size.height) / 2;
         CGImageRef preThumbnailSquare = CGImageCreateWithImageInRect(scaledImage.CGImage, CGRectMake(offset, 0, height, height));
+        
+        //For Selecting Photos
         CGSize thumbnailSize = CGSizeMake(200, 200);
         UIGraphicsBeginImageContext(thumbnailSize);
         [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
         UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        
         [photo setThumbnail:thumbnail];
+        
+        //For Photos in View Profile page
+        thumbnailSize = CGSizeMake(150, 150);
+        UIGraphicsBeginImageContext(thumbnailSize);
+        [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
+        thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [photo setSmallThumbnail:thumbnail];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.portraitGridView reloadData];

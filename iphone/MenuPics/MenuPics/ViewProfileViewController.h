@@ -7,7 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GMGridView.h"
 
-@interface ViewProfileViewController : UIViewController
+enum {
+    ProfileTab = 1,
+    PhotosTab = 2
+};
+typedef NSInteger ViewProfileTab;
+
+@interface ViewProfileViewController : UIViewController <UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
+
+@property (nonatomic, strong) IBOutlet UITabBar *tabBar;
+
+//Profile
+
+//Photos
+@property (nonatomic, strong) NSMutableArray *photos;
+@property (nonatomic, strong) GMGridView *photosGridView;
 
 @end

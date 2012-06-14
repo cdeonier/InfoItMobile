@@ -13,12 +13,13 @@
 
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *fileLocation;
+@property (nonatomic, strong) UIImage *smallThumbnail;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic) BOOL isSelected;
 
-+ (void)uploadPhotoAtLocation:(CLLocation *)location image:(UIImage *)image;
++ (void)uploadPhotoAtLocation:(CLLocation *)location image:(UIImage *)image photoDate:(NSDate *)date;
 + (void)savePhotos:(NSArray *)photoArray creationDate:(NSDate *)date creationLocation:(CLLocation *)location;
 
 @end

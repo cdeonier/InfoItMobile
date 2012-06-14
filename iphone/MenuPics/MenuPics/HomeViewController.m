@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "FindMenuViewController.h"
 #import "TakePhotoViewController.h"
+#import "ViewProfileViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
 
@@ -94,6 +95,15 @@
     self.navigationItem.backBarButtonItem = backButton;
     [self.navigationController pushViewController:viewController animated:YES];
     
+}
+
+- (IBAction)viewProfile:(id)sender
+{
+    ViewProfileViewController *viewController = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
+    self.navigationItem.backBarButtonItem = backButton;
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)outputState

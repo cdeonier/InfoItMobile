@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "ViewProfileViewController.h"
+#import "CreateAccountViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
 #import "Photo.h"
@@ -82,6 +83,19 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (IBAction)createAccount:(id)sender
+{
+    CreateAccountViewController *viewController = [[CreateAccountViewController alloc] initWithNibName:@"CreateAccountViewController" bundle:nil];
+    [viewController setDelegate:self];
+    [self presentModalViewController:viewController animated:YES];
+}
+
+#pragma mark CreateAccountDelegate
+- (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark UITabBarDelegate

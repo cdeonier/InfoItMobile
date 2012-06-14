@@ -9,13 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "GMGridView.h"
 
+@class CreateAccountViewController;
+
 enum {
     ProfileTab = 1,
     PhotosTab = 2
 };
 typedef NSInteger ViewProfileTab;
 
-@interface ViewProfileViewController : UIViewController <UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
+@protocol CreateAccountDelegate <NSObject>
+
+- (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate;
+
+@end
+
+@interface ViewProfileViewController : UIViewController <CreateAccountDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
 
@@ -24,5 +32,7 @@ typedef NSInteger ViewProfileTab;
 //Photos
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) GMGridView *photosGridView;
+
+- (IBAction)createAccount:(id)sender;
 
 @end

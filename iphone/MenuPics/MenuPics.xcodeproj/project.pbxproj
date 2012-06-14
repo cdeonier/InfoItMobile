@@ -35,6 +35,8 @@
 		3C366ABD158811A8000D6D2A /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB7158811A8000D6D2A /* 5.jpg */; };
 		3C366ABE158811A8000D6D2A /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB8158811A8000D6D2A /* 6.jpg */; };
 		3C366ACA15884596000D6D2A /* ShellNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C366AC915884596000D6D2A /* ShellNavigationController.m */; };
+		3C366AD81589C38F000D6D2A /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */; };
+		3C366AD91589C38F000D6D2A /* CreateAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */; };
 		3C4F2D97157986420088E486 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D83157986420088E486 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C4F2D98157986420088E486 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D85157986420088E486 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C4F2D99157986420088E486 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D87157986420088E486 /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -386,6 +388,9 @@
 		3C366AB8158811A8000D6D2A /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
 		3C366AC815884596000D6D2A /* ShellNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShellNavigationController.h; sourceTree = "<group>"; };
 		3C366AC915884596000D6D2A /* ShellNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShellNavigationController.m; sourceTree = "<group>"; };
+		3C366AD51589C38F000D6D2A /* CreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateAccountViewController.h; sourceTree = "<group>"; };
+		3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateAccountViewController.m; sourceTree = "<group>"; };
+		3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateAccountViewController.xib; sourceTree = "<group>"; };
 		3C4F2D82157986420088E486 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		3C4F2D83157986420088E486 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		3C4F2D84157986420088E486 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1087,6 +1092,7 @@
 			children = (
 				3C8488F61587305600D697AC /* Images */,
 				3C9594CD15589E2600627182 /* ViewProfileViewController.xib */,
+				3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1096,6 +1102,8 @@
 			children = (
 				3C9594CB15589E2600627182 /* ViewProfileViewController.h */,
 				3C9594CC15589E2600627182 /* ViewProfileViewController.m */,
+				3C366AD51589C38F000D6D2A /* CreateAccountViewController.h */,
+				3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1810,6 +1818,7 @@
 				3C366ABC158811A8000D6D2A /* 4.jpg in Resources */,
 				3C366ABD158811A8000D6D2A /* 5.jpg in Resources */,
 				3C366ABE158811A8000D6D2A /* 6.jpg in Resources */,
+				3C366AD91589C38F000D6D2A /* CreateAccountViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1854,6 +1863,7 @@
 				3C8488EC15854BC800D697AC /* CoreData.xcdatamodeld in Sources */,
 				3C8488F3158555D400D697AC /* SavedPhoto.m in Sources */,
 				3C366ACA15884596000D6D2A /* ShellNavigationController.m in Sources */,
+				3C366AD81589C38F000D6D2A /* CreateAccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

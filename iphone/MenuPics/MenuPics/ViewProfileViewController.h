@@ -17,7 +17,7 @@ enum {
 };
 typedef NSInteger ViewProfileTab;
 
-@protocol CreateAccountDelegate <NSObject>
+@protocol CreateAccountDelegate <NSObject, UITextFieldDelegate>
 
 - (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate;
 
@@ -28,11 +28,20 @@ typedef NSInteger ViewProfileTab;
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
 
 //Profile
+@property (nonatomic, strong) IBOutlet UIView *signInView;
+@property (nonatomic, strong) IBOutlet UIView *facebookContainerView;
+@property (nonatomic, strong) IBOutlet UITextField *emailInputText;
+@property (nonatomic, strong) IBOutlet UITextField *passwordInputText;
+@property (nonatomic, strong) IBOutlet UIButton *signInButton;
+@property (nonatomic, strong) IBOutlet UIButton *createAccountButton;
+@property (nonatomic, strong) IBOutlet UILabel *errorLabel;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 //Photos
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) GMGridView *photosGridView;
 
 - (IBAction)createAccount:(id)sender;
+- (IBAction)signIn:(id)sender;
 
 @end

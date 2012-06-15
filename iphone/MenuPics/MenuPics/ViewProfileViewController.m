@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "GMGridView.h"
 #import "GMGridViewLayoutStrategies.h"
+#import "AFNetworking.h"
 
 @interface ViewProfileViewController ()
 
@@ -22,6 +23,14 @@
 
 @implementation ViewProfileViewController
 
+@synthesize signInView = _signInView;
+@synthesize facebookContainerView = _facebookContainerView;
+@synthesize activityIndicator = _activityIndicator;
+@synthesize emailInputText = _emailInputText;
+@synthesize passwordInputText = _passwordInputText;
+@synthesize signInButton = _signInButton;
+@synthesize createAccountButton = _createAccountButton;
+@synthesize errorLabel = _errorLabel;
 @synthesize tabBar = _tabBar;
 @synthesize photos = _photos;
 @synthesize photosGridView = _photosGridView;
@@ -67,6 +76,11 @@
     
     [self.view insertSubview:self.photosGridView atIndex:0];
     [self.photosGridView setHidden:YES];
+    
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityIndicator setFrame:CGRectMake(150, 206, 20, 20)];
+    [self setActivityIndicator:activityIndicator];
+    [[self signInView] addSubview:activityIndicator];
 }
 
 - (void)viewDidUnload
@@ -92,6 +106,53 @@
     [self presentModalViewController:viewController animated:YES];
 }
 
+- (IBAction)signIn:(id)sender
+{
+    [[self emailInputText] resignFirstResponder];
+    [[self passwordInputText] resignFirstResponder];
+    
+    if (self.emailInputText.text.length > 0 && self.passwordInputText.text.length > 0) {
+        [[self emailInputText] setEnabled:NO];
+        [[self passwordInputText] setEnabled:NO];
+        [[self signInButton] setEnabled:NO];
+        [[self createAccountButton] setEnabled:NO];
+        
+        [self displayActivityIndicator];
+        NSString *requestString = [NSString stringWithFormat:@"email=%@&password=%@", self.emailInputText.text, self.passwordInputText.text]; 
+        NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+        
+        NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/tokens"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+        [request setHTTPBody:requestData];
+        
+        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+                                                                                            success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+        {
+            [[self activityIndicator] stopAnimating];
+            NSLog(@"User Login: %@", JSON);
+        } 
+                                                                                            failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+        {
+            [[self activityIndicator] stopAnimating];
+            if (JSON) {
+                [self displayError:[JSON valueForKeyPath:@"message"]];
+            } else {
+                [self displayError:@"Unable to connect.  Try again later."];  
+            }
+            
+            [[self emailInputText] setEnabled:YES];
+            [[self passwordInputText] setEnabled:YES];
+            [[self signInButton] setEnabled:YES];
+            [[self createAccountButton] setEnabled:YES];
+        }];
+        [operation start];
+    } else {
+        [self displayError:@"Email and password cannot be blank."];
+    }
+}
+
 #pragma mark CreateAccountDelegate
 - (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
 {
@@ -103,6 +164,20 @@
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     [self changeViewForTabIndex:item.tag];
+}
+
+#pragma mark UITextViewDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == [self emailInputText]) {
+        [textField resignFirstResponder];
+        [[self passwordInputText] becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
+    
+    return YES;
 }
 
 #pragma mark GMGridViewDataSource
@@ -156,6 +231,7 @@
     switch (tab) {
         case ProfileTab: {
             [self setTitle:@"Profile"];
+            [[self signInView] setHidden:NO];
             [self.navigationController.navigationBar setTranslucent:NO];
             self.navigationItem.titleView = nil;
             [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
@@ -166,6 +242,7 @@
         }
         case PhotosTab: {
             [self setTitle:@"Photos"];
+            [[self signInView] setHidden:YES];
             [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_translucent"] forBarMetrics:UIBarMetricsDefault];
             [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
             [self.navigationController.navigationBar setTranslucent:YES];
@@ -183,6 +260,39 @@
         default:
             break;
     }
+}
+
+- (void)displayActivityIndicator
+{
+    [[self errorLabel] setHidden:YES];
+    [UIView animateWithDuration:0.3f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 227.0f, 320.0f, 140.0f)];
+                     }
+                     completion:nil];
+    
+    [UIView animateWithDuration:0.0f 
+                          delay:0.5f 
+                        options:UIViewAnimationOptionCurveEaseIn 
+                     animations:^{
+                         [self.activityIndicator startAnimating];
+                     }
+                     completion:nil];
+}
+
+- (void)displayError:(NSString *)error
+{
+    [UIView animateWithDuration:0.3f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 227.0f, 320.0f, 140.0f)];
+                     }
+                     completion:nil];
+    [[self errorLabel] setText:error];
+    [[self errorLabel] setHidden:NO];
 }
 
 - (void)initializePhotosGridView

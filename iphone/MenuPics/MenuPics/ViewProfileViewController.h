@@ -28,7 +28,9 @@ typedef NSInteger ViewProfileTab;
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
 
 //Profile
+@property (nonatomic, strong) IBOutlet UIView *profileView;
 @property (nonatomic, strong) IBOutlet UIView *signInView;
+@property (nonatomic, strong) IBOutlet UIView *userView;
 @property (nonatomic, strong) IBOutlet UIView *facebookContainerView;
 @property (nonatomic, strong) IBOutlet UITextField *emailInputText;
 @property (nonatomic, strong) IBOutlet UITextField *passwordInputText;
@@ -43,5 +45,6 @@ typedef NSInteger ViewProfileTab;
 
 - (IBAction)createAccount:(id)sender;
 - (IBAction)signIn:(id)sender;
+- (IBAction)signOut:(id)sender;
 
 @end

@@ -13,4 +13,9 @@
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *accessToken;
 
++ (BOOL)isUserLoggedIn;
++ (User *)currentUser;
++ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken;
++ (void)signOutUser;
+
 @end

@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic, strong) NSDate *creationDate; 
-@property (nonatomic, strong) NSNumber *isUploaded;
-@property (nonatomic, strong) NSNumber *isDeleted;
+@property (nonatomic, strong) NSNumber *didUpload;
+@property (nonatomic, strong) NSNumber *didDelete;
 
 @end

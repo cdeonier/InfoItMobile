@@ -42,7 +42,7 @@
     [_cancelButton setTintColor:[UIColor navBarButtonColor]];
     
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicator setFrame:CGRectMake(150, 346, 20, 20)];
+    [activityIndicator setFrame:CGRectMake(150, 262, 20, 20)];
     [self setActivityIndicator:activityIndicator];
     [self.view addSubview:activityIndicator];
 }

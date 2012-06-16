@@ -16,6 +16,7 @@
 #import "GMGridView.h"
 #import "GMGridViewLayoutStrategies.h"
 #import "AFNetworking.h"
+#import "User.h"
 
 @interface ViewProfileViewController ()
 
@@ -23,7 +24,9 @@
 
 @implementation ViewProfileViewController
 
+@synthesize profileView = _profileView;
 @synthesize signInView = _signInView;
+@synthesize userView = _userView;
 @synthesize facebookContainerView = _facebookContainerView;
 @synthesize activityIndicator = _activityIndicator;
 @synthesize emailInputText = _emailInputText;
@@ -81,6 +84,16 @@
     [activityIndicator setFrame:CGRectMake(150, 206, 20, 20)];
     [self setActivityIndicator:activityIndicator];
     [[self signInView] addSubview:activityIndicator];
+    
+    if ([User isUserLoggedIn]) {
+        [[self userView] setHidden:NO];
+        [[self signInView] setHidden:YES];
+        User *currentUser = [User currentUser];
+        NSLog(@"User: %@ with access_token: %@", [currentUser email], [currentUser accessToken]);
+    } else {
+        [[self userView] setHidden:YES];
+        [[self signInView] setHidden:NO];
+    }
 }
 
 - (void)viewDidUnload
@@ -130,7 +143,22 @@
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
                                                                                             success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
         {
-            [[self activityIndicator] stopAnimating];
+            [self hideActivityIndicator];
+            
+            NSString *accessToken = [JSON valueForKeyPath:@"access_token"];
+            NSString *email = [JSON valueForKeyPath:@"email"];
+            
+            [User signInUser:email withAccessToken:accessToken];
+            [[self signInView] setHidden:YES];
+            [[self userView] setHidden:NO];
+            
+            [[self emailInputText] setEnabled:YES];
+            [[self emailInputText] setText:nil];
+            [[self passwordInputText] setEnabled:YES];
+            [[self passwordInputText] setText:nil];
+            [[self signInButton] setEnabled:YES];
+            [[self createAccountButton] setEnabled:YES];
+            
             NSLog(@"User Login: %@", JSON);
         } 
                                                                                             failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
@@ -152,6 +180,14 @@
         [self displayError:@"Email and password cannot be blank."];
     }
 }
+
+- (IBAction)signOut:(id)sender
+{
+    [User signOutUser];
+    [[self signInView] setHidden:NO];
+    [[self userView] setHidden:YES];
+}
+
 
 #pragma mark CreateAccountDelegate
 - (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
@@ -231,7 +267,7 @@
     switch (tab) {
         case ProfileTab: {
             [self setTitle:@"Profile"];
-            [[self signInView] setHidden:NO];
+            [[self profileView] setHidden:NO];
             [self.navigationController.navigationBar setTranslucent:NO];
             self.navigationItem.titleView = nil;
             [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
@@ -242,7 +278,7 @@
         }
         case PhotosTab: {
             [self setTitle:@"Photos"];
-            [[self signInView] setHidden:YES];
+            [[self profileView] setHidden:YES];
             [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_translucent"] forBarMetrics:UIBarMetricsDefault];
             [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
             [self.navigationController.navigationBar setTranslucent:YES];
@@ -278,6 +314,25 @@
                         options:UIViewAnimationOptionCurveEaseIn 
                      animations:^{
                          [self.activityIndicator startAnimating];
+                     }
+                     completion:nil];
+}
+
+- (void)hideActivityIndicator
+{
+    [UIView animateWithDuration:0.3f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 180.0f, 320.0f, 140.0f)];
+                     }
+                     completion:nil];
+    
+    [UIView animateWithDuration:0.0f 
+                          delay:0.5f 
+                        options:UIViewAnimationOptionCurveEaseIn 
+                     animations:^{
+                         [self.activityIndicator stopAnimating];
                      }
                      completion:nil];
 }

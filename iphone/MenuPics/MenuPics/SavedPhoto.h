@@ -22,5 +22,6 @@
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic, strong) NSDate *creationDate; 
 @property (nonatomic, strong) NSNumber *isUploaded;
+@property (nonatomic, strong) NSNumber *isDeleted;
 
 @end

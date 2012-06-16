@@ -78,7 +78,6 @@
 		3C81BFAE156CAD9E005FC0A1 /* restaurant_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C81BFAD156CAD9E005FC0A1 /* restaurant_button.png */; };
 		3C81BFB0156CADD2005FC0A1 /* like_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C81BFAF156CADD2005FC0A1 /* like_button.png */; };
 		3C8488B71585483E00D697AC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8488B61585483E00D697AC /* CoreData.framework */; };
-		3C8488EC15854BC800D697AC /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C8488EA15854BC800D697AC /* CoreData.xcdatamodeld */; };
 		3C8488F3158555D400D697AC /* SavedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8488F2158555D400D697AC /* SavedPhoto.m */; };
 		3C8488F8158730DA00D697AC /* photos-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8488F7158730DA00D697AC /* photos-white@2x.png */; };
 		3C8488FA1587310600D697AC /* user-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8488F91587310600D697AC /* user-white@2x.png */; };
@@ -135,6 +134,7 @@
 		3C99ACF8155CE34D00656885 /* nav_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACF7155CE34D00656885 /* nav_logo.png */; };
 		3C99ACFA155CE43200656885 /* nav_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACF9155CE43200656885 /* nav_logo@2x.png */; };
 		3C9CBA39155A313A007023D2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9CBA38155A313A007023D2 /* MapKit.framework */; };
+		3CC91A62158C04DD0042FC9C /* MenuPics.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CC91A60158C04DD0042FC9C /* MenuPics.xcdatamodeld */; };
 		3CCDB96E157D604C00590DB3 /* left_flash_auto_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB968157D604C00590DB3 /* left_flash_auto_pressed.png */; };
 		3CCDB96F157D604C00590DB3 /* left_flash_auto.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB969157D604C00590DB3 /* left_flash_auto.png */; };
 		3CCDB972157D604C00590DB3 /* left_flash_on_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB96C157D604C00590DB3 /* left_flash_on_pressed.png */; };
@@ -458,7 +458,6 @@
 		3C81BFAD156CAD9E005FC0A1 /* restaurant_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_button.png; sourceTree = "<group>"; };
 		3C81BFAF156CADD2005FC0A1 /* like_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like_button.png; sourceTree = "<group>"; };
 		3C8488B61585483E00D697AC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		3C8488EB15854BC800D697AC /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		3C8488F1158555D400D697AC /* SavedPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavedPhoto.h; sourceTree = "<group>"; };
 		3C8488F2158555D400D697AC /* SavedPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavedPhoto.m; sourceTree = "<group>"; };
 		3C8488F7158730DA00D697AC /* photos-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photos-white@2x.png"; sourceTree = "<group>"; };
@@ -530,6 +529,7 @@
 		3C99ACF7155CE34D00656885 /* nav_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_logo.png; sourceTree = "<group>"; };
 		3C99ACF9155CE43200656885 /* nav_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_logo@2x.png"; sourceTree = "<group>"; };
 		3C9CBA38155A313A007023D2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		3CC91A61158C04DD0042FC9C /* MenuPics.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MenuPics.xcdatamodel; sourceTree = "<group>"; };
 		3CCDB968157D604C00590DB3 /* left_flash_auto_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_flash_auto_pressed.png; sourceTree = "<group>"; };
 		3CCDB969157D604C00590DB3 /* left_flash_auto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_flash_auto.png; sourceTree = "<group>"; };
 		3CCDB96C157D604C00590DB3 /* left_flash_on_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_flash_on_pressed.png; sourceTree = "<group>"; };
@@ -1229,7 +1229,7 @@
 				3C95949F15533DEB00627182 /* Images */,
 				3C9594431550C7D100627182 /* AppDelegate.h */,
 				3C9594441550C7D100627182 /* AppDelegate.m */,
-				3C8488EA15854BC800D697AC /* CoreData.xcdatamodeld */,
+				3CC91A60158C04DD0042FC9C /* MenuPics.xcdatamodeld */,
 				3C366ACB158851DE000D6D2A /* Custom Classes */,
 				3CD8BDC31558C45800890F62 /* Home */,
 				3C959463155220E100627182 /* Navigation */,
@@ -1905,11 +1905,11 @@
 				3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */,
 				3C2E7F681579913C00DED59B /* Photo.m in Sources */,
 				3CCDB991157D7CC200590DB3 /* SVProgressHUD.m in Sources */,
-				3C8488EC15854BC800D697AC /* CoreData.xcdatamodeld in Sources */,
 				3C8488F3158555D400D697AC /* SavedPhoto.m in Sources */,
 				3C366ACA15884596000D6D2A /* ShellNavigationController.m in Sources */,
 				3C366AD81589C38F000D6D2A /* CreateAccountViewController.m in Sources */,
 				3C1C3C54158AA4E200C0E7F0 /* User.m in Sources */,
+				3CC91A62158C04DD0042FC9C /* MenuPics.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2044,14 +2044,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		3C8488EA15854BC800D697AC /* CoreData.xcdatamodeld */ = {
+		3CC91A60158C04DD0042FC9C /* MenuPics.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3C8488EB15854BC800D697AC /* CoreData.xcdatamodel */,
+				3CC91A61158C04DD0042FC9C /* MenuPics.xcdatamodel */,
 			);
-			currentVersion = 3C8488EB15854BC800D697AC /* CoreData.xcdatamodel */;
-			name = CoreData.xcdatamodeld;
-			path = ../../../../CoreData/CoreData/CoreData.xcdatamodeld;
+			currentVersion = 3CC91A61158C04DD0042FC9C /* MenuPics.xcdatamodel */;
+			path = MenuPics.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

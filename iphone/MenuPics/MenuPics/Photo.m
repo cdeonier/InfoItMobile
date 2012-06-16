@@ -65,6 +65,7 @@
         [savedPhoto setLongitude:[NSNumber numberWithDouble:location.coordinate.longitude]];
         [savedPhoto setCreationDate:date];
         [savedPhoto setIsUploaded:[NSNumber numberWithBool:NO]];
+        [savedPhoto setIsDeleted:[NSNumber numberWithBool:NO]];
     }
     
     NSError *error = nil;

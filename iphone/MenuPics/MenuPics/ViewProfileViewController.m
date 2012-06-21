@@ -66,14 +66,14 @@
         NSLog(@"Error fetching from Core Data");
     }
     
-    if ([mutableFetchResults count] == 0) {
-        [self populateCoreData];
-        [self populateCoreData];
-        [self populateCoreData];
-        [self populateCoreData];
-        [self populateCoreData];
-        [self populateCoreData];
-    }
+//    if ([mutableFetchResults count] == 0) {
+//        [self populateCoreData];
+//        [self populateCoreData];
+//        [self populateCoreData];
+//        [self populateCoreData];
+//        [self populateCoreData];
+//        [self populateCoreData];
+//    }
     
     [self initializePhotosGridView];
     
@@ -131,7 +131,7 @@
         [[self createAccountButton] setEnabled:NO];
         
         [self displayActivityIndicator];
-        NSString *requestString = [NSString stringWithFormat:@"email=%@&password=%@", self.emailInputText.text, self.passwordInputText.text]; 
+        NSString *requestString = [NSString stringWithFormat:@"user=%@&password=%@", self.emailInputText.text, self.passwordInputText.text]; 
         NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
         
         NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/tokens"];
@@ -145,10 +145,14 @@
         {
             [self hideActivityIndicator];
             
-            NSString *accessToken = [JSON valueForKeyPath:@"access_token"];
+            NSString *accessToken = [JSON valueForKeyPath:@"token"];
             NSString *email = [JSON valueForKeyPath:@"email"];
+            NSString *username = [JSON valueForKey:@"user_display_name"];
             
-            [User signInUser:email withAccessToken:accessToken];
+            [User signInUser:email withAccessToken:accessToken withUsername:username];
+            User *currentUser = [User currentUser];
+            NSLog(@"current user access_token: %@", [currentUser accessToken]);
+            
             [[self signInView] setHidden:YES];
             [[self userView] setHidden:NO];
             
@@ -192,7 +196,13 @@
 #pragma mark CreateAccountDelegate
 - (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
 {
-    [self dismissModalViewControllerAnimated:YES];
+    if (didCreate) {
+        [[self signInView] setHidden:YES];
+        [[self userView] setHidden:NO];
+        [self dismissModalViewControllerAnimated:YES];
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark UITabBarDelegate
@@ -307,15 +317,9 @@
                      animations:^{
                          [self.facebookContainerView setFrame:CGRectMake(0.0f, 227.0f, 320.0f, 140.0f)];
                      }
-                     completion:nil];
-    
-    [UIView animateWithDuration:0.0f 
-                          delay:0.5f 
-                        options:UIViewAnimationOptionCurveEaseIn 
-                     animations:^{
+                     completion:^(BOOL finished){
                          [self.activityIndicator startAnimating];
-                     }
-                     completion:nil];
+                     }];
 }
 
 - (void)hideActivityIndicator
@@ -326,15 +330,9 @@
                      animations:^{
                          [self.facebookContainerView setFrame:CGRectMake(0.0f, 180.0f, 320.0f, 140.0f)];
                      }
-                     completion:nil];
-    
-    [UIView animateWithDuration:0.0f 
-                          delay:0.5f 
-                        options:UIViewAnimationOptionCurveEaseIn 
-                     animations:^{
+                     completion:^(BOOL finished){
                          [self.activityIndicator stopAnimating];
-                     }
-                     completion:nil];
+                     }];
 }
 
 - (void)displayError:(NSString *)error
@@ -503,7 +501,7 @@
     NSArray *selectedPhotos = [[NSArray alloc] initWithObjects:photo, nil];
     
     CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:1 longitude:1];
-    [Photo savePhotos:selectedPhotos creationDate:[NSDate date] creationLocation:newLocation];
+    //[Photo savePhotos:selectedPhotos creationDate:[NSDate date] creationLocation:newLocation];
     
     NSLog(@"End save photo");
 }

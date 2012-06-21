@@ -43,6 +43,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 @synthesize portraitGridView = _portraitGridView;
 @synthesize locationManager = _locationManager;
 @synthesize currentLocation = _currentLocation;
+@synthesize suggestedRestaurantId = _suggestedRestaurantId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -305,39 +306,10 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 }
 
 - (IBAction)savePhotos:(id)sender
-{    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
-    
-    CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-    
-    NSDate *saveDate = [NSDate date];
-    
-    for (Photo *photo in self.photos) {
-        if ([photo isSelected]) {
-            [fileManager moveItemAtPath:[photo fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[photo fileName]] error:nil];
-            [photo setFileLocation:[photosDirectory stringByAppendingPathComponent:[photo fileName]]];
-            
-            dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSData *imageData = [NSData dataWithContentsOfFile:[photo fileLocation]];
-                UIImage *image = [UIImage imageWithData:imageData];
-                [Photo uploadPhotoAtLocation:self.currentLocation image:image photoDate:saveDate];
-            });
-        }
-    }
-    
-    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
-    NSLog(@"Move operation took %2.5f seconds", end-start);
-    
-    NSIndexSet *indexSet = [self.photos indexesOfObjectsPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
-        return [(Photo *)obj isSelected]; 
-    }];
-    NSArray *selectedPhotos = [self.photos objectsAtIndexes:indexSet];
-    NSLog(@"Selected photos count: %i", [selectedPhotos count]);
-    
-    [Photo savePhotos:selectedPhotos creationDate:[NSDate date] creationLocation:[self currentLocation]];
+{ 
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Photo savePhotos:self.photos atLocation:self.currentLocation withRestaurantId:self.suggestedRestaurantId];
+    });
     
     [self.navigationController popViewControllerAnimated:NO];
 }

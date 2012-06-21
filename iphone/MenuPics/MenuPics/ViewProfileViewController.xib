@@ -96,7 +96,7 @@
 										<int key="IBUIContentVerticalAlignment">0</int>
 										<string key="IBUIText"/>
 										<int key="IBUIBorderStyle">3</int>
-										<string key="IBUIPlaceholder">email</string>
+										<string key="IBUIPlaceholder">username or email</string>
 										<object class="NSColor" key="IBUITextColor">
 											<int key="NSColorSpace">3</int>
 											<bytes key="NSWhite">MAA</bytes>
@@ -344,6 +344,7 @@
 												<nil key="IBUIHighlightedColor"/>
 												<int key="IBUIBaselineAdjustment">0</int>
 												<float key="IBUIMinimumFontSize">10</float>
+												<int key="IBUITextAlignment">1</int>
 												<reference key="IBUIFontDescription" ref="254475993"/>
 												<reference key="IBUIFont" ref="257527785"/>
 											</object>
@@ -802,13 +803,13 @@
 						<string key="objectName">User View</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">46</int>
-						<reference key="object" ref="426465955"/>
+						<int key="objectID">44</int>
+						<reference key="object" ref="587544221"/>
 						<reference key="parent" ref="310518006"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">44</int>
-						<reference key="object" ref="587544221"/>
+						<int key="objectID">46</int>
+						<reference key="object" ref="426465955"/>
 						<reference key="parent" ref="310518006"/>
 					</object>
 				</array>

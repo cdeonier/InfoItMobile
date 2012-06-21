@@ -10,7 +10,7 @@
 
 @implementation SavedPhoto
 
-@dynamic fileName, fileLocation, smallThumbnail, thumbnail, latitude, longitude, creationDate, didUpload, didDelete;
+@dynamic fileName, fileLocation, smallThumbnail, thumbnail, latitude, longitude, creationDate, didUpload, didDelete, photoId;
 
 @end
 

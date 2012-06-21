@@ -27,6 +27,8 @@
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *currentLocation;
 
+@property (nonatomic, strong) NSNumber *suggestedRestaurantId;
+
 - (IBAction)toggleSelectionBox:(id)sender;
 - (IBAction)savePhotos:(id)sender;
 

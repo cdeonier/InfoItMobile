@@ -23,5 +23,6 @@
 @property (nonatomic, strong) NSDate *creationDate; 
 @property (nonatomic, strong) NSNumber *didUpload;
 @property (nonatomic, strong) NSNumber *didDelete;
+@property (nonatomic, strong) NSNumber *photoId;
 
 @end

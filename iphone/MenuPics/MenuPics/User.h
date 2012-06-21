@@ -10,12 +10,13 @@
 
 @interface User : NSManagedObject
 
-@property (nonatomic, retain) NSString *email;
-@property (nonatomic, retain) NSString *accessToken;
+@property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *accessToken;
+@property (nonatomic, strong) NSString *username;
 
 + (BOOL)isUserLoggedIn;
 + (User *)currentUser;
-+ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken;
++ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username;
 + (void)signOutUser;
 
 @end

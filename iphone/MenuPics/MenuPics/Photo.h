@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic) BOOL isSelected;
 
-+ (void)uploadPhotoAtLocation:(CLLocation *)location image:(UIImage *)image photoDate:(NSDate *)date;
-+ (void)savePhotos:(NSArray *)photoArray creationDate:(NSDate *)date creationLocation:(CLLocation *)location;
++ (void)uploadPhotoAtLocation:(CLLocation *)location image:(UIImage *)image imageName:(NSString *)imageName photoDate:(NSDate *)date suggestedRestaurantId:(NSNumber *)suggestedRestaurantId;
++ (void)savePhotos:(NSArray *)photoArray atLocation:(CLLocation *)location withRestaurantId:(NSNumber *)restaurantId;
 
 @end

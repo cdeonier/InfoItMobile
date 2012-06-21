@@ -11,7 +11,7 @@
 
 @implementation User
 
-@dynamic email, accessToken;
+@dynamic email, accessToken, username;
 
 + (BOOL)isUserLoggedIn
 {
@@ -51,13 +51,16 @@
     assert([mutableFetchResults count] == 0 || [mutableFetchResults count] == 1); 
     
     if ([mutableFetchResults count] > 0) {
+        User *currentUser = [mutableFetchResults objectAtIndex:0];
+        NSLog(@"Fetching currentUser... email:%@ access_token:%@ displayName: %@", currentUser.email, currentUser.accessToken, currentUser.username);
         return [mutableFetchResults objectAtIndex:0];
     } else {
+        NSLog(@"No user logged in.");
         return nil;
     }
 }
 
-+ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken
++ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username
 {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
@@ -65,6 +68,7 @@
     User *newUser = (User *)[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
     [newUser setEmail:email];
     [newUser setAccessToken:accessToken];
+    [newUser setUsername:username];
     
     NSError *error = nil;
     if (![context save:&error]) {
@@ -86,10 +90,12 @@
         NSLog(@"Error fetching from Core Data");
     }
     
-    [context deleteObject:[mutableFetchResults objectAtIndex:0]];
+    if ([mutableFetchResults count] > 0) {
+        [context deleteObject:[mutableFetchResults objectAtIndex:0]];
 
-    if (![context save:&error]) {
-        NSLog(@"Error deleting from Core Data");
+        if (![context save:&error]) {
+            NSLog(@"Error deleting from Core Data");
+        }
     }
     
 }

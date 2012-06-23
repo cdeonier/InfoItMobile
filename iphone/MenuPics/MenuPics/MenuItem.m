@@ -21,5 +21,6 @@
 @synthesize largeThumbnailUrl = _largeThumbnailUrl;
 @synthesize category = _category;
 @synthesize menuType = _menuType;
+@synthesize isLiked = _isLiked;
 
 @end

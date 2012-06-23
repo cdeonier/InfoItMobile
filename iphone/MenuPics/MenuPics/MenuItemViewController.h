@@ -18,12 +18,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *likeButton;
 @property (nonatomic, strong) MenuItem *menuItem;
 
-- (IBAction)touchMenuButton:(id)sender;
-- (IBAction)touchLikeButton:(id)sender;
-- (IBAction)touchRestaurantButton:(id)sender;
-- (IBAction)releaseMenuButton:(id)sender;
-- (IBAction)releaseLikeButton:(id)sender;
-- (IBAction)releaseRestaurantButton:(id)sender;
 - (IBAction)pressMenuButton:(id)sender;
 - (IBAction)pressLikeButton:(id)sender;
 - (IBAction)pressRestaurantButton:(id)sender;

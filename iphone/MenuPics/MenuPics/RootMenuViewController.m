@@ -14,6 +14,9 @@
 #import "MenuItem.h"
 #import "Restaurant.h"
 #import "ImageUtil.h"
+#import "User.h"
+#import "AFNetworking.h"
+#import "SVProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface RootMenuViewController ()
@@ -79,7 +82,8 @@
     self.currentMenuTable.tableFooterView = [UIView new];
     self.allMenusTable.tableFooterView = [UIView new];
     
-    [self restGetRestaurantMenus:self.restaurantIdentifier];
+    //[self restGetRestaurantMenus:self.restaurantIdentifier];
+    [self getMenu:self.restaurantIdentifier];
 }
 
 - (void)viewDidUnload
@@ -87,126 +91,149 @@
     [super viewDidUnload];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([self currentMenu]) {
+        [self.currentMenuTable reloadData];
+        [self populateMostLikedTable];
+        [self.mostLikedTable reloadData];
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark Webservice Connection
+#pragma  mark Webservice
 
-- (void)restGetRestaurantMenus:(NSNumber *)restaurantIdentifier
+- (void)getMenu:(NSNumber *)restaurantIdentifier
 {
-    NSString *url = [NSString stringWithFormat:@"http://www.getinfoit.com/services/%@", [restaurantIdentifier description]];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    (void) [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response 
-{
-    [self.responseData setLength:0];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data 
-{        
-    [self.responseData appendData:data]; 
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
-{    
-    NSLog(@"didFailWithError");
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection 
-{
-    NSError *myError = nil;
-    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableLeaves error:&myError];
+    [SVProgressHUD showWithStatus:@"Loading"];
     
-    NSDictionary *entityJson = [jsonResponse objectForKey:@"entity"];
-    NSDictionary *placeDetailsJson = [entityJson objectForKey:@"place_details"];
-    NSDictionary *addressJson = [placeDetailsJson objectForKey:@"address"];
-    NSArray *menuItemsJson = [placeDetailsJson objectForKey:@"menu_items"];
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/%@", [self.restaurantIdentifier stringValue]];
     
-    [self.restaurant setName:[entityJson objectForKey:@"name"]];
-    [self.restaurant setDescription:[entityJson objectForKey:@"description"]];
-    [self.restaurant setProfilePhotoUrl:[entityJson objectForKey:@"profile_photo"]];
-    [self.restaurant setStreetOne:[addressJson objectForKey:@"street_address_one"]];
-    [self.restaurant setStreetTwo:[addressJson objectForKey:@"street_address_two"]];
-    [self.restaurant setCity:[addressJson objectForKey:@"city"]];
-    [self.restaurant setState:[addressJson objectForKey:@"state"]];
-    [self.restaurant setZipCode:[addressJson objectForKey:@"zip_code"]];
+    User *currentUser = [User currentUser];
+    if (currentUser) {
+        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"?access_token=%@", [currentUser accessToken]]];
+    }
     
-    OrderedDictionary *menu;
-    NSMutableArray *categoryItems;
-    
-    NSString *currentMenuType = nil;
-    NSString *currentCategory = nil;
-    
-    for (id menuItemJson in menuItemsJson) {
-        NSDictionary *menuItem = [menuItemJson objectForKey:@"menu_item"];
+    NSLog(@"URL String: %@", urlString);
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
         
-        NSString *menuItemMenuType = [menuItem objectForKey:@"menu_type"];
-        NSString *menuItemCategory = [menuItem objectForKey:@"menu_category"];
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+                                                                                        
+    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+    {
+        NSLog(@"Menu Success");
+        //NSLog(@"Menu: %@", JSON);
+
+        id entityJson = [JSON valueForKey:@"entity"];
+        NSLog(@"%@", entityJson);
+        id placeDetailsJson = [entityJson valueForKey:@"place_details"];
+        id addressJson = [placeDetailsJson valueForKey:@"address"];
+        NSArray *menuItemsJson = [placeDetailsJson objectForKey:@"menu_items"];
+
+        [self.restaurant setName:[entityJson valueForKey:@"name"]];
+        [self.restaurant setDescription:[entityJson valueForKey:@"description"]];
+        [self.restaurant setProfilePhotoUrl:[entityJson valueForKey:@"profile_photo"]];
+        [self.restaurant setStreetOne:[addressJson valueForKey:@"street_address_one"]];
+        [self.restaurant setStreetTwo:[addressJson valueForKey:@"street_address_two"]];
+        [self.restaurant setCity:[addressJson valueForKey:@"city"]];
+        [self.restaurant setState:[addressJson valueForKey:@"state"]];
+        [self.restaurant setZipCode:[addressJson valueForKey:@"zip_code"]];
         
-        if (![menuItemMenuType isEqualToString:currentMenuType]) {
-            //New menu, so by default we have new category
-            currentMenuType = menuItemMenuType;
-            currentCategory = menuItemCategory;
+        OrderedDictionary *menu;
+        NSMutableArray *categoryItems;
+        
+        NSString *currentMenuType = nil;
+        NSString *currentCategory = nil;
+        
+        for (id menuItemJson in menuItemsJson) {
+            id menuItem = [menuItemJson valueForKey:@"menu_item"];
             
-            //Create new empty sets to fill up
-            menu = [[OrderedDictionary alloc] init];
-            categoryItems = [[NSMutableArray alloc] init];
+            NSString *menuItemMenuType = [menuItem valueForKey:@"menu_type"];
+            NSString *menuItemCategory = [menuItem valueForKey:@"menu_category"];
             
-            [menu setObject:categoryItems forKey:currentCategory];
+            if (![menuItemMenuType isEqualToString:currentMenuType]) {
+                //New menu, so by default we have new category
+                currentMenuType = menuItemMenuType;
+                currentCategory = menuItemCategory;
+                
+                //Create new empty sets to fill up
+                menu = [[OrderedDictionary alloc] init];
+                categoryItems = [[NSMutableArray alloc] init];
+                
+                [menu setObject:categoryItems forKey:currentCategory];
+                
+                [self.restaurantMenus setObject:menu forKey:currentMenuType];
+                [self.menuTypes addObject:currentMenuType];
+            }
             
-            [self.restaurantMenus setObject:menu forKey:currentMenuType];
-            [self.menuTypes addObject:currentMenuType];
+            if (![menuItemCategory isEqualToString:currentCategory]) {
+                currentCategory = menuItemCategory;
+                categoryItems = [[NSMutableArray alloc] init];
+                [menu setObject:categoryItems forKey:currentCategory];
+            }
+            
+            MenuItem *menuItemRecord = [[MenuItem alloc] init];
+            [menuItemRecord setName:[menuItem valueForKey:@"name"]];
+            [menuItemRecord setDescription:[menuItem valueForKey:@"description"]];
+            [menuItemRecord setCategory:[menuItem valueForKey:@"menu_category"]];
+            [menuItemRecord setPrice:[menuItem valueForKey:@"price"]];
+            [menuItemRecord setLikeCount:[menuItem valueForKey:@"like_count"]];
+            [menuItemRecord setMenuType:[menuItem valueForKey:@"menu_type"]];
+            
+            if ([[menuItem objectForKey:@"profile_photo_type"] isEqualToString:@"ExternalPhoto"]) {
+                [menuItemRecord setSmallThumbnailUrl:[menuItem valueForKey:@"profile_photo_thumbnail"]];
+                [menuItemRecord setLargeThumbnailUrl:[menuItem valueForKey:@"profile_photo_thumbnail"]];
+            } else {
+                [menuItemRecord setSmallThumbnailUrl:[menuItem valueForKey:@"profile_photo_thumbnail_100x100"]];
+                [menuItemRecord setLargeThumbnailUrl:[menuItem valueForKey:@"profile_photo_thumbnail_200x200"]];
+            }
+            
+            [menuItemRecord setProfilePhotoUrl:[menuItem valueForKey:@"profile_photo"]];
+            [menuItemRecord setEntityId:[menuItem valueForKey:@"entity_id"]];
+            [menuItemRecord setRestaurantId:self.restaurantIdentifier];
+            //NSString *isLiked = [[menuItem valueForKey:@"logged_in_user"] valueForKey:@"liked"];
+            BOOL isLiked = [[[menuItem valueForKey:@"logged_in_user"] valueForKey:@"liked"] boolValue];
+            if (isLiked) {
+                [menuItemRecord setIsLiked:YES];
+            } else {
+                [menuItemRecord setIsLiked:NO];
+            }
+            
+            [categoryItems addObject:menuItemRecord];
         }
         
-        if (![menuItemCategory isEqualToString:currentCategory]) {
-            currentCategory = menuItemCategory;
-            categoryItems = [[NSMutableArray alloc] init];
-            [menu setObject:categoryItems forKey:currentCategory];
-        }
+        self.currentMenu = [self.restaurantMenus objectForKey:[self.menuTypes objectAtIndex:0]];
+        self.currentMenuType = [self.menuTypes objectAtIndex:0];
+        [self populateMostLikedTable];
+        [self.currentMenuTable reloadData];
+        [self.mostLikedTable reloadData];
+        [self.allMenusTable reloadData];
         
-        MenuItem *menuItemRecord = [[MenuItem alloc] init];
-        [menuItemRecord setName:[menuItem objectForKey:@"name"]];
-        [menuItemRecord setDescription:[menuItem objectForKey:@"description"]];
-        [menuItemRecord setCategory:[menuItem objectForKey:@"menu_category"]];
-        [menuItemRecord setPrice:[menuItem objectForKey:@"price"]];
-        [menuItemRecord setLikeCount:[menuItem objectForKey:@"like_count"]];
-        [menuItemRecord setMenuType:[menuItem objectForKey:@"menu_type"]];
-        
-        if ([[menuItem objectForKey:@"profile_photo_type"] isEqualToString:@"ExternalPhoto"]) {
-            [menuItemRecord setSmallThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail"]];
-            [menuItemRecord setLargeThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail"]];
+        if (![self.requestedTab isEqual:[NSNull null]] && [self.requestedTab isEqualToString:@"Restaurant"]) {
+            [self setTitle:[self.restaurant name]];
+            [self changeViewForTabIndex:RestaurantTab];
         } else {
-            [menuItemRecord setSmallThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_100x100"]];
-            [menuItemRecord setLargeThumbnailUrl:[menuItem objectForKey:@"profile_photo_thumbnail_200x200"]];
+            [self setTitle:self.currentMenuType];
         }
 
-        [menuItemRecord setProfilePhotoUrl:[menuItem objectForKey:@"profile_photo"]];
-        [menuItemRecord setEntityId:[menuItem objectForKey:@"entity_id"]];
-        [menuItemRecord setRestaurantId:self.restaurantIdentifier];
         
-        [categoryItems addObject:menuItemRecord];
-    }
-    
-    self.currentMenu = [self.restaurantMenus objectForKey:[self.menuTypes objectAtIndex:0]];
-    self.currentMenuType = [self.menuTypes objectAtIndex:0];
-    [self populateMostLikedTable];
-    [self.currentMenuTable reloadData];
-    [self.mostLikedTable reloadData];
-    [self.allMenusTable reloadData];
-    
-    if (![self.requestedTab isEqual:[NSNull null]] && [self.requestedTab isEqualToString:@"Restaurant"]) {
-        [self setTitle:[self.restaurant name]];
-        [self changeViewForTabIndex:RestaurantTab];
-    } else {
-        [self setTitle:self.currentMenuType];
-    }
-    
-        
-    
+        [SVProgressHUD dismiss];
+    } 
+    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+    {
+        NSLog(@"Menu Failure");
+        [SVProgressHUD showErrorWithStatus:@"Connection Error"];
+    }];
+    [operation start];
 }
 
 #pragma mark UITabBarDelegate
@@ -434,6 +461,13 @@
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"likeCount" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     self.mostLikedMenuItems = [allCurrentMenuItems sortedArrayUsingDescriptors:sortDescriptors];
+    
+    if ([self.mostLikedMenuItems count] > 0) {
+        [self.mostLikedTable setHidden:NO];
+        self.allMenusTable.tableFooterView = [UIView new];
+    } else {
+        [self.mostLikedTable setHidden:YES];
+    }
 }
 
 - (UITableViewCell *) createMenuItemCell:(MenuItem *)menuItem

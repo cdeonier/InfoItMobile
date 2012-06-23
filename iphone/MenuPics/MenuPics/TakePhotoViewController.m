@@ -218,29 +218,6 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 - (void)takePicture
 {
     [self.imagePicker takePicture];
-    
-    if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
-        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayPortrait];
-        [portraitFlashOverlay setAlpha:1.0f];
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:1.0];
-        [portraitFlashOverlay setAlpha:0.0f];
-        [UIView commitAnimations];
-    } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] isHidden]) {
-        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeLeft];
-        [portraitFlashOverlay setAlpha:1.0f];
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:1.0];
-        [portraitFlashOverlay setAlpha:0.0f];
-        [UIView commitAnimations];
-    } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] isHidden]) {
-        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeRight];
-        [portraitFlashOverlay setAlpha:1.0f];
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:1.0];
-        [portraitFlashOverlay setAlpha:0.0f];
-        [UIView commitAnimations];
-    }
 }
 
 - (void)toggleFlash
@@ -323,6 +300,29 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     //Save image to disk on its own async
     //Create a thumbnail and add to gridview
     UIImage *cameraImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    if (![[self.cameraOverlay viewWithTag:CameraOverlayPortraitView] isHidden]) {
+        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayPortrait];
+        [portraitFlashOverlay setAlpha:1.0f];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1.0];
+        [portraitFlashOverlay setAlpha:0.0f];
+        [UIView commitAnimations];
+    } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeLeftView] isHidden]) {
+        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeLeft];
+        [portraitFlashOverlay setAlpha:1.0f];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1.0];
+        [portraitFlashOverlay setAlpha:0.0f];
+        [UIView commitAnimations];
+    } else if (![[self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView] isHidden]) {
+        UIView *portraitFlashOverlay = [self.cameraOverlay viewWithTag:CameraFlashOverlayLandscapeRight];
+        [portraitFlashOverlay setAlpha:1.0f];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1.0];
+        [portraitFlashOverlay setAlpha:0.0f];
+        [UIView commitAnimations];
+    }
     
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         UIImage *scaledImage;
@@ -440,26 +440,23 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [thumbnail.layer setCornerRadius:5];
         [thumbnail.layer setBorderWidth:1.0];
         
-        UIView *deselectOverlay = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
-        [deselectOverlay.layer setMasksToBounds:YES];
-        [deselectOverlay.layer setCornerRadius:5];
-        [deselectOverlay setBackgroundColor:[UIColor blackColor]];
-        [deselectOverlay setAlpha:0.0];
+        UIImageView *statusIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"confirm"]];
+        [statusIcon setFrame:CGRectMake(80, 80, 20, 20)];
         
         [imageViewHolder addSubview:thumbnail];
-        [imageViewHolder addSubview:deselectOverlay];
+        [imageViewHolder addSubview:statusIcon];
         
         cell.contentView = imageViewHolder;
     }
     
     UIImageView *thumbnail = [cell.contentView.subviews objectAtIndex:0];
     [thumbnail setImage:[[self.photos objectAtIndex:index] thumbnail]];
-
-    UIView *selectionOverlay = [cell.contentView.subviews objectAtIndex:1];
+    
+    UIImageView *statusIcon = [cell.contentView.subviews objectAtIndex:1];
     if ([[self.photos objectAtIndex:index] isSelected]) {
-        [selectionOverlay setAlpha:0.0];
+        [statusIcon setImage:[UIImage imageNamed:@"confirm"]];
     } else {
-        [selectionOverlay setAlpha:0.8];
+        [statusIcon setImage:[UIImage imageNamed:@"deny"]];
     }
     
     if (index == [self displayedPhotoIndex]) {

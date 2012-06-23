@@ -21,5 +21,6 @@
 @property (nonatomic, strong) NSString *largeThumbnailUrl;
 @property (nonatomic, strong) NSString *category;
 @property (nonatomic, strong) NSString *menuType;
+@property (nonatomic) BOOL isLiked;
 
 @end

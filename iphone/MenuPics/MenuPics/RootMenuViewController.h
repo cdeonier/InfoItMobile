@@ -47,6 +47,4 @@ typedef NSInteger MenuTab;
 /* All Menus */
 @property (nonatomic, strong) IBOutlet UITableView *allMenusTable;
 
-- (void)restGetRestaurantMenus:(NSNumber *)restaurantIdentifier;
-
 @end

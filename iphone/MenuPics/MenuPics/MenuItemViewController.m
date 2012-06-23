@@ -11,6 +11,8 @@
 #import "ImageUtil.h"
 #import "UIColor+ExtendedColor.h"
 #import "MenuItem.h"
+#import "AFNetworking.h"
+#import "User.h"
 
 @interface MenuItemViewController ()
 
@@ -45,7 +47,9 @@
     [self initializeDescriptionView];
     [self initializeProfileImage];
     
-    
+    if ([self.menuItem isLiked]) {
+        [self.likeButton setSelected:YES];
+    }
 }
 
 - (void)viewDidUnload
@@ -74,44 +78,12 @@
     description.frame = newFrame;
 }
 
-- (void) initializeProfileImage
+- (void)initializeProfileImage
 {
     [ImageUtil initializeProfileImage:self.view withUrl:[self.menuItem profilePhotoUrl]];
 }
 
 #pragma mark Button Actions
-
-- (IBAction)touchMenuButton:(id)sender
-{
-    [self.menuButtonLabel setTextColor:[UIColor whiteColor]];
-}
-
-- (IBAction)touchLikeButton:(id)sender
-{
-    [sender setImage:[UIImage imageNamed:@"like_button_pressed"] forState:UIControlStateHighlighted];
-    [self.likeButtonLabel setTextColor:[UIColor whiteColor]];
-    [sender setHighlighted:YES];
-}
-
-- (IBAction)touchRestaurantButton:(id)sender
-{
-    [self.restaurantButtonLabel setTextColor:[UIColor whiteColor]];
-}
-
-- (IBAction)releaseMenuButton:(id)sender
-{
-    [self.menuButtonLabel setTextColor:[UIColor normalButtonColor]];
-}
-
-- (IBAction)releaseLikeButton:(id)sender
-{
-    [self.likeButtonLabel setTextColor:[UIColor normalButtonColor]];
-}
-
-- (IBAction)releaseRestaurantButton:(id)sender
-{
-    [self.restaurantButtonLabel setTextColor:[UIColor normalButtonColor]];
-}
 
 - (IBAction)pressMenuButton:(id)sender
 {
@@ -129,14 +101,65 @@
 
 - (IBAction)pressLikeButton:(id)sender
 {
-    if ([sender isSelected]) {
-        [sender setImage:[UIImage imageNamed:@"like_button"] forState:UIControlStateNormal];
-        [self.likeButtonLabel setTextColor:[UIColor normalButtonColor]];
-        [sender setSelected:NO];
-    }else {
-        [sender setImage:[UIImage imageNamed:@"like_button_pressed"] forState:UIControlStateSelected];
-        [self.likeButtonLabel setTextColor:[UIColor whiteColor]];
-        [sender setSelected:YES];
+    User *currentUser = [User currentUser];
+    if (!currentUser) {
+        //Try to sign in user through sign in flow
+        
+        currentUser = [User currentUser];
+    } 
+    
+    if (currentUser) {
+        if ([sender isSelected]) {
+            [sender setSelected:NO];
+            [self.menuItem setIsLiked:NO];
+            [self.menuItem setLikeCount:[NSNumber numberWithInt:([self.menuItem.likeCount intValue] - 1)]];
+            
+            NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [currentUser accessToken]]; 
+            NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+            
+            NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/unlike"];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+            [request setHTTPMethod:@"DELETE"];
+            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+            [request setHTTPBody:requestData];
+            
+            AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+                                                                                                success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+                                                 {
+                                                     NSLog(@"Successful unlike.");
+                                                 } 
+                                                                                                failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                                 {
+                                                     NSLog(@"Failure unliking");
+                                                     NSLog(@"JSON: %@", JSON);
+                                                 }];
+            [operation start];
+        } else {
+            [sender setSelected:YES];
+            [self.menuItem setIsLiked:YES];
+            [self.menuItem setLikeCount:[NSNumber numberWithInt:([self.menuItem.likeCount intValue] + 1)]];
+            
+            NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [currentUser accessToken]]; 
+            NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+            
+            NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/like"];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+            [request setHTTPMethod:@"POST"];
+            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+            [request setHTTPBody:requestData];
+            
+            AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+                                                                                                success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+                                                 {
+                                                     NSLog(@"Successful liking.");
+                                                 } 
+                                                                                                failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                                 {
+                                                     NSLog(@"Failure liking");
+                                                     NSLog(@"JSON: %@", JSON);
+                                                 }];
+            [operation start];
+        }
     }
 }
 

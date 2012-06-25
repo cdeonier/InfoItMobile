@@ -36,6 +36,8 @@
 		3C2D9CAE1580850C001DAC77 /* photos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D9CAC1580850C001DAC77 /* photos.png */; };
 		3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E7F5C15798B9B00DED59B /* MenuPicsAPIClient.m */; };
 		3C2E7F681579913C00DED59B /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E7F671579913C00DED59B /* Photo.m */; };
+		3C314B501596FB2E0001210B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */; };
+		3C314B571596FE360001210B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C314B551596FE360001210B /* Reachability.m */; };
 		3C366AB11587F4D2000D6D2A /* nav_bar_translucent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB01587F4D2000D6D2A /* nav_bar_translucent@2x.png */; };
 		3C366AB9158811A8000D6D2A /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB3158811A8000D6D2A /* 1.jpg */; };
 		3C366ABA158811A8000D6D2A /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB4158811A8000D6D2A /* 2.jpg */; };
@@ -167,6 +169,7 @@
 		3CE69CF81574DC9600F31A8F /* camera_button_cw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CE69CF61574DC9600F31A8F /* camera_button_cw@2x.png */; };
 		3CEFB3C81580881A00CF75FD /* photos@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEFB3C71580881A00CF75FD /* photos@2x.png */; };
 		3CEFB3CD15814CE900CF75FD /* camera_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEFB3CC15814CE900CF75FD /* camera_shadow@2x.png */; };
+		3CF017411596B981008A446B /* SavedPhoto+Syncing.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF017401596B981008A446B /* SavedPhoto+Syncing.m */; };
 		3CF510FB157772C2004418FC /* libGMGridView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF510F815777282004418FC /* libGMGridView.a */; };
 		3CF5111D157875E8004418FC /* save_photos_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF5111C157875E8004418FC /* save_photos_button@2x.png */; };
 		3CF5111F15787AC6004418FC /* TakePhotoViewLandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CF5111E15787AC6004418FC /* TakePhotoViewLandscape.xib */; };
@@ -396,6 +399,9 @@
 		3C2E7F5C15798B9B00DED59B /* MenuPicsAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuPicsAPIClient.m; sourceTree = "<group>"; };
 		3C2E7F661579913C00DED59B /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		3C2E7F671579913C00DED59B /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3C314B551596FE360001210B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		3C314B561596FE360001210B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		3C366AB01587F4D2000D6D2A /* nav_bar_translucent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bar_translucent@2x.png"; sourceTree = "<group>"; };
 		3C366AB3158811A8000D6D2A /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		3C366AB4158811A8000D6D2A /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
@@ -561,6 +567,8 @@
 		3CE69CF61574DC9600F31A8F /* camera_button_cw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_button_cw@2x.png"; sourceTree = "<group>"; };
 		3CEFB3C71580881A00CF75FD /* photos@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photos@2x.png"; sourceTree = "<group>"; };
 		3CEFB3CC15814CE900CF75FD /* camera_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_shadow@2x.png"; sourceTree = "<group>"; };
+		3CF0173F1596B981008A446B /* SavedPhoto+Syncing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SavedPhoto+Syncing.h"; sourceTree = "<group>"; };
+		3CF017401596B981008A446B /* SavedPhoto+Syncing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SavedPhoto+Syncing.m"; sourceTree = "<group>"; };
 		3CF510F015777281004418FC /* GMGridView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GMGridView.xcodeproj; path = GMGridView/GMGridView/GMGridView.xcodeproj; sourceTree = "<group>"; };
 		3CF5111C157875E8004418FC /* save_photos_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save_photos_button@2x.png"; sourceTree = "<group>"; };
 		3CF5111E15787AC6004418FC /* TakePhotoViewLandscape.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TakePhotoViewLandscape.xib; sourceTree = "<group>"; };
@@ -714,6 +722,7 @@
 				3C6D949E156F141B00331EB3 /* ImageIO.framework in Frameworks */,
 				3C9CBA39155A313A007023D2 /* MapKit.framework in Frameworks */,
 				3C5D56B41564E31E003F3EC7 /* QuartzCore.framework in Frameworks */,
+				3C314B501596FB2E0001210B /* SystemConfiguration.framework in Frameworks */,
 				3C9594351550C7D100627182 /* UIKit.framework in Frameworks */,
 				3CF510FB157772C2004418FC /* libGMGridView.a in Frameworks */,
 				3C2D9CAA15801BCB001DAC77 /* libSDWebImageARC.a in Frameworks */,
@@ -969,6 +978,8 @@
 				3C2E7F671579913C00DED59B /* Photo.m */,
 				3C8488F1158555D400D697AC /* SavedPhoto.h */,
 				3C8488F2158555D400D697AC /* SavedPhoto.m */,
+				3CF0173F1596B981008A446B /* SavedPhoto+Syncing.h */,
+				3CF017401596B981008A446B /* SavedPhoto+Syncing.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -993,6 +1004,15 @@
 				3C9594D315589FE900627182 /* TakePhotoViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3C314B511596FBCB0001210B /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				3C314B561596FE360001210B /* Reachability.h */,
+				3C314B551596FE360001210B /* Reachability.m */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		3C366AB21588119D000D6D2A /* Test Images */ = {
@@ -1022,6 +1042,7 @@
 		3C4F2D7F15795F140088E486 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				3C314B511596FBCB0001210B /* Reachability */,
 				3CCDB98C157D7C5300590DB3 /* SVProgressHUD */,
 				3C2E7F611579906900DED59B /* OrderedDictionary */,
 				3C4F2D81157985810088E486 /* AFNetworking */,
@@ -1169,6 +1190,7 @@
 		3C9594331550C7D100627182 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */,
 				3C8488B61585483E00D697AC /* CoreData.framework */,
 				3C2D9CA515801B36001DAC77 /* CoreVideo.framework */,
 				3C2D9C96158019AD001DAC77 /* OpenGLES.framework */,
@@ -1902,6 +1924,8 @@
 				3C366AD81589C38F000D6D2A /* CreateAccountViewController.m in Sources */,
 				3C1C3C54158AA4E200C0E7F0 /* User.m in Sources */,
 				3CC91A62158C04DD0042FC9C /* MenuPics.xcdatamodeld in Sources */,
+				3CF017411596B981008A446B /* SavedPhoto+Syncing.m in Sources */,
+				3C314B571596FE360001210B /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

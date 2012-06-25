@@ -17,6 +17,9 @@
 #import "GMGridViewLayoutStrategies.h"
 #import "AFNetworking.h"
 #import "User.h"
+#import "SavedPhoto.h"
+#import "SavedPhoto+Syncing.h"
+#import "AFNetworking.h"
 
 @interface ViewProfileViewController ()
 
@@ -105,6 +108,7 @@
 {
     [super viewDidAppear:animated];
     [self populatePhotosGridView];
+    [self syncProfile];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -163,6 +167,8 @@
             [[self signInButton] setEnabled:YES];
             [[self createAccountButton] setEnabled:YES];
             
+            [self syncProfile];
+            
             NSLog(@"User Login: %@", JSON);
         } 
                                                                                             failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
@@ -203,6 +209,13 @@
     } else {
         [self dismissModalViewControllerAnimated:YES];
     }
+}
+
+#pragma mark SyncPhotoDelegate
+- (void)didSyncPhoto:(SavedPhoto *)syncedPhoto 
+{
+    [[self photos] addObject:syncedPhoto];
+    [[self photosGridView] reloadData];
 }
 
 #pragma mark UITabBarDelegate
@@ -248,14 +261,14 @@
     {
         cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
         
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.photos objectAtIndex:index] smallThumbnail]];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.photos objectAtIndex:index] thumbnail]];
         [imageView.layer setBorderWidth:1.0];
         [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
         
         cell.contentView = imageView;
     }
     
-    [(UIImageView *)cell.contentView setImage:[[self.photos objectAtIndex:index] smallThumbnail]];
+    [(UIImageView *)cell.contentView setImage:[[self.photos objectAtIndex:index] thumbnail]];
     
     return cell;
 }
@@ -381,7 +394,121 @@
     [self.photosGridView reloadData];
 }
 
+- (void)syncProfile
+{
+    User *currentUser = [User currentUser];
+    if (currentUser) {
+        [self uploadPendingImages];
+        [self downloadPendingImages];
+        
+        NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/user_profile?access_token=%@", [currentUser accessToken]];
 
+        NSLog(@"URL String: %@", urlString);
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+        
+        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+        {
+            //NSLog(@"Profile Sync Success: %@", JSON);
+            
+            NSMutableDictionary *photosOnPhone = [[NSMutableDictionary alloc] initWithCapacity:200];
+            for (SavedPhoto *coreDataPhoto in self.photos) {
+                [photosOnPhone setObject:coreDataPhoto forKey:[coreDataPhoto fileName]];
+            }
+            
+            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            NSManagedObjectContext *context = [delegate managedObjectContext];
+            
+            for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
+                //NSLog(@"Photo Entry: %@", photoEntry);
+                
+                if (![photosOnPhone objectForKey:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]]) {
+                    SavedPhoto *photo = (SavedPhoto *)[NSEntityDescription insertNewObjectForEntityForName:@"SavedPhoto" inManagedObjectContext:context];
+                    [photo setFileName:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]];
+                    [photo setPhotoId:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_id"]];
+                    [photo setFileUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"]];
+                    [photo setThumbnailUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
+                    [photo setDidUpload:[NSNumber numberWithBool:YES]];
+                    [photo setDidDelete:[NSNumber numberWithBool:NO]];
+                    [photo setDidTag:[NSNumber numberWithBool:[[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"] boolValue]]];
+
+                    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+                    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+                    NSString *creationDateWithLetters = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_taken_date"];
+                    NSString *creationDate = [[creationDateWithLetters componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]] componentsJoinedByString:@" "];
+                    [photo setCreationDate:[formatter dateFromString:creationDate]];
+                    
+                    //NSLog(@"Photo description: %@", [photo description]);
+                }
+            }
+            
+            NSError *error = nil;
+            if (![context save:&error]) {
+                NSLog(@"Error saving to Core Data");
+            }
+            
+            [self downloadPendingImages];
+        }
+        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+        {
+            NSLog(@"Profile Sync Failure");
+        }];
+        [operation start];
+    }
+}
+
+- (void)uploadPendingImages
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"didUpload == 0"];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+    
+    if ([mutableFetchResults count] > 0) {
+        NSLog(@"Uploading %i photos.", [mutableFetchResults count]);
+    }
+    
+    for (SavedPhoto *photo in mutableFetchResults) {
+        [SavedPhoto uploadPhoto:photo];
+    }
+}
+
+- (void)downloadPendingImages
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fileUrl != nil"];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+
+    for (SavedPhoto *photo in mutableFetchResults) {
+        [photo setSyncDelegate:self];
+        if ([SavedPhoto hasDownloadedImages:photo]) {
+            [SavedPhoto finalizeDownloadedPhoto:photo];
+        } else {
+            [SavedPhoto downloadPhotoImages:photo];
+        }
+    }
+}
+/*
 - (void)populateCoreData
 {
     NSLog(@"Populate Core Data");
@@ -455,14 +582,6 @@
         UIGraphicsEndImageContext();
         [photo setThumbnail:thumbnail];
         
-        //For Photos in View Profile page
-        thumbnailSize = CGSizeMake(150, 150);
-        UIGraphicsBeginImageContext(thumbnailSize);
-        [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
-        thumbnail = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        [photo setSmallThumbnail:thumbnail];
-        
         CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
         NSString *imageFileName = [NSString stringWithFormat:@"%f", currentTime];
         imageFileName = [imageFileName stringByReplacingOccurrencesOfString:@"." withString:@""];
@@ -504,6 +623,6 @@
     //[Photo savePhotos:selectedPhotos creationDate:[NSDate date] creationLocation:newLocation];
     
     NSLog(@"End save photo");
-}
+} */
 
 @end

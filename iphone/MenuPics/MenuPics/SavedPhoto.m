@@ -10,7 +10,20 @@
 
 @implementation SavedPhoto
 
-@dynamic fileName, fileLocation, smallThumbnail, thumbnail, latitude, longitude, creationDate, didUpload, didDelete, photoId;
+@dynamic fileName;
+@dynamic fileLocation;
+@dynamic fileUrl;
+@dynamic thumbnail;
+@dynamic thumbnailUrl;
+@dynamic latitude;
+@dynamic longitude;
+@dynamic creationDate;
+@dynamic didUpload;
+@dynamic didDelete;
+@dynamic didTag;
+@dynamic photoId;
+@dynamic suggestedRestaurantId;
+@synthesize syncDelegate;
 
 @end
 

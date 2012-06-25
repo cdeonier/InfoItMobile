@@ -284,10 +284,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 
 - (IBAction)savePhotos:(id)sender
 { 
-    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [Photo savePhotos:self.photos atLocation:self.currentLocation withRestaurantId:self.suggestedRestaurantId];
-    });
-    
+    [Photo savePhotos:self.photos atLocation:self.currentLocation withRestaurantId:self.suggestedRestaurantId];
     [self.navigationController popViewControllerAnimated:NO];
 }
 
@@ -394,14 +391,6 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         [photo setThumbnail:thumbnail];
-        
-        //For Photos in View Profile page
-        thumbnailSize = CGSizeMake(150, 150);
-        UIGraphicsBeginImageContext(thumbnailSize);
-        [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
-        thumbnail = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        [photo setSmallThumbnail:thumbnail];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.portraitGridView reloadData];

@@ -11,12 +11,12 @@
 #import "User.h"
 #import "AppDelegate.h"
 #import "MenuPicsAPIClient.h"
+#import "Reachability.h"
 
 @implementation Photo
 
 @synthesize fileName = _fileName;
 @synthesize fileLocation = _fileLocation;
-@synthesize smallThumbnail = _smallThumbnail;
 @synthesize thumbnail = _thumbnail;
 @synthesize latitude = _latitude;
 @synthesize longitude = _longitude;
@@ -76,12 +76,12 @@
                     NSLog(@"Error fetching from Core Data");
                 }
                 
-                //Assume that we can write to disk (eg, create the record for a saved photo) faster than server can respond to a photo upload, and we have a photo_id to process
                 assert([mutableFetchResults count] > 0);
                 assert([[JSON valueForKey:@"photo"] valueForKey:@"photo_id"] != nil);
                 
                 SavedPhoto *uploadedPhoto = [mutableFetchResults objectAtIndex:0];
                 [uploadedPhoto setPhotoId:[JSON valueForKey:@"photo_id"]];
+                [uploadedPhoto setDidUpload:[NSNumber numberWithBool:YES]];
                 if (![context save:&error]) {
                     NSLog(@"Error saving to Core Data");
                 }
@@ -114,16 +114,20 @@
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
     for (Photo *photo in selectedPhotos) {
+        //Move selected photos to our photo storage
+        [fileManager moveItemAtPath:[photo fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[photo fileName]] error:nil];
+        [photo setFileLocation:[photosDirectory stringByAppendingPathComponent:[photo fileName]]];
+        
         SavedPhoto *savedPhoto = (SavedPhoto *)[NSEntityDescription insertNewObjectForEntityForName:@"SavedPhoto" inManagedObjectContext:context];
         [savedPhoto setFileName:[photo fileName]];
         [savedPhoto setFileLocation:[photo fileLocation]];
-        [savedPhoto setSmallThumbnail:[photo smallThumbnail]];
         [savedPhoto setThumbnail:[photo thumbnail]];
         [savedPhoto setLatitude:[NSNumber numberWithDouble:location.coordinate.latitude]];
         [savedPhoto setLongitude:[NSNumber numberWithDouble:location.coordinate.longitude]];
         [savedPhoto setCreationDate:saveDate];
         [savedPhoto setDidUpload:[NSNumber numberWithBool:NO]];
         [savedPhoto setDidDelete:[NSNumber numberWithBool:NO]];
+        [savedPhoto setSuggestedRestaurantId:restaurantId];
     }
     
     NSError *error = nil;
@@ -131,14 +135,28 @@
         NSLog(@"Error saving to Core Data");
     }
     
-    //Upload after we save to disk, because we'll modify saved record if successful
+    //Upload after we save to disk, try to upload
     for (Photo *photo in selectedPhotos) {
-        [fileManager moveItemAtPath:[photo fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[photo fileName]] error:nil];
-        [photo setFileLocation:[photosDirectory stringByAppendingPathComponent:[photo fileName]]];
         NSData *imageData = [NSData dataWithContentsOfFile:[photo fileLocation]];
-        UIImage *image = [UIImage imageWithData:imageData];
-        [Photo uploadPhotoAtLocation:location image:image imageName:[photo fileName] photoDate:saveDate suggestedRestaurantId:restaurantId];
+        if ([self connectedToNetwork]) {
+            UIImage *image = [UIImage imageWithData:imageData];
+            [Photo uploadPhotoAtLocation:location image:image imageName:[photo fileName] photoDate:saveDate suggestedRestaurantId:restaurantId];
+        }
     }
+    
 }
+
++ (BOOL) connectedToNetwork
+{
+	Reachability *r = [Reachability reachabilityWithHostname:@"infoit.heroku.com"];
+	NetworkStatus internetStatus = [r currentReachabilityStatus];
+	BOOL internet;
+	if ((internetStatus != ReachableViaWiFi) && (internetStatus != ReachableViaWWAN)) {
+		internet = NO;
+	} else {
+		internet = YES;
+	}
+	return internet;
+} 
 
 @end

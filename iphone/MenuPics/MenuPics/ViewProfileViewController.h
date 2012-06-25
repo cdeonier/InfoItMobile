@@ -10,6 +10,7 @@
 #import "GMGridView.h"
 
 @class CreateAccountViewController;
+@class SavedPhoto;
 
 enum {
     ProfileTab = 1,
@@ -23,7 +24,13 @@ typedef NSInteger ViewProfileTab;
 
 @end
 
-@interface ViewProfileViewController : UIViewController <CreateAccountDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
+@protocol SyncPhotoDelegate <NSObject>
+
+- (void)didSyncPhoto:(SavedPhoto *)syncedPhoto;
+
+@end
+
+@interface ViewProfileViewController : UIViewController <CreateAccountDelegate, SyncPhotoDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
 

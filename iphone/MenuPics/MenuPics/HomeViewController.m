@@ -64,7 +64,7 @@
     self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
     [self.viewDeckController.view setNeedsDisplay];
     
-    //[self outputState];
+    [self outputState];
 }
 
 - (void)viewDidUnload

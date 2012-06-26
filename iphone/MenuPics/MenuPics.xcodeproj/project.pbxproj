@@ -1053,6 +1053,24 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		3C314B61159A5D480001210B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3CD8BDC51558C47500890F62 /* Images */,
+				3C9594E21558BE9B00627182 /* HomeViewController.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3C314B62159A5D520001210B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3C9594E01558BE9A00627182 /* HomeViewController.h */,
+				3C9594E11558BE9A00627182 /* HomeViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		3C366AB21588119D000D6D2A /* Test Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -1483,10 +1501,8 @@
 		3CD8BDC31558C45800890F62 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				3CD8BDC51558C47500890F62 /* Images */,
-				3C9594E01558BE9A00627182 /* HomeViewController.h */,
-				3C9594E11558BE9A00627182 /* HomeViewController.m */,
-				3C9594E21558BE9B00627182 /* HomeViewController.xib */,
+				3C314B62159A5D520001210B /* Controllers */,
+				3C314B61159A5D480001210B /* Views */,
 			);
 			name = Home;
 			sourceTree = "<group>";

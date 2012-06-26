@@ -74,7 +74,9 @@
 #pragma mark CreateAccountDelegate
 - (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
 {
-    [self dismissModalViewControllerAnimated:YES];
+    if (didCreate) {
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark Button Actions

@@ -8,7 +8,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "ViewProfileViewController.h"
-#import "CreateAccountViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
 #import "AppDelegate.h"
@@ -27,15 +26,6 @@
 @implementation ViewProfileViewController
 
 @synthesize profileView = _profileView;
-@synthesize signInView = _signInView;
-@synthesize userView = _userView;
-@synthesize facebookContainerView = _facebookContainerView;
-@synthesize activityIndicator = _activityIndicator;
-@synthesize emailInputText = _emailInputText;
-@synthesize passwordInputText = _passwordInputText;
-@synthesize signInButton = _signInButton;
-@synthesize createAccountButton = _createAccountButton;
-@synthesize errorLabel = _errorLabel;
 @synthesize tabBar = _tabBar;
 @synthesize photos = _photos;
 @synthesize photosGridView = _photosGridView;
@@ -81,21 +71,6 @@
     
     [self.view insertSubview:self.photosGridView atIndex:0];
     [self.photosGridView setHidden:YES];
-    
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicator setFrame:CGRectMake(150, 206, 20, 20)];
-    [self setActivityIndicator:activityIndicator];
-    [[self signInView] addSubview:activityIndicator];
-    
-    if ([User isUserLoggedIn]) {
-        [[self userView] setHidden:NO];
-        [[self signInView] setHidden:YES];
-        User *currentUser = [User currentUser];
-        NSLog(@"User: %@ with access_token: %@", [currentUser email], [currentUser accessToken]);
-    } else {
-        [[self userView] setHidden:YES];
-        [[self signInView] setHidden:NO];
-    }
 }
 
 - (void)viewDidUnload
@@ -115,99 +90,16 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)createAccount:(id)sender
-{
-    CreateAccountViewController *viewController = [[CreateAccountViewController alloc] initWithNibName:@"CreateAccountViewController" bundle:nil];
-    [viewController setDelegate:self];
-    [self presentModalViewController:viewController animated:YES];
-}
-
-- (IBAction)signIn:(id)sender
-{
-    [[self emailInputText] resignFirstResponder];
-    [[self passwordInputText] resignFirstResponder];
-    
-    if (self.emailInputText.text.length > 0 && self.passwordInputText.text.length > 0) {
-        [[self emailInputText] setEnabled:NO];
-        [[self passwordInputText] setEnabled:NO];
-        [[self signInButton] setEnabled:NO];
-        [[self createAccountButton] setEnabled:NO];
-        
-        [self displayActivityIndicator];
-        NSString *requestString = [NSString stringWithFormat:@"user=%@&password=%@", self.emailInputText.text, self.passwordInputText.text]; 
-        NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
-        
-        NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/tokens"];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-        [request setHTTPBody:requestData];
-        
-        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
-                                                                                            success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
-        {
-            [self hideActivityIndicator];
-            
-            NSString *accessToken = [JSON valueForKeyPath:@"token"];
-            NSString *email = [JSON valueForKeyPath:@"email"];
-            NSString *username = [JSON valueForKey:@"user_display_name"];
-            
-            [User signInUser:email withAccessToken:accessToken withUsername:username];
-            User *currentUser = [User currentUser];
-            NSLog(@"current user access_token: %@", [currentUser accessToken]);
-            
-            [[self signInView] setHidden:YES];
-            [[self userView] setHidden:NO];
-            
-            [[self emailInputText] setEnabled:YES];
-            [[self emailInputText] setText:nil];
-            [[self passwordInputText] setEnabled:YES];
-            [[self passwordInputText] setText:nil];
-            [[self signInButton] setEnabled:YES];
-            [[self createAccountButton] setEnabled:YES];
-            
-            [self syncProfile];
-            
-            NSLog(@"User Login: %@", JSON);
-        } 
-                                                                                            failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-        {
-            [[self activityIndicator] stopAnimating];
-            if (JSON) {
-                [self displayError:[JSON valueForKeyPath:@"message"]];
-            } else {
-                [self displayError:@"Unable to connect.  Try again later."];  
-            }
-            
-            [[self emailInputText] setEnabled:YES];
-            [[self passwordInputText] setEnabled:YES];
-            [[self signInButton] setEnabled:YES];
-            [[self createAccountButton] setEnabled:YES];
-        }];
-        [operation start];
-    } else {
-        [self displayError:@"Email and password cannot be blank."];
-    }
-}
-
 - (IBAction)signOut:(id)sender
 {
     [User signOutUser];
-    [[self signInView] setHidden:NO];
-    [[self userView] setHidden:YES];
 }
 
 
 #pragma mark CreateAccountDelegate
 - (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
 {
-    if (didCreate) {
-        [[self signInView] setHidden:YES];
-        [[self userView] setHidden:NO];
-        [self dismissModalViewControllerAnimated:YES];
-    } else {
-        [self dismissModalViewControllerAnimated:YES];
-    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark SyncPhotoDelegate
@@ -222,20 +114,6 @@
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     [self changeViewForTabIndex:item.tag];
-}
-
-#pragma mark UITextViewDelegate
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    if (textField == [self emailInputText]) {
-        [textField resignFirstResponder];
-        [[self passwordInputText] becomeFirstResponder];
-    } else {
-        [textField resignFirstResponder];
-    }
-    
-    return YES;
 }
 
 #pragma mark GMGridViewDataSource
@@ -318,46 +196,6 @@
         default:
             break;
     }
-}
-
-- (void)displayActivityIndicator
-{
-    [[self errorLabel] setHidden:YES];
-    [UIView animateWithDuration:0.3f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 227.0f, 320.0f, 140.0f)];
-                     }
-                     completion:^(BOOL finished){
-                         [self.activityIndicator startAnimating];
-                     }];
-}
-
-- (void)hideActivityIndicator
-{
-    [UIView animateWithDuration:0.3f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 180.0f, 320.0f, 140.0f)];
-                     }
-                     completion:^(BOOL finished){
-                         [self.activityIndicator stopAnimating];
-                     }];
-}
-
-- (void)displayError:(NSString *)error
-{
-    [UIView animateWithDuration:0.3f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 227.0f, 320.0f, 140.0f)];
-                     }
-                     completion:nil];
-    [[self errorLabel] setText:error];
-    [[self errorLabel] setHidden:NO];
 }
 
 - (void)initializePhotosGridView

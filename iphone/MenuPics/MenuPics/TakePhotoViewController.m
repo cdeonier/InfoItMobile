@@ -13,9 +13,12 @@
 #import "CameraOverlayView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "IIViewDeckController.h"
-#import "Photo.h"
+#import "SavedPhoto.h"
+#import "SavedPhoto+Syncing.h"
 #import "SVProgressHUD.h"
 #import "ImageUtil.h"
+#import "Reachability.h"
+#import "User.h"
 #import "UIColor+ExtendedColor.h"
 
 @interface TakePhotoViewController ()
@@ -41,9 +44,11 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 @synthesize photos = _photos;
 @synthesize landscapeGridView = _landscapeGridView;
 @synthesize portraitGridView = _portraitGridView;
+@synthesize context = _context;
 @synthesize locationManager = _locationManager;
 @synthesize currentLocation = _currentLocation;
-@synthesize suggestedRestaurantId = _suggestedRestaurantId;
+@synthesize restaurantId = _restaurantId;
+@synthesize menuItemId = _menuItemId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,6 +94,9 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     
     [self clearTakePhotosDirectory];
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [self setContext:[delegate managedObjectContext]];
 }
 
 - (void)viewDidUnload
@@ -245,7 +253,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 
 - (IBAction)toggleSelectionBox:(id)sender
 {
-    Photo *previewedPhoto = [self.photos objectAtIndex:self.displayedPhotoIndex];
+    SavedPhoto *previewedPhoto = [self.photos objectAtIndex:self.displayedPhotoIndex];
     [previewedPhoto setIsSelected:![previewedPhoto isSelected]];
     
     if ([previewedPhoto isSelected]) {
@@ -284,7 +292,48 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 
 - (IBAction)savePhotos:(id)sender
 { 
-    [Photo savePhotos:self.photos atLocation:self.currentLocation withRestaurantId:self.suggestedRestaurantId];
+    NSIndexSet *indexSet = [self.photos indexesOfObjectsPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+        return [(SavedPhoto *)obj isSelected]; 
+    }];
+    NSArray *selectedPhotos = [self.photos objectsAtIndexes:indexSet];
+    
+    NSDate *saveDate = [NSDate date];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docsDir = [dirPaths objectAtIndex:0];
+    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
+    
+    for (SavedPhoto *selectedPhoto in selectedPhotos) {
+        [selectedPhoto setCreationDate:saveDate];
+        [selectedPhoto setDidUpload:[NSNumber numberWithBool:NO]];
+        [selectedPhoto setDidDelete:[NSNumber numberWithBool:NO]];
+        [selectedPhoto setRestaurantId:[self restaurantId]];
+        [selectedPhoto setMenuItemId:[self menuItemId]];
+        
+        if ([self currentLocation]) {
+            [selectedPhoto setLatitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.latitude]];
+            [selectedPhoto setLatitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.longitude]];
+        }
+        
+        [fileManager moveItemAtPath:[selectedPhoto fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[selectedPhoto fileName]] error:nil];
+        [selectedPhoto setFileLocation:[photosDirectory stringByAppendingPathComponent:[selectedPhoto fileName]]];
+        
+        if ([User currentUser])
+            [selectedPhoto setUsername:[[User currentUser] username]];
+    }
+    
+    NSError *error = nil;
+    if (![_context save:&error]) {
+        NSLog(@"Error saving photos to Core Data");
+    }
+    
+    for (SavedPhoto *selectedPhoto in selectedPhotos) {
+        if ([self connectedToNetwork]) {
+            [SavedPhoto uploadPhoto:selectedPhoto];
+        }
+    }
+    
     [self.navigationController popViewControllerAnimated:NO];
 }
 
@@ -350,7 +399,6 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         if ([self.photos count] == 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setDisplayedPhotoIndex:0];
-                
                 UIImageView *portraitPreview = (UIImageView *)[self.portraitView viewWithTag:1];
                 UIImageView *landscapePreview = (UIImageView *)[self.landscapeView viewWithTag:1];
                 [portraitPreview setImage:scaledImage];
@@ -358,26 +406,17 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
             });
         }
         
-        Photo *photo = [[Photo alloc] init];
-        [self.photos addObject:photo];
-        [photo setIsSelected:YES];
-        
+        //Then save to disk
         NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docsDir = [dirPaths objectAtIndex:0];
         NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
-        
-        //Then save to disk
-        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ 
-            CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
-            NSString *imageFileName = [NSString stringWithFormat:@"%f", currentTime];
-            imageFileName = [imageFileName stringByReplacingOccurrencesOfString:@"." withString:@""];
-            imageFileName = [imageFileName stringByAppendingString:@".jpg"];
-            [photo setFileName:imageFileName];
-            NSString *filePath = [takePhotosDirectory stringByAppendingPathComponent:imageFileName];
-            NSData *imageData = UIImageJPEGRepresentation(scaledImage, 0.8);
-            [imageData writeToFile:filePath atomically:YES];
-            [photo setFileLocation:filePath];
-        });
+        CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
+        NSString *imageFileName = [NSString stringWithFormat:@"%f", currentTime];
+        imageFileName = [imageFileName stringByReplacingOccurrencesOfString:@"." withString:@""];
+        imageFileName = [imageFileName stringByAppendingString:@".jpg"];
+        NSString *filePath = [takePhotosDirectory stringByAppendingPathComponent:imageFileName];
+        NSData *imageData = UIImageJPEGRepresentation(scaledImage, 0.8);
+        [imageData writeToFile:filePath atomically:YES];
         
         //Create thumbnail
         CGFloat height = scaledImage.size.height;
@@ -390,9 +429,16 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
         UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        [photo setThumbnail:thumbnail];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            SavedPhoto *photo = (SavedPhoto *)[NSEntityDescription insertNewObjectForEntityForName:@"SavedPhoto" inManagedObjectContext:_context];
+            [photo setFileName:imageFileName];
+            [photo setFileLocation:filePath];
+            [photo setThumbnail:thumbnail];
+            [photo setIsSelected:YES];
+            
+            [self.photos addObject:photo];
+            
             [self.portraitGridView reloadData];
             [self.landscapeGridView reloadData];
         });
@@ -469,7 +515,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     
     [self setDisplayedPhotoIndex:position];
     
-    Photo *tappedPhoto = [self.photos objectAtIndex:position];
+    SavedPhoto *tappedPhoto = [self.photos objectAtIndex:position];
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
         NSData *imageData = [NSData dataWithContentsOfFile:[tappedPhoto fileLocation]];
@@ -491,6 +537,20 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     [self.portraitGridView reloadData];
     [self.landscapeGridView reloadData];
 }
+
+#pragma mark Helper Methods
+- (BOOL) connectedToNetwork
+{
+	Reachability *r = [Reachability reachabilityWithHostname:@"infoit.heroku.com"];
+	NetworkStatus internetStatus = [r currentReachabilityStatus];
+	BOOL internet;
+	if ((internetStatus != ReachableViaWiFi) && (internetStatus != ReachableViaWWAN)) {
+		internet = NO;
+	} else {
+		internet = YES;
+	}
+	return internet;
+} 
 
 #pragma mark Location
 

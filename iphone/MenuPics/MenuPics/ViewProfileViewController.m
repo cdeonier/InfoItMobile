@@ -383,6 +383,8 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
     [request setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"username == nil or username == '%@'", [[User currentUser] username]]];
+    [request setPredicate:predicate];
     NSError *error = nil;
     NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
     if (mutableFetchResults == nil) {
@@ -398,6 +400,11 @@
 {
     User *currentUser = [User currentUser];
     if (currentUser) {
+        //Any photos on phone without username now belong to logged in user.  Solution obviously not 100% accurate, but "good enough"
+        [SavedPhoto claimPhotos];
+        
+        [self populatePhotosGridView];
+        
         [self uploadPendingImages];
         [self downloadPendingImages];
         
@@ -434,6 +441,7 @@
                     [photo setDidUpload:[NSNumber numberWithBool:YES]];
                     [photo setDidDelete:[NSNumber numberWithBool:NO]];
                     [photo setDidTag:[NSNumber numberWithBool:[[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"] boolValue]]];
+                    [photo setUsername:[currentUser username]];
 
                     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
                     [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];

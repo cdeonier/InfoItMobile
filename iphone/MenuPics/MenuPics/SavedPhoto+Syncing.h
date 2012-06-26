@@ -7,6 +7,7 @@
 //
 
 #import "SavedPhoto.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface SavedPhoto (Syncing)
 
@@ -14,5 +15,6 @@
 + (BOOL)hasDownloadedImages:(SavedPhoto *)photo;
 + (void)finalizeDownloadedPhoto:(SavedPhoto *)photo;
 + (void)uploadPhoto:(SavedPhoto *)photo;
++ (void)claimPhotos;
 
 @end

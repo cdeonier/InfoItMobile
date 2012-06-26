@@ -35,7 +35,6 @@
 		3C2D9CAA15801BCB001DAC77 /* libSDWebImageARC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D949A156F13A100331EB3 /* libSDWebImageARC.a */; };
 		3C2D9CAE1580850C001DAC77 /* photos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D9CAC1580850C001DAC77 /* photos.png */; };
 		3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E7F5C15798B9B00DED59B /* MenuPicsAPIClient.m */; };
-		3C2E7F681579913C00DED59B /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E7F671579913C00DED59B /* Photo.m */; };
 		3C314B501596FB2E0001210B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */; };
 		3C314B571596FE360001210B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C314B551596FE360001210B /* Reachability.m */; };
 		3C366AB11587F4D2000D6D2A /* nav_bar_translucent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB01587F4D2000D6D2A /* nav_bar_translucent@2x.png */; };
@@ -397,8 +396,6 @@
 		3C2D9CAC1580850C001DAC77 /* photos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photos.png; sourceTree = "<group>"; };
 		3C2E7F5B15798B9B00DED59B /* MenuPicsAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuPicsAPIClient.h; sourceTree = "<group>"; };
 		3C2E7F5C15798B9B00DED59B /* MenuPicsAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuPicsAPIClient.m; sourceTree = "<group>"; };
-		3C2E7F661579913C00DED59B /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		3C2E7F671579913C00DED59B /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3C314B551596FE360001210B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		3C314B561596FE360001210B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -974,8 +971,6 @@
 		3C2E7F62157990D600DED59B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3C2E7F661579913C00DED59B /* Photo.h */,
-				3C2E7F671579913C00DED59B /* Photo.m */,
 				3C8488F1158555D400D697AC /* SavedPhoto.h */,
 				3C8488F2158555D400D697AC /* SavedPhoto.m */,
 				3CF0173F1596B981008A446B /* SavedPhoto+Syncing.h */,
@@ -1917,7 +1912,6 @@
 				3C4F2D9F157986420088E486 /* AFXMLRequestOperation.m in Sources */,
 				3C4F2DA0157986420088E486 /* UIImageView+AFNetworking.m in Sources */,
 				3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */,
-				3C2E7F681579913C00DED59B /* Photo.m in Sources */,
 				3CCDB991157D7CC200590DB3 /* SVProgressHUD.m in Sources */,
 				3C8488F3158555D400D697AC /* SavedPhoto.m in Sources */,
 				3C366ACA15884596000D6D2A /* ShellNavigationController.m in Sources */,

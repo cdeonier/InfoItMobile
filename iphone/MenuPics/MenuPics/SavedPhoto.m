@@ -22,7 +22,11 @@
 @dynamic didDelete;
 @dynamic didTag;
 @dynamic photoId;
-@dynamic suggestedRestaurantId;
+@dynamic restaurantId;
+@dynamic menuItemId;
+@dynamic username;
+
+@synthesize isSelected;
 @synthesize syncDelegate;
 
 @end

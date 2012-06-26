@@ -31,8 +31,12 @@
 @property (nonatomic, strong) NSNumber *didDelete;
 @property (nonatomic, strong) NSNumber *didTag;
 @property (nonatomic, strong) NSNumber *photoId;
-@property (nonatomic, strong) NSNumber *suggestedRestaurantId;
+@property (nonatomic, strong) NSNumber *restaurantId;
+@property (nonatomic, strong) NSNumber *menuItemId;
+@property (nonatomic, strong) NSString *username;
 
+//Transients
+@property (nonatomic) BOOL isSelected;
 @property (nonatomic, strong) id<SyncPhotoDelegate> syncDelegate;
 
 @end

@@ -24,10 +24,13 @@
 @property (strong) GMGridView *portraitGridView;
 @property (strong) GMGridView *landscapeGridView;
 
+@property (strong, nonatomic) NSManagedObjectContext *context;
+
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *currentLocation;
 
-@property (nonatomic, strong) NSNumber *suggestedRestaurantId;
+@property (nonatomic, strong) NSNumber *restaurantId;
+@property (nonatomic, strong) NSNumber *menuItemId;
 
 - (IBAction)toggleSelectionBox:(id)sender;
 - (IBAction)savePhotos:(id)sender;

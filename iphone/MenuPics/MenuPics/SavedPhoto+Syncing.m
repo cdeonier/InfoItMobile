@@ -159,7 +159,6 @@
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Upload Failure");
-            NSLog([error description]);
         }];
         [[MenuPicsAPIClient sharedClient] enqueueHTTPRequestOperation:operation];
     } else {

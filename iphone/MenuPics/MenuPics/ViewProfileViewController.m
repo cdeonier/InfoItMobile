@@ -11,7 +11,6 @@
 #import "CreateAccountViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
-#import "Photo.h"
 #import "AppDelegate.h"
 #import "GMGridView.h"
 #import "GMGridViewLayoutStrategies.h"
@@ -448,8 +447,6 @@
                     NSString *creationDateWithLetters = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_taken_date"];
                     NSString *creationDate = [[creationDateWithLetters componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]] componentsJoinedByString:@" "];
                     [photo setCreationDate:[formatter dateFromString:creationDate]];
-                    
-                    //NSLog(@"Photo description: %@", [photo description]);
                 }
             }
             

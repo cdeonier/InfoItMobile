@@ -95,13 +95,6 @@
     [User signOutUser];
 }
 
-
-#pragma mark CreateAccountDelegate
-- (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
-{
-    [self dismissModalViewControllerAnimated:YES];
-}
-
 #pragma mark SyncPhotoDelegate
 - (void)didSyncPhoto:(SavedPhoto *)syncedPhoto 
 {

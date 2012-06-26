@@ -7,12 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SignInViewController.h"
 
-@interface HomeViewController : UIViewController 
+@interface HomeViewController : UIViewController <SignInDelegate>
 
+//User View Properties
+@property IBOutlet UIView *userView;
 @property IBOutlet UILabel *findMenuTitle;
 @property IBOutlet UILabel *takePhotoTitle;
 @property IBOutlet UILabel *viewProfileTitle;
+
+//Non-User View Properties
+@property IBOutlet UIView *nonUserView;
+@property IBOutlet UILabel *findMenuTitleNonUser;
+@property IBOutlet UILabel *signInTitle;
 
 - (IBAction)findMenu:(id)sender;
 - (IBAction)takePhoto:(id)sender;

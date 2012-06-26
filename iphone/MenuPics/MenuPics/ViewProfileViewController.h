@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "GMGridView.h"
 
-@class CreateAccountViewController;
 @class SavedPhoto;
 
 enum {

@@ -25,6 +25,10 @@
 
 @interface SignInViewController : UIViewController <CreateAccountDelegate, UITextFieldDelegate>
 
+@property (nonatomic, strong) id<SignInDelegate> delegate;
+@property (nonatomic, strong) IBOutlet UINavigationBar *navBar;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *cancelButton;
+
 @property (nonatomic, strong) IBOutlet UIView *facebookContainerView;
 @property (nonatomic, strong) IBOutlet UITextField *emailInputText;
 @property (nonatomic, strong) IBOutlet UITextField *passwordInputText;

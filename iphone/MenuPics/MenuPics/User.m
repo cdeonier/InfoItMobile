@@ -60,6 +60,8 @@
 
 + (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username
 {
+    [self signOutUser];
+    
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
     
@@ -67,8 +69,6 @@
     [newUser setEmail:email];
     [newUser setAccessToken:accessToken];
     [newUser setUsername:username];
-    
-    [self signOutUser];
     
     NSError *error = nil;
     if (![context save:&error]) {

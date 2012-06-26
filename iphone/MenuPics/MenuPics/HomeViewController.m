@@ -14,6 +14,7 @@
 #import "SignInViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
+#import "User.h"
 
 @interface HomeViewController ()
 
@@ -21,9 +22,14 @@
 
 @implementation HomeViewController
 
+@synthesize userView = _userView;
 @synthesize findMenuTitle = _findMenuTitle;
 @synthesize takePhotoTitle = _takePhotoTitle;
 @synthesize viewProfileTitle = _viewProfileTitle;
+
+@synthesize nonUserView = _nonUserView;
+@synthesize findMenuTitleNonUser = _findMenuTitleNonUser;
+@synthesize signInTitle = _signInTitle;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,6 +49,8 @@
     [_findMenuTitle setFont:segoePrint];
     [_takePhotoTitle setFont:segoePrint];
     [_viewProfileTitle setFont:segoePrint];
+    [_findMenuTitleNonUser setFont:segoePrint];
+    [_signInTitle setFont:segoePrint];
     
     UIImage *menuImage = [[UIImage imageNamed:@"nav_menu_icon.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
@@ -65,6 +73,12 @@
     self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
     [self.viewDeckController.view setNeedsDisplay];
     
+    if ([User currentUser]) {
+        [self setView:_userView];
+    } else {
+        [self setView:_nonUserView];
+    }
+    
     [self outputState];
 }
 
@@ -77,6 +91,8 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+#pragma mark Button Actions
 
 - (IBAction)findMenu:(id)sender
 {
@@ -101,11 +117,31 @@
 - (IBAction)viewProfile:(id)sender
 {
     ViewProfileViewController *viewController = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
-    //SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
     backButton.tintColor = [UIColor navBarButtonColor];
     self.navigationItem.backBarButtonItem = backButton;
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)signIn:(id)sender
+{
+    SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
+    self.navigationItem.backBarButtonItem = backButton;
+    [viewController setDelegate:self];
+    [self presentModalViewController:viewController animated:YES];
+}
+
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
+{
+    if (didSignIn) {
+        [self setView:_userView];
+    }
+    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)outputState

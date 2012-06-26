@@ -8,6 +8,7 @@
 
 #import "SignInViewController.h"
 #import "CreateAccountViewController.h"
+#import "UIColor+ExtendedColor.h"
 #import "AFNetworking.h"
 #import "User.h"
 
@@ -16,6 +17,10 @@
 @end
 
 @implementation SignInViewController
+
+@synthesize delegate = _delegate;
+@synthesize navBar = _navBar;
+@synthesize cancelButton = _cancelButton;
 
 @synthesize facebookContainerView = _facebookContainerView;
 @synthesize emailInputText = _emailInputText;
@@ -41,8 +46,11 @@
     
     [self setTitle:@"Sign In"];
     
+    [_navBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
+    [_cancelButton setTintColor:[UIColor navBarButtonColor]];
+    
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicator setFrame:CGRectMake(150, 206, 20, 20)];
+    [activityIndicator setFrame:CGRectMake(150, 250, 20, 20)];
     [self setActivityIndicator:activityIndicator];
     [self.view addSubview:activityIndicator];
 }
@@ -75,7 +83,8 @@
 - (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate
 {
     if (didCreate) {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissModalViewControllerAnimated:NO];
+        [_delegate signInViewController:self didSignIn:YES];
     }
 }
 
@@ -129,6 +138,8 @@
                                                  [[self signInButton] setEnabled:YES];
                                                  [[self createAccountButton] setEnabled:YES];
                                                  
+                                                 [_delegate signInViewController:self didSignIn:YES];
+                                                 
                                                  NSLog(@"User Login: %@", JSON);
                                              } 
                                                                                             failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
@@ -151,6 +162,13 @@
     }
 }
 
+- (IBAction)cancel:(id)sender
+{
+    [_emailInputText resignFirstResponder];
+    [_passwordInputText resignFirstResponder];
+    [_delegate signInViewController:self didSignIn:NO];
+}
+
 #pragma mark Animations
 
 - (void)displayActivityIndicator
@@ -160,7 +178,7 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 227.0f, 320.0f, 140.0f)];
+                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 271.0f, 320.0f, 140.0f)];
                      }
                      completion:^(BOOL finished){
                          [self.activityIndicator startAnimating];
@@ -174,7 +192,7 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 180.0f, 320.0f, 140.0f)];
+                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 224.0f, 320.0f, 140.0f)];
                      }
                      completion:^(BOOL finished){
                      }];

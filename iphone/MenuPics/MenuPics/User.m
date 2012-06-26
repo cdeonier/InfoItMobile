@@ -51,8 +51,6 @@
     assert([mutableFetchResults count] == 0 || [mutableFetchResults count] == 1); 
     
     if ([mutableFetchResults count] > 0) {
-        User *currentUser = [mutableFetchResults objectAtIndex:0];
-        NSLog(@"Fetching currentUser... email:%@ access_token:%@ displayName: %@", currentUser.email, currentUser.accessToken, currentUser.username);
         return [mutableFetchResults objectAtIndex:0];
     } else {
         NSLog(@"No user logged in.");
@@ -69,6 +67,8 @@
     [newUser setEmail:email];
     [newUser setAccessToken:accessToken];
     [newUser setUsername:username];
+    
+    [self signOutUser];
     
     NSError *error = nil;
     if (![context save:&error]) {

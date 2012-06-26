@@ -11,6 +11,7 @@
 #import "FindMenuViewController.h"
 #import "TakePhotoViewController.h"
 #import "ViewProfileViewController.h"
+#import "SignInViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
 
@@ -99,7 +100,8 @@
 
 - (IBAction)viewProfile:(id)sender
 {
-    ViewProfileViewController *viewController = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
+    //ViewProfileViewController *viewController = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
+    SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
     backButton.tintColor = [UIColor navBarButtonColor];
     self.navigationItem.backBarButtonItem = backButton;

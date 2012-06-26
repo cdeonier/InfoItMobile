@@ -18,11 +18,11 @@ enum {
 };
 typedef NSInteger ViewProfileTab;
 
-@protocol CreateAccountDelegate <NSObject, UITextFieldDelegate>
-
-- (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate;
-
-@end
+//@protocol CreateAccountDelegate <NSObject, UITextFieldDelegate>
+//
+//- (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate;
+//
+//@end
 
 @protocol SyncPhotoDelegate <NSObject>
 
@@ -30,7 +30,7 @@ typedef NSInteger ViewProfileTab;
 
 @end
 
-@interface ViewProfileViewController : UIViewController <CreateAccountDelegate, SyncPhotoDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
+@interface ViewProfileViewController : UIViewController <SyncPhotoDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
 

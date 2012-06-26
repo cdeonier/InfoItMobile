@@ -37,6 +37,8 @@
 		3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E7F5C15798B9B00DED59B /* MenuPicsAPIClient.m */; };
 		3C314B501596FB2E0001210B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */; };
 		3C314B571596FE360001210B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C314B551596FE360001210B /* Reachability.m */; };
+		3C314B5F159A39FD0001210B /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C314B5D159A39FD0001210B /* SignInViewController.m */; };
+		3C314B60159A39FD0001210B /* SignInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C314B5E159A39FD0001210B /* SignInViewController.xib */; };
 		3C366AB11587F4D2000D6D2A /* nav_bar_translucent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB01587F4D2000D6D2A /* nav_bar_translucent@2x.png */; };
 		3C366AB9158811A8000D6D2A /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB3158811A8000D6D2A /* 1.jpg */; };
 		3C366ABA158811A8000D6D2A /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AB4158811A8000D6D2A /* 2.jpg */; };
@@ -399,6 +401,9 @@
 		3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3C314B551596FE360001210B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		3C314B561596FE360001210B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		3C314B5C159A39FD0001210B /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		3C314B5D159A39FD0001210B /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		3C314B5E159A39FD0001210B /* SignInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignInViewController.xib; sourceTree = "<group>"; };
 		3C366AB01587F4D2000D6D2A /* nav_bar_translucent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bar_translucent@2x.png"; sourceTree = "<group>"; };
 		3C366AB3158811A8000D6D2A /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		3C366AB4158811A8000D6D2A /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
@@ -408,9 +413,9 @@
 		3C366AB8158811A8000D6D2A /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
 		3C366AC815884596000D6D2A /* ShellNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShellNavigationController.h; sourceTree = "<group>"; };
 		3C366AC915884596000D6D2A /* ShellNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShellNavigationController.m; sourceTree = "<group>"; };
-		3C366AD51589C38F000D6D2A /* CreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateAccountViewController.h; sourceTree = "<group>"; };
-		3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateAccountViewController.m; sourceTree = "<group>"; };
-		3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateAccountViewController.xib; sourceTree = "<group>"; };
+		3C366AD51589C38F000D6D2A /* CreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateAccountViewController.h; path = MenuPics/CreateAccountViewController.h; sourceTree = "<group>"; };
+		3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateAccountViewController.m; path = MenuPics/CreateAccountViewController.m; sourceTree = "<group>"; };
+		3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateAccountViewController.xib; path = MenuPics/CreateAccountViewController.xib; sourceTree = "<group>"; };
 		3C4F2D82157986420088E486 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		3C4F2D83157986420088E486 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		3C4F2D84157986420088E486 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1010,6 +1015,44 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
+		3C314B58159A398F0001210B /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				3C314B5A159A39AE0001210B /* Views */,
+				3C314B59159A39A90001210B /* Models */,
+				3C314B5B159A39B30001210B /* Controllers */,
+			);
+			name = Account;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		3C314B59159A39A90001210B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		3C314B5A159A39AE0001210B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */,
+				3C314B5E159A39FD0001210B /* SignInViewController.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3C314B5B159A39B30001210B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3C366AD51589C38F000D6D2A /* CreateAccountViewController.h */,
+				3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */,
+				3C314B5C159A39FD0001210B /* SignInViewController.h */,
+				3C314B5D159A39FD0001210B /* SignInViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		3C366AB21588119D000D6D2A /* Test Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -1127,7 +1170,6 @@
 			children = (
 				3C8488F61587305600D697AC /* Images */,
 				3C9594CD15589E2600627182 /* ViewProfileViewController.xib */,
-				3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1137,8 +1179,6 @@
 			children = (
 				3C9594CB15589E2600627182 /* ViewProfileViewController.h */,
 				3C9594CC15589E2600627182 /* ViewProfileViewController.m */,
-				3C366AD51589C38F000D6D2A /* CreateAccountViewController.h */,
-				3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1212,6 +1252,7 @@
 				3C9594D015589EEB00627182 /* TakePhoto */,
 				3C99ACC7155C6CCC00656885 /* Menu */,
 				3C9594A215533E3F00627182 /* ViewProfile */,
+				3C314B58159A398F0001210B /* Account */,
 				3C9594511550E83700627182 /* Shell */,
 				3C959489155284CE00627182 /* Util */,
 				3C95943B1550C7D100627182 /* Supporting Files */,
@@ -1873,6 +1914,7 @@
 				3C595FBF1593FB5600B958DD /* restaurant_button@2x.png in Resources */,
 				3C595FC615954F6400B958DD /* confirm@2x.png in Resources */,
 				3C595FC715954F6400B958DD /* deny@2x.png in Resources */,
+				3C314B60159A39FD0001210B /* SignInViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1920,6 +1962,7 @@
 				3CC91A62158C04DD0042FC9C /* MenuPics.xcdatamodeld in Sources */,
 				3CF017411596B981008A446B /* SavedPhoto+Syncing.m in Sources */,
 				3C314B571596FE360001210B /* Reachability.m in Sources */,
+				3C314B5F159A39FD0001210B /* SignInViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

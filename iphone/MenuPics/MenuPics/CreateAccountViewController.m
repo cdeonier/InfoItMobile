@@ -7,7 +7,7 @@
 //
 
 #import "CreateAccountViewController.h"
-#import "ViewProfileViewController.h"
+#import "SignInViewController.h"
 #import "UIColor+ExtendedColor.h"
 #import "AFNetworking.h"
 #import "User.h"

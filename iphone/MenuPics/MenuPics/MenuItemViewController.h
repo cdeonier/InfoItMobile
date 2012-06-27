@@ -7,16 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SignInViewController.h"
 
 @class MenuItem;
 
-@interface MenuItemViewController : UIViewController
+enum {
+    NoAction = 0,
+    LikeButtonAction = 1,
+    PhotoButtonAction = 2
+};
+typedef NSInteger ButtonAction;
 
-@property (nonatomic, strong) IBOutlet UILabel *menuButtonLabel;
-@property (nonatomic, strong) IBOutlet UILabel *likeButtonLabel;
-@property (nonatomic, strong) IBOutlet UILabel *restaurantButtonLabel;
+@interface MenuItemViewController : UIViewController <SignInDelegate>
+
 @property (nonatomic, strong) IBOutlet UIButton *likeButton;
 @property (nonatomic, strong) MenuItem *menuItem;
+
+@property (nonatomic) ButtonAction buttonAction;
 
 - (IBAction)pressMenuButton:(id)sender;
 - (IBAction)pressLikeButton:(id)sender;

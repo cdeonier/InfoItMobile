@@ -1501,8 +1501,8 @@
 		3CD8BDC31558C45800890F62 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				3C314B62159A5D520001210B /* Controllers */,
 				3C314B61159A5D480001210B /* Views */,
+				3C314B62159A5D520001210B /* Controllers */,
 			);
 			name = Home;
 			sourceTree = "<group>";

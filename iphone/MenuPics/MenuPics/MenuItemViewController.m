@@ -20,11 +20,9 @@
 
 @implementation MenuItemViewController
 
-@synthesize menuButtonLabel = _menuButtonLabel;
-@synthesize likeButtonLabel = _likeButtonLabel;
-@synthesize restaurantButtonLabel = _restaurantButtonLabel;
 @synthesize likeButton = _likeButton;
 @synthesize menuItem = _menuItem;
+@synthesize buttonAction = _buttonAction;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -83,12 +81,27 @@
     [ImageUtil initializeProfileImage:self.view withUrl:[self.menuItem profilePhotoUrl]];
 }
 
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
+{
+    if (didSignIn) {
+        if (_buttonAction == LikeButtonAction) {
+            [self likeMenuItem];
+        } else if (_buttonAction == PhotoButtonAction) {
+            [self takePhoto];
+        }
+    }
+    
+    [self setButtonAction:NoAction];
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark Button Actions
 
 - (IBAction)pressMenuButton:(id)sender
 {
-    [self.menuButtonLabel setTextColor:[UIColor normalButtonColor]];
-    
     RootMenuViewController *viewController = [[RootMenuViewController alloc] initWithNibName:@"RootMenuViewController" bundle:nil];
     viewController.restaurantIdentifier = [self.menuItem restaurantId];
     
@@ -101,72 +114,22 @@
 
 - (IBAction)pressLikeButton:(id)sender
 {
-    User *currentUser = [User currentUser];
-    if (!currentUser) {
-        //Try to sign in user through sign in flow
-        
-        currentUser = [User currentUser];
-    } 
-    
-    if (currentUser) {
-        if ([sender isSelected]) {
-            [sender setSelected:NO];
-            [self.menuItem setIsLiked:NO];
-            [self.menuItem setLikeCount:[NSNumber numberWithInt:([self.menuItem.likeCount intValue] - 1)]];
-            
-            NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [currentUser accessToken]]; 
-            NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
-            
-            NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/unlike"];
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-            [request setHTTPMethod:@"DELETE"];
-            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-            [request setHTTPBody:requestData];
-            
-            AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
-                                                                                                success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
-                                                 {
-                                                     NSLog(@"Successful unlike.");
-                                                 } 
-                                                                                                failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                                 {
-                                                     NSLog(@"Failure unliking");
-                                                     NSLog(@"JSON: %@", JSON);
-                                                 }];
-            [operation start];
+    if ([User currentUser]) {
+        if ([_likeButton isSelected]) {
+            [self unlikeMenuItem];
         } else {
-            [sender setSelected:YES];
-            [self.menuItem setIsLiked:YES];
-            [self.menuItem setLikeCount:[NSNumber numberWithInt:([self.menuItem.likeCount intValue] + 1)]];
-            
-            NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [currentUser accessToken]]; 
-            NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
-            
-            NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/like"];
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-            [request setHTTPMethod:@"POST"];
-            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-            [request setHTTPBody:requestData];
-            
-            AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
-                                                                                                success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
-                                                 {
-                                                     NSLog(@"Successful liking.");
-                                                 } 
-                                                                                                failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                                 {
-                                                     NSLog(@"Failure liking");
-                                                     NSLog(@"JSON: %@", JSON);
-                                                 }];
-            [operation start];
+            [self likeMenuItem];
         }
+    } else {
+        [self setButtonAction:LikeButtonAction];
+        SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        [viewController setDelegate:self];
+        [self presentModalViewController:viewController animated:YES];
     }
 }
 
 - (IBAction)pressRestaurantButton:(id)sender
 {
-    [self.restaurantButtonLabel setTextColor:[UIColor normalButtonColor]];
-    
     RootMenuViewController *viewController = [[RootMenuViewController alloc] initWithNibName:@"RootMenuViewController" bundle:nil];
     viewController.restaurantIdentifier = [self.menuItem restaurantId];
     viewController.requestedTab = @"Restaurant";
@@ -176,6 +139,70 @@
     self.navigationItem.backBarButtonItem = backButton;
     
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+#pragma mark Server Actions
+
+- (void)likeMenuItem
+{
+    [_likeButton setSelected:YES];
+    [self.menuItem setIsLiked:YES];
+    
+    NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [[User currentUser] accessToken]]; 
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/like"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+    {
+        NSLog(@"Successful liking.");
+        [self.menuItem setLikeCount:[NSNumber numberWithInt:([self.menuItem.likeCount intValue] + 1)]];
+    } 
+    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+    {
+        NSLog(@"Failure liking");
+        NSLog(@"JSON: %@", JSON);
+    }];
+    [operation start];
+}
+             
+- (void)unlikeMenuItem
+{
+    [_likeButton setSelected:NO];
+    [self.menuItem setIsLiked:NO];
+    
+    NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [[User currentUser] accessToken]]; 
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/unlike"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+    {
+        NSLog(@"Successful unlike.");
+        [self.menuItem setLikeCount:[NSNumber numberWithInt:([self.menuItem.likeCount intValue] - 1)]];
+    } 
+    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+    {
+        NSLog(@"Failure unliking");
+        NSLog(@"JSON: %@", JSON);
+    }];
+    [operation start];
+
+}
+
+- (void)takePhoto
+{
+    
 }
 
 @end

@@ -85,6 +85,8 @@
     if (didCreate) {
         [self dismissModalViewControllerAnimated:NO];
         [_delegate signInViewController:self didSignIn:YES];
+    } else {
+         [self dismissModalViewControllerAnimated:YES];
     }
 }
 
@@ -119,43 +121,43 @@
         [request setHTTPBody:requestData];
         
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
-                                                                                            success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
-                                             {
-                                                 [self hideActivityIndicator];
-                                                 
-                                                 NSString *accessToken = [JSON valueForKeyPath:@"token"];
-                                                 NSString *email = [JSON valueForKeyPath:@"email"];
-                                                 NSString *username = [JSON valueForKey:@"user_display_name"];
-                                                 
-                                                 [User signInUser:email withAccessToken:accessToken withUsername:username];
-                                                 User *currentUser = [User currentUser];
-                                                 NSLog(@"current user access_token: %@", [currentUser accessToken]);
-                                                 
-                                                 [[self emailInputText] setEnabled:YES];
-                                                 [[self emailInputText] setText:nil];
-                                                 [[self passwordInputText] setEnabled:YES];
-                                                 [[self passwordInputText] setText:nil];
-                                                 [[self signInButton] setEnabled:YES];
-                                                 [[self createAccountButton] setEnabled:YES];
-                                                 
-                                                 [_delegate signInViewController:self didSignIn:YES];
-                                                 
-                                                 NSLog(@"User Login: %@", JSON);
-                                             } 
-                                                                                            failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                             {
-                                                 [[self activityIndicator] stopAnimating];
-                                                 if (JSON) {
-                                                     [self displayError:[JSON valueForKeyPath:@"message"]];
-                                                 } else {
-                                                     [self displayError:@"Unable to connect.  Try again later."];  
-                                                 }
-                                                 
-                                                 [[self emailInputText] setEnabled:YES];
-                                                 [[self passwordInputText] setEnabled:YES];
-                                                 [[self signInButton] setEnabled:YES];
-                                                 [[self createAccountButton] setEnabled:YES];
-                                             }];
+        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+        {
+            [self hideActivityIndicator];
+
+            NSString *accessToken = [JSON valueForKeyPath:@"token"];
+            NSString *email = [JSON valueForKeyPath:@"email"];
+            NSString *username = [JSON valueForKey:@"user_display_name"];
+
+            [User signInUser:email withAccessToken:accessToken withUsername:username];
+            User *currentUser = [User currentUser];
+            NSLog(@"current user access_token: %@", [currentUser accessToken]);
+
+            [[self emailInputText] setEnabled:YES];
+            [[self emailInputText] setText:nil];
+            [[self passwordInputText] setEnabled:YES];
+            [[self passwordInputText] setText:nil];
+            [[self signInButton] setEnabled:YES];
+            [[self createAccountButton] setEnabled:YES];
+
+            [_delegate signInViewController:self didSignIn:YES];
+
+            NSLog(@"User Login: %@", JSON);
+        } 
+        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+        {
+            [[self activityIndicator] stopAnimating];
+            if (JSON) {
+                [self displayError:[JSON valueForKeyPath:@"message"]];
+            } else {
+                [self displayError:@"Unable to connect.  Try again later."];  
+            }
+
+            [[self emailInputText] setEnabled:YES];
+            [[self passwordInputText] setEnabled:YES];
+            [[self signInButton] setEnabled:YES];
+            [[self createAccountButton] setEnabled:YES];
+        }];
         [operation start];
     } else {
         [self displayError:@"Email and password cannot be blank."];

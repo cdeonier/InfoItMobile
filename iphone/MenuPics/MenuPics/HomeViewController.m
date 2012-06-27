@@ -126,9 +126,6 @@
 - (IBAction)signIn:(id)sender
 {
     SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
-    backButton.tintColor = [UIColor navBarButtonColor];
-    self.navigationItem.backBarButtonItem = backButton;
     [viewController setDelegate:self];
     [self presentModalViewController:viewController animated:YES];
 }

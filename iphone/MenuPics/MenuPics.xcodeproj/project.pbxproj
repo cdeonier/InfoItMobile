@@ -1095,6 +1095,24 @@
 			name = "Custom Classes";
 			sourceTree = "<group>";
 		};
+		3C3BA2D1159A962B000E94DD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3C81BF8C156C8FEE005FC0A1 /* Images */,
+				3C81BF87156C2006005FC0A1 /* MenuItemViewController.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3C3BA2D2159A9630000E94DD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3C81BF85156C2006005FC0A1 /* MenuItemViewController.h */,
+				3C81BF86156C2006005FC0A1 /* MenuItemViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		3C4F2D7F15795F140088E486 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1161,10 +1179,8 @@
 		3C81BF83156C1EE3005FC0A1 /* MenuItem */ = {
 			isa = PBXGroup;
 			children = (
-				3C81BF8C156C8FEE005FC0A1 /* Images */,
-				3C81BF85156C2006005FC0A1 /* MenuItemViewController.h */,
-				3C81BF86156C2006005FC0A1 /* MenuItemViewController.m */,
-				3C81BF87156C2006005FC0A1 /* MenuItemViewController.xib */,
+				3C3BA2D1159A962B000E94DD /* Views */,
+				3C3BA2D2159A9630000E94DD /* Controllers */,
 			);
 			name = MenuItem;
 			sourceTree = "<group>";

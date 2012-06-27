@@ -159,19 +159,19 @@
     NSArray *fileList = [filemgr contentsOfDirectoryAtPath:docsDir error:NULL];
     NSLog(@"Contents of Documents Directory:");
     for (NSString *file in fileList) {
-        NSLog(file);
+        NSLog(@"%@", file);
     }
     
     fileList = [filemgr contentsOfDirectoryAtPath:takePhotosDirectory error:NULL];
     NSLog(@"Contents of Take Photos Directory:");
     for (NSString *file in fileList) {
-        NSLog(file);
+        NSLog(@"%@", file);
     }
     
     fileList = [filemgr contentsOfDirectoryAtPath:photosDirectory error:NULL];
     NSLog(@"Contents of Photos Directory:");
     for (NSString *file in fileList) {
-        NSLog(file);
+        NSLog(@"%@", file);
     }
     
     NSLog(@"-------------------------------------");

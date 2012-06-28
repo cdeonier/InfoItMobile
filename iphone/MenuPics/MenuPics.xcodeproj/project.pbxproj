@@ -49,6 +49,7 @@
 		3C366ACA15884596000D6D2A /* ShellNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C366AC915884596000D6D2A /* ShellNavigationController.m */; };
 		3C366AD81589C38F000D6D2A /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */; };
 		3C366AD91589C38F000D6D2A /* CreateAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */; };
+		3C3BA2D5159BEA65000E94DD /* MenuItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3BA2D4159BEA65000E94DD /* MenuItemCell.m */; };
 		3C4F2D97157986420088E486 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D83157986420088E486 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C4F2D98157986420088E486 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D85157986420088E486 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C4F2D99157986420088E486 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D87157986420088E486 /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -416,6 +417,8 @@
 		3C366AD51589C38F000D6D2A /* CreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateAccountViewController.h; path = MenuPics/CreateAccountViewController.h; sourceTree = "<group>"; };
 		3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateAccountViewController.m; path = MenuPics/CreateAccountViewController.m; sourceTree = "<group>"; };
 		3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateAccountViewController.xib; path = MenuPics/CreateAccountViewController.xib; sourceTree = "<group>"; };
+		3C3BA2D3159BEA65000E94DD /* MenuItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemCell.h; sourceTree = "<group>"; };
+		3C3BA2D4159BEA65000E94DD /* MenuItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemCell.m; sourceTree = "<group>"; };
 		3C4F2D82157986420088E486 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		3C4F2D83157986420088E486 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		3C4F2D84157986420088E486 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -942,9 +945,9 @@
 		3C2E7F5F1579903500DED59B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3C3BA2D6159C0BB6000E94DD /* MenuItemCell */,
 				3C99ACCE155C6DA100656885 /* Images */,
 				3C99ACCB155C6D0100656885 /* RootMenuViewController.xib */,
-				3C20870715635E3D00A16BF0 /* MenuItemCell.xib */,
 				3C2086FA15620E8400A16BF0 /* CurrentMenuView.xib */,
 				3C2086FC1562248600A16BF0 /* MostLikedView.xib */,
 				3C2086FE156224C400A16BF0 /* RestaurantView.xib */,
@@ -1111,6 +1114,16 @@
 				3C81BF86156C2006005FC0A1 /* MenuItemViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3C3BA2D6159C0BB6000E94DD /* MenuItemCell */ = {
+			isa = PBXGroup;
+			children = (
+				3C20870715635E3D00A16BF0 /* MenuItemCell.xib */,
+				3C3BA2D3159BEA65000E94DD /* MenuItemCell.h */,
+				3C3BA2D4159BEA65000E94DD /* MenuItemCell.m */,
+			);
+			name = MenuItemCell;
 			sourceTree = "<group>";
 		};
 		3C4F2D7F15795F140088E486 /* Vendor */ = {
@@ -1995,6 +2008,7 @@
 				3CF017411596B981008A446B /* SavedPhoto+Syncing.m in Sources */,
 				3C314B571596FE360001210B /* Reachability.m in Sources */,
 				3C314B5F159A39FD0001210B /* SignInViewController.m in Sources */,
+				3C3BA2D5159BEA65000E94DD /* MenuItemCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

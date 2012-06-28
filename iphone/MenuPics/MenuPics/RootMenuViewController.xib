@@ -227,7 +227,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">62</int>
+			<int key="maxID">63</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -237,8 +237,6 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="allMenusTable">UITableView</string>
 						<string key="currentMenuTable">UITableView</string>
-						<string key="menuItemCell">UITableViewCell</string>
-						<string key="menuTypeCell">UITableViewCell</string>
 						<string key="mostLikedTable">UITableView</string>
 						<string key="tabBar">UITabBar</string>
 					</dictionary>
@@ -250,14 +248,6 @@
 						<object class="IBToOneOutletInfo" key="currentMenuTable">
 							<string key="name">currentMenuTable</string>
 							<string key="candidateClassName">UITableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="menuItemCell">
-							<string key="name">menuItemCell</string>
-							<string key="candidateClassName">UITableViewCell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="menuTypeCell">
-							<string key="name">menuTypeCell</string>
-							<string key="candidateClassName">UITableViewCell</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="mostLikedTable">
 							<string key="name">mostLikedTable</string>

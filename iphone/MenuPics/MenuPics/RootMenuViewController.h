@@ -20,9 +20,7 @@ enum {
 };
 typedef NSInteger MenuTab;
 
-@interface RootMenuViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource> {
-    IBOutlet UITableViewCell *menuItemCell;
-}
+@interface RootMenuViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 /* General */
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;

@@ -15,9 +15,10 @@
 #import "Restaurant.h"
 #import "ImageUtil.h"
 #import "User.h"
+#import "MenuItemCell.h"
 #import "AFNetworking.h"
 #import "SVProgressHUD.h"
-#import <QuartzCore/QuartzCore.h>
+
 
 @interface RootMenuViewController ()
 
@@ -27,6 +28,7 @@
 
 /* General */
 @synthesize tabBar = _tabBar;
+@synthesize takePhotoTabBarItem = _takePhotoTabBarItem;
 @synthesize responseData = _responseData;
 @synthesize restaurantIdentifier = _restaurantIdentifier;
 @synthesize restaurantMenus = _restaurantMenus;
@@ -472,75 +474,8 @@
 
 - (UITableViewCell *) createMenuItemCell:(MenuItem *)menuItem
 {
-    [[NSBundle mainBundle] loadNibNamed:@"MenuItemCell" owner:self options:nil];
-    UITableViewCell *cell = menuItemCell;
-    menuItemCell = nil;
-    
-    UILabel *name = (UILabel *)[cell viewWithTag:1];
-    NSString *nameString = [menuItem name];
-    if ([nameString length] < 40) {
-        [name setText:nameString];
-    } else {
-        NSString *truncatedNameString = [nameString substringToIndex:37 ];
-        [name setText:[NSString stringWithFormat:@"%@...", truncatedNameString]];
-    }
-    [name setNumberOfLines:0];
-    [name setFrame:CGRectMake(115, 5, 150, 45)];
-    [name sizeToFit];
-    
-    UILabel *price = (UILabel *)[cell viewWithTag:2];
-    price.text = [NSString stringWithFormat:@"$%@", menuItem.price];
-    
-    UILabel *description = (UILabel *)[cell viewWithTag:3];
-    if ([[menuItem description] length] > 0) {
-        NSString *descriptionString = menuItem.description;
-        if ([descriptionString length] < 100) {
-            [description setText:descriptionString];
-        } else {
-            NSString *truncatedDescriptionString = [descriptionString substringToIndex:100];
-            [description setText:[NSString stringWithFormat:@"%@...", truncatedDescriptionString]];
-        }
-        
-        description.lineBreakMode = UILineBreakModeTailTruncation;
-        [description setNumberOfLines:0];
-        [description setFrame:CGRectMake(5, 110, 310, 40)];
-        [description sizeToFit];
-    } else {
-        [description setHidden:YES];
-    }
-    
-    UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:4];
-    UIButton *addPhotoButton = (UIButton *)[cell viewWithTag:7];
-    [thumbnail.layer setBorderColor:[[UIColor grayColor] CGColor]];
-    [thumbnail.layer setBorderWidth:1.0];
-
-    if (menuItem.smallThumbnailUrl) {    
-        [thumbnail setHidden:NO];
-        [addPhotoButton setHidden:YES];
-        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
-            ([UIScreen mainScreen].scale == 2.0)) {
-            [thumbnail setImageWithURL:[NSURL URLWithString:menuItem.largeThumbnailUrl]];
-        } else {
-            [thumbnail setImageWithURL:[NSURL URLWithString:menuItem.smallThumbnailUrl]];
-        }
-    } else {
-        [thumbnail setHidden:YES];
-        [addPhotoButton setHidden:NO];
-        [addPhotoButton.layer setBorderColor:[[UIColor grayColor] CGColor]];
-        [addPhotoButton.layer setBorderWidth:1.0];
-    }
-    
-    UIImageView *likeIcon = (UIImageView *)[cell viewWithTag:5];
-    UILabel *likeCount = (UILabel *)[cell viewWithTag:6];
-    if ([[menuItem likeCount] intValue] > 1) {
-        [likeCount setText:[NSString stringWithFormat:@"%@ likes", [[menuItem likeCount] description]]];
-    } else if ([[menuItem likeCount] intValue] > 0) {
-        [likeCount setText:[NSString stringWithFormat:@"%@ like", [[menuItem likeCount] description]]];
-    } else {
-        [likeIcon setHidden:YES];
-        [likeCount setHidden:YES];
-    }
-    
+    MenuItemCell *cell = [[MenuItemCell alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
+    [cell loadMenuItem:menuItem];
     return cell;
 }
 

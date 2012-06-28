@@ -10,9 +10,20 @@
 #import <CoreLocation/CoreLocation.h>
 #import "GMGridView.h"
 
+@class TakePhotoViewController;
+
+@protocol TakePhotoDelegate <NSObject>
+
+- (void)takePhotoViewController:(TakePhotoViewController *)takePhotoViewController didSavePhotos:(BOOL)didSavePhotos;
+
+@end
+
 @interface TakePhotoViewController : UIViewController <CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 
+@property (nonatomic, strong) id<TakePhotoDelegate> delegate;
+
 @property NSInteger displayedPhotoIndex;
+@property (nonatomic, strong) NSArray *savedPhotos;
 
 @property (nonatomic, strong) UIView *cameraOverlay;
 @property (strong) UIView *portraitView;

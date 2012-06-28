@@ -35,7 +35,9 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 
 @implementation TakePhotoViewController
 
+@synthesize delegate = _delegate;
 @synthesize displayedPhotoIndex = _displayedPhotoIndex;
+@synthesize savedPhotos = _savedPhotos;
 @synthesize cameraOverlay = _cameraOverlay;
 @synthesize portraitView = _portraitView;
 @synthesize landscapeView = _landscapeView;
@@ -313,7 +315,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         
         if ([self currentLocation]) {
             [selectedPhoto setLatitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.latitude]];
-            [selectedPhoto setLatitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.longitude]];
+            [selectedPhoto setLongitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.longitude]];
         }
         
         [fileManager moveItemAtPath:[selectedPhoto fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[selectedPhoto fileName]] error:nil];
@@ -334,6 +336,8 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         }
     }
     
+    [self setSavedPhotos:selectedPhotos];
+    [_delegate takePhotoViewController:self didSavePhotos:([selectedPhotos count] > 0)];
     [self.navigationController popViewControllerAnimated:NO];
 }
 

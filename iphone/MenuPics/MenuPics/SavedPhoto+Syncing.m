@@ -108,6 +108,7 @@
         NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionary];
         
         if ([photo latitude]) {
+            NSLog(@"Lat: %@ Long: %@", [photo latitude], [photo longitude]);
             [mutableParameters setObject:[photo latitude] forKey:@"photo[lat]"];
             [mutableParameters setObject:[photo longitude] forKey:@"photo[lng]"];
         }
@@ -151,10 +152,14 @@
                 assert([[JSON valueForKey:@"photo"] valueForKey:@"photo_id"] != nil);
                 
                 SavedPhoto *uploadedPhoto = [mutableFetchResults objectAtIndex:0];
-                [uploadedPhoto setPhotoId:[JSON valueForKey:@"photo_id"]];
+                [uploadedPhoto setPhotoId:[[JSON valueForKey:@"photo"] valueForKey:@"photo_id"]];
                 [uploadedPhoto setDidUpload:[NSNumber numberWithBool:YES]];
                 if (![context save:&error]) {
                     NSLog(@"Error saving to Core Data");
+                }
+                
+                if ([uploadedPhoto menuItemId]) {
+                    [self tagPhoto:uploadedPhoto];
                 }
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -164,6 +169,40 @@
     } else {
         NSLog(@"Cannot upload photo; no user logged in");
     }
+}
+
++ (void)tagPhoto:(SavedPhoto *)photo
+{
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&entity_id=%@&access_token=%@", [[photo photoId] stringValue],
+                                                                                                      [[photo menuItemId] stringValue], 
+                                                                                                      [[User currentUser] accessToken]]; 
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/tag_photo"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"PUT"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+    {
+        NSLog(@"Tag Photo Success!");
+        NSLog(@"JSON: %@", JSON);
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = [delegate managedObjectContext];
+        [photo setDidTag:[NSNumber numberWithBool:YES]];
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Error saving to Core Data");
+        }
+    } 
+    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+    {
+        NSLog(@"Error tagging, JSON: %@", JSON);
+        NSLog(@"%@", error);
+    }];
+    [operation start];
 }
 
 + (void)claimPhotos

@@ -16,9 +16,6 @@
 
 @interface SavedPhoto : NSManagedObject
 
-//Any SavedPhoto with a *Url property populated needs to download images to complete syncing.
-//Any synced photos will have *Url properties as nil.
-
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *fileLocation;
 @property (nonatomic, strong) NSString *fileUrl;

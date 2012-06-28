@@ -98,6 +98,13 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+#pragma mark TakePhotoDelegate
+
+- (void)takePhotoViewController:(TakePhotoViewController *)takePhotoViewController didSavePhotos:(BOOL)didSavePhotos
+{
+    
+}
+
 #pragma mark Button Actions
 
 - (IBAction)pressMenuButton:(id)sender
@@ -133,6 +140,19 @@
     RootMenuViewController *viewController = [[RootMenuViewController alloc] initWithNibName:@"RootMenuViewController" bundle:nil];
     viewController.restaurantIdentifier = [self.menuItem restaurantId];
     viewController.requestedTab = @"Restaurant";
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu Item" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [backButton setTintColor:[UIColor navBarButtonColor]];
+    self.navigationItem.backBarButtonItem = backButton;
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)takePhoto
+{
+    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
+    [viewController setDelegate:self];
+    [viewController setMenuItemId:[_menuItem entityId]];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu Item" style:UIBarButtonItemStylePlain target:nil action:nil];
     [backButton setTintColor:[UIColor navBarButtonColor]];
@@ -200,9 +220,6 @@
 
 }
 
-- (void)takePhoto
-{
-    
-}
+
 
 @end

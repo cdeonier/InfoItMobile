@@ -81,6 +81,7 @@
 								<string key="NSFrame">{{10, 85}, {300, 153}}</string>
 								<reference key="NSSuperview" ref="992543359"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -157,7 +158,7 @@
 								<string key="NSFrame">{{115, 45}, {90, 25}}</string>
 								<reference key="NSSuperview" ref="992543359"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="668278206"/>
+								<reference key="NSNextKeyView" ref="451368472"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -216,6 +217,31 @@
 								<object class="NSCustomResource" key="IBUINormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">restaurant_button@2x.png</string>
+								</object>
+								<reference key="IBUIFontDescription" ref="46756463"/>
+								<reference key="IBUIFont" ref="1020088235"/>
+							</object>
+							<object class="IBUIButton" id="451368472">
+								<reference key="NSNextResponder" ref="992543359"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{162, 2}, {75, 75}}</string>
+								<reference key="NSSuperview" ref="992543359"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="668278206"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<reference key="IBUIHighlightedTitleColor" ref="542837750"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="584059960"/>
+								<object class="NSCustomResource" key="IBUINormalImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">add_photo@2x.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="46756463"/>
 								<reference key="IBUIFont" ref="1020088235"/>
@@ -293,6 +319,15 @@
 					</object>
 					<int key="connectionID">26</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">takePhoto</string>
+						<reference key="source" ref="451368472"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">39</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -330,6 +365,7 @@
 							<reference ref="668278206"/>
 							<reference ref="65964113"/>
 							<reference ref="706642711"/>
+							<reference ref="451368472"/>
 						</array>
 						<reference key="parent" ref="763023481"/>
 					</object>
@@ -361,6 +397,11 @@
 						<reference key="parent" ref="992543359"/>
 						<string key="objectName">Restaurant Button</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">37</int>
+						<reference key="object" ref="451368472"/>
+						<reference key="parent" ref="992543359"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -377,6 +418,7 @@
 				<real value="2" key="14.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="15.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -384,7 +426,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">36</int>
+			<int key="maxID">39</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -395,6 +437,7 @@
 						<string key="pressLikeButton:">id</string>
 						<string key="pressMenuButton:">id</string>
 						<string key="pressRestaurantButton:">id</string>
+						<string key="takePhoto">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="pressLikeButton:">
@@ -409,31 +452,22 @@
 							<string key="name">pressRestaurantButton:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="takePhoto">
+							<string key="name">takePhoto</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="likeButton">UIButton</string>
-						<string key="likeButtonLabel">UILabel</string>
-						<string key="menuButtonLabel">UILabel</string>
-						<string key="restaurantButtonLabel">UILabel</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="likeButton">
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">likeButton</string>
+						<string key="NS.object.0">UIButton</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">likeButton</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
 							<string key="name">likeButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="likeButtonLabel">
-							<string key="name">likeButtonLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="menuButtonLabel">
-							<string key="name">menuButtonLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="restaurantButtonLabel">
-							<string key="name">restaurantButtonLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-					</dictionary>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MenuItemViewController.h</string>
@@ -450,6 +484,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="add_photo@2x.png">{200, 200}</string>
 			<string key="like_button@2x.png">{180, 50}</string>
 			<string key="like_button_highlighted@2x.png">{180, 50}</string>
 			<string key="like_button_selected@2x.png">{180, 50}</string>

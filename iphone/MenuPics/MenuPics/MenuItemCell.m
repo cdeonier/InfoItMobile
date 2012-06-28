@@ -10,7 +10,11 @@
 
 #import "MenuItemCell.h"
 #import "MenuItem.h"
+#import "RootMenuViewController.h"
 #import "AFNetworking.h"
+#import "TakePhotoViewController.h"
+#import "UIColor+ExtendedColor.h"
+#import "User.h"
 
 @implementation MenuItemCell
 
@@ -23,6 +27,7 @@
 @synthesize likeCount = _likeCount;
 
 @synthesize menuItem = _menuItem;
+@synthesize parentController = _parentController;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -96,6 +101,48 @@
         [_likeIcon setHidden:YES];
         [_likeCount setHidden:YES];
     }
+}
+
+- (IBAction)takePhoto:(id)sender
+{
+    if ([User currentUser]) {
+        TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
+        [viewController setDelegate:self];
+        [viewController setMenuItemId:[_menuItem entityId]];
+        [viewController setRestaurantId:[_menuItem restaurantId]];
+        [viewController setMenuItem:_menuItem];
+        
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu Item" style:UIBarButtonItemStylePlain target:nil action:nil];
+        [backButton setTintColor:[UIColor navBarButtonColor]];
+        _parentController.navigationItem.backBarButtonItem = backButton;
+        
+        [_parentController.navigationController pushViewController:viewController animated:YES];
+    } else {
+        SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        [viewController setDelegate:self];
+        [_parentController presentModalViewController:viewController animated:YES];
+    }
+}
+
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
+{
+    if (didSignIn) {
+        [_parentController dismissModalViewControllerAnimated:NO];
+        [self takePhoto:self];  
+    } else {
+        [_parentController dismissModalViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark TakePhotoDelegate
+
+- (void)takePhotoViewController:(TakePhotoViewController *)takePhotoViewController didSavePhotos:(BOOL)didSavePhotos
+{
+    [_parentController.currentMenuTable reloadData];
+    [_parentController.mostLikedTable reloadData];
+    [_parentController dismissModalViewControllerAnimated:YES];
 }
 
 @end

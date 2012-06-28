@@ -28,7 +28,6 @@
 
 /* General */
 @synthesize tabBar = _tabBar;
-@synthesize takePhotoTabBarItem = _takePhotoTabBarItem;
 @synthesize responseData = _responseData;
 @synthesize restaurantIdentifier = _restaurantIdentifier;
 @synthesize restaurantMenus = _restaurantMenus;
@@ -141,6 +140,7 @@
         id addressJson = [placeDetailsJson valueForKey:@"address"];
         NSArray *menuItemsJson = [placeDetailsJson objectForKey:@"menu_items"];
 
+        [self.restaurant setEntityId:[entityJson valueForKey:@"id"]];
         [self.restaurant setName:[entityJson valueForKey:@"name"]];
         [self.restaurant setDescription:[entityJson valueForKey:@"description"]];
         [self.restaurant setProfilePhotoUrl:[entityJson valueForKey:@"profile_photo"]];
@@ -238,6 +238,30 @@
     [operation start];
 }
 
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
+{
+    if (didSignIn) {
+        [self dismissModalViewControllerAnimated:NO];
+        [self takePhoto];  
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark TakePhotoDelegate
+
+- (void)takePhotoViewController:(TakePhotoViewController *)takePhotoViewController didSavePhotos:(BOOL)didSavePhotos
+{
+    if (didSavePhotos && [takePhotoViewController menuItemId] != nil) {
+        [self.currentMenuTable reloadData];
+        [self.mostLikedTable reloadData];
+    }
+    
+    [self changeViewForTabIndex:CurrentMenuTab];
+}
+
 #pragma mark UITabBarDelegate
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
@@ -251,12 +275,19 @@
 {
     if (tableView == self.currentMenuTable) {
         static NSString *CellIdentifier = @"MenuItemCellIdentifier";
-        
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        NSString *sectionKey = [self.currentMenu keyAtIndex:indexPath.section];
+        MenuItem *menuItem = [[self.currentMenu objectForKey:sectionKey] objectAtIndex:indexPath.row];
+        
         if (cell == nil) {            
-            NSString *sectionKey = [self.currentMenu keyAtIndex:indexPath.section];
-            MenuItem *menuItem = [[self.currentMenu objectForKey:sectionKey] objectAtIndex:indexPath.row];
             cell = [self createMenuItemCell:menuItem];
+        }
+        
+        if ([menuItem thumbnail]) {
+            [[(MenuItemCell *)cell thumbnail] setImage:[menuItem thumbnail]];
+            [[(MenuItemCell *)cell addPhotoButton] setHidden:YES];
+            [[(MenuItemCell *)cell thumbnail] setHidden:NO];
         }
         
         return cell;
@@ -376,14 +407,16 @@
 
 - (void) changeViewForTabIndex:(MenuTab)tab
 {
-    for (UIView *view in self.view.subviews) {
-        if (![view isKindOfClass:[UITabBar class]]) {
-            [view removeFromSuperview];
+    if (tab != TakePhotoTab) {
+        for (UIView *view in self.view.subviews) {
+            if (![view isKindOfClass:[UITabBar class]]) {
+                [view removeFromSuperview];
+            }
         }
+        
+        //Tab tag index starts at 1
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:(tab - 1)]];
     }
-    
-    //Tab tag index starts at 1
-    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:(tab - 1)]];
     
     switch (tab) {
         case CurrentMenuTab: {
@@ -407,7 +440,17 @@
             break;
         }
         case TakePhotoTab: {
+            [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:(CurrentMenuTab - 1)]];
             
+            if ([User currentUser]) {
+                [self takePhoto];
+            } else {
+                SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+                [viewController setDelegate:self];
+                [self presentModalViewController:viewController animated:YES];
+            }
+            
+            break;
         }
         case RestaurantTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"RestaurantView" owner:self options:nil]; 
@@ -476,7 +519,21 @@
 {
     MenuItemCell *cell = [[MenuItemCell alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
     [cell loadMenuItem:menuItem];
+    [cell setParentController:self];
     return cell;
+}
+
+- (void)takePhoto
+{
+    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
+    [viewController setDelegate:self];
+    [viewController setRestaurantId:[self.restaurant entityId]];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu Item" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [backButton setTintColor:[UIColor navBarButtonColor]];
+    self.navigationItem.backBarButtonItem = backButton;
+    
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end

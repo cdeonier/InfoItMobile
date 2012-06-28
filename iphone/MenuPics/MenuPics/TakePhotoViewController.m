@@ -20,6 +20,7 @@
 #import "Reachability.h"
 #import "User.h"
 #import "UIColor+ExtendedColor.h"
+#import "MenuItem.h"
 
 @interface TakePhotoViewController ()
 
@@ -51,6 +52,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 @synthesize currentLocation = _currentLocation;
 @synthesize restaurantId = _restaurantId;
 @synthesize menuItemId = _menuItemId;
+@synthesize menuItem = _menuItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -335,6 +337,9 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
             [SavedPhoto uploadPhoto:selectedPhoto];
         }
     }
+    
+    //Update menu item thumbnail for display on menu or in the menu item gridview of photos
+    [[self menuItem] setThumbnail:[[selectedPhotos objectAtIndex:0] thumbnail]];
     
     [self setSavedPhotos:selectedPhotos];
     [_delegate takePhotoViewController:self didSavePhotos:([selectedPhotos count] > 0)];

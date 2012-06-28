@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TakePhotoViewController.h"
+#import "SignInViewController.h"
 
 @class OrderedDictionary;
 @class Restaurant;
@@ -20,7 +22,7 @@ enum {
 };
 typedef NSInteger MenuTab;
 
-@interface RootMenuViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface RootMenuViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, TakePhotoDelegate, SignInDelegate>
 
 /* General */
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;

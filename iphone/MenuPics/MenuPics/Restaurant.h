@@ -10,6 +10,7 @@
 
 @interface Restaurant : NSObject
 
+@property (nonatomic) NSNumber *entityId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *description;
 @property (nonatomic, strong) NSString *profilePhotoUrl;

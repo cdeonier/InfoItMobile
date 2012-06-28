@@ -10,6 +10,7 @@
 
 @implementation Restaurant
 
+@synthesize entityId = _entityId;
 @synthesize name = _name;
 @synthesize description = _description;
 @synthesize profilePhotoUrl = _profilePhotoUrl;

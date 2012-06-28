@@ -11,6 +11,7 @@
 #import "GMGridView.h"
 
 @class TakePhotoViewController;
+@class MenuItem;
 
 @protocol TakePhotoDelegate <NSObject>
 
@@ -42,6 +43,7 @@
 
 @property (nonatomic, strong) NSNumber *restaurantId;
 @property (nonatomic, strong) NSNumber *menuItemId;
+@property (nonatomic, strong) MenuItem *menuItem;
 
 - (IBAction)toggleSelectionBox:(id)sender;
 - (IBAction)savePhotos:(id)sender;

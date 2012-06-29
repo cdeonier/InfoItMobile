@@ -11,10 +11,8 @@
 
 @interface SavedPhoto (Syncing)
 
-+ (void)downloadPhotoImages:(SavedPhoto *)photo;
-+ (BOOL)hasDownloadedImages:(SavedPhoto *)photo;
-+ (void)finalizeDownloadedPhoto:(SavedPhoto *)photo;
++ (void)downloadThumbnail:(SavedPhoto *)photo;
 + (void)uploadPhoto:(SavedPhoto *)photo;
-+ (void)claimPhotos;
++ (void)tagPhoto:(SavedPhoto *)photo;
 
 @end

@@ -314,6 +314,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [selectedPhoto setDidDelete:[NSNumber numberWithBool:NO]];
         [selectedPhoto setRestaurantId:[self restaurantId]];
         [selectedPhoto setMenuItemId:[self menuItemId]];
+        [selectedPhoto setUsername:[[User currentUser] username]];
         
         if ([self currentLocation]) {
             [selectedPhoto setLatitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.latitude]];
@@ -322,9 +323,6 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         
         [fileManager moveItemAtPath:[selectedPhoto fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[selectedPhoto fileName]] error:nil];
         [selectedPhoto setFileLocation:[photosDirectory stringByAppendingPathComponent:[selectedPhoto fileName]]];
-        
-        if ([User currentUser])
-            [selectedPhoto setUsername:[[User currentUser] username]];
     }
     
     NSError *error = nil;

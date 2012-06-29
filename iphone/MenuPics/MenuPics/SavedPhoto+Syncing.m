@@ -15,38 +15,8 @@
 
 @implementation SavedPhoto (Syncing)
 
-+ (void)downloadPhotoImages:(SavedPhoto *)photo {
-    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:photo.fileUrl]];
++ (void)downloadThumbnail:(SavedPhoto *)photo {
     NSURLRequest *thumbnailRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:photo.thumbnailUrl]];
-    
-    AFImageRequestOperation *imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest:imageRequest success:^(UIImage *image) {
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        NSManagedObjectContext *context = [delegate managedObjectContext];
-        
-        NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *docsDir = [dirPaths objectAtIndex:0];
-        NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
-        NSString *filePath = [photosDirectory stringByAppendingPathComponent:[photo fileName]];
-        
-        [photo setFileLocation:filePath];
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Error saving to Core Data");
-        }
-        
-        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSData *imageData = UIImagePNGRepresentation(image);
-            [imageData writeToFile:filePath atomically:YES];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ([self hasDownloadedImages:photo]) {
-                    [self finalizeDownloadedPhoto:photo];
-                    [photo.syncDelegate didSyncPhoto:photo];
-                }
-            });
-        });
-    }];
     
     AFImageRequestOperation *thumbnailOperation = [AFImageRequestOperation imageRequestOperationWithRequest:thumbnailRequest success:^(UIImage *image) {
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -59,42 +29,10 @@
             NSLog(@"Error saving to Core Data");
         }
         
-        if ([self hasDownloadedImages:photo]) {
-            [self finalizeDownloadedPhoto:photo];
-            [photo.syncDelegate didSyncPhoto:photo];
-        }
+        [photo.syncDelegate didSyncPhoto:photo];
     }];
     
-    [imageOperation start];
     [thumbnailOperation start];
-}
-
-+ (BOOL)hasDownloadedImages:(SavedPhoto *)photo {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
-    
-    NSString *filePath = [photosDirectory stringByAppendingPathComponent:[photo fileName]];
-    
-    if ([fileManager fileExistsAtPath:filePath] && [photo thumbnail]) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-+ (void)finalizeDownloadedPhoto:(SavedPhoto *)photo {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [delegate managedObjectContext];
-    
-    [photo setFileUrl:nil];
-    [photo setThumbnailUrl:nil];
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"Error saving to Core Data");
-    }
 }
 
 + (void)uploadPhoto:(SavedPhoto *)photo
@@ -153,6 +91,8 @@
                 
                 SavedPhoto *uploadedPhoto = [mutableFetchResults objectAtIndex:0];
                 [uploadedPhoto setPhotoId:[[JSON valueForKey:@"photo"] valueForKey:@"photo_id"]];
+                [uploadedPhoto setFileUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_original"]];
+                [uploadedPhoto setThumbnailUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
                 [uploadedPhoto setDidUpload:[NSNumber numberWithBool:YES]];
                 if (![context save:&error]) {
                     NSLog(@"Error saving to Core Data");
@@ -161,6 +101,9 @@
                 if ([uploadedPhoto menuItemId]) {
                     [self tagPhoto:uploadedPhoto];
                 }
+                
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                [fileManager removeItemAtPath:[uploadedPhoto fileLocation] error:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Upload Failure");
@@ -203,32 +146,6 @@
         NSLog(@"%@", error);
     }];
     [operation start];
-}
-
-+ (void)claimPhotos
-{
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [delegate managedObjectContext];
-
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
-    [request setEntity:entity];
-
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"username == nil"];
-    [request setPredicate:predicate];
-
-    NSError *error = nil;
-    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
-
-    if ([mutableFetchResults count] > 0) {
-        for (SavedPhoto *photo in mutableFetchResults) {
-            [photo setUsername:[[User currentUser] username]];
-        }
-
-        if (![context save:&error]) {
-            NSLog(@"Error saving to Core Data");
-        }
-    }
 }
 
 @end

@@ -228,72 +228,64 @@
 
 - (void)syncProfile
 {
-    User *currentUser = [User currentUser];
-    if (currentUser) {
-        //Any photos on phone without username now belong to logged in user.  Solution obviously not 100% accurate, but "good enough"
-        [SavedPhoto claimPhotos];
-        
-        [self populatePhotosGridView];
-        
-        [self uploadPendingImages];
-        [self downloadPendingImages];
-        
-        NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/user_profile?access_token=%@", [currentUser accessToken]];
+    [self populatePhotosGridView];
+    
+    [self uploadPendingImages];
+    [self downloadPendingImages];
+    
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/user_profile?access_token=%@", [[User currentUser] accessToken]];
 
-        NSLog(@"URL String: %@", urlString);
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-        
-        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
-        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
-        {
-            //NSLog(@"Profile Sync Success: %@", JSON);
-            
-            NSMutableDictionary *photosOnPhone = [[NSMutableDictionary alloc] initWithCapacity:200];
-            for (SavedPhoto *coreDataPhoto in self.photos) {
-                [photosOnPhone setObject:coreDataPhoto forKey:[coreDataPhoto fileName]];
-            }
-            
-            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            NSManagedObjectContext *context = [delegate managedObjectContext];
-            
-            for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
-                //NSLog(@"Photo Entry: %@", photoEntry);
-                
-                if (![photosOnPhone objectForKey:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]]) {
-                    SavedPhoto *photo = (SavedPhoto *)[NSEntityDescription insertNewObjectForEntityForName:@"SavedPhoto" inManagedObjectContext:context];
-                    [photo setFileName:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]];
-                    [photo setPhotoId:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_id"]];
-                    [photo setFileUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"]];
-                    [photo setThumbnailUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
-                    [photo setDidUpload:[NSNumber numberWithBool:YES]];
-                    [photo setDidDelete:[NSNumber numberWithBool:NO]];
-                    [photo setDidTag:[NSNumber numberWithBool:[[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"] boolValue]]];
-                    [photo setUsername:[currentUser username]];
-
-                    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-                    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-                    NSString *creationDateWithLetters = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_taken_date"];
-                    NSString *creationDate = [[creationDateWithLetters componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]] componentsJoinedByString:@" "];
-                    [photo setCreationDate:[formatter dateFromString:creationDate]];
-                }
-            }
-            
-            NSError *error = nil;
-            if (![context save:&error]) {
-                NSLog(@"Error saving to Core Data");
-            }
-            
-            [self downloadPendingImages];
+    NSLog(@"URL String: %@", urlString);
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+    {
+        NSMutableDictionary *photosOnPhone = [[NSMutableDictionary alloc] initWithCapacity:200];
+        for (SavedPhoto *coreDataPhoto in self.photos) {
+            [photosOnPhone setObject:coreDataPhoto forKey:[coreDataPhoto fileName]];
         }
-        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-        {
-            NSLog(@"Profile Sync Failure");
-        }];
-        [operation start];
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = [delegate managedObjectContext];
+        
+        for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
+            //NSLog(@"Photo Entry: %@", photoEntry);
+            
+            if (![photosOnPhone objectForKey:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]]) {
+                SavedPhoto *photo = (SavedPhoto *)[NSEntityDescription insertNewObjectForEntityForName:@"SavedPhoto" inManagedObjectContext:context];
+                [photo setFileName:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]];
+                [photo setPhotoId:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_id"]];
+                [photo setFileUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"]];
+                [photo setThumbnailUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
+                [photo setDidUpload:[NSNumber numberWithBool:YES]];
+                [photo setDidDelete:[NSNumber numberWithBool:NO]];
+                [photo setDidTag:[NSNumber numberWithBool:[[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"] boolValue]]];
+                [photo setUsername:[[User currentUser] username]];
+
+                NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+                NSString *creationDateWithLetters = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_taken_date"];
+                NSString *creationDate = [[creationDateWithLetters componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]] componentsJoinedByString:@" "];
+                [photo setCreationDate:[formatter dateFromString:creationDate]];
+            }
+        }
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Error saving to Core Data");
+        }
+        
+        [self downloadPendingImages];
     }
+    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+    {
+        NSLog(@"Profile Sync Failure");
+    }];
+    [operation start];
 }
 
 - (void)uploadPendingImages
@@ -329,7 +321,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
     [request setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fileUrl != nil"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"thumbnail == nil"];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -337,11 +329,7 @@
 
     for (SavedPhoto *photo in mutableFetchResults) {
         [photo setSyncDelegate:self];
-        if ([SavedPhoto hasDownloadedImages:photo]) {
-            [SavedPhoto finalizeDownloadedPhoto:photo];
-        } else {
-            [SavedPhoto downloadPhotoImages:photo];
-        }
+        [SavedPhoto downloadThumbnail:photo];
     }
 }
 /*

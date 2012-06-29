@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SignInViewController.h"
 #import "TakePhotoViewController.h"
+#import "GMGridView.h"
 
 @class MenuItem;
 
@@ -19,16 +20,25 @@ enum {
 };
 typedef NSInteger ButtonAction;
 
-@interface MenuItemViewController : UIViewController <SignInDelegate, TakePhotoDelegate>
+@interface MenuItemViewController : UIViewController <SignInDelegate, TakePhotoDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 
+@property (nonatomic, strong) IBOutlet UIView *contentContainer;
 @property (nonatomic, strong) IBOutlet UIButton *likeButton;
+@property (nonatomic, strong) IBOutlet UILabel *menuItemName;
+@property (nonatomic, strong) IBOutlet UILabel *description;
+
+@property (nonatomic, strong) IBOutlet UIImageView *profileImage;
+
 @property (nonatomic, strong) MenuItem *menuItem;
 
+@property (nonatomic, strong) NSMutableArray *menuItemPhotos;
+
 @property (nonatomic) ButtonAction buttonAction;
+
+@property (strong) GMGridView *gridView;
 
 - (IBAction)pressMenuButton:(id)sender;
 - (IBAction)pressLikeButton:(id)sender;
 - (IBAction)pressRestaurantButton:(id)sender;
-- (IBAction)takePhoto;
 
 @end

@@ -50,6 +50,7 @@
 		3C366AD81589C38F000D6D2A /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C366AD61589C38F000D6D2A /* CreateAccountViewController.m */; };
 		3C366AD91589C38F000D6D2A /* CreateAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */; };
 		3C3BA2D5159BEA65000E94DD /* MenuItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3BA2D4159BEA65000E94DD /* MenuItemCell.m */; };
+		3C3BA2DA159D566A000E94DD /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3BA2D9159D5669000E94DD /* Photo.m */; };
 		3C4F2D97157986420088E486 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D83157986420088E486 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C4F2D98157986420088E486 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D85157986420088E486 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3C4F2D99157986420088E486 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F2D87157986420088E486 /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -419,6 +420,8 @@
 		3C366AD71589C38F000D6D2A /* CreateAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateAccountViewController.xib; path = MenuPics/CreateAccountViewController.xib; sourceTree = "<group>"; };
 		3C3BA2D3159BEA65000E94DD /* MenuItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemCell.h; sourceTree = "<group>"; };
 		3C3BA2D4159BEA65000E94DD /* MenuItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemCell.m; sourceTree = "<group>"; };
+		3C3BA2D8159D5669000E94DD /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		3C3BA2D9159D5669000E94DD /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		3C4F2D82157986420088E486 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		3C4F2D83157986420088E486 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		3C4F2D84157986420088E486 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -934,8 +937,6 @@
 		3C2E7F5E1579902300DED59B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3C5F9D7C155E6760002ED96E /* MenuItem.h */,
-				3C5F9D7D155E6760002ED96E /* MenuItem.m */,
 				3C5D56BE156614D8003F3EC7 /* Restaurant.h */,
 				3C5D56BF156614D9003F3EC7 /* Restaurant.m */,
 			);
@@ -1126,6 +1127,17 @@
 			name = MenuItemCell;
 			sourceTree = "<group>";
 		};
+		3C3BA2D7159D4CE7000E94DD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3C5F9D7C155E6760002ED96E /* MenuItem.h */,
+				3C5F9D7D155E6760002ED96E /* MenuItem.m */,
+				3C3BA2D8159D5669000E94DD /* Photo.h */,
+				3C3BA2D9159D5669000E94DD /* Photo.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		3C4F2D7F15795F140088E486 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1192,6 +1204,7 @@
 		3C81BF83156C1EE3005FC0A1 /* MenuItem */ = {
 			isa = PBXGroup;
 			children = (
+				3C3BA2D7159D4CE7000E94DD /* Models */,
 				3C3BA2D1159A962B000E94DD /* Views */,
 				3C3BA2D2159A9630000E94DD /* Controllers */,
 			);
@@ -2009,6 +2022,7 @@
 				3C314B571596FE360001210B /* Reachability.m in Sources */,
 				3C314B5F159A39FD0001210B /* SignInViewController.m in Sources */,
 				3C3BA2D5159BEA65000E94DD /* MenuItemCell.m in Sources */,
+				3C3BA2DA159D566A000E94DD /* Photo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

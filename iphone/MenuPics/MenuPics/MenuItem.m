@@ -16,6 +16,7 @@
 @synthesize entityId = _entityId;
 @synthesize restaurantId = _restaurantId;
 @synthesize likeCount = _likeCount;
+@synthesize photoCount = _photoCount;
 @synthesize profilePhotoUrl = _profilePhotoUrl;
 @synthesize smallThumbnailUrl = _smallThumbnailUrl;
 @synthesize largeThumbnailUrl = _largeThumbnailUrl;

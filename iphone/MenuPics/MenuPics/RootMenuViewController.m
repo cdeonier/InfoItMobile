@@ -108,7 +108,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma  mark Webservice
+#pragma mark Webservice
 
 - (void)getMenu:(NSNumber *)restaurantIdentifier
 {
@@ -191,6 +191,10 @@
             [menuItemRecord setLikeCount:[menuItem valueForKey:@"like_count"]];
             [menuItemRecord setMenuType:[menuItem valueForKey:@"menu_type"]];
             
+            int photoCount = [[menuItem valueForKey:@"photo_count"] intValue] + [[menuItem valueForKey:@"external_photo_count"] intValue];
+            [menuItemRecord setPhotoCount:[NSNumber numberWithInt:photoCount]];
+            NSLog(@"Menu Item Name: %@ with # photos: %@", [menuItemRecord name], [[menuItemRecord photoCount] stringValue]);
+            
             if ([[menuItem objectForKey:@"profile_photo_type"] isEqualToString:@"ExternalPhoto"]) {
                 [menuItemRecord setSmallThumbnailUrl:[menuItem valueForKey:@"profile_photo_thumbnail"]];
                 [menuItemRecord setLargeThumbnailUrl:[menuItem valueForKey:@"profile_photo_thumbnail"]];
@@ -202,7 +206,6 @@
             [menuItemRecord setProfilePhotoUrl:[menuItem valueForKey:@"profile_photo"]];
             [menuItemRecord setEntityId:[menuItem valueForKey:@"entity_id"]];
             [menuItemRecord setRestaurantId:self.restaurantIdentifier];
-            //NSString *isLiked = [[menuItem valueForKey:@"logged_in_user"] valueForKey:@"liked"];
             BOOL isLiked = [[[menuItem valueForKey:@"logged_in_user"] valueForKey:@"liked"] boolValue];
             if (isLiked) {
                 [menuItemRecord setIsLiked:YES];
@@ -460,7 +463,7 @@
             [scrollView setFrame:CGRectMake(0, 0, 320, 367)];
             [scrollView setContentSize:CGSizeMake(320, 600)];
             
-            [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePhotoUrl]];
+            [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePhotoUrl] success:nil];
                         
             UILabel *restaurantName = (UILabel *)[restaurantView viewWithTag:202];
             [restaurantName setText:[self.restaurant name]];

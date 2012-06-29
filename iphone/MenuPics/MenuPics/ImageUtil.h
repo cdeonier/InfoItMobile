@@ -12,6 +12,7 @@
 
 + (UIImage *)resizeImage:(UIImage*)image newSize:(CGSize)newSize; 
 + (NSArray *)getSweepImageArray;
-+ (void) initializeProfileImage:(UIView *) view withUrl:(NSString *)url;
++ (void) initializeProfileImage:(UIView *) view withUrl:(NSString *)url success:(void (^)(UIView *profileView))success;
++ (void) initializeProfileImageWithUrl:(NSString *)url success:(void (^)(UIView *))success;
 
 @end

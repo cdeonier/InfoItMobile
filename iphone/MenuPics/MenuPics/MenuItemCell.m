@@ -140,8 +140,12 @@
 
 - (void)takePhotoViewController:(TakePhotoViewController *)takePhotoViewController didSavePhotos:(BOOL)didSavePhotos
 {
-    [_parentController.currentMenuTable reloadData];
-    [_parentController.mostLikedTable reloadData];
+    if (didSavePhotos) {
+        [_menuItem setPhotoCount:[NSNumber numberWithInt:([_menuItem.photoCount intValue] + [takePhotoViewController.savedPhotos count])]];
+        [_parentController.currentMenuTable reloadData];
+        [_parentController.mostLikedTable reloadData];
+    }
+    
     [_parentController dismissModalViewControllerAnimated:YES];
 }
 

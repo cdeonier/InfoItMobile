@@ -87,7 +87,7 @@
  * Assumes XIB file of outer scrollview with tag 1000, and view with tag 1001 acting as content container
  *
  */
-+ (void) initializeProfileImage:(UIView *) view withUrl:(NSString *)url
++ (void) initializeProfileImage:(UIView *) view withUrl:(NSString *)url success:(void (^)(UIView *profileView))success
 {
     if (![url isEqual:[NSNull null]] && [url length] > 0) {
         UIScrollView *scrollView = (UIScrollView *)[view viewWithTag:1000];
@@ -126,6 +126,9 @@
                 contentContainerFrame.origin.y -= placeholderImage.frame.size.height;
                 contentContainerFrame.origin.y += profileImage.frame.size.height;
                 contentContainer.frame = contentContainerFrame;
+                
+                if (success)
+                    success(contentContainer);
             });
         });
     } else {
@@ -139,6 +142,11 @@
         contentContainer.frame = contentContainerFrame;
         [scrollView insertSubview:placeholderImage atIndex:0];
     }
+}
+
++ (void) initializeProfileImageWithUrl:(NSString *)url success:(void (^)(UIView *))success
+{
+    
 }
 
 @end

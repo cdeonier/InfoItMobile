@@ -22,7 +22,7 @@ enum {
 };
 typedef NSInteger MenuTab;
 
-@interface RootMenuViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, TakePhotoDelegate, SignInDelegate>
+@interface MenuViewController : UIViewController <UITabBarDelegate, UITableViewDelegate, UITableViewDataSource, TakePhotoDelegate, SignInDelegate>
 
 /* General */
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;

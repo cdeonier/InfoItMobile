@@ -124,8 +124,8 @@
 		3C9594E41558BE9C00627182 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594E21558BE9B00627182 /* HomeViewController.xib */; };
 		3C978CB2156DC3B800B95E77 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C978CB1156DC3B700B95E77 /* CoreMedia.framework */; };
 		3C978CB4156DC3D500B95E77 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C978CB3156DC3D500B95E77 /* AVFoundation.framework */; };
-		3C99ACCC155C6D0100656885 /* RootMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C99ACCA155C6D0100656885 /* RootMenuViewController.m */; };
-		3C99ACCD155C6D0100656885 /* RootMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACCB155C6D0100656885 /* RootMenuViewController.xib */; };
+		3C99ACCC155C6D0100656885 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C99ACCA155C6D0100656885 /* MenuViewController.m */; };
+		3C99ACCD155C6D0100656885 /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACCB155C6D0100656885 /* MenuViewController.xib */; };
 		3C99ACD3155C6DDA00656885 /* menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACCF155C6DDA00656885 /* menu_icon.png */; };
 		3C99ACD4155C6DDA00656885 /* menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACD0155C6DDA00656885 /* menu_icon@2x.png */; };
 		3C99ACD9155C6EAA00656885 /* camera_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C99ACD7155C6EAA00656885 /* camera_icon.png */; };
@@ -527,9 +527,9 @@
 		3C9594E21558BE9B00627182 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		3C978CB1156DC3B700B95E77 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3C978CB3156DC3D500B95E77 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		3C99ACC9155C6D0100656885 /* RootMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootMenuViewController.h; sourceTree = "<group>"; };
-		3C99ACCA155C6D0100656885 /* RootMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootMenuViewController.m; sourceTree = "<group>"; };
-		3C99ACCB155C6D0100656885 /* RootMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootMenuViewController.xib; sourceTree = "<group>"; };
+		3C99ACC9155C6D0100656885 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		3C99ACCA155C6D0100656885 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		3C99ACCB155C6D0100656885 /* MenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuViewController.xib; sourceTree = "<group>"; };
 		3C99ACCF155C6DDA00656885 /* menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_icon.png; sourceTree = "<group>"; };
 		3C99ACD0155C6DDA00656885 /* menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_icon@2x.png"; sourceTree = "<group>"; };
 		3C99ACD7155C6EAA00656885 /* camera_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_icon.png; sourceTree = "<group>"; };
@@ -944,7 +944,7 @@
 			children = (
 				3C3BA2D6159C0BB6000E94DD /* MenuItemCell */,
 				3C99ACCE155C6DA100656885 /* Images */,
-				3C99ACCB155C6D0100656885 /* RootMenuViewController.xib */,
+				3C99ACCB155C6D0100656885 /* MenuViewController.xib */,
 				3C2086FA15620E8400A16BF0 /* CurrentMenuView.xib */,
 				3C2086FC1562248600A16BF0 /* MostLikedView.xib */,
 				3C2086FE156224C400A16BF0 /* RestaurantView.xib */,
@@ -956,8 +956,8 @@
 		3C2E7F601579904300DED59B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3C99ACC9155C6D0100656885 /* RootMenuViewController.h */,
-				3C99ACCA155C6D0100656885 /* RootMenuViewController.m */,
+				3C99ACC9155C6D0100656885 /* MenuViewController.h */,
+				3C99ACCA155C6D0100656885 /* MenuViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1769,7 +1769,7 @@
 				3C256E181558FEF50092FD9C /* take_photo@2x.png in Resources */,
 				3C1F96021559CE280062C7E1 /* LocationCell.xib in Resources */,
 				3C1F9604155A074A0062C7E1 /* FindRestaurantViewController.xib in Resources */,
-				3C99ACCD155C6D0100656885 /* RootMenuViewController.xib in Resources */,
+				3C99ACCD155C6D0100656885 /* MenuViewController.xib in Resources */,
 				3C99ACD3155C6DDA00656885 /* menu_icon.png in Resources */,
 				3C99ACD4155C6DDA00656885 /* menu_icon@2x.png in Resources */,
 				3C99ACD9155C6EAA00656885 /* camera_icon.png in Resources */,
@@ -2019,7 +2019,7 @@
 				3C9594D515589FE900627182 /* TakePhotoViewController.m in Sources */,
 				3C9594E31558BE9C00627182 /* HomeViewController.m in Sources */,
 				3C1F96001559981C0062C7E1 /* Location.m in Sources */,
-				3C99ACCC155C6D0100656885 /* RootMenuViewController.m in Sources */,
+				3C99ACCC155C6D0100656885 /* MenuViewController.m in Sources */,
 				3C5F9D7E155E6760002ED96E /* MenuItem.m in Sources */,
 				3C208706156235EE00A16BF0 /* OrderedDictionary.m in Sources */,
 				3C5D56C0156614D9003F3EC7 /* Restaurant.m in Sources */,

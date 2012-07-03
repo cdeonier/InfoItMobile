@@ -11,7 +11,7 @@
 
 #import "AppDelegate.h"
 #import "MenuItemViewController.h"
-#import "RootMenuViewController.h"
+#import "MenuViewController.h"
 #import "ImageUtil.h"
 #import "UIColor+ExtendedColor.h"
 #import "MenuItem.h"
@@ -350,7 +350,7 @@
 
 - (IBAction)pressMenuButton:(id)sender
 {
-    RootMenuViewController *viewController = [[RootMenuViewController alloc] initWithNibName:@"RootMenuViewController" bundle:nil];
+    MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
     viewController.restaurantIdentifier = [self.menuItem restaurantId];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu Item" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -378,7 +378,7 @@
 
 - (IBAction)pressRestaurantButton:(id)sender
 {
-    RootMenuViewController *viewController = [[RootMenuViewController alloc] initWithNibName:@"RootMenuViewController" bundle:nil];
+    MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
     viewController.restaurantIdentifier = [self.menuItem restaurantId];
     viewController.requestedTab = @"Restaurant";
     

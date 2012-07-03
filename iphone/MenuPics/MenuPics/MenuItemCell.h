@@ -11,7 +11,7 @@
 #import "TakePhotoViewController.h"
 
 @class MenuItem;
-@class RootMenuViewController;
+@class MenuViewController;
 
 @interface MenuItemCell : UITableViewCell <SignInDelegate, TakePhotoDelegate>
 
@@ -26,7 +26,7 @@
 - (IBAction)takePhoto:(id)sender;
 
 @property (nonatomic, strong) MenuItem *menuItem;
-@property (nonatomic, strong) RootMenuViewController *parentController; 
+@property (nonatomic, strong) MenuViewController *parentController; 
 
 - (void)loadMenuItem:(MenuItem *)menuItem;
 

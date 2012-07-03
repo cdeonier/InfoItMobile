@@ -9,7 +9,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #import "FindRestaurantViewController.h"
-#import "RootMenuViewController.h"
+#import "MenuViewController.h"
 #import "UIColor+ExtendedColor.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
@@ -94,7 +94,7 @@
 {
     Location *location = [self.locationsTableData objectAtIndex:indexPath.row];
     
-    RootMenuViewController *viewController = [[RootMenuViewController alloc] initWithNibName:@"RootMenuViewController" bundle:nil];
+    MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
     viewController.restaurantIdentifier = location.entityId;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Find Menu" style:UIBarButtonItemStylePlain target:nil action:nil];

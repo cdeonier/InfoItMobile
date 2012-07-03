@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
-#import "RootMenuViewController.h"
+#import "MenuViewController.h"
 #import "MenuItemViewController.h"
 #import "OrderedDictionary.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -20,11 +20,11 @@
 #import "SVProgressHUD.h"
 
 
-@interface RootMenuViewController ()
+@interface MenuViewController ()
 
 @end
 
-@implementation RootMenuViewController
+@implementation MenuViewController
 
 /* General */
 @synthesize tabBar = _tabBar;

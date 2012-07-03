@@ -13,10 +13,11 @@
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSNumber *userId;
 
 + (BOOL)isUserLoggedIn;
 + (User *)currentUser;
-+ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username;
++ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username withUserId:(NSNumber *)userId;
 + (void)signOutUser;
 
 @end

@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#import "AppDelegate.h"
 #import "MenuItemViewController.h"
 #import "RootMenuViewController.h"
 #import "ImageUtil.h"
@@ -17,6 +18,7 @@
 #import "AFNetworking.h"
 #import "User.h"
 #import "Photo.h"
+#import "SavedPhoto.h"
 #import "GMGridView.h"
 #import "GMGridViewLayoutStrategies.h"
 
@@ -27,6 +29,7 @@
 @implementation MenuItemViewController
 
 @synthesize contentContainer = _contentContainer;
+@synthesize separator = _separator;
 @synthesize likeButton = _likeButton;
 @synthesize menuItemName = _menuItemName;
 @synthesize description = _description;
@@ -62,6 +65,7 @@
     }
     
     _menuItemPhotos = [[NSMutableArray alloc] initWithCapacity:[_menuItem.photoCount intValue]];
+    [self getPhotos];
 
     GMGridView *gridView = [[GMGridView alloc] initWithFrame:CGRectMake(0, 240, 320, 95)];
     gridView.layoutStrategy = [GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal];
@@ -108,21 +112,25 @@
     {
         if (JSON) {
             NSLog(@"JSON: %@", JSON);
-            for (id photoEntry in [[JSON valueForKey:@"entity"] valueForKey:@"photos"]) {
+            for (id photoEntry in [[JSON valueForKey:@"entity"] valueForKey:@"photos"]) {  
+                NSLog(@"Photo Entry: %@", photoEntry);
                 Photo *menuItemPhoto = [[Photo alloc] init];
-                [menuItemPhoto setPhotoId:[photoEntry valueForKey:@"photo_id"]];
-                [menuItemPhoto setPhotoUrl:[photoEntry valueForKey:@"photo_original"]];
-                [menuItemPhoto setSmallThumbnailUrl:[photoEntry valueForKey:@"photo_thumbnail_100x100"]];
-                [menuItemPhoto setThumbnailUrl:[photoEntry valueForKey:@"photo_thumbnail_200x200"]];
-                [menuItemPhoto setPhotoAuthorId:[photoEntry valueForKey:@"photo_author_id"]];
-                [menuItemPhoto setPhotoAuthor:[photoEntry valueForKey:@"photo_author"]];
-                [menuItemPhoto setPhotoPoints:[photoEntry valueForKey:@"photo_points"]];
+                [menuItemPhoto setPhotoId:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_id"]];
+                [menuItemPhoto setPhotoUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"]];
+                [menuItemPhoto setSmallThumbnailUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_thumbnail_100x100"]];
+                [menuItemPhoto setThumbnailUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
+                [menuItemPhoto setAuthorId:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_author_id"]];
+                [menuItemPhoto setAuthor:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_author"]];
+                [menuItemPhoto setPoints:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_points"]];
                 
                 if ([User currentUser]) {
-                    [menuItemPhoto setVotedForPhoto:[[photoEntry valueForKey:@"photo_author_id"] boolValue]];
+                    [menuItemPhoto setVotedForPhoto:[[[[photoEntry valueForKey:@"photo"] valueForKey:@"logged_in_user"] valueForKey:@"photo_voted"] boolValue]];
                 }
+                
+                [self.menuItemPhotos addObject:menuItemPhoto];
             }
         }
+        [_gridView reloadData];
     } 
     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
     {
@@ -154,6 +162,7 @@
     contentSize += _description.frame.size.height;
     contentSize += 5; //padding
     [(UIScrollView *)self.view setContentSize:CGSizeMake(320, contentSize)];
+    [(UIScrollView *)self.view setBounces:NO];
 }
 
 - (void)initializeProfileImage
@@ -193,16 +202,30 @@
         }
     }
     
+    if (_buttonAction == PhotoButtonAction) {
+        [self dismissModalViewControllerAnimated:NO];
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
+    
     [self setButtonAction:NoAction];
     
-    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark TakePhotoDelegate
 
 - (void)takePhotoViewController:(TakePhotoViewController *)takePhotoViewController didSavePhotos:(BOOL)didSavePhotos
 {
+    for (SavedPhoto *savedPhoto in takePhotoViewController.savedPhotos) {
+        Photo *photo = [[Photo alloc] init];
+        [photo setFileName:[savedPhoto fileName]];
+        [photo setThumbnail:[savedPhoto thumbnail]];
+        [photo setFileLocation:[savedPhoto fileLocation]];
+        
+        [self.menuItemPhotos addObject:photo];
+    }
     
+    [_gridView reloadData];
 }
 
 #pragma mark GMGridViewDataSource
@@ -245,32 +268,28 @@
         [cell setContentView:placeHolderView];
     }
     
+    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1];
+    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
+    
     if (index == 0) {
-        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1];
         [imageView setImage:[UIImage imageNamed:@"add_photo"]];
-        UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
         [activityIndicator stopAnimating];
     } else {
         Photo *menuItemPhoto = [_menuItemPhotos objectAtIndex:(index - 1)];
         
-        if ([menuItemPhoto thumbnail]) {
-            UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1];
-            [imageView setImage:[menuItemPhoto thumbnail]];
-            
-            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
-            [activityIndicator stopAnimating];
-        } else if ([menuItemPhoto thumbnailUrl]) {
-            UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1];
-            
-            [imageView setImageWithURL:[NSURL URLWithString:[menuItemPhoto thumbnailUrl]] placeholderImage:nil
-                               success:^(UIImage *image) { 
-                                   UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
-                                   [activityIndicator stopAnimating]; 
-                               }
-                               failure:^(NSError *error) {
-                                   NSLog(@"%@", [error description]);
-                               }];
-        }
+            if ([menuItemPhoto thumbnail]) {
+                [imageView setImage:[menuItemPhoto thumbnail]];
+                [activityIndicator stopAnimating];
+            } else if ([menuItemPhoto thumbnailUrl]) {
+                [imageView setImageWithURL:[NSURL URLWithString:[menuItemPhoto thumbnailUrl]] placeholderImage:nil
+                                   success:^(UIImage *image) { 
+                                       [activityIndicator stopAnimating];
+                                   }
+                                   failure:^(NSError *error) {
+                                       NSLog(@"%@", [error description]);
+                                   }];
+            }
+        
     }
     
     return cell;
@@ -283,7 +302,46 @@
     if (position == 0) {
         [self takePhoto];
     } else {
+        [_separator setHidden:YES];
+        Photo *photo = [self.menuItemPhotos objectAtIndex:(position - 1)];
         
+        if ([photo fileLocation]) {
+            NSFileManager *filemgr =[NSFileManager defaultManager];
+            if (![filemgr fileExistsAtPath:[photo fileLocation]]) {
+                AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                NSManagedObjectContext *context = [delegate managedObjectContext];
+                
+                NSFetchRequest *request = [[NSFetchRequest alloc] init];
+                NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+                [request setEntity:entity];
+                
+                NSString *predicateString = [NSString stringWithFormat:@"fileName == '%@'", [photo fileName]];
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+                [request setPredicate:predicate];
+                
+                NSError *error = nil;
+                NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+                SavedPhoto *savedPhoto = [mutableFetchResults objectAtIndex:0];
+                
+                [photo setPhotoUrl:[savedPhoto fileUrl]];
+                [photo setThumbnailUrl:[savedPhoto thumbnailUrl]];
+                [photo setFileLocation:nil];
+                [photo setPhotoId:[savedPhoto photoId]];
+            } else {
+                NSData *imageData = [NSData dataWithContentsOfFile:[photo fileLocation]];
+                UIImage *image = [UIImage imageWithData:imageData];
+                [_profileImage setImage:image];
+            }
+        } else {
+            UIView *separatorReference = _separator;
+            [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
+            success:^(UIImage *image) {
+                [separatorReference setHidden:NO];
+            } 
+            failure:^(NSError *error) {
+                NSLog(@"%@", [error description]);
+            }  ];
+        }
     }
 }
 
@@ -331,8 +389,9 @@
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (IBAction)takePhoto
+- (void)takePhoto
 {
+    if ([User currentUser]) {
     TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
     [viewController setDelegate:self];
     [viewController setMenuItemId:[_menuItem entityId]];
@@ -343,6 +402,12 @@
     self.navigationItem.backBarButtonItem = backButton;
     
     [self.navigationController pushViewController:viewController animated:YES];
+    } else   {
+        [self setButtonAction:PhotoButtonAction];
+        SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        [viewController setDelegate:self];
+        [self presentModalViewController:viewController animated:YES];
+    }
 }
 
 #pragma mark Server Actions

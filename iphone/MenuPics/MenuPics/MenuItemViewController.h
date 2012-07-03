@@ -23,6 +23,7 @@ typedef NSInteger ButtonAction;
 @interface MenuItemViewController : UIViewController <SignInDelegate, TakePhotoDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *contentContainer;
+@property (nonatomic, strong) IBOutlet UIView *separator;
 @property (nonatomic, strong) IBOutlet UIButton *likeButton;
 @property (nonatomic, strong) IBOutlet UILabel *menuItemName;
 @property (nonatomic, strong) IBOutlet UILabel *description;

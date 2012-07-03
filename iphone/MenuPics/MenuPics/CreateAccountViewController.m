@@ -121,9 +121,10 @@
                                                  NSString *accessToken = [[JSON valueForKey:@"user"] valueForKeyPath:@"access_token"];
                                                  NSString *email = [[JSON valueForKey:@"user"] valueForKeyPath:@"email"];
                                                  NSString *username = [[JSON valueForKey:@"user"] valueForKeyPath:@"username"];
+                                                 NSNumber *userId = [[JSON valueForKey:@"user"] valueForKey:@"user_id"];
                                                  
                                                  [User signOutUser];
-                                                 [User signInUser:email withAccessToken:accessToken withUsername:username];
+                                                 [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId];
                                                  [_delegate createAccountViewController:self didCreate:YES];
                                              } 
                                                                                             failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)

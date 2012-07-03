@@ -8,7 +8,7 @@
 
 #import "HomeViewController.h"
 #import "AppDelegate.h"
-#import "FindMenuViewController.h"
+#import "FindRestaurantViewController.h"
 #import "TakePhotoViewController.h"
 #import "ViewProfileViewController.h"
 #import "SignInViewController.h"
@@ -96,7 +96,7 @@
 
 - (IBAction)findMenu:(id)sender
 {
-    FindMenuViewController *viewController = [[FindMenuViewController alloc] initWithNibName:@"FindMenuViewController" bundle:nil];
+    FindRestaurantViewController *viewController = [[FindRestaurantViewController alloc] initWithNibName:@"FindRestaurantViewController" bundle:nil];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
     backButton.tintColor = [UIColor navBarButtonColor];
     self.navigationItem.backBarButtonItem = backButton;

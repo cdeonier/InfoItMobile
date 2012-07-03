@@ -12,13 +12,14 @@
 
 @synthesize photoId = _photoId;
 @synthesize photoUrl = _photoUrl;
-@synthesize photoFileLocation = _photoFileLocation;
+@synthesize fileName = _fileName;
+@synthesize fileLocation = _fileLocation;
 @synthesize smallThumbnailUrl = _smallThumbnailUrl;
 @synthesize thumbnailUrl = _thumbnailUrl;
 @synthesize thumbnail = _thumbnail;
-@synthesize photoAuthorId = _photoAuthorId;
-@synthesize photoAuthor = _photoAuthor;
-@synthesize photoPoints = _photoPoints;
+@synthesize authorId = _authorId;
+@synthesize author = _photoAuthor;
+@synthesize points = _points;
 @synthesize votedForPhoto = _votedForPhoto;
 
 @end

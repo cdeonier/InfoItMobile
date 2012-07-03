@@ -7,7 +7,7 @@
 //
 
 #import "NavController.h"
-#import "FindMenuViewController.h"
+#import "FindRestaurantViewController.h"
 #import "TakePhotoViewController.h"
 #import "ViewProfileViewController.h"
 #import "UIColor+ExtendedColor.h"
@@ -83,8 +83,8 @@
     NSArray *navigationStack = [(UINavigationController *)self.viewDeckController.centerController viewControllers];
     UINavigationController *topController = [navigationStack objectAtIndex:([navigationStack count] - 1)];
     
-    if (![topController isKindOfClass:[FindMenuViewController class]]) {
-        FindMenuViewController *viewController = [[FindMenuViewController alloc] initWithNibName:@"FindMenuViewController" bundle:nil];
+    if (![topController isKindOfClass:[FindRestaurantViewController class]]) {
+        FindRestaurantViewController *viewController = [[FindRestaurantViewController alloc] initWithNibName:@"FindRestaurantViewController" bundle:nil];
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:[topController title] style:UIBarButtonItemStylePlain target:nil action:nil];
         backButton.tintColor = [UIColor navBarButtonColor];
         topController.navigationItem.backBarButtonItem = backButton;

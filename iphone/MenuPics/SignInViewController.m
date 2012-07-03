@@ -128,8 +128,9 @@
             NSString *accessToken = [JSON valueForKeyPath:@"token"];
             NSString *email = [JSON valueForKeyPath:@"email"];
             NSString *username = [JSON valueForKey:@"user_display_name"];
+            NSNumber *userId = [JSON valueForKey:@"user_id"];
 
-            [User signInUser:email withAccessToken:accessToken withUsername:username];
+            [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId];
             User *currentUser = [User currentUser];
             NSLog(@"current user access_token: %@", [currentUser accessToken]);
 

@@ -6,21 +6,23 @@
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
-#import "FindMenuViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
+#import "FindRestaurantViewController.h"
 #import "RootMenuViewController.h"
 #import "UIColor+ExtendedColor.h"
 #import "AppDelegate.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "AFNetworking.h"
 #import "Location.h"
 #import "TakePhotoViewController.h"
+#import "SVProgressHUD.h"
 
-@interface FindMenuViewController ()
+@interface FindRestaurantViewController ()
 
 @end
 
-@implementation FindMenuViewController
+@implementation FindRestaurantViewController
 
-@synthesize responseData = _responseData;
 @synthesize tableView = _tableView;
 @synthesize locationManager = _locationManager;
 @synthesize locationsTableData = _locationsTableData;
@@ -41,7 +43,6 @@
 {
     [super viewDidLoad];
     
-    self.responseData = [[NSMutableData alloc] init];
     self.locationsTableData = [[NSMutableArray alloc] init];
     
     self.tableView.tableFooterView = [UIView new];
@@ -132,6 +133,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    [SVProgressHUD showWithStatus:@"Loading"];
     [self restGetNearbyLocations:newLocation];
     [self.locationManager stopUpdatingLocation];
 }
@@ -139,57 +141,53 @@
 #pragma mark REST Calls
 
 - (void)restGetNearbyLocations:(CLLocation *)location 
-{
-    NSString *url = [NSString stringWithFormat:@"http://getinfoit.com/services/geocode?latitude=%+.6f&longitude=%+.6f&type=nearby", location.coordinate.latitude, location.coordinate.longitude];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    (void) [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response 
-{
-    [self.responseData setLength:0];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data 
-{        
-    [self.responseData appendData:data]; 
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
-{    
-    NSLog(@"didFailWithError");
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection 
-{
-    NSError *myError = nil;
-    NSArray *jsonResponse = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableLeaves error:&myError];
+{ 
+    NSString *urlString = [NSString stringWithFormat:@"http://getinfoit.com/services/geocode?latitude=%+.6f&longitude=%+.6f&type=nearby", location.coordinate.latitude, location.coordinate.longitude];;
     
-    NSMutableArray *locations = [[NSMutableArray alloc] init];
-    for (id locationJson in jsonResponse) {
-        NSDictionary *location = [locationJson objectForKey:@"entity"];
-        
-        //Only deal with restaurants at this point
-        NSString *entitySubType = [location objectForKey:@"entity_sub_type"];
-        if ([entitySubType isEqualToString:@"Restaurant"]) {
-            Location *locationRecord = [[Location alloc] init];
+    NSLog(@"URL String: %@", urlString);
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)                                
+    { 
+        NSLog(@"JSON: %@", JSON);
+        NSMutableArray *locations = [[NSMutableArray alloc] init];
+        for (id locationJson in JSON) {
+            NSDictionary *location = [locationJson valueForKey:@"entity"];
             
-            NSString *name = [location objectForKey:@"name"];
-            NSNumber *distance = [location objectForKey:@"distance"];
-            NSNumber *entityId = [location objectForKey:@"id"];
-            NSString *thumbnailUrl = [location objectForKey:@"profile_photo_thumbnail_100x100"];
-            
-            [locationRecord setName:name];
-            [locationRecord setDistance:distance];
-            [locationRecord setEntityId:entityId];
-            [locationRecord setThumbnailUrl:thumbnailUrl];
-            
-            [locations addObject:locationRecord];
+            //Only deal with restaurants at this point
+            NSString *entitySubType = [location valueForKey:@"entity_sub_type"];
+            if ([entitySubType isEqualToString:@"Restaurant"]) {
+                Location *locationRecord = [[Location alloc] init];
+                
+                NSString *name = [location valueForKey:@"name"];
+                NSNumber *distance = [location valueForKey:@"distance"];
+                NSNumber *entityId = [location valueForKey:@"id"];
+                NSString *thumbnailUrl = [location valueForKey:@"profile_photo_thumbnail_100x100"];
+                
+                [locationRecord setName:name];
+                [locationRecord setDistance:distance];
+                [locationRecord setEntityId:entityId];
+                [locationRecord setThumbnailUrl:thumbnailUrl];
+                
+                [locations addObject:locationRecord];
+            }
         }
-    }
-    
-    self.locationsTableData = locations;
-    [self.tableView reloadData];
+        
+        self.locationsTableData = locations;
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+    } 
+    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) 
+    {
+        NSLog(@"Error: %@", [error description]);
+        [SVProgressHUD showErrorWithStatus:@"Connection Error"];
+    }];
+    [operation start];
+
 }
 
 #pragma mark UISearchBarDelegate
@@ -215,7 +213,6 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    //NSLog([[NSString alloc] initWithFormat:@"Searching for %@", searchBar.text]);
     [searchBar resignFirstResponder];
 }
 

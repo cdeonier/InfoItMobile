@@ -44,7 +44,7 @@
 						<string key="NSFrameSize">{320, 240}</string>
 						<reference key="NSSuperview" ref="763023481"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="992543359"/>
+						<reference key="NSNextKeyView" ref="38260362"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -52,6 +52,20 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">profile_no_image.jpg</string>
 						</object>
+					</object>
+					<object class="IBUIView" id="38260362">
+						<reference key="NSNextResponder" ref="763023481"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{0, 239}, {320, 1}}</string>
+						<reference key="NSSuperview" ref="763023481"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="992543359"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
+						</object>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIView" id="992543359">
 						<reference key="NSNextResponder" ref="763023481"/>
@@ -97,7 +111,6 @@
 								<string key="NSFrame">{{10, 61}, {300, 153}}</string>
 								<reference key="NSSuperview" ref="992543359"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -315,6 +328,14 @@
 					<int key="connectionID">44</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">separator</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="38260362"/>
+					</object>
+					<int key="connectionID">46</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">pressMenuButton:</string>
 						<reference key="source" ref="706642711"/>
@@ -367,6 +388,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="935390200"/>
 							<reference ref="992543359"/>
+							<reference ref="38260362"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -416,6 +438,12 @@
 						<reference key="object" ref="184200781"/>
 						<reference key="parent" ref="992543359"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">45</int>
+						<reference key="object" ref="38260362"/>
+						<reference key="parent" ref="763023481"/>
+						<string key="objectName">Separator</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -433,6 +461,7 @@
 				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="15.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -440,7 +469,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">44</int>
+			<int key="maxID">46</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -472,6 +501,7 @@
 						<string key="likeButton">UIButton</string>
 						<string key="menuItemName">UILabel</string>
 						<string key="profileImage">UIImageView</string>
+						<string key="separator">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="contentContainer">
@@ -493,6 +523,10 @@
 						<object class="IBToOneOutletInfo" key="profileImage">
 							<string key="name">profileImage</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="separator">
+							<string key="name">separator</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

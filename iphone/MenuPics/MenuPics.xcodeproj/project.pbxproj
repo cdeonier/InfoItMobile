@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C141D46156B679C000D884E /* image_loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C141D45156B679C000D884E /* image_loading.png */; };
+		3C13138815A25E82009769A7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13138715A25E82009769A7 /* Security.framework */; };
+		3C13138B15A2FE48009769A7 /* image_loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C13138915A2FE48009769A7 /* image_loading.jpg */; };
+		3C13138C15A2FE48009769A7 /* image_loading@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C13138A15A2FE48009769A7 /* image_loading@2x.jpg */; };
 		3C1C3C431589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C3F1589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png */; };
 		3C1C3C441589E7A500C0E7F0 /* LoginWithFacebookNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C401589E7A500C0E7F0 /* LoginWithFacebookNormal.png */; };
 		3C1C3C451589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C411589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png */; };
@@ -19,7 +21,7 @@
 		3C1C3C54158AA4E200C0E7F0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C3C53158AA4E200C0E7F0 /* User.m */; };
 		3C1F96001559981C0062C7E1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1F95FF1559981C0062C7E1 /* Location.m */; };
 		3C1F96021559CE280062C7E1 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F96011559CE280062C7E1 /* LocationCell.xib */; };
-		3C1F9604155A074A0062C7E1 /* FindMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F9603155A074A0062C7E1 /* FindMenuViewController.xib */; };
+		3C1F9604155A074A0062C7E1 /* FindRestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F9603155A074A0062C7E1 /* FindRestaurantViewController.xib */; };
 		3C2086FB15620E8400A16BF0 /* CurrentMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2086FA15620E8400A16BF0 /* CurrentMenuView.xib */; };
 		3C2086FD1562248600A16BF0 /* MostLikedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2086FC1562248600A16BF0 /* MostLikedView.xib */; };
 		3C2086FF156224C400A16BF0 /* RestaurantView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2086FE156224C400A16BF0 /* RestaurantView.xib */; };
@@ -106,7 +108,7 @@
 		3C959478155252BA00627182 /* menu_header_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C959477155252BA00627182 /* menu_header_separator.png */; };
 		3C95947C1552554600627182 /* menu_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C95947B1552554600627182 /* menu_separator.png */; };
 		3C95948C1552851C00627182 /* ImageUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C95948B1552851C00627182 /* ImageUtil.m */; };
-		3C95949B155338FA00627182 /* FindMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C959499155338FA00627182 /* FindMenuViewController.m */; };
+		3C95949B155338FA00627182 /* FindRestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C959499155338FA00627182 /* FindRestaurantViewController.m */; };
 		3C9594AB15536CA300627182 /* UIColor+ExtendedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */; };
 		3C9594B71553870500627182 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9594B61553870500627182 /* CoreLocation.framework */; };
 		3C9594C21553B7B200627182 /* nav_menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C9594C11553B7B200627182 /* nav_menu_icon.png */; };
@@ -365,7 +367,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3C141D45156B679C000D884E /* image_loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_loading.png; sourceTree = "<group>"; };
+		3C13138715A25E82009769A7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		3C13138915A2FE48009769A7 /* image_loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_loading.jpg; sourceTree = "<group>"; };
+		3C13138A15A2FE48009769A7 /* image_loading@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "image_loading@2x.jpg"; sourceTree = "<group>"; };
 		3C1C3C3F1589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginWithFacebookPressed@2x.png"; sourceTree = "<group>"; };
 		3C1C3C401589E7A500C0E7F0 /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginWithFacebookNormal.png; sourceTree = "<group>"; };
 		3C1C3C411589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginWithFacebookNormal@2x.png"; sourceTree = "<group>"; };
@@ -379,7 +383,7 @@
 		3C1F95FE1559981C0062C7E1 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		3C1F95FF1559981C0062C7E1 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3C1F96011559CE280062C7E1 /* LocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
-		3C1F9603155A074A0062C7E1 /* FindMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindMenuViewController.xib; sourceTree = "<group>"; };
+		3C1F9603155A074A0062C7E1 /* FindRestaurantViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindRestaurantViewController.xib; sourceTree = "<group>"; };
 		3C2086FA15620E8400A16BF0 /* CurrentMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentMenuView.xib; sourceTree = "<group>"; };
 		3C2086FC1562248600A16BF0 /* MostLikedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MostLikedView.xib; sourceTree = "<group>"; };
 		3C2086FE156224C400A16BF0 /* RestaurantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RestaurantView.xib; sourceTree = "<group>"; };
@@ -502,8 +506,8 @@
 		3C95947B1552554600627182 /* menu_separator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_separator.png; sourceTree = "<group>"; };
 		3C95948A1552851C00627182 /* ImageUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtil.h; sourceTree = "<group>"; };
 		3C95948B1552851C00627182 /* ImageUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUtil.m; sourceTree = "<group>"; };
-		3C959498155338FA00627182 /* FindMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindMenuViewController.h; sourceTree = "<group>"; };
-		3C959499155338FA00627182 /* FindMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindMenuViewController.m; sourceTree = "<group>"; };
+		3C959498155338FA00627182 /* FindRestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindRestaurantViewController.h; sourceTree = "<group>"; };
+		3C959499155338FA00627182 /* FindRestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindRestaurantViewController.m; sourceTree = "<group>"; };
 		3C9594A915536CA300627182 /* UIColor+ExtendedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ExtendedColor.h"; sourceTree = "<group>"; };
 		3C9594AA15536CA300627182 /* UIColor+ExtendedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ExtendedColor.m"; sourceTree = "<group>"; };
 		3C9594B61553870500627182 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -730,6 +734,7 @@
 				3C6D949E156F141B00331EB3 /* ImageIO.framework in Frameworks */,
 				3C9CBA39155A313A007023D2 /* MapKit.framework in Frameworks */,
 				3C5D56B41564E31E003F3EC7 /* QuartzCore.framework in Frameworks */,
+				3C13138815A25E82009769A7 /* Security.framework in Frameworks */,
 				3C314B501596FB2E0001210B /* SystemConfiguration.framework in Frameworks */,
 				3C9594351550C7D100627182 /* UIKit.framework in Frameworks */,
 				3CF510FB157772C2004418FC /* libGMGridView.a in Frameworks */,
@@ -887,15 +892,6 @@
 			children = (
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		3C1F95FD155997D70062C7E1 /* Records */ = {
-			isa = PBXGroup;
-			children = (
-				3C1F95FE1559981C0062C7E1 /* Location.h */,
-				3C1F95FF1559981C0062C7E1 /* Location.m */,
-			);
-			name = Records;
 			sourceTree = "<group>";
 		};
 		3C2D9C7C157F1C2A001DAC77 /* Preview Selection Box */ = {
@@ -1264,6 +1260,34 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		3C87087F159E82C7003C364A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3C1F95FB155997CE0062C7E1 /* Images */,
+				3C1F9603155A074A0062C7E1 /* FindRestaurantViewController.xib */,
+				3C1F96011559CE280062C7E1 /* LocationCell.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		3C870880159E82DF003C364A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3C1F95FE1559981C0062C7E1 /* Location.h */,
+				3C1F95FF1559981C0062C7E1 /* Location.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		3C870881159E82EE003C364A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3C959498155338FA00627182 /* FindRestaurantViewController.h */,
+				3C959499155338FA00627182 /* FindRestaurantViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		3C9594251550C7D000627182 = {
 			isa = PBXGroup;
 			children = (
@@ -1285,6 +1309,7 @@
 		3C9594331550C7D100627182 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C13138715A25E82009769A7 /* Security.framework */,
 				3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */,
 				3C8488B61585483E00D697AC /* CoreData.framework */,
 				3C2D9CA515801B36001DAC77 /* CoreVideo.framework */,
@@ -1369,12 +1394,9 @@
 		3C95948D15531C7900627182 /* FindMenu */ = {
 			isa = PBXGroup;
 			children = (
-				3C1F95FB155997CE0062C7E1 /* Images */,
-				3C1F95FD155997D70062C7E1 /* Records */,
-				3C959498155338FA00627182 /* FindMenuViewController.h */,
-				3C959499155338FA00627182 /* FindMenuViewController.m */,
-				3C1F9603155A074A0062C7E1 /* FindMenuViewController.xib */,
-				3C1F96011559CE280062C7E1 /* LocationCell.xib */,
+				3C870880159E82DF003C364A /* Models */,
+				3C87087F159E82C7003C364A /* View */,
+				3C870881159E82EE003C364A /* Controllers */,
 			);
 			name = FindMenu;
 			sourceTree = "<group>";
@@ -1384,7 +1406,8 @@
 			children = (
 				3C141C44156AE526000D884E /* sweep_animation */,
 				3C595FAF15902AB200B958DD /* icon@2x.png */,
-				3C141D45156B679C000D884E /* image_loading.png */,
+				3C13138915A2FE48009769A7 /* image_loading.jpg */,
+				3C13138A15A2FE48009769A7 /* image_loading@2x.jpg */,
 				3C81BF8A156C829A005FC0A1 /* profile_no_image.jpg */,
 				3C99ACF7155CE34D00656885 /* nav_logo.png */,
 				3C99ACF9155CE43200656885 /* nav_logo@2x.png */,
@@ -1745,7 +1768,7 @@
 				3C256E171558FEF50092FD9C /* view_profile@2x.png in Resources */,
 				3C256E181558FEF50092FD9C /* take_photo@2x.png in Resources */,
 				3C1F96021559CE280062C7E1 /* LocationCell.xib in Resources */,
-				3C1F9604155A074A0062C7E1 /* FindMenuViewController.xib in Resources */,
+				3C1F9604155A074A0062C7E1 /* FindRestaurantViewController.xib in Resources */,
 				3C99ACCD155C6D0100656885 /* RootMenuViewController.xib in Resources */,
 				3C99ACD3155C6DDA00656885 /* menu_icon.png in Resources */,
 				3C99ACD4155C6DDA00656885 /* menu_icon@2x.png in Resources */,
@@ -1768,7 +1791,6 @@
 				3C20870815635E3D00A16BF0 /* MenuItemCell.xib in Resources */,
 				3C5D56BC15660634003F3EC7 /* add_photo.png in Resources */,
 				3C5D56BD15660634003F3EC7 /* add_photo@2x.png in Resources */,
-				3C141D46156B679C000D884E /* image_loading.png in Resources */,
 				3CFD3756156B9F1E006CEC4F /* sweep_2.png in Resources */,
 				3CFD3757156B9F1E006CEC4F /* sweep_3.png in Resources */,
 				3CFD3758156B9F1E006CEC4F /* sweep_4.png in Resources */,
@@ -1973,6 +1995,8 @@
 				3C595FC615954F6400B958DD /* confirm@2x.png in Resources */,
 				3C595FC715954F6400B958DD /* deny@2x.png in Resources */,
 				3C314B60159A39FD0001210B /* SignInViewController.xib in Resources */,
+				3C13138B15A2FE48009769A7 /* image_loading.jpg in Resources */,
+				3C13138C15A2FE48009769A7 /* image_loading@2x.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1989,7 +2013,7 @@
 				3C95945E15521F3600627182 /* WrapController.m in Sources */,
 				3C9594671552211300627182 /* NavController.m in Sources */,
 				3C95948C1552851C00627182 /* ImageUtil.m in Sources */,
-				3C95949B155338FA00627182 /* FindMenuViewController.m in Sources */,
+				3C95949B155338FA00627182 /* FindRestaurantViewController.m in Sources */,
 				3C9594AB15536CA300627182 /* UIColor+ExtendedColor.m in Sources */,
 				3C9594CE15589E2600627182 /* ViewProfileViewController.m in Sources */,
 				3C9594D515589FE900627182 /* TakePhotoViewController.m in Sources */,

@@ -11,7 +11,7 @@
 
 @implementation User
 
-@dynamic email, accessToken, username;
+@dynamic email, accessToken, username, userId;
 
 + (BOOL)isUserLoggedIn
 {
@@ -58,7 +58,7 @@
     }
 }
 
-+ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username
++ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username withUserId:(NSNumber *)userId
 {
     [self signOutUser];
     
@@ -69,6 +69,7 @@
     [newUser setEmail:email];
     [newUser setAccessToken:accessToken];
     [newUser setUsername:username];
+    [newUser setUserId:userId];
     
     NSError *error = nil;
     if (![context save:&error]) {

@@ -94,6 +94,11 @@
                 [uploadedPhoto setFileUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_original"]];
                 [uploadedPhoto setThumbnailUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
                 [uploadedPhoto setDidUpload:[NSNumber numberWithBool:YES]];
+                
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                [fileManager removeItemAtPath:[uploadedPhoto fileLocation] error:nil];
+                [uploadedPhoto setFileLocation:nil];
+                
                 if (![context save:&error]) {
                     NSLog(@"Error saving to Core Data");
                 }
@@ -101,9 +106,6 @@
                 if ([uploadedPhoto menuItemId]) {
                     [self tagPhoto:uploadedPhoto];
                 }
-                
-                NSFileManager *fileManager = [NSFileManager defaultManager];
-                [fileManager removeItemAtPath:[uploadedPhoto fileLocation] error:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Upload Failure");

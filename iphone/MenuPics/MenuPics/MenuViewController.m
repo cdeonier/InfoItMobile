@@ -28,7 +28,6 @@
 
 /* General */
 @synthesize tabBar = _tabBar;
-@synthesize responseData = _responseData;
 @synthesize restaurantIdentifier = _restaurantIdentifier;
 @synthesize restaurantMenus = _restaurantMenus;
 @synthesize menuTypes = _menuTypes;
@@ -62,8 +61,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.responseData = [[NSMutableData alloc] init];
     
     self.restaurantMenus = [[OrderedDictionary alloc] init];
     self.menuTypes = [[NSMutableArray alloc] init];

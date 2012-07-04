@@ -27,6 +27,7 @@
 @synthesize locationManager = _locationManager;
 @synthesize locationsTableData = _locationsTableData;
 @synthesize searchBar = _searchBar;
+@synthesize photoId = _photoId;
 
 #pragma mark ViewController
 
@@ -48,6 +49,8 @@
     self.tableView.tableFooterView = [UIView new];
     
     [self initializeLocationManager];
+    
+    [self setPhotoId:207];
 }
 
 - (void)viewDidUnload
@@ -134,13 +137,19 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     [SVProgressHUD showWithStatus:@"Loading"];
-    [self restGetNearbyLocations:newLocation];
+    
+    if ([self photoId]) {
+        [self getSuggestedLocations:newLocation];
+    } else {
+        [self getNearbyLocations:newLocation];
+    }
+    
     [self.locationManager stopUpdatingLocation];
 }
 
 #pragma mark REST Calls
 
-- (void)restGetNearbyLocations:(CLLocation *)location 
+- (void)getNearbyLocations:(CLLocation *)location 
 { 
     NSString *urlString = [NSString stringWithFormat:@"http://getinfoit.com/services/geocode?latitude=%+.6f&longitude=%+.6f&type=nearby", location.coordinate.latitude, location.coordinate.longitude];;
     
@@ -188,6 +197,58 @@
     }];
     [operation start];
 
+}
+
+- (void)getSuggestedLocations:(CLLocation *)location 
+{ 
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/geocode_near_photo/%d?latitude=%+.6f&longitude=%+.6f&type=nearby", [self photoId], location.coordinate.latitude, location.coordinate.longitude];;
+    
+    NSLog(@"URL String: %@", urlString);
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+    success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)                                
+    { 
+        NSLog(@"JSON: %@", JSON);
+        NSMutableArray *locations = [[NSMutableArray alloc] init];
+        
+        id suggestedRestaurantJSON = [[[JSON valueForKey:@"nearby_suggested_restaurant"] valueForKey:@"entity_restaurant"] objectAtIndex:0];
+
+        Location *suggestedRestaurant = [[Location alloc] init];
+        [suggestedRestaurant setName:[suggestedRestaurantJSON valueForKey:@"name"]];
+        [suggestedRestaurant setDistance:[suggestedRestaurantJSON valueForKey:@"distance"]];
+        [suggestedRestaurant setEntityId:[suggestedRestaurantJSON valueForKey:@"id"]];
+        [suggestedRestaurant setThumbnailUrl:[suggestedRestaurantJSON valueForKey:@"profile_photo_thumbnail_100x100"]];
+        [locations addObject:suggestedRestaurant];
+
+        for (id restaurantJSON in [[JSON valueForKey:@"nearby_user"] valueForKey:@"entity_restaurant"]) {
+            Location *restaurant = [[Location alloc] init];
+            [restaurant setName:[restaurantJSON valueForKey:@"name"]];
+            [restaurant setDistance:[restaurantJSON valueForKey:@"distance"]];
+            [restaurant setEntityId:[restaurantJSON valueForKey:@"id"]];
+            [restaurant setThumbnailUrl:[restaurantJSON valueForKey:@"profile_photo_thumbnail_100x100"]];
+            
+            NSString *entityType = [restaurantJSON valueForKey:@"entity_sub_type"];
+            
+            if (![[restaurant entityId] isEqualToNumber:[suggestedRestaurant entityId]] && [entityType isEqualToString:@"Restaurant"]) {
+                [locations addObject:restaurant];
+            }
+        }
+
+        self.locationsTableData = locations;
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+    } 
+    failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) 
+    {
+        NSLog(@"Error: %@", [error description]);
+        [SVProgressHUD showErrorWithStatus:@"Connection Error"];
+    }];
+    [operation start];
+    
 }
 
 #pragma mark UISearchBarDelegate

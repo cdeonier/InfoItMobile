@@ -19,6 +19,6 @@
 @property (nonatomic, strong) NSMutableArray *locationsTableData;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 
-- (void)initializeLocationManager;
+@property (nonatomic) NSInteger photoId;
 
 @end

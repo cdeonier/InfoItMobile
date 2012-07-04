@@ -10,6 +10,8 @@
 		3C13138815A25E82009769A7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13138715A25E82009769A7 /* Security.framework */; };
 		3C13138B15A2FE48009769A7 /* image_loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C13138915A2FE48009769A7 /* image_loading.jpg */; };
 		3C13138C15A2FE48009769A7 /* image_loading@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C13138A15A2FE48009769A7 /* image_loading@2x.jpg */; };
+		3C13139115A3A3B6009769A7 /* FindMenuItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C13138F15A3A3B6009769A7 /* FindMenuItemViewController.m */; };
+		3C13139215A3A3B6009769A7 /* FindMenuItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C13139015A3A3B6009769A7 /* FindMenuItemViewController.xib */; };
 		3C1C3C431589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C3F1589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png */; };
 		3C1C3C441589E7A500C0E7F0 /* LoginWithFacebookNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C401589E7A500C0E7F0 /* LoginWithFacebookNormal.png */; };
 		3C1C3C451589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C411589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png */; };
@@ -370,6 +372,9 @@
 		3C13138715A25E82009769A7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3C13138915A2FE48009769A7 /* image_loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image_loading.jpg; sourceTree = "<group>"; };
 		3C13138A15A2FE48009769A7 /* image_loading@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "image_loading@2x.jpg"; sourceTree = "<group>"; };
+		3C13138E15A3A3B6009769A7 /* FindMenuItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindMenuItemViewController.h; sourceTree = "<group>"; };
+		3C13138F15A3A3B6009769A7 /* FindMenuItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindMenuItemViewController.m; sourceTree = "<group>"; };
+		3C13139015A3A3B6009769A7 /* FindMenuItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindMenuItemViewController.xib; sourceTree = "<group>"; };
 		3C1C3C3F1589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginWithFacebookPressed@2x.png"; sourceTree = "<group>"; };
 		3C1C3C401589E7A500C0E7F0 /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginWithFacebookNormal.png; sourceTree = "<group>"; };
 		3C1C3C411589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginWithFacebookNormal@2x.png"; sourceTree = "<group>"; };
@@ -745,6 +750,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C13138D15A3A1D6009769A7 /* FindMenuItem */ = {
+			isa = PBXGroup;
+			children = (
+				3C13139315A3A3D0009769A7 /* Views */,
+				3C13139415A3A3D6009769A7 /* Controllers */,
+			);
+			name = FindMenuItem;
+			sourceTree = "<group>";
+		};
+		3C13139315A3A3D0009769A7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3C13139015A3A3B6009769A7 /* FindMenuItemViewController.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3C13139415A3A3D6009769A7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3C13138E15A3A3B6009769A7 /* FindMenuItemViewController.h */,
+				3C13138F15A3A3B6009769A7 /* FindMenuItemViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		3C141C44156AE526000D884E /* sweep_animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1333,9 +1364,10 @@
 			children = (
 				3C2E7F5A1579899300DED59B /* Networking */,
 				3C81BF83156C1EE3005FC0A1 /* MenuItem */,
-				3C95948D15531C7900627182 /* FindMenu */,
-				3C9594D015589EEB00627182 /* TakePhoto */,
+				3C95948D15531C7900627182 /* FindRestaurant */,
+				3C13138D15A3A1D6009769A7 /* FindMenuItem */,
 				3C99ACC7155C6CCC00656885 /* Menu */,
+				3C9594D015589EEB00627182 /* TakePhoto */,
 				3C9594A215533E3F00627182 /* ViewProfile */,
 				3C314B58159A398F0001210B /* Account */,
 				3C9594511550E83700627182 /* Shell */,
@@ -1391,14 +1423,14 @@
 			name = Util;
 			sourceTree = "<group>";
 		};
-		3C95948D15531C7900627182 /* FindMenu */ = {
+		3C95948D15531C7900627182 /* FindRestaurant */ = {
 			isa = PBXGroup;
 			children = (
 				3C870880159E82DF003C364A /* Models */,
 				3C87087F159E82C7003C364A /* View */,
 				3C870881159E82EE003C364A /* Controllers */,
 			);
-			name = FindMenu;
+			name = FindRestaurant;
 			sourceTree = "<group>";
 		};
 		3C95949F15533DEB00627182 /* Images */ = {
@@ -1997,6 +2029,7 @@
 				3C314B60159A39FD0001210B /* SignInViewController.xib in Resources */,
 				3C13138B15A2FE48009769A7 /* image_loading.jpg in Resources */,
 				3C13138C15A2FE48009769A7 /* image_loading@2x.jpg in Resources */,
+				3C13139215A3A3B6009769A7 /* FindMenuItemViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2047,6 +2080,7 @@
 				3C314B5F159A39FD0001210B /* SignInViewController.m in Sources */,
 				3C3BA2D5159BEA65000E94DD /* MenuItemCell.m in Sources */,
 				3C3BA2DA159D566A000E94DD /* Photo.m in Sources */,
+				3C13139115A3A3B6009769A7 /* FindMenuItemViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

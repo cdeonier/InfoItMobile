@@ -100,7 +100,7 @@
     
     NSArray *navigationStack = [(UINavigationController *)self.viewDeckController.centerController viewControllers];
     UINavigationController *topController = [navigationStack objectAtIndex:([navigationStack count] - 1)];
-    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewController" bundle:nil];
+    TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:[topController title] style:UIBarButtonItemStylePlain target:nil action:nil];
     backButton.tintColor = [UIColor navBarButtonColor];
     topController.navigationItem.backBarButtonItem = backButton;

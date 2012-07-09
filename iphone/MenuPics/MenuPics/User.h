@@ -8,16 +8,31 @@
 
 #import <CoreData/CoreData.h>
 
+@protocol SyncUserDelegate <NSObject>
+
+- (void)didSyncProfilePhoto;
+
+@end
+
+@interface ProfileImageToDataTransformer : NSValueTransformer {
+}
+@end
+
 @interface User : NSManagedObject
 
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSNumber *userId;
+@property (nonatomic, strong) UIImage *profilePhoto;
+
+@property (nonatomic, strong) id<SyncUserDelegate> syncDelegate;
 
 + (BOOL)isUserLoggedIn;
 + (User *)currentUser;
 + (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username withUserId:(NSNumber *)userId;
 + (void)signOutUser;
++ (void)uploadProfilePhoto:(User *)user withImage:(UIImage *)profilePhoto;
++ (void)downloadProfilePhoto:(User *)user withURL:(NSString *)url;
 
 @end

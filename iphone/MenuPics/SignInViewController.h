@@ -7,15 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CreateAccountViewController.h"
 
-@class CreateAccountViewController;
 @class SignInViewController;
-
-@protocol CreateAccountDelegate <NSObject>
-
-- (void)createAccountViewController:(CreateAccountViewController *)createAccountViewController didCreate:(BOOL)didCreate;
-
-@end
 
 @protocol SignInDelegate <NSObject>
 

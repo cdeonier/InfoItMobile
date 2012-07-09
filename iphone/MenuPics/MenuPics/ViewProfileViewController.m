@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "ViewProfileViewController.h"
+#import "UpdateAccountViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
 #import "AppDelegate.h"
@@ -25,8 +26,16 @@
 
 @implementation ViewProfileViewController
 
-@synthesize profileView = _profileView;
+
 @synthesize tabBar = _tabBar;
+@synthesize actionSheet = _actionSheet;
+@synthesize profileView = _profileView;
+@synthesize accountButton = _accountButton;
+@synthesize profilePhotoButton = _profilePhotoButton;
+@synthesize popularPhotosGridView = _popularPhotosGridView;
+@synthesize recentPhotosGridView = _recentPhotosGridView;
+@synthesize didUpdateProfilePhoto = _didUpdateProfilePhoto;
+
 @synthesize photos = _photos;
 @synthesize photosGridView = _photosGridView;
 
@@ -58,19 +67,27 @@
         NSLog(@"Error fetching from Core Data");
     }
     
-//    if ([mutableFetchResults count] == 0) {
-//        [self populateCoreData];
-//        [self populateCoreData];
-//        [self populateCoreData];
-//        [self populateCoreData];
-//        [self populateCoreData];
-//        [self populateCoreData];
-//    }
-    
     [self initializePhotosGridView];
     
     [self.view insertSubview:self.photosGridView atIndex:0];
     [self.photosGridView setHidden:YES];
+    
+    UIBarButtonItem *accountButton = [[UIBarButtonItem alloc] initWithTitle:@"Account" style:UIBarButtonItemStylePlain target:self action:@selector(displayAccountActionSheet)];
+    accountButton.tintColor = [UIColor navBarButtonColor];
+    _accountButton = accountButton;
+    
+    self.navigationItem.rightBarButtonItem = _accountButton;
+    
+    _actionSheet = [[UIActionSheet alloc] initWithTitle:nil 
+                                               delegate:self 
+                                      cancelButtonTitle:@"Cancel" 
+                                 destructiveButtonTitle:@"Sign Out" 
+                                      otherButtonTitles:@"Update Account", nil];
+    
+    UIImage *profilePhoto = [[User currentUser] profilePhoto];
+    if (profilePhoto) {
+        [self loadUserProfilePhoto];
+    }
 }
 
 - (void)viewDidUnload
@@ -93,13 +110,62 @@
 - (IBAction)signOut:(id)sender
 {
     [User signOutUser];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark UIImagePickerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *cameraImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    CGSize scaledSize = CGSizeMake(200, 200);
+    UIGraphicsBeginImageContext(scaledSize);
+    [cameraImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [[User currentUser] setProfilePhoto:scaledImage];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Error saving to Core Data");
+    }
+    
+    [self loadUserProfilePhoto];
+    [self setDidUpdateProfilePhoto:YES];
+    
+    User *currentUser = [User currentUser];
+    currentUser.syncDelegate = self;
+    [User uploadProfilePhoto:currentUser withImage:scaledImage];
+    
+    [picker dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)updateProfilePhoto:(id)sender
+{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    [imagePicker setDelegate:self];
+    [imagePicker setAllowsEditing:YES];
+    [imagePicker setShowsCameraControls:YES];
+    [self presentModalViewController:imagePicker animated:YES];
 }
 
 #pragma mark SyncPhotoDelegate
+
 - (void)didSyncPhoto:(SavedPhoto *)syncedPhoto 
 {
     [[self photos] addObject:syncedPhoto];
     [[self photosGridView] reloadData];
+}
+
+#pragma mark SyncUserDelegate
+
+- (void)didSyncProfilePhoto
+{
+    [self loadUserProfilePhoto];
 }
 
 #pragma mark UITabBarDelegate
@@ -107,6 +173,41 @@
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     [self changeViewForTabIndex:item.tag];
+}
+
+#pragma mark UIActionSheet Delegate
+
+// Called when a button is clicked. The view will be automatically dismissed after this call returns
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self signOut:self];
+    } else if (buttonIndex == 1) {
+        UpdateAccountViewController *viewController = [[UpdateAccountViewController alloc] initWithNibName:@"UpdateAccountViewController" bundle:nil];
+        [viewController setDelegate:self];
+        [self presentModalViewController:viewController animated:YES];
+    } else {
+        NSLog(@"Cancel");
+    }
+}
+
+// Called when we cancel a view (eg. the user clicks the Home button). This is not called when the user clicks the cancel button.
+// If not defined in the delegate, we simulate a click in the cancel button
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet
+{
+
+}
+
+- (void)displayAccountActionSheet
+{
+    [_actionSheet showFromTabBar:_tabBar];
+}
+
+#pragma mark UpdateAccountDelegate
+
+- (void)updateAccountViewController:(UpdateAccountViewController *)updateAccountViewController didUpdateAccount:(BOOL)didUpdateAccount
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark GMGridViewDataSource
@@ -164,7 +265,7 @@
             [self.navigationController.navigationBar setTranslucent:NO];
             self.navigationItem.titleView = nil;
             [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
-            
+            self.navigationItem.rightBarButtonItem = _accountButton;
             [self.photosGridView setHidden:YES];
             
             break;
@@ -184,6 +285,7 @@
             [self.photosGridView setHidden:NO];
             
             self.navigationItem.titleView = segmentedControl;
+            self.navigationItem.rightBarButtonItem = nil;
             break;
         }
         default:
@@ -203,6 +305,17 @@
     //Ideally, we'd like this, but there's a bug with GMGridView which causes this to not display correctly
     [gridView setShowsVerticalScrollIndicator:NO];
     [self setPhotosGridView:gridView];
+}
+
+- (void)initializePopularPhotosGridView
+{
+    [_popularPhotosGridView setItemSpacing:12];
+    [_popularPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal]];
+}
+
+- (void)initializeRecentPhotosGridView
+{
+    
 }
 
 - (void)populatePhotosGridView
@@ -244,6 +357,14 @@
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
     {
+        NSLog(@"JSON: %@", JSON);
+        
+        if (![self didUpdateProfilePhoto]) {
+            User *currentUser = [User currentUser];
+            currentUser.syncDelegate = self;
+            [User downloadProfilePhoto:currentUser withURL:[[JSON valueForKey:@"user"] valueForKey:@"profile_photo"]];
+        }
+        
         NSMutableDictionary *photosOnPhone = [[NSMutableDictionary alloc] initWithCapacity:200];
         for (SavedPhoto *coreDataPhoto in self.photos) {
             [photosOnPhone setObject:coreDataPhoto forKey:[coreDataPhoto fileName]];
@@ -255,7 +376,9 @@
         for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
             //NSLog(@"Photo Entry: %@", photoEntry);
             
-            if (![photosOnPhone objectForKey:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]]) {
+            NSString *photoFilename = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"];
+            
+            if (![photosOnPhone objectForKey:photoFilename] && ![photoFilename isEqualToString:@"profile_photo"]) {
                 SavedPhoto *photo = (SavedPhoto *)[NSEntityDescription insertNewObjectForEntityForName:@"SavedPhoto" inManagedObjectContext:context];
                 [photo setFileName:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]];
                 [photo setPhotoId:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_id"]];
@@ -332,121 +455,14 @@
         [SavedPhoto downloadThumbnail:photo];
     }
 }
-/*
-- (void)populateCoreData
+
+- (void)loadUserProfilePhoto
 {
-    NSLog(@"Populate Core Data");
-    
-    UIImage *image = [UIImage imageNamed:@"1.jpg"];
-    Photo *photo = [self processImage:image];
-    image = [UIImage imageNamed:@"2.jpg"];
-    photo = [self processImage:image];
-    image = [UIImage imageNamed:@"3.jpg"];
-    photo = [self processImage:image];
-    image = [UIImage imageNamed:@"4.jpg"];
-    photo = [self processImage:image];
-    image = [UIImage imageNamed:@"5.jpg"];
-    photo = [self processImage:image];
-    image = [UIImage imageNamed:@"6.jpg"];
-    photo = [self processImage:image];
+    UIImage *profilePhoto = [[User currentUser] profilePhoto];
+    [_profilePhotoButton setImage:profilePhoto forState:UIControlStateNormal];
+    [_profilePhotoButton.layer setBorderWidth:1.0];
+    [_profilePhotoButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+    [_profilePhotoButton setImage:nil forState:UIControlStateHighlighted];
 }
-
-- (Photo *)processImage:(UIImage *)image
-{
-    NSLog(@"Begin process image");
-    //Basic steps: Take original image and scale it down (cropping if necessary for portrait, which will take ~50% longer because of rotation)
-    //If first image, set preview image to scaled image
-    //Save image to disk on its own async
-    //Create a thumbnail and add to gridview
-    UIImage *cameraImage = image;
-    Photo *photo = [[Photo alloc] init];
-    
-    //dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        UIImage *scaledImage;
-        
-        if ([cameraImage imageOrientation] == UIImageOrientationUp || [cameraImage imageOrientation] == UIImageOrientationDown) {
-            CGSize scaledSize = CGSizeMake(1024, 768);
-            UIGraphicsBeginImageContext(scaledSize);
-            [cameraImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
-            scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-        } else {
-            //We're doing the cropping as if the image is on its side because orientation gets lost.
-            CGImageRef cameraImageRef = cameraImage.CGImage;
-            CGFloat croppedImageOffset = CGImageGetWidth(cameraImageRef) * 115 / 426;
-            CGFloat croppedImageHeight = CGImageGetWidth(cameraImageRef) * 240 / 426;
-            CGFloat croppedImageWidth = CGImageGetHeight(cameraImageRef);
-            //Since cropped image is presently on it's side, reverse x & y to draw it in the right box shape
-            CGImageRef imageRef = CGImageCreateWithImageInRect(cameraImageRef, CGRectMake(croppedImageOffset, 0, croppedImageHeight, croppedImageWidth));
-            UIImage *croppedCameraImage = [UIImage imageWithCGImage:imageRef scale:1.0 orientation:cameraImage.imageOrientation];
-            
-            CGSize scaledSize = CGSizeMake(1024, 768);
-            UIGraphicsBeginImageContext(scaledSize);
-            [croppedCameraImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
-            scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-        }
-        
-        [photo setIsSelected:YES];
-        
-        NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *docsDir = [dirPaths objectAtIndex:0];
-        NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
-        
-        //Create thumbnail
-        CGFloat height = scaledImage.size.height;
-        CGFloat offset = (scaledImage.size.width - scaledImage.size.height) / 2;
-        CGImageRef preThumbnailSquare = CGImageCreateWithImageInRect(scaledImage.CGImage, CGRectMake(offset, 0, height, height));
-        
-        //For Selecting Photos
-        CGSize thumbnailSize = CGSizeMake(200, 200);
-        UIGraphicsBeginImageContext(thumbnailSize);
-        [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
-        UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        [photo setThumbnail:thumbnail];
-        
-        CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
-        NSString *imageFileName = [NSString stringWithFormat:@"%f", currentTime];
-        imageFileName = [imageFileName stringByReplacingOccurrencesOfString:@"." withString:@""];
-        imageFileName = [imageFileName stringByAppendingString:@".jpg"];
-        [photo setFileName:imageFileName];
-        NSString *filePath = [takePhotosDirectory stringByAppendingPathComponent:imageFileName];
-        NSData *imageData = UIImageJPEGRepresentation(scaledImage, 0.8);
-        [imageData writeToFile:filePath atomically:YES];
-        [photo setFileLocation:filePath];
-        [self savePhoto:photo];
-    //});
-    
-    NSLog(@"End process image");
-    return photo;
-}
-
-- (void)savePhoto:(Photo *)photo
-{
-    NSLog(@"Begin save photo");
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *photosDirectory = [docsDir stringByAppendingPathComponent:@"photos"];
-    
-    CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-
-    if ([photo isSelected]) {
-        [fileManager moveItemAtPath:[photo fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[photo fileName]] error:nil];
-        [photo setFileLocation:[photosDirectory stringByAppendingPathComponent:[photo fileName]]];
-    }
-
-    
-    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
-    NSLog(@"Move operation took %2.5f seconds", end-start);
-    
-    NSArray *selectedPhotos = [[NSArray alloc] initWithObjects:photo, nil];
-    
-    CLLocation *newLocation = [[CLLocation alloc] initWithLatitude:1 longitude:1];
-    //[Photo savePhotos:selectedPhotos creationDate:[NSDate date] creationLocation:newLocation];
-    
-    NSLog(@"End save photo");
-} */
 
 @end

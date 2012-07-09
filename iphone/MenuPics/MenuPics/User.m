@@ -8,10 +8,14 @@
 
 #import "User.h"
 #import "AppDelegate.h"
+#import "AFNetworking.h"
+#import "MenuPicsAPIClient.h"
 
 @implementation User
 
-@dynamic email, accessToken, username, userId;
+@dynamic email, accessToken, username, userId, profilePhoto;
+
+@synthesize syncDelegate;
 
 + (BOOL)isUserLoggedIn
 {
@@ -99,6 +103,87 @@
         }
     }
     
+}
+
++ (void)uploadProfilePhoto:(User *)user withImage:(UIImage *)profilePhoto
+{
+    NSLog(@"Uploading profile photo...");
+    
+    NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionary];
+    [mutableParameters setObject:[[User currentUser] accessToken] forKey:@"access_token"];
+    
+    NSData *imageData = UIImagePNGRepresentation(profilePhoto);
+    
+    NSString *path = @"/services/user/update_profile_photo";
+    
+    NSMutableURLRequest *mutableURLRequest = [[MenuPicsAPIClient sharedClient] multipartFormRequestWithMethod:@"PUT" path:path parameters:mutableParameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"profile_photo" fileName:@"profile_photo" mimeType:@"image/jpeg"];
+    }];
+    
+    AFHTTPRequestOperation *operation = [[MenuPicsAPIClient sharedClient] HTTPRequestOperationWithRequest:mutableURLRequest 
+    success:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"Upload Success");
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = [delegate managedObjectContext];
+        
+        [[User currentUser] setProfilePhoto:profilePhoto];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Error saving to Core Data");
+        }
+        
+        [user.syncDelegate didSyncProfilePhoto];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Upload Failure");
+    }];
+    [[MenuPicsAPIClient sharedClient] enqueueHTTPRequestOperation:operation];
+}
+
++ (void)downloadProfilePhoto:(User *)user withURL:(NSString *)url
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request success:^(UIImage *image) {
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = [delegate managedObjectContext];
+        
+        [user setProfilePhoto:image];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Error saving to Core Data");
+        }
+        
+        [user.syncDelegate didSyncProfilePhoto];
+    }];
+    
+    [operation start];
+}
+
+@end
+
+@implementation ProfileImageToDataTransformer
+
+
++ (BOOL)allowsReverseTransformation {
+	return YES;
+}
+
++ (Class)transformedValueClass {
+	return [NSData class];
+}
+
+
+- (id)transformedValue:(id)value {
+	NSData *data = UIImagePNGRepresentation(value);
+	return data;
+}
+
+
+- (id)reverseTransformedValue:(id)value {
+	UIImage *uiImage = [[UIImage alloc] initWithData:value];
+	return uiImage;
 }
 
 @end

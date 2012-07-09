@@ -1,31 +1,31 @@
 //
-//  CreateAccountViewController.m
+//  UpdateAccountViewController.m
 //  MenuPics
 //
-//  Created by Christian Deonier on 6/14/12.
+//  Created by Christian Deonier on 7/7/12.
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
-#import "CreateAccountViewController.h"
-#import "SignInViewController.h"
+#import "UpdateAccountViewController.h"
 #import "UIColor+ExtendedColor.h"
 #import "AFNetworking.h"
 #import "User.h"
 
-@interface CreateAccountViewController ()
+@interface UpdateAccountViewController ()
 
 @end
 
-@implementation CreateAccountViewController
+@implementation UpdateAccountViewController
 
 @synthesize delegate = _delegate;
 
 @synthesize navBar = _navBar;
 @synthesize cancelButton = _cancelButton;
 @synthesize scrollView = _scrollView;
-@synthesize createAccountButton = _createAccountButton;
+@synthesize updateAccountButton = _updateAccountButton;
 @synthesize emailInputText = _emailInputText;
 @synthesize usernameInputText = _usernameInputText;
+@synthesize currentPasswordInputText = _currentPasswordInputText;
 @synthesize passwordInputText = _passwordInputText;
 @synthesize verifyPasswordInputText = _verifyPasswordInputText;
 @synthesize errorLabel = _errorLabel;
@@ -45,21 +45,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     [_navBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
     [_cancelButton setTintColor:[UIColor navBarButtonColor]];
     
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicator setFrame:CGRectMake(150, 365, 20, 20)];
+    [activityIndicator setFrame:CGRectMake(150, 415, 20, 20)];
     [self setActivityIndicator:activityIndicator];
     [self.view addSubview:activityIndicator];
     
     [self registerForKeyboardNotifications];
+    
+    _emailInputText.text = [[User currentUser] email];
+    _usernameInputText.text = [[User currentUser] username];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -73,37 +78,50 @@
     [_usernameInputText resignFirstResponder];
     [_passwordInputText resignFirstResponder];
     [_verifyPasswordInputText resignFirstResponder];
-    [_delegate createAccountViewController:self didCreate:NO];
+    [_delegate updateAccountViewController:self didUpdateAccount:NO];
 }
 
-- (IBAction)createAccount:(id)sender
+- (IBAction)updateAccount:(id)sender
 {
-    if (self.emailInputText.text.length == 0 || self.passwordInputText.text.length == 0 || self.verifyPasswordInputText.text.length == 0) {
-        [self displayError:@"Email and password cannot be blank."];
+    if (_currentPasswordInputText.text.length == 0) {
+        [self displayError:@"Enter current password to update account."];
     } else if (![self.passwordInputText.text isEqualToString:self.verifyPasswordInputText.text]) {
-        [self displayError:@"Passwords do not match."];
+        [self displayError:@"New passwords do not match."];
         [[self passwordInputText] setText:nil];
         [[self verifyPasswordInputText] setText:nil];
     } else {
-        [[self createAccountButton] setEnabled:NO];
-        [[self emailInputText] setEnabled:NO];
-        [[self passwordInputText] setEnabled:NO];
-        [[self verifyPasswordInputText] setEnabled:NO];
-        [[self errorLabel] setHidden:YES];
-        [[self activityIndicator] startAnimating];
+        [_updateAccountButton setEnabled:NO];
+        [_emailInputText setEnabled:NO];
+        [_currentPasswordInputText setEnabled:NO];
+        [_passwordInputText setEnabled:NO];
+        [_verifyPasswordInputText setEnabled:NO];
+        [_errorLabel setHidden:YES];
+        [_activityIndicator startAnimating];
         
-        NSString *requestString = [NSString stringWithFormat:@"user[email]=%@&user[username]=%@&user[password]=%@&user[password_confirmation]=%@", 
-                                                                                                                self.emailInputText.text, 
-                                                                                                                self.usernameInputText.text,
-                                                                                                                self.passwordInputText.text,
-                                                                                                                self.verifyPasswordInputText.text]; 
+        NSString *requestString = [NSString stringWithFormat:@"access_token=%@&current_password=%@", [[User currentUser] accessToken], _currentPasswordInputText.text];
+        
+        if (_emailInputText.text.length > 0) {
+            requestString = [requestString stringByAppendingString:[NSString stringWithFormat:@"&user[email]=%@", _emailInputText.text]];
+        }
+        
+        if (_usernameInputText.text.length > 0) {
+            requestString = [requestString stringByAppendingString:[NSString stringWithFormat:@"&user[username]=%@", _usernameInputText.text]];
+        }
+        
+        if (_passwordInputText.text.length > 0) {
+            requestString = 
+                [requestString stringByAppendingString:[NSString stringWithFormat:@"&user[password]=%@&user[password_confirmation]=%@", _passwordInputText.text,
+                                                                                                                                        _verifyPasswordInputText.text]];
+        }
+        
+        NSLog(@"Request String: %@",requestString);
         NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
         
-        NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/users.json"];
-        //NSURL *url = [NSURL URLWithString:@"http://192.168.0.103/users.json"];
+        NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/update_user"];
+        //NSURL *url = [NSURL URLWithString:@"http://192.168.0.103/services/update_user"];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-        [request setHTTPMethod:@"POST"];
+        [request setHTTPMethod:@"PUT"];
         [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
         [request setHTTPBody:requestData];
         
@@ -118,14 +136,14 @@
             NSLog(@"User Login: %@", JSON);
             [[self activityIndicator] startAnimating];
 
-            NSString *accessToken = [[JSON valueForKey:@"user"] valueForKeyPath:@"access_token"];
+            NSString *accessToken = [[User currentUser] accessToken];
             NSString *email = [[JSON valueForKey:@"user"] valueForKeyPath:@"email"];
             NSString *username = [[JSON valueForKey:@"user"] valueForKeyPath:@"username"];
             NSNumber *userId = [[JSON valueForKey:@"user"] valueForKey:@"user_id"];
 
             [User signOutUser];
             [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId];
-            [_delegate createAccountViewController:self didCreate:YES];
+            [_delegate updateAccountViewController:self didUpdateAccount:YES];
         } 
         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
         {
@@ -138,11 +156,12 @@
                 [self displayError:@"Unable to connect.  Try again later."];  
             }
 
-            [[self emailInputText] setEnabled:YES];
-            [[self usernameInputText] setEnabled:YES];
-            [[self passwordInputText] setEnabled:YES];
-            [[self verifyPasswordInputText] setEnabled:YES];
-            [[self createAccountButton] setEnabled:YES];
+            [_emailInputText setEnabled:YES];
+            [_usernameInputText setEnabled:YES];
+            [_currentPasswordInputText setEnabled:YES];
+            [_passwordInputText setEnabled:YES];
+            [_verifyPasswordInputText setEnabled:YES];
+            [_updateAccountButton setEnabled:YES];
         }];
         [operation start];
     }
@@ -153,6 +172,7 @@
 
 - (void)displayError:(NSString *)error
 {
+    NSLog(@"Error: %@", error);
     [[self activityIndicator] setHidden:YES];
     [[self errorLabel] setText:error];
     [[self errorLabel] setHidden:NO];
@@ -162,17 +182,16 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == [self emailInputText]) {
-        [textField resignFirstResponder];
-        [[self usernameInputText] becomeFirstResponder];
-    } else if (textField == [self usernameInputText]) {
-        [textField resignFirstResponder];
-        [[self passwordInputText] becomeFirstResponder];
-    } else if (textField == [self passwordInputText]) {
-        [textField resignFirstResponder];
-        [[self verifyPasswordInputText] becomeFirstResponder];
-    } else {
-        [textField resignFirstResponder];
+    [textField resignFirstResponder];
+    
+    if (textField == _emailInputText) {
+        [_usernameInputText becomeFirstResponder];
+    } else if (textField == _usernameInputText) {
+        [_currentPasswordInputText becomeFirstResponder];
+    } else if (textField == _currentPasswordInputText) {
+        [_passwordInputText becomeFirstResponder];
+    } else if (textField == _passwordInputText) {
+        [_verifyPasswordInputText becomeFirstResponder];
     }
     
     return YES;
@@ -232,5 +251,6 @@
 {
     _activeField = nil;
 }
+
 
 @end

@@ -10,6 +10,7 @@
 
 #import "FindRestaurantViewController.h"
 #import "MenuViewController.h"
+#import "FindMenuItemViewController.h"
 #import "UIColor+ExtendedColor.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
@@ -46,11 +47,25 @@
     
     self.locationsTableData = [[NSMutableArray alloc] init];
     
-    self.tableView.tableFooterView = [UIView new];
-    
     [self initializeLocationManager];
     
     [self setPhotoId:207];
+    
+    if ([self photoId]) {
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        
+        UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        [instructions setText:@"Choose photo's location"];
+        [instructions setFont:[UIFont fontWithName:@"STHeitiTC-Medium" size:12.0]];
+        [instructions setTextColor:[UIColor whiteColor]];
+        [instructions setBackgroundColor:[UIColor lightGrayColor]];
+        [instructions setTextAlignment:UITextAlignmentCenter];
+        [headerView addSubview:instructions];
+        
+        self.tableView.tableHeaderView = headerView;
+    } 
+    
+    self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)viewDidUnload
@@ -97,15 +112,21 @@
 {
     Location *location = [self.locationsTableData objectAtIndex:indexPath.row];
     
-    MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
-    viewController.restaurantIdentifier = location.entityId;
-    
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Find Menu" style:UIBarButtonItemStylePlain target:nil action:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Restaurants" style:UIBarButtonItemStylePlain target:nil action:nil];
     [backButton setTintColor:[UIColor navBarButtonColor]];
     self.navigationItem.backBarButtonItem = backButton;
-
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.navigationController pushViewController:viewController animated:YES];
+    
+    if ([self photoId]) {
+        FindMenuItemViewController *viewController = [[FindMenuItemViewController alloc] initWithNibName:@"FindMenuItemViewController" bundle:nil];
+        viewController.restaurantIdentifier = (NSInteger *)[location.entityId intValue];
+        viewController.photoId = self.photoId;
+        [self.navigationController pushViewController:viewController animated:YES];
+    } else {
+        MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
+        viewController.restaurantIdentifier = location.entityId;
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -162,7 +183,6 @@
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)                                
     { 
-        NSLog(@"JSON: %@", JSON);
         NSMutableArray *locations = [[NSMutableArray alloc] init];
         for (id locationJson in JSON) {
             NSDictionary *location = [locationJson valueForKey:@"entity"];
@@ -212,7 +232,6 @@
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)                                
     { 
-        NSLog(@"JSON: %@", JSON);
         NSMutableArray *locations = [[NSMutableArray alloc] init];
         
         id suggestedRestaurantJSON = [[[JSON valueForKey:@"nearby_suggested_restaurant"] valueForKey:@"entity_restaurant"] objectAtIndex:0];

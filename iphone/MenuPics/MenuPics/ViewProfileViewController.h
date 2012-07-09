@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "GMGridView.h"
+#import "User.h"
+#import "UpdateAccountViewController.h"
 
 @class SavedPhoto;
 
@@ -23,17 +25,24 @@ typedef NSInteger ViewProfileTab;
 
 @end
 
-@interface ViewProfileViewController : UIViewController <SyncPhotoDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate>
+@interface ViewProfileViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, SyncPhotoDelegate, SyncUserDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate, UIActionSheetDelegate, UpdateAccountDelegate>
 
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
 
 //Profile
 @property (nonatomic, strong) IBOutlet UIView *profileView;
+@property (nonatomic, strong) UIBarButtonItem *accountButton;
+@property (nonatomic, strong) IBOutlet UIButton *profilePhotoButton;
+@property (nonatomic, strong) IBOutlet GMGridView *popularPhotosGridView;
+@property (nonatomic, strong) IBOutlet GMGridView *recentPhotosGridView;
+@property (nonatomic) BOOL didUpdateProfilePhoto;
 
 //Photos
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) GMGridView *photosGridView;
 
 - (IBAction)signOut:(id)sender;
+- (IBAction)updateProfilePhoto:(id)sender;
 
 @end

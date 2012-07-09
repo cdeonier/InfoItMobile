@@ -181,7 +181,7 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 271.0f, 320.0f, 140.0f)];
+                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 275.0f, 320.0f, 140.0f)];
                      }
                      completion:^(BOOL finished){
                          [self.activityIndicator startAnimating];
@@ -207,7 +207,7 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 227.0f, 320.0f, 140.0f)];
+                         [self.facebookContainerView setFrame:CGRectMake(0.0f, 275.0f, 320.0f, 140.0f)];
                      }
                      completion:nil];
     [[self errorLabel] setText:error];

@@ -7,6 +7,8 @@
 //
 
 #import "Photo.h"
+#import "SavedPhoto.h"
+#import "User.h"
 
 @implementation Photo
 
@@ -21,5 +23,19 @@
 @synthesize author = _photoAuthor;
 @synthesize points = _points;
 @synthesize votedForPhoto = _votedForPhoto;
+
+- (id)initWithSavedPhoto:(SavedPhoto *)savedPhoto
+{
+    [self setPhotoId:[savedPhoto photoId]];
+    [self setPhotoUrl:[savedPhoto fileUrl]];
+    [self setFileName:[savedPhoto fileName]];
+    [self setFileLocation:[savedPhoto fileLocation]];
+    [self setThumbnailUrl:[savedPhoto thumbnailUrl]];
+    [self setThumbnail:[savedPhoto thumbnail]];
+    [self setAuthorId:[[User currentUser] userId]];
+    [self setAuthor:[[User currentUser] username]];
+    
+    return self;
+}
 
 @end

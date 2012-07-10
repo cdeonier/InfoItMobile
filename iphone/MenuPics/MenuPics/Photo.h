@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class SavedPhoto;
+
 @interface Photo : NSObject
 
 @property (nonatomic, strong) NSNumber *photoId;
@@ -22,5 +24,6 @@
 @property (nonatomic, strong) NSNumber *points;
 @property (nonatomic) BOOL votedForPhoto;
 
+- (id)initWithSavedPhoto:(SavedPhoto *)savedPhoto;
 
 @end

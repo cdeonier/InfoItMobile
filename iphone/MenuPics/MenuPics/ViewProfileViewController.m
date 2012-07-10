@@ -18,6 +18,7 @@
 #import "User.h"
 #import "SavedPhoto.h"
 #import "SavedPhoto+Syncing.h"
+#import "Photo.h"
 #import "AFNetworking.h"
 
 @interface ViewProfileViewController ()
@@ -33,7 +34,9 @@
 @synthesize accountButton = _accountButton;
 @synthesize profilePhotoButton = _profilePhotoButton;
 @synthesize popularPhotosGridView = _popularPhotosGridView;
+@synthesize popularPhotos = _popularPhotos;
 @synthesize recentPhotosGridView = _recentPhotosGridView;
+@synthesize recentPhotos = _recentPhotos;
 @synthesize didUpdateProfilePhoto = _didUpdateProfilePhoto;
 
 @synthesize photos = _photos;
@@ -68,6 +71,8 @@
     }
     
     [self initializePhotosGridView];
+    [self initializePopularPhotosGridView];
+    [self initializeRecentPhotosGridView];
     
     [self.view insertSubview:self.photosGridView atIndex:0];
     [self.photosGridView setHidden:YES];
@@ -99,6 +104,7 @@
 {
     [super viewDidAppear:animated];
     [self populatePhotosGridView];
+    [self populateRecentPhotosGridView];
     [self syncProfile];
 }
 
@@ -214,12 +220,31 @@
 
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
-    return [self.photos count];
+    if (gridView == _photosGridView) {
+        return [self.photos count];
+    } else if (gridView == _recentPhotosGridView) {
+        return [_recentPhotos count];
+    } else if (gridView == _popularPhotosGridView) {
+        return [_popularPhotos count];
+    } else {
+        NSLog(@"Unrecognized gridview count");
+        return 0;
+    }
+    
 }
 
 - (CGSize)GMGridView:(GMGridView *)gridView sizeForItemsInInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
-    return CGSizeMake(75, 75);
+    if (gridView == _photosGridView) {
+        return CGSizeMake(75, 75);
+    } else if (gridView == _recentPhotosGridView) {
+        return CGSizeMake(50, 50);
+    } else if (gridView == _popularPhotosGridView) {
+        return CGSizeMake(50, 50);
+    } else {
+        NSLog(@"Unrecognized gridview size");
+        return CGSizeMake(0, 0);
+    }
 }
 
 - (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
@@ -228,18 +253,46 @@
     
     GMGridViewCell *cell = [gridView dequeueReusableCell];
     
-    if (!cell) 
-    {
-        cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    if (gridView == _photosGridView) {
+        if (!cell) 
+        {
+            cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.photos objectAtIndex:index] thumbnail]];
+            [imageView.layer setBorderWidth:1.0];
+            [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+            cell.contentView = imageView;
+        }
+        [(UIImageView *)cell.contentView setImage:[[self.photos objectAtIndex:index] thumbnail]];
+    } else if (gridView == _recentPhotosGridView) {
+        if (!cell) 
+        {
+            NSLog(@"Index: %d with date: %@", index, [[self.recentPhotos objectAtIndex:index] creationDate]);
+            cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.recentPhotos objectAtIndex:index] thumbnail]];
+            [imageView.layer setBorderWidth:1.0];
+            [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+            cell.contentView = imageView;
+        }
+        [(UIImageView *)cell.contentView setImage:[[self.recentPhotos objectAtIndex:index] thumbnail]];
+    } else if (gridView == _popularPhotosGridView) {
+        if (!cell) 
+        {
+            cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.popularPhotos objectAtIndex:index] thumbnail]];
+            [imageView.layer setBorderWidth:1.0];
+            [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+            cell.contentView = imageView;
+        }
         
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.photos objectAtIndex:index] thumbnail]];
-        [imageView.layer setBorderWidth:1.0];
-        [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+        if ([[self.popularPhotos objectAtIndex:index] thumbnail]) {
+            [(UIImageView *)cell.contentView setImage:[[self.popularPhotos objectAtIndex:index] thumbnail]];
+        } else {
+            [(UIImageView *)cell.contentView setImageWithURL:[NSURL URLWithString:[[self.popularPhotos objectAtIndex:index] thumbnailUrl]]];
+        }
         
-        cell.contentView = imageView;
+    } else {
+        NSLog(@"Unrecognized gridview");
     }
-    
-    [(UIImageView *)cell.contentView setImage:[[self.photos objectAtIndex:index] thumbnail]];
     
     return cell;
 }
@@ -311,11 +364,16 @@
 {
     [_popularPhotosGridView setItemSpacing:12];
     [_popularPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal]];
+    [_popularPhotosGridView setMinEdgeInsets:UIEdgeInsetsMake(0, 11, 0, 11)];
+    [_popularPhotosGridView setCenterGrid:NO];
 }
 
 - (void)initializeRecentPhotosGridView
 {
-    
+    [_recentPhotosGridView setItemSpacing:12];
+    [_recentPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal]];
+    [_recentPhotosGridView setMinEdgeInsets:UIEdgeInsetsMake(0, 11, 0, 11)];
+    [_recentPhotosGridView setCenterGrid:NO];
 }
 
 - (void)populatePhotosGridView
@@ -326,8 +384,14 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
     [request setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"username == nil or username == '%@'", [[User currentUser] username]]];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"username == '%@'", [[User currentUser] username]]];
     [request setPredicate:predicate];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    
     NSError *error = nil;
     NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
     if (mutableFetchResults == nil) {
@@ -337,6 +401,72 @@
     [self setPhotos:mutableFetchResults];
 
     [self.photosGridView reloadData];
+}
+
+- (void)populateRecentPhotosGridView
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSDate *today = [NSDate date];
+    NSDate *thisWeek  = [today dateByAddingTimeInterval:-604800.0];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(creationDate > %@) and (username == %@)", thisWeek, [[User currentUser] username]];
+    [request setPredicate:predicate];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+    
+    if (mutableFetchResults == nil) {
+        NSLog(@"Error fetching from Core Data");
+    }
+    
+    [self setRecentPhotos:mutableFetchResults];
+    
+    [_recentPhotosGridView reloadData];
+}
+
+- (void)populatePopularPhotosGridView:(id)JSON
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *coreDataRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [coreDataRequest setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"username == '%@'", [[User currentUser] username]]];
+    [coreDataRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:coreDataRequest error:&error] mutableCopy];
+    if (mutableFetchResults == nil) {
+        NSLog(@"Error fetching from Core Data");
+    }
+    
+    NSMutableDictionary *photosOnPhone = [[NSMutableDictionary alloc] initWithCapacity:200];
+    for (SavedPhoto *coreDataPhoto in mutableFetchResults) {
+        [photosOnPhone setObject:coreDataPhoto forKey:[coreDataPhoto fileName]];
+    }
+    
+    _popularPhotos = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
+        if ([[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"]) {
+            Photo *photo = [[Photo alloc] initWithSavedPhoto:[photosOnPhone objectForKey:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]]];
+            [photo setPoints:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"]];
+            [_popularPhotos addObject:photo];
+        }
+    }
+    
+    [_popularPhotosGridView reloadData];
 }
 
 - (void)syncProfile
@@ -357,7 +487,7 @@
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
     {
-        NSLog(@"JSON: %@", JSON);
+        //NSLog(@"JSON: %@", JSON);
         
         if (![self didUpdateProfilePhoto]) {
             User *currentUser = [User currentUser];
@@ -394,7 +524,7 @@
                 NSString *creationDateWithLetters = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_taken_date"];
                 NSString *creationDate = [[creationDateWithLetters componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]] componentsJoinedByString:@" "];
                 [photo setCreationDate:[formatter dateFromString:creationDate]];
-            }
+            } 
         }
         
         NSError *error = nil;
@@ -402,6 +532,8 @@
             NSLog(@"Error saving to Core Data");
         }
         
+        [self populatePopularPhotosGridView:JSON];
+                
         [self downloadPendingImages];
     }
     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)

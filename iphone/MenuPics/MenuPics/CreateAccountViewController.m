@@ -99,7 +99,7 @@
                                                                                                                 self.verifyPasswordInputText.text]; 
         NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
         
-        NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/users.json"];
+        NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/users.json"];
         //NSURL *url = [NSURL URLWithString:@"http://192.168.0.103/users.json"];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];

@@ -20,6 +20,8 @@
 #import "SavedPhoto+Syncing.h"
 #import "Photo.h"
 #import "AFNetworking.h"
+#import "SmallThumbnail.h"
+#import "LargeThumbnail.h"
 
 @interface ViewProfileViewController ()
 
@@ -163,7 +165,8 @@
 
 - (void)didSyncPhoto:(SavedPhoto *)syncedPhoto 
 {
-    [[self photos] addObject:syncedPhoto];
+    Photo *photo = [[Photo alloc] initWithSavedPhoto:syncedPhoto];
+    [[self photos] addObject:photo];
     [[self photosGridView] reloadData];
 }
 
@@ -257,16 +260,32 @@
         if (!cell) 
         {
             cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.photos objectAtIndex:index] thumbnail]];
-            [imageView.layer setBorderWidth:1.0];
-            [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-            cell.contentView = imageView;
+            LargeThumbnail *contentView = [[LargeThumbnail alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+            [[contentView thumbnail].layer setBorderWidth:1.0];
+            [[contentView thumbnail].layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+            cell.contentView = contentView;
         }
-        [(UIImageView *)cell.contentView setImage:[[self.photos objectAtIndex:index] thumbnail]];
+        
+        LargeThumbnail *contentView = (LargeThumbnail *)cell.contentView;
+        Photo *photo = [_photos objectAtIndex:index];
+        
+        if ([[_photos objectAtIndex:index] thumbnail]) {
+            [[contentView thumbnail] setImage:[[_photos objectAtIndex:index] thumbnail]];
+        } else {
+            [[contentView thumbnail] setImageWithURL:[NSURL URLWithString:[[_photos objectAtIndex:index] thumbnailUrl]]];
+        }
+        
+        if ([photo points] && [photo points] > 0) {
+            [contentView.points setText:[[photo points] stringValue]];
+            [contentView.pointsBackground setHidden:NO];
+            [contentView.points setHidden:NO];
+        } else {
+            [contentView.pointsBackground setHidden:YES];
+            [contentView.points setHidden:YES];
+        }
     } else if (gridView == _recentPhotosGridView) {
         if (!cell) 
         {
-            NSLog(@"Index: %d with date: %@", index, [[self.recentPhotos objectAtIndex:index] creationDate]);
             cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
             UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.recentPhotos objectAtIndex:index] thumbnail]];
             [imageView.layer setBorderWidth:1.0];
@@ -278,17 +297,19 @@
         if (!cell) 
         {
             cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.popularPhotos objectAtIndex:index] thumbnail]];
-            [imageView.layer setBorderWidth:1.0];
-            [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-            cell.contentView = imageView;
+            SmallThumbnail *contentView = [[SmallThumbnail alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+            [[contentView thumbnail].layer setBorderWidth:1.0];
+            [[contentView thumbnail].layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+            cell.contentView = contentView;
         }
         
+        SmallThumbnail *contentView = (SmallThumbnail *)cell.contentView;
         if ([[self.popularPhotos objectAtIndex:index] thumbnail]) {
-            [(UIImageView *)cell.contentView setImage:[[self.popularPhotos objectAtIndex:index] thumbnail]];
+            [[contentView thumbnail] setImage:[[self.popularPhotos objectAtIndex:index] thumbnail]];
         } else {
-            [(UIImageView *)cell.contentView setImageWithURL:[NSURL URLWithString:[[self.popularPhotos objectAtIndex:index] thumbnailUrl]]];
+            [[contentView thumbnail] setImageWithURL:[NSURL URLWithString:[[self.popularPhotos objectAtIndex:index] thumbnailUrl]]];
         }
+        [contentView.points setText:[[[self.popularPhotos objectAtIndex:index] points] stringValue]];
         
     } else {
         NSLog(@"Unrecognized gridview");
@@ -329,16 +350,16 @@
             [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_translucent"] forBarMetrics:UIBarMetricsDefault];
             [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
             [self.navigationController.navigationBar setTranslucent:YES];
-            NSArray *segmentedControlItems = [[NSArray alloc] initWithObjects:@"All", @"Tagged", nil];
+            self.navigationItem.rightBarButtonItem = nil;
+            /*NSArray *segmentedControlItems = [[NSArray alloc] initWithObjects:@"All", @"Tagged", nil];
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentedControlItems];
             [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
             [segmentedControl setTintColor:[UIColor navBarButtonColor]];
             [segmentedControl setSelectedSegmentIndex:0];
+            self.navigationItem.titleView = segmentedControl;*/
             
             [self.photosGridView setHidden:NO];
-            
-            self.navigationItem.titleView = segmentedControl;
-            self.navigationItem.rightBarButtonItem = nil;
+
             break;
         }
         default:
@@ -398,7 +419,13 @@
         NSLog(@"Error fetching from Core Data");
     }
     
-    [self setPhotos:mutableFetchResults];
+    NSMutableArray *photosArray = [[NSMutableArray alloc] initWithCapacity:[mutableFetchResults count]];
+    for (SavedPhoto *savedPhoto in mutableFetchResults) {
+        Photo *photo = [[Photo alloc] initWithSavedPhoto:savedPhoto];
+        [photosArray addObject:photo];
+    }
+    
+    [self setPhotos:photosArray];
 
     [self.photosGridView reloadData];
 }
@@ -466,6 +493,14 @@
         }
     }
     
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"likeCount" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    _popularPhotos = [NSMutableArray arrayWithArray:[_popularPhotos sortedArrayUsingDescriptors:sortDescriptors]];
+    
+    if ([_popularPhotos count] > 10)
+        _popularPhotos = [NSMutableArray arrayWithArray:[_popularPhotos subarrayWithRange:NSMakeRange(0, 10)]];
+    
     [_popularPhotosGridView reloadData];
 }
 
@@ -476,7 +511,7 @@
     [self uploadPendingImages];
     [self downloadPendingImages];
     
-    NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/user_profile?access_token=%@", [[User currentUser] accessToken]];
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/user_profile?access_token=%@", [[User currentUser] accessToken]];
 
     NSLog(@"URL String: %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -504,7 +539,7 @@
         NSManagedObjectContext *context = [delegate managedObjectContext];
         
         for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
-            //NSLog(@"Photo Entry: %@", photoEntry);
+            NSLog(@"Photo Entry: %@", photoEntry);
             
             NSString *photoFilename = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"];
             
@@ -524,13 +559,21 @@
                 NSString *creationDateWithLetters = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_taken_date"];
                 NSString *creationDate = [[creationDateWithLetters componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]] componentsJoinedByString:@" "];
                 [photo setCreationDate:[formatter dateFromString:creationDate]];
-            } 
+            }
+            
+            NSString *fileName = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"];
+            if (![fileName isEqualToString:@"profile_photo"] && [[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"] > 0) {
+                SavedPhoto *savedPhoto = [SavedPhoto photoWithFilename:fileName];
+                [savedPhoto setPoints:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"]];
+            }
         }
         
         NSError *error = nil;
         if (![context save:&error]) {
             NSLog(@"Error saving to Core Data");
         }
+        
+        [self populatePhotosGridView];
         
         [self populatePopularPhotosGridView:JSON];
                 

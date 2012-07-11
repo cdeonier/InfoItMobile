@@ -18,6 +18,8 @@
 		3C13138C15A2FE48009769A7 /* image_loading@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C13138A15A2FE48009769A7 /* image_loading@2x.jpg */; };
 		3C13139115A3A3B6009769A7 /* FindMenuItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C13138F15A3A3B6009769A7 /* FindMenuItemViewController.m */; };
 		3C13139215A3A3B6009769A7 /* FindMenuItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C13139015A3A3B6009769A7 /* FindMenuItemViewController.xib */; };
+		3C15F59B15ACD91E008E63B1 /* LargeThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C15F59A15ACD91E008E63B1 /* LargeThumbnail.m */; };
+		3C15F59D15ACD93F008E63B1 /* LargeThumbnail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C15F59C15ACD93F008E63B1 /* LargeThumbnail.xib */; };
 		3C1C3C431589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C3F1589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png */; };
 		3C1C3C441589E7A500C0E7F0 /* LoginWithFacebookNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C401589E7A500C0E7F0 /* LoginWithFacebookNormal.png */; };
 		3C1C3C451589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C3C411589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png */; };
@@ -87,6 +89,8 @@
 		3C6B868A15A67EE50086B9C9 /* no_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6B868815A67EE50086B9C9 /* no_photo@2x.png */; };
 		3C6B868B15A67EE50086B9C9 /* no_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6B868915A67EE50086B9C9 /* no_photo.png */; };
 		3C6D949E156F141B00331EB3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D949D156F141B00331EB3 /* ImageIO.framework */; };
+		3C70CB6E15AC228900030821 /* SmallThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C70CB6D15AC228900030821 /* SmallThumbnail.m */; };
+		3C70CB7015AC22C100030821 /* SmallThumbnail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C70CB6F15AC22C100030821 /* SmallThumbnail.xib */; };
 		3C70D87B1570E30E00B15663 /* flash_button_auto.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C70D87A1570E30E00B15663 /* flash_button_auto.png */; };
 		3C70D87D1570EAAE00B15663 /* flash_button_auto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C70D87C1570EAAE00B15663 /* flash_button_auto@2x.png */; };
 		3C81BF88156C2006005FC0A1 /* MenuItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C81BF86156C2006005FC0A1 /* MenuItemViewController.m */; };
@@ -386,6 +390,9 @@
 		3C13138E15A3A3B6009769A7 /* FindMenuItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindMenuItemViewController.h; sourceTree = "<group>"; };
 		3C13138F15A3A3B6009769A7 /* FindMenuItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindMenuItemViewController.m; sourceTree = "<group>"; };
 		3C13139015A3A3B6009769A7 /* FindMenuItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FindMenuItemViewController.xib; sourceTree = "<group>"; };
+		3C15F59915ACD91E008E63B1 /* LargeThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LargeThumbnail.h; sourceTree = "<group>"; };
+		3C15F59A15ACD91E008E63B1 /* LargeThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LargeThumbnail.m; sourceTree = "<group>"; };
+		3C15F59C15ACD93F008E63B1 /* LargeThumbnail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LargeThumbnail.xib; sourceTree = "<group>"; };
 		3C1C3C3F1589E7A500C0E7F0 /* LoginWithFacebookPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginWithFacebookPressed@2x.png"; path = "MenuPics/LoginWithFacebookPressed@2x.png"; sourceTree = "<group>"; };
 		3C1C3C401589E7A500C0E7F0 /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginWithFacebookNormal.png; path = MenuPics/LoginWithFacebookNormal.png; sourceTree = "<group>"; };
 		3C1C3C411589E7A500C0E7F0 /* LoginWithFacebookNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginWithFacebookNormal@2x.png"; path = "MenuPics/LoginWithFacebookNormal@2x.png"; sourceTree = "<group>"; };
@@ -483,6 +490,9 @@
 		3C6B868915A67EE50086B9C9 /* no_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_photo.png; sourceTree = "<group>"; };
 		3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDWebImage.xcodeproj; path = SDWebImage/SDWebImage.xcodeproj; sourceTree = "<group>"; };
 		3C6D949D156F141B00331EB3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		3C70CB6C15AC228900030821 /* SmallThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallThumbnail.h; sourceTree = "<group>"; };
+		3C70CB6D15AC228900030821 /* SmallThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallThumbnail.m; sourceTree = "<group>"; };
+		3C70CB6F15AC22C100030821 /* SmallThumbnail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmallThumbnail.xib; sourceTree = "<group>"; };
 		3C70D87A1570E30E00B15663 /* flash_button_auto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash_button_auto.png; sourceTree = "<group>"; };
 		3C70D87C1570EAAE00B15663 /* flash_button_auto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_button_auto@2x.png"; sourceTree = "<group>"; };
 		3C81BF85156C2006005FC0A1 /* MenuItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemViewController.h; sourceTree = "<group>"; };
@@ -940,6 +950,26 @@
 			name = sweep_animation;
 			sourceTree = "<group>";
 		};
+		3C15F59715ACD8D1008E63B1 /* SmallThumbnail */ = {
+			isa = PBXGroup;
+			children = (
+				3C70CB6C15AC228900030821 /* SmallThumbnail.h */,
+				3C70CB6D15AC228900030821 /* SmallThumbnail.m */,
+				3C70CB6F15AC22C100030821 /* SmallThumbnail.xib */,
+			);
+			name = SmallThumbnail;
+			sourceTree = "<group>";
+		};
+		3C15F59815ACD8D9008E63B1 /* LargeThumbnail */ = {
+			isa = PBXGroup;
+			children = (
+				3C15F59915ACD91E008E63B1 /* LargeThumbnail.h */,
+				3C15F59A15ACD91E008E63B1 /* LargeThumbnail.m */,
+				3C15F59C15ACD93F008E63B1 /* LargeThumbnail.xib */,
+			);
+			name = LargeThumbnail;
+			sourceTree = "<group>";
+		};
 		3C1C3C51158AA4B900C0E7F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1284,6 +1314,8 @@
 		3C8488F41586E5DC00D697AC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3C15F59815ACD8D9008E63B1 /* LargeThumbnail */,
+				3C15F59715ACD8D1008E63B1 /* SmallThumbnail */,
 				3C8488F61587305600D697AC /* Images */,
 				3C9594CD15589E2600627182 /* ViewProfileViewController.xib */,
 			);
@@ -2055,6 +2087,8 @@
 				3C01932D15A81C8B00CE0485 /* update_account_button@2x.png in Resources */,
 				3C01932F15AA363D00CE0485 /* no_profile_photo@2x.png in Resources */,
 				3C01933115AA36E400CE0485 /* no_profile_photo_pressed@2x.png in Resources */,
+				3C70CB7015AC22C100030821 /* SmallThumbnail.xib in Resources */,
+				3C15F59D15ACD93F008E63B1 /* LargeThumbnail.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2107,6 +2141,8 @@
 				3C3BA2DA159D566A000E94DD /* Photo.m in Sources */,
 				3C13139115A3A3B6009769A7 /* FindMenuItemViewController.m in Sources */,
 				3C01932715A817BA00CE0485 /* UpdateAccountViewController.m in Sources */,
+				3C70CB6E15AC228900030821 /* SmallThumbnail.m in Sources */,
+				3C15F59B15ACD91E008E63B1 /* LargeThumbnail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

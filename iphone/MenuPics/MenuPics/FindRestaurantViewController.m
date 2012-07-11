@@ -49,8 +49,6 @@
     
     [self initializeLocationManager];
     
-    [self setPhotoId:207];
-    
     if ([self photoId]) {
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
         
@@ -221,7 +219,7 @@
 
 - (void)getSuggestedLocations:(CLLocation *)location 
 { 
-    NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/geocode_near_photo/%d?latitude=%+.6f&longitude=%+.6f&type=nearby", [self photoId], location.coordinate.latitude, location.coordinate.longitude];;
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/geocode_near_photo/%d?latitude=%+.6f&longitude=%+.6f&type=nearby", [self photoId], location.coordinate.latitude, location.coordinate.longitude];;
     
     NSLog(@"URL String: %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];

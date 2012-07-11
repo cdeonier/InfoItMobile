@@ -32,5 +32,13 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "__40-[ViewProfileViewController syncProfile]_block_invoke_0:ViewProfileViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = ":[[photoEntry valueForKey:@&quot;tagged_info&quot;] valueForKey:@&quot;photo_points&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

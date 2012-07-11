@@ -111,7 +111,7 @@
 {
     [SVProgressHUD showWithStatus:@"Loading"];
     
-    NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/%@", [self.restaurantIdentifier stringValue]];
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/%@", [self.restaurantIdentifier stringValue]];
     
     User *currentUser = [User currentUser];
     if (currentUser) {

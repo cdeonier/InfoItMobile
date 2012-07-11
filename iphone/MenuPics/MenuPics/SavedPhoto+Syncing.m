@@ -123,7 +123,7 @@
                                                                                                       [[User currentUser] accessToken]]; 
     NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
     
-    NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/tag_photo"];
+    NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/tag_photo"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
     [request setHTTPMethod:@"PUT"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];

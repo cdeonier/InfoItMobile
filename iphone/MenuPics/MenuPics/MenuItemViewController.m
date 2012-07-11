@@ -94,7 +94,7 @@
 
 - (void)getPhotos
 {
-    NSString *urlString = [NSString stringWithFormat:@"https://infoit.heroku.com/services/%@", [[self.menuItem entityId] stringValue]];
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/%@", [[self.menuItem entityId] stringValue]];
     
     User *currentUser = [User currentUser];
     if (currentUser) {
@@ -420,7 +420,7 @@
     NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [[User currentUser] accessToken]]; 
     NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
     
-    NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/like"];
+    NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/like"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
@@ -448,7 +448,7 @@
     NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [[self.menuItem entityId] stringValue], [[User currentUser] accessToken]]; 
     NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
     
-    NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/unlike"];
+    NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/unlike"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
     [request setHTTPMethod:@"DELETE"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];

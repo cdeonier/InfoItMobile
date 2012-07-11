@@ -548,7 +548,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 #pragma mark Helper Methods
 - (BOOL) connectedToNetwork
 {
-	Reachability *r = [Reachability reachabilityWithHostname:@"infoit.heroku.com"];
+	Reachability *r = [Reachability reachabilityWithHostname:@"infoit-app.herokuapp.com"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL internet;
 	if ((internetStatus != ReachableViaWiFi) && (internetStatus != ReachableViaWWAN)) {

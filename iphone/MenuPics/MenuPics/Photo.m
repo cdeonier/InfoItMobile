@@ -34,6 +34,7 @@
     [self setThumbnail:[savedPhoto thumbnail]];
     [self setAuthorId:[[User currentUser] userId]];
     [self setAuthor:[[User currentUser] username]];
+    [self setPoints:[savedPhoto points]];
     
     return self;
 }

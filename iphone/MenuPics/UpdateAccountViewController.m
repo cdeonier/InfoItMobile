@@ -117,7 +117,7 @@
         NSLog(@"Request String: %@",requestString);
         NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
         
-        NSURL *url = [NSURL URLWithString:@"https://infoit.heroku.com/services/update_user"];
+        NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/update_user"];
         //NSURL *url = [NSURL URLWithString:@"http://192.168.0.103/services/update_user"];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];

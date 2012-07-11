@@ -48,7 +48,7 @@
     if ([nameString length] < 40) {
         [_name setText:nameString];
     } else {
-        NSString *truncatedNameString = [nameString substringToIndex:37 ];
+        NSString *truncatedNameString = [nameString substringToIndex:37];
         [_name setText:[NSString stringWithFormat:@"%@...", truncatedNameString]];
     }
     [_name setNumberOfLines:0];

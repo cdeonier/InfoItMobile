@@ -7,6 +7,7 @@
 //
 
 #import "SavedPhoto.h"
+#import "AppDelegate.h"
 
 @implementation SavedPhoto
 
@@ -25,9 +26,37 @@
 @dynamic restaurantId;
 @dynamic menuItemId;
 @dynamic username;
+@dynamic points;
 
 @synthesize isSelected;
 @synthesize syncDelegate;
+
++ (SavedPhoto *)photoWithFilename:(NSString *)fileName
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *coreDataRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [coreDataRequest setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"fileName == '%@'", fileName]];
+    [coreDataRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:coreDataRequest error:&error] mutableCopy];
+    if (mutableFetchResults == nil) {
+        NSLog(@"Error fetching from Core Data");
+    }
+    
+    SavedPhoto *photo = nil;
+    if ([mutableFetchResults count] > 0) {
+        photo = [mutableFetchResults objectAtIndex:0];
+    } else  {
+        NSLog(@"Could not find photo with fileName: %@", fileName);
+    }
+    
+    return photo;
+}
 
 @end
 

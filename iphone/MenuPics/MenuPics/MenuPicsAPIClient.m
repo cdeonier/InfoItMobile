@@ -9,7 +9,7 @@
 #import "MenuPicsAPIClient.h"
 #import "AFJSONRequestOperation.h"
 
-static NSString * const kAFMenuPicsAPIBaseURLString = @"https://infoit.heroku.com/";
+static NSString * const kAFMenuPicsAPIBaseURLString = @"https://infoit-app.herokuapp.com/";
 //static NSString * const kAFMenuPicsAPIBaseURLString = @"http://192.168.0.103/";
 
 @implementation MenuPicsAPIClient

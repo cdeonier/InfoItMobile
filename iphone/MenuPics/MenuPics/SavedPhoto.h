@@ -31,9 +31,12 @@
 @property (nonatomic, strong) NSNumber *restaurantId;
 @property (nonatomic, strong) NSNumber *menuItemId;
 @property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSNumber *points;
 
 //Transients
 @property (nonatomic) BOOL isSelected;
 @property (nonatomic, strong) id<SyncPhotoDelegate> syncDelegate;
+
++ (SavedPhoto *)photoWithFilename:(NSString *)fileName;
 
 @end

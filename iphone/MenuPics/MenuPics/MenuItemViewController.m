@@ -21,6 +21,7 @@
 #import "SavedPhoto.h"
 #import "GMGridView.h"
 #import "GMGridViewLayoutStrategies.h"
+#import "LargeThumbnail.h"
 
 @interface MenuItemViewController ()
 
@@ -33,6 +34,15 @@
 @synthesize likeButton = _likeButton;
 @synthesize menuItemName = _menuItemName;
 @synthesize description = _description;
+
+@synthesize photoView = _photoView;
+@synthesize usernameButton = _usernameButton;
+@synthesize upvoteButton = _upvoteButton;
+@synthesize points = _points;
+@synthesize photoPointsBackground = _photoPointsBackground;
+
+@synthesize activityIndicator = _activityIndicator;
+@synthesize displayedPhoto = _displayedPhoto;
 @synthesize profileImage = _profileImage;
 @synthesize menuItem = _menuItem;
 @synthesize buttonAction = _buttonAction;
@@ -130,7 +140,38 @@
                 [self.menuItemPhotos addObject:menuItemPhoto];
             }
         }
-        [_gridView reloadData];
+        
+        if ([_menuItemPhotos count] > 0) {
+            NSSortDescriptor *pointDescriptor = [[NSSortDescriptor alloc] initWithKey:@"points" ascending:NO];
+            NSSortDescriptor *photoIdDescriptor = [[NSSortDescriptor alloc] initWithKey:@"photoId" ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObjects:pointDescriptor,photoIdDescriptor,nil];
+            _menuItemPhotos = [[NSMutableArray alloc] initWithArray:[_menuItemPhotos sortedArrayUsingDescriptors:sortDescriptors]];
+            
+            Photo *photo = [_menuItemPhotos objectAtIndex:0];
+            
+            if ([[photo points] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                [_points setText:@"1 Point"];
+            } else {
+                [_points setText:[NSString stringWithFormat:@"%@ Points", [[photo points] stringValue]]];
+            }
+            
+            [_usernameButton setTitle:[photo author] forState:UIControlStateNormal];
+            [_usernameButton setTitle:[photo author] forState:UIControlStateHighlighted];
+            
+            if ([photo votedForPhoto]) {
+                [_upvoteButton setHighlighted:YES];
+            } else {
+                [_upvoteButton setHighlighted:NO];
+            }
+            
+            [_usernameButton setHidden:NO];
+            [_points setHidden:NO];
+            [_upvoteButton setHidden:NO];
+            [_photoPointsBackground setHidden:NO];
+            
+            
+            [_gridView reloadData];
+        } 
     } 
     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
     {
@@ -216,13 +257,22 @@
 
 - (void)takePhotoViewController:(TakePhotoViewController *)takePhotoViewController didSavePhotos:(BOOL)didSavePhotos
 {
-    for (SavedPhoto *savedPhoto in takePhotoViewController.savedPhotos) {
-        Photo *photo = [[Photo alloc] init];
-        [photo setFileName:[savedPhoto fileName]];
-        [photo setThumbnail:[savedPhoto thumbnail]];
-        [photo setFileLocation:[savedPhoto fileLocation]];
+    if (didSavePhotos) {
+        for (SavedPhoto *savedPhoto in takePhotoViewController.savedPhotos) {
+            Photo *photo = [[Photo alloc] init];
+            [photo setFileName:[savedPhoto fileName]];
+            [photo setThumbnail:[savedPhoto thumbnail]];
+            [photo setFileLocation:[savedPhoto fileLocation]];
+            [photo setPoints:[NSNumber numberWithInt:1]];
+            [photo setAuthor:[[User currentUser] username]];
+            [photo setAuthorId:[[User currentUser] userId]];
+            [photo setVotedForPhoto:YES];
+            
+            [self.menuItemPhotos addObject:photo];
+        }
+
+        //If our current profile image is no_image, set our current profile image to the first saved photo
         
-        [self.menuItemPhotos addObject:photo];
     }
     
     [_gridView reloadData];
@@ -250,46 +300,38 @@
     {
         cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
         
-        UIView *placeHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        [placeHolderView setBackgroundColor:[UIColor whiteColor]];
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        [imageView.layer setBorderColor:[[UIColor grayColor] CGColor]];
-        [imageView.layer setBorderWidth:1.0];
-        [imageView setTag:1];
-        [placeHolderView addSubview:imageView];
-        
-        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [activityIndicator setFrame:CGRectMake(28, 28, 19, 19)];
-        [activityIndicator setTag:2];
-        [placeHolderView addSubview:activityIndicator];
-        [activityIndicator startAnimating];
-        
-        [cell setContentView:placeHolderView];
+        LargeThumbnail *contentView = [[LargeThumbnail alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+        [[contentView thumbnail].layer setBorderWidth:1.0];
+        [[contentView thumbnail].layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+        cell.contentView = contentView;
     }
     
-    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1];
-    UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
-    
+    LargeThumbnail *contentView = (LargeThumbnail *)cell.contentView;
     if (index == 0) {
-        [imageView setImage:[UIImage imageNamed:@"add_photo"]];
-        [activityIndicator stopAnimating];
+        [contentView.thumbnail setImage:[UIImage imageNamed:@"add_photo"]];
+        [contentView.points setHidden:YES];
+        [contentView.pointsBackground setHidden:YES];
+        [contentView.activityIndicator stopAnimating];
     } else {
         Photo *menuItemPhoto = [_menuItemPhotos objectAtIndex:(index - 1)];
-        
-            if ([menuItemPhoto thumbnail]) {
-                [imageView setImage:[menuItemPhoto thumbnail]];
-                [activityIndicator stopAnimating];
-            } else if ([menuItemPhoto thumbnailUrl]) {
-                [imageView setImageWithURL:[NSURL URLWithString:[menuItemPhoto thumbnailUrl]] placeholderImage:nil
-                                   success:^(UIImage *image) { 
-                                       [activityIndicator stopAnimating];
-                                   }
-                                   failure:^(NSError *error) {
-                                       NSLog(@"%@", [error description]);
-                                   }];
-            }
-        
+        if ([menuItemPhoto thumbnail]) {
+            [contentView.thumbnail setImage:[menuItemPhoto thumbnail]];
+            [contentView.points setHidden:NO];
+            [contentView.pointsBackground setHidden:NO];
+            [contentView.activityIndicator stopAnimating];
+        } else if ([menuItemPhoto thumbnailUrl]) {
+            [contentView.activityIndicator startAnimating];
+            [contentView.points setHidden:NO];
+            [contentView.pointsBackground setHidden:NO];
+            [contentView.thumbnail setImageWithURL:[NSURL URLWithString:[menuItemPhoto thumbnailUrl]] placeholderImage:nil 
+                                           success:^(UIImage *image) {
+                                               [menuItemPhoto setThumbnail:image];
+                                               [contentView.points setText:[[menuItemPhoto points] stringValue]];
+                                               [contentView.activityIndicator stopAnimating];
+                                           } failure:^(NSError *error) {
+                                               NSLog(@"%@", [error description]);
+                                           }];
+        }   
     }
     
     return cell;
@@ -302,46 +344,10 @@
     if (position == 0) {
         [self takePhoto];
     } else {
-        [_separator setHidden:YES];
         Photo *photo = [self.menuItemPhotos objectAtIndex:(position - 1)];
+        _displayedPhoto = photo;
         
-        if ([photo fileLocation]) {
-            NSFileManager *filemgr =[NSFileManager defaultManager];
-            if (![filemgr fileExistsAtPath:[photo fileLocation]]) {
-                AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                NSManagedObjectContext *context = [delegate managedObjectContext];
-                
-                NSFetchRequest *request = [[NSFetchRequest alloc] init];
-                NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
-                [request setEntity:entity];
-                
-                NSString *predicateString = [NSString stringWithFormat:@"fileName == '%@'", [photo fileName]];
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-                [request setPredicate:predicate];
-                
-                NSError *error = nil;
-                NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
-                SavedPhoto *savedPhoto = [mutableFetchResults objectAtIndex:0];
-                
-                [photo setPhotoUrl:[savedPhoto fileUrl]];
-                [photo setThumbnailUrl:[savedPhoto thumbnailUrl]];
-                [photo setFileLocation:nil];
-                [photo setPhotoId:[savedPhoto photoId]];
-            } else {
-                NSData *imageData = [NSData dataWithContentsOfFile:[photo fileLocation]];
-                UIImage *image = [UIImage imageWithData:imageData];
-                [_profileImage setImage:image];
-            }
-        } else {
-            UIView *separatorReference = _separator;
-            [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
-            success:^(UIImage *image) {
-                [separatorReference setHidden:NO];
-            } 
-            failure:^(NSError *error) {
-                NSLog(@"%@", [error description]);
-            }  ];
-        }
+        [self setProfileImageWithPhoto:photo];
     }
 }
 
@@ -410,6 +416,84 @@
     }
 }
 
+- (void)setProfileImageWithPhoto:(Photo *)photo
+{
+    [_photoView setHidden:YES];
+    [_activityIndicator startAnimating];
+    
+    if ([[photo points] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+        [_points setText:@"1 Point"];
+    } else {
+        [_points setText:[NSString stringWithFormat:@"%@ Points", [[photo points] stringValue]]];
+    }
+    
+    [_usernameButton setTitle:[photo author] forState:UIControlStateNormal];
+    [_usernameButton setTitle:[photo author] forState:UIControlStateHighlighted];
+    
+    if ([photo votedForPhoto]) {
+        [_upvoteButton setHighlighted:YES];
+    } else {
+        [_upvoteButton setHighlighted:NO];
+    }
+    
+    //Handle the various stages of file upload:
+    //1st: We took a picture, and the photo got uploaded
+    //2nd: We took a picture, but the photo hasn't uploaded yet
+    //3rd: It's just a regular photo with photoURL we need to fetch
+    if ([photo fileLocation]) {
+        NSFileManager *filemgr =[NSFileManager defaultManager];
+        
+        //Case where photo has been uploaded, and removed from system-- we need to now point to URL supplied by server
+        if (![filemgr fileExistsAtPath:[photo fileLocation]]) {
+            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            NSManagedObjectContext *context = [delegate managedObjectContext];
+            
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+            [request setEntity:entity];
+            
+            NSString *predicateString = [NSString stringWithFormat:@"fileName == '%@'", [photo fileName]];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+            [request setPredicate:predicate];
+            
+            NSError *error = nil;
+            NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+            SavedPhoto *savedPhoto = [mutableFetchResults objectAtIndex:0];
+            
+            [photo setPhotoUrl:[savedPhoto fileUrl]];
+            [photo setThumbnailUrl:[savedPhoto thumbnailUrl]];
+            [photo setFileLocation:nil];
+            [photo setPhotoId:[savedPhoto photoId]];
+            
+            UIView *viewReference = _photoView;
+            UIActivityIndicatorView *activityIndicatorReference = _activityIndicator;
+            [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
+                                   success:^(UIImage *image) {
+                                       [viewReference setHidden:NO];
+                                       [activityIndicatorReference stopAnimating];
+                                   } 
+                                   failure:^(NSError *error) {
+                                       NSLog(@"%@", [error description]);
+                                   }  ];
+        } else {
+            NSData *imageData = [NSData dataWithContentsOfFile:[photo fileLocation]];
+            UIImage *image = [UIImage imageWithData:imageData];
+            [_profileImage setImage:image];
+        }
+    } else {
+        UIView *viewReference = _photoView;
+        UIActivityIndicatorView *activityIndicatorReference = _activityIndicator;
+        [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
+                               success:^(UIImage *image) {
+                                   [viewReference setHidden:NO];
+                                   [activityIndicatorReference stopAnimating];
+                               } 
+                               failure:^(NSError *error) {
+                                   NSLog(@"%@", [error description]);
+                               }  ];
+    }
+}
+
 #pragma mark Server Actions
 
 - (void)likeMenuItem
@@ -467,6 +551,16 @@
     }];
     [operation start];
 
+}
+
+- (void)votePhoto
+{
+    
+}
+
+- (void)unvotePhoto
+{
+    
 }
 
 

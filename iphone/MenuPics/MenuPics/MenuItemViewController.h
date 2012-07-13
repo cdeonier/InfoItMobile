@@ -12,6 +12,7 @@
 #import "GMGridView.h"
 
 @class MenuItem;
+@class Photo;
 
 enum {
     NoAction = 0,
@@ -28,6 +29,14 @@ typedef NSInteger ButtonAction;
 @property (nonatomic, strong) IBOutlet UILabel *menuItemName;
 @property (nonatomic, strong) IBOutlet UILabel *description;
 
+@property (nonatomic, strong) IBOutlet UIView *photoView;
+@property (nonatomic, strong) IBOutlet UIButton *usernameButton;
+@property (nonatomic, strong) IBOutlet UIButton *upvoteButton;
+@property (nonatomic, strong) IBOutlet UILabel *points;
+@property (nonatomic, strong) IBOutlet UIView *photoPointsBackground;
+
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) Photo *displayedPhoto;
 @property (nonatomic, strong) IBOutlet UIImageView *profileImage;
 
 @property (nonatomic, strong) MenuItem *menuItem;

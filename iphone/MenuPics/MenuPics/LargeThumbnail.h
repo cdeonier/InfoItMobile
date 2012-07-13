@@ -11,6 +11,7 @@
 @interface LargeThumbnail : UIView
 
 @property (nonatomic, strong) IBOutlet UIView *view;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, strong) IBOutlet UILabel *points;
 @property (nonatomic, strong) IBOutlet UIView *pointsBackground;

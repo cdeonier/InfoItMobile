@@ -129,7 +129,7 @@
     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
     {
         NSLog(@"Menu Success");
-        //NSLog(@"Menu: %@", JSON);
+        NSLog(@"Menu: %@", JSON);
 
         id entityJson = [JSON valueForKey:@"entity"];
         NSLog(@"%@", entityJson);

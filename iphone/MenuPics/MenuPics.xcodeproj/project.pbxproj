@@ -83,6 +83,9 @@
 		3C5D56BC15660634003F3EC7 /* add_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5D56BA15660634003F3EC7 /* add_photo.png */; };
 		3C5D56BD15660634003F3EC7 /* add_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5D56BB15660634003F3EC7 /* add_photo@2x.png */; };
 		3C5D56C0156614D9003F3EC7 /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D56BF156614D9003F3EC7 /* Restaurant.m */; };
+		3C5E438915AFCDE800312A48 /* photo_username_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5E438815AFCDE800312A48 /* photo_username_background@2x.png */; };
+		3C5E438B15AFCEF000312A48 /* photo_points_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5E438A15AFCEF000312A48 /* photo_points_background@2x.png */; };
+		3C5E439115AFF94100312A48 /* photo_upvote_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5E439015AFF94100312A48 /* photo_upvote_background@2x.png */; };
 		3C5F9D7E155E6760002ED96E /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5F9D7D155E6760002ED96E /* MenuItem.m */; };
 		3C5F9D8A1561897F002ED96E /* nav_bar_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5F9D891561897F002ED96E /* nav_bar_background.png */; };
 		3C5F9D8C15618A2F002ED96E /* nav_bar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C5F9D8B15618A2F002ED96E /* nav_bar_background@2x.png */; };
@@ -482,6 +485,9 @@
 		3C5D56BB15660634003F3EC7 /* add_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_photo@2x.png"; sourceTree = "<group>"; };
 		3C5D56BE156614D8003F3EC7 /* Restaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Restaurant.h; sourceTree = "<group>"; };
 		3C5D56BF156614D9003F3EC7 /* Restaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Restaurant.m; sourceTree = "<group>"; };
+		3C5E438815AFCDE800312A48 /* photo_username_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_username_background@2x.png"; sourceTree = "<group>"; };
+		3C5E438A15AFCEF000312A48 /* photo_points_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_points_background@2x.png"; sourceTree = "<group>"; };
+		3C5E439015AFF94100312A48 /* photo_upvote_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_upvote_background@2x.png"; sourceTree = "<group>"; };
 		3C5F9D7C155E6760002ED96E /* MenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItem.h; sourceTree = "<group>"; };
 		3C5F9D7D155E6760002ED96E /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItem.m; sourceTree = "<group>"; };
 		3C5F9D891561897F002ED96E /* nav_bar_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_bar_background.png; sourceTree = "<group>"; };
@@ -1305,6 +1311,9 @@
 				3C595FB41593FB5600B958DD /* like_button@2x.png */,
 				3C595FB51593FB5600B958DD /* menu_button_highlighted@2x.png */,
 				3C595FB61593FB5600B958DD /* menu_button@2x.png */,
+				3C5E438A15AFCEF000312A48 /* photo_points_background@2x.png */,
+				3C5E439015AFF94100312A48 /* photo_upvote_background@2x.png */,
+				3C5E438815AFCDE800312A48 /* photo_username_background@2x.png */,
 				3C595FB71593FB5600B958DD /* restaurant_button_highlighted@2x.png */,
 				3C595FB81593FB5600B958DD /* restaurant_button@2x.png */,
 			);
@@ -2089,6 +2098,9 @@
 				3C01933115AA36E400CE0485 /* no_profile_photo_pressed@2x.png in Resources */,
 				3C70CB7015AC22C100030821 /* SmallThumbnail.xib in Resources */,
 				3C15F59D15ACD93F008E63B1 /* LargeThumbnail.xib in Resources */,
+				3C5E438915AFCDE800312A48 /* photo_username_background@2x.png in Resources */,
+				3C5E438B15AFCEF000312A48 /* photo_points_background@2x.png in Resources */,
+				3C5E439115AFF94100312A48 /* photo_upvote_background@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

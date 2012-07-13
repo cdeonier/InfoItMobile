@@ -11,6 +11,7 @@
 @implementation LargeThumbnail
 
 @synthesize view = _view;
+@synthesize activityIndicator = _activityIndicator;
 @synthesize thumbnail = _thumbnail;
 @synthesize points = _points;
 @synthesize pointsBackground = _pointsBackground;

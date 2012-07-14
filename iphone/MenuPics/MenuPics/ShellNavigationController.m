@@ -19,7 +19,6 @@
 {
     UIViewController *targetViewController = [self.viewControllers objectAtIndex:([self.viewControllers count] - 2)];
     if ([targetViewController isKindOfClass:[ViewProfileViewController class]]) {
-    //if ([targetViewController class] == [ViewProfileViewController class]) {
         ViewProfileViewController *viewProfileController = (ViewProfileViewController *)targetViewController;
         UITabBarItem *selectedTabItem = [viewProfileController.tabBar selectedItem];
         UITabBarItem *photosTabItem = [viewProfileController.tabBar.items objectAtIndex:1];

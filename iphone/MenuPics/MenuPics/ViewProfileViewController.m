@@ -22,6 +22,7 @@
 #import "AFNetworking.h"
 #import "SmallThumbnail.h"
 #import "LargeThumbnail.h"
+#import "MWPhoto.h"
 
 @interface ViewProfileViewController ()
 
@@ -40,6 +41,8 @@
 @synthesize popularPhotosGridView = _popularPhotosGridView;
 @synthesize popularPhotos = _popularPhotos;
 @synthesize recentPhotosGridView = _recentPhotosGridView;
+@synthesize photoBrowser = _photoBrowser;
+@synthesize photoBrowserArray = _photoBrowserArray;
 @synthesize recentPhotos = _recentPhotos;
 @synthesize didUpdateProfilePhoto = _didUpdateProfilePhoto;
 
@@ -99,6 +102,10 @@
     }
     
     [_profileUsername setText:[[User currentUser] username]];
+    
+    _photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    [_photoBrowser setWantsFullScreenLayout:YES];
+    [_photoBrowser setDisplayActionButton:YES];
 }
 
 - (void)viewDidUnload
@@ -324,7 +331,50 @@
 
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
 {
+    if (gridView == _photosGridView) {
+        _photoBrowserArray = _photos;
+        [_photoBrowser setInitialPageIndex:position];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:_photoBrowser];
+        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [_photoBrowser reloadData];
+        [self presentModalViewController:nc animated:YES];
+    } else if (gridView == _recentPhotosGridView) {
+        _photoBrowserArray = _recentPhotos;
+        [_photoBrowser setInitialPageIndex:position];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:_photoBrowser];
+        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [_photoBrowser reloadData];
+        [self presentModalViewController:nc animated:YES];
+    } else if (gridView == _popularPhotosGridView) {
+        _photoBrowserArray = _popularPhotos;
+        [_photoBrowser setInitialPageIndex:position];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:_photoBrowser];
+        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [_photoBrowser reloadData];
+        [self presentModalViewController:nc animated:YES];
+    }
+}
 
+#pragma mark MWPhotoBrowser Delegate
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _photoBrowserArray.count;
+}
+
+- (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _photoBrowserArray.count) {
+        Photo *photo = [_photoBrowserArray objectAtIndex:index];
+        
+        MWPhoto *mwPhoto;
+        if ([photo fileLocation]) {
+            mwPhoto = [MWPhoto photoWithFilePath:[photo fileLocation]];
+        } else {
+            mwPhoto = [MWPhoto photoWithURL:[NSURL URLWithString:[photo photoUrl]]];
+        }
+        return mwPhoto;
+    }
+
+    return nil;
 }
 
 #pragma mark Helper Functions
@@ -458,7 +508,12 @@
         NSLog(@"Error fetching from Core Data");
     }
     
-    [self setRecentPhotos:mutableFetchResults];
+    NSMutableArray *photosArray = [[NSMutableArray alloc] initWithCapacity:[mutableFetchResults count]];
+    for (SavedPhoto *savedPhoto in mutableFetchResults) {
+        Photo *photo = [[Photo alloc] initWithSavedPhoto:savedPhoto];
+        [photosArray addObject:photo];
+    }
+    [self setRecentPhotos:photosArray];
     
     [_recentPhotosGridView reloadData];
 }

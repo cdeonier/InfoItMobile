@@ -10,6 +10,7 @@
 #import "GMGridView.h"
 #import "User.h"
 #import "UpdateAccountViewController.h"
+#import "MWPhotoBrowser.h"
 
 @class SavedPhoto;
 
@@ -25,7 +26,7 @@ typedef NSInteger ViewProfileTab;
 
 @end
 
-@interface ViewProfileViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, SyncPhotoDelegate, SyncUserDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate, UIActionSheetDelegate, UpdateAccountDelegate>
+@interface ViewProfileViewController : UIViewController <MWPhotoBrowserDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate, SyncPhotoDelegate, SyncUserDelegate, UITabBarDelegate, GMGridViewDataSource, GMGridViewActionDelegate, UIActionSheetDelegate, UpdateAccountDelegate>
 
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
@@ -45,6 +46,9 @@ typedef NSInteger ViewProfileTab;
 //Photos
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) GMGridView *photosGridView;
+
+@property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
+@property (nonatomic, strong) NSMutableArray *photoBrowserArray;
 
 - (IBAction)signOut:(id)sender;
 - (IBAction)updateProfilePhoto:(id)sender;

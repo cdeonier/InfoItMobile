@@ -17,7 +17,8 @@
 enum {
     NoAction = 0,
     LikeButtonAction = 1,
-    PhotoButtonAction = 2
+    PhotoButtonAction = 2,
+    UpvoteButtonAction = 3
 };
 typedef NSInteger ButtonAction;
 
@@ -47,6 +48,7 @@ typedef NSInteger ButtonAction;
 
 @property (strong) GMGridView *gridView;
 
+- (IBAction)pressUpvoteButton:(id)sender;
 - (IBAction)pressMenuButton:(id)sender;
 - (IBAction)pressLikeButton:(id)sender;
 - (IBAction)pressRestaurantButton:(id)sender;

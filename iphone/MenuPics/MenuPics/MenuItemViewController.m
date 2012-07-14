@@ -240,6 +240,8 @@
             [self likeMenuItem];
         } else if (_buttonAction == PhotoButtonAction) {
             [self takePhoto];
+        } else if (_buttonAction == UpvoteButtonAction) {
+            [self votePhoto];
         }
     }
     
@@ -316,6 +318,7 @@
         Photo *menuItemPhoto = [_menuItemPhotos objectAtIndex:(index - 1)];
         if ([menuItemPhoto thumbnail]) {
             [contentView.thumbnail setImage:[menuItemPhoto thumbnail]];
+            [contentView.points setText:[[menuItemPhoto points] stringValue]];
             [contentView.points setHidden:NO];
             [contentView.pointsBackground setHidden:NO];
             [contentView.activityIndicator stopAnimating];
@@ -364,6 +367,24 @@
     self.navigationItem.backBarButtonItem = backButton;
     
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)pressUpvoteButton:(id)sender
+{
+    if ([User currentUser]) {
+        if ([_displayedPhoto votedForPhoto]) {
+            [self performSelector:@selector(unhighlightButton:) withObject:sender afterDelay:0.0];
+            [self unvotePhoto];
+        } else {
+            [self performSelector:@selector(highlightButton:) withObject:sender afterDelay:0.0];
+            [self votePhoto];
+        }
+    } else {
+        [self setButtonAction:UpvoteButtonAction];
+        SignInViewController *viewController = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        [viewController setDelegate:self];
+        [self presentModalViewController:viewController animated:YES];
+    }
 }
 
 - (IBAction)pressLikeButton:(id)sender
@@ -494,6 +515,14 @@
     }
 }
 
+- (void)highlightButton:(UIButton *)button { 
+    [button setHighlighted:YES];
+}
+
+- (void)unhighlightButton:(UIButton *)button { 
+    [button setHighlighted:NO];
+}
+
 #pragma mark Server Actions
 
 - (void)likeMenuItem
@@ -555,12 +584,70 @@
 
 - (void)votePhoto
 {
+    [_displayedPhoto setVotedForPhoto:YES];
+    [_displayedPhoto setPoints:[NSNumber numberWithInt:[_displayedPhoto.points intValue] + 1]];
     
+    if ([[_displayedPhoto points] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+        [_points setText:@"1 Point"];
+    } else {
+        [_points setText:[NSString stringWithFormat:@"%@ Points", [[_displayedPhoto points] stringValue]]];
+    }
+    
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&access_token=%@", [[_displayedPhoto photoId] stringValue], [[User currentUser] accessToken]]; 
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/photo_vote"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+                                         {
+                                             NSLog(@"Successful vote.");
+                                             [_gridView reloadData];
+                                         } 
+                                                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                         {
+                                             NSLog(@"Failure voting");
+                                             NSLog(@"JSON: %@", JSON);
+                                         }];
+    [operation start];
 }
 
 - (void)unvotePhoto
 {
+    [_displayedPhoto setVotedForPhoto:NO];
+    [_displayedPhoto setPoints:[NSNumber numberWithInt:[_displayedPhoto.points intValue] - 1]];
     
+    if ([[_displayedPhoto points] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+        [_points setText:@"1 Point"];
+    } else {
+        [_points setText:[NSString stringWithFormat:@"%@ Points", [[_displayedPhoto points] stringValue]]];
+    }
+    
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&access_token=%@", [[_displayedPhoto photoId] stringValue], [[User currentUser] accessToken]]; 
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/photo_remove_vote"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
+                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
+                                         {
+                                             NSLog(@"Successful unvote.");
+                                             [_gridView reloadData];
+                                         } 
+                                                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+                                         {
+                                             NSLog(@"Failure voting");
+                                             NSLog(@"JSON: %@", JSON);
+                                         }];
+    [operation start];
 }
 
 

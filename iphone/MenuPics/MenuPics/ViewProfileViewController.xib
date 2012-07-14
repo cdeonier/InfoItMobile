@@ -77,7 +77,7 @@
 							</object>
 							<object class="IBUILabel" id="625900237">
 								<reference key="NSNextResponder" ref="129639453"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{78, 45}, {100, 25}}</string>
 								<reference key="NSSuperview" ref="129639453"/>
 								<reference key="NSWindow"/>
@@ -248,7 +248,6 @@
 						<string key="NSFrame">{{0, 367}, {320, 49}}</string>
 						<reference key="NSSuperview" ref="880234673"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -342,6 +341,22 @@
 						<reference key="destination" ref="935235371"/>
 					</object>
 					<int key="connectionID">72</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">profileUsername</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="587544221"/>
+					</object>
+					<int key="connectionID">81</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">profilePoints</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="625900237"/>
+					</object>
+					<int key="connectionID">82</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -537,7 +552,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">80</int>
+			<int key="maxID">82</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -603,6 +618,8 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="popularPhotosGridView">GMGridView</string>
 						<string key="profilePhotoButton">UIButton</string>
+						<string key="profilePoints">UILabel</string>
+						<string key="profileUsername">UILabel</string>
 						<string key="profileView">UIView</string>
 						<string key="recentPhotosGridView">GMGridView</string>
 						<string key="tabBar">UITabBar</string>
@@ -615,6 +632,14 @@
 						<object class="IBToOneOutletInfo" key="profilePhotoButton">
 							<string key="name">profilePhotoButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="profilePoints">
+							<string key="name">profilePoints</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="profileUsername">
+							<string key="name">profileUsername</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="profileView">
 							<string key="name">profileView</string>

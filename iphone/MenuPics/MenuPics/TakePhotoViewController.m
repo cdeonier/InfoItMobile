@@ -44,6 +44,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 @synthesize landscapeView = _landscapeView;
 @synthesize imagePicker = _imagePicker;
 @synthesize preview = _preview;
+@synthesize previewPhotoFileLocation = _previewPhotoFileLocation;
 @synthesize photos = _photos;
 @synthesize landscapeGridView = _landscapeGridView;
 @synthesize portraitGridView = _portraitGridView;
@@ -115,6 +116,19 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     //Need to disable ViewDeck scrolling because it interferes with gridview.
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate disableNavigationMenu];
+    
+    if (_displayedPhotoIndex == 0) {
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfFile:_previewPhotoFileLocation];
+            UIImage *image = [UIImage imageWithData:imageData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIImageView *previewImagePortrait = (UIImageView *)[self.portraitView viewWithTag:1];
+                UIImageView *previewImageLandscape = (UIImageView *)[self.landscapeView viewWithTag:1];
+                [previewImagePortrait setImage:image];
+                [previewImageLandscape setImage:image];
+            });
+        });
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -136,6 +150,11 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     return (interfaceOrientation == UIInterfaceOrientationPortrait || 
             interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
             interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+}
+
+- (void) didReceiveMemoryWarning
+{
+    [self setDisplayedPhotoIndex:0];
 }
 
 - (void) didOrientation: (id)object 
@@ -403,16 +422,6 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
             UIGraphicsEndImageContext();
         }
         
-        if ([self.photos count] == 0) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self setDisplayedPhotoIndex:0];
-                UIImageView *portraitPreview = (UIImageView *)[self.portraitView viewWithTag:1];
-                UIImageView *landscapePreview = (UIImageView *)[self.landscapeView viewWithTag:1];
-                [portraitPreview setImage:scaledImage];
-                [landscapePreview setImage:scaledImage];
-            });
-        }
-        
         //Then save to disk
         NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docsDir = [dirPaths objectAtIndex:0];
@@ -424,6 +433,17 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         NSString *filePath = [takePhotosDirectory stringByAppendingPathComponent:imageFileName];
         NSData *imageData = UIImageJPEGRepresentation(scaledImage, 0.8);
         [imageData writeToFile:filePath atomically:YES];
+        
+        if ([self.photos count] == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setDisplayedPhotoIndex:0];
+                [self setPreviewPhotoFileLocation:filePath];
+//                UIImageView *portraitPreview = (UIImageView *)[self.portraitView viewWithTag:1];
+//                UIImageView *landscapePreview = (UIImageView *)[self.landscapeView viewWithTag:1];
+//                [portraitPreview setImage:scaledImage];
+//                [landscapePreview setImage:scaledImage];
+            });
+        }
         
         //Create thumbnail
         CGFloat height = scaledImage.size.height;

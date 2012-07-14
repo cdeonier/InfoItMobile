@@ -35,6 +35,8 @@
 @synthesize profileView = _profileView;
 @synthesize accountButton = _accountButton;
 @synthesize profilePhotoButton = _profilePhotoButton;
+@synthesize profileUsername = _profileUsername;
+@synthesize profilePoints = _profilePoints;
 @synthesize popularPhotosGridView = _popularPhotosGridView;
 @synthesize popularPhotos = _popularPhotos;
 @synthesize recentPhotosGridView = _recentPhotosGridView;
@@ -95,6 +97,8 @@
     if (profilePhoto) {
         [self loadUserProfilePhoto];
     }
+    
+    [_profileUsername setText:[[User currentUser] username]];
 }
 
 - (void)viewDidUnload
@@ -230,7 +234,6 @@
     } else if (gridView == _popularPhotosGridView) {
         return [_popularPhotos count];
     } else {
-        NSLog(@"Unrecognized gridview count");
         return 0;
     }
     
@@ -245,7 +248,6 @@
     } else if (gridView == _popularPhotosGridView) {
         return CGSizeMake(50, 50);
     } else {
-        NSLog(@"Unrecognized gridview size");
         return CGSizeMake(0, 0);
     }
 }
@@ -275,7 +277,7 @@
             [[contentView thumbnail] setImageWithURL:[NSURL URLWithString:[[_photos objectAtIndex:index] thumbnailUrl]]];
         }
         
-        if ([photo points] && [photo points] > 0) {
+        if ([photo points] && [[photo points] intValue] > 0) {
             [contentView.points setText:[[photo points] stringValue]];
             [contentView.pointsBackground setHidden:NO];
             [contentView.points setHidden:NO];
@@ -522,6 +524,8 @@
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
     {
+        NSLog(@"JSON: %@", JSON);
+        
         if (![self didUpdateProfilePhoto]) {
             User *currentUser = [User currentUser];
             currentUser.syncDelegate = self;
@@ -537,7 +541,7 @@
         NSManagedObjectContext *context = [delegate managedObjectContext];
         
         for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
-            NSLog(@"Photo Entry: %@", photoEntry);
+            //NSLog(@"Photo Entry: %@", photoEntry);
             
             NSString *photoFilename = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"];
             
@@ -571,7 +575,10 @@
             NSLog(@"Error saving to Core Data");
         }
         
+        //Update photos first, since some methods depend on populated photo array (such as updatePoints)
         [self populatePhotosGridView];
+        
+        [self updatePoints];
         
         [self populatePopularPhotosGridView:JSON];
                 
@@ -636,6 +643,25 @@
     [_profilePhotoButton.layer setBorderWidth:1.0];
     [_profilePhotoButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
     [_profilePhotoButton setImage:nil forState:UIControlStateHighlighted];
+}
+
+- (void)updatePoints
+{
+    int totalPoints = 0;
+    for (Photo *photo in _photos) {
+        if ([photo points] > 0) {
+            totalPoints += [[photo points] intValue];
+        }
+    }
+    
+    NSString *pointsString;
+    if (totalPoints == 1) {
+        pointsString = @"1 Point";
+    } else {
+        pointsString = [NSString stringWithFormat:@"%d Points", totalPoints];
+    }
+    [_profilePoints setText:pointsString];
+    [_profilePoints setHidden:NO];
 }
 
 @end

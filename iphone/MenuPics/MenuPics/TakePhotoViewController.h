@@ -27,16 +27,17 @@
 @property (nonatomic, strong) NSArray *savedPhotos;
 
 @property (nonatomic, strong) UIView *cameraOverlay;
-@property (strong) UIView *portraitView;
-@property (strong) UIView *landscapeView;
+@property (nonatomic, strong) UIView *portraitView;
+@property (nonatomic, strong) UIView *landscapeView;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 
 @property (strong) IBOutlet UIImageView *preview;
-@property (strong) NSMutableArray *photos;
-@property (strong) GMGridView *portraitGridView;
-@property (strong) GMGridView *landscapeGridView;
+@property (nonatomic, strong) NSString *previewPhotoFileLocation;
+@property (nonatomic, strong) NSMutableArray *photos;
+@property (nonatomic, strong) GMGridView *portraitGridView;
+@property (nonatomic, strong) GMGridView *landscapeGridView;
 
-@property (strong, nonatomic) NSManagedObjectContext *context;
+@property (nonatomic, strong) NSManagedObjectContext *context;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *currentLocation;

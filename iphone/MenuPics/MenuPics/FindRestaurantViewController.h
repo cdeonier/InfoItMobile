@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+
+@class Photo;
+
 @interface FindRestaurantViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate>
 {
     IBOutlet UITableViewCell *locationCell;
@@ -19,6 +22,6 @@
 @property (nonatomic, strong) NSMutableArray *locationsTableData;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 
-@property (nonatomic) NSInteger photoId;
+@property (nonatomic, strong) Photo *photoToTag;
 
 @end

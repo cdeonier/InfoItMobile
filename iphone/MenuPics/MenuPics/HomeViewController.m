@@ -52,9 +52,9 @@
     [_findMenuTitleNonUser setFont:segoePrint];
     [_signInTitle setFont:segoePrint];
     
-    UIImage *menuImage = [[UIImage imageNamed:@"nav_menu_icon.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
-    self.navigationItem.leftBarButtonItem.tintColor = [UIColor navBarButtonColor];
+    //UIImage *menuImage = [[UIImage imageNamed:@"nav_menu_icon.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
+    //self.navigationItem.leftBarButtonItem.tintColor = [UIColor navBarButtonColor];
     
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {

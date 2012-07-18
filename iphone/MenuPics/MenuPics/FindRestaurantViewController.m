@@ -17,6 +17,7 @@
 #import "Location.h"
 #import "TakePhotoViewController.h"
 #import "SVProgressHUD.h"
+#import "Photo.h"
 
 @interface FindRestaurantViewController ()
 
@@ -28,7 +29,7 @@
 @synthesize locationManager = _locationManager;
 @synthesize locationsTableData = _locationsTableData;
 @synthesize searchBar = _searchBar;
-@synthesize photoId = _photoId;
+@synthesize photoToTag = _photoToTag;
 
 #pragma mark ViewController
 
@@ -36,7 +37,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -49,21 +50,32 @@
     
     [self initializeLocationManager];
     
-    if ([self photoId]) {
+    if ([self photoToTag]) {
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        [headerView setBackgroundColor:[UIColor lightGrayColor]];
         
-        UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, 320, 20)];
         [instructions setText:@"Choose photo's location"];
         [instructions setFont:[UIFont fontWithName:@"STHeitiTC-Medium" size:12.0]];
         [instructions setTextColor:[UIColor whiteColor]];
-        [instructions setBackgroundColor:[UIColor lightGrayColor]];
+        [instructions setBackgroundColor:[UIColor clearColor]];
         [instructions setTextAlignment:UITextAlignmentCenter];
         [headerView addSubview:instructions];
         
+        UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 19, 320, 1)];
+        [separator setBackgroundColor:[UIColor darkGrayColor]];
+        [headerView addSubview:separator];
+        
         self.tableView.tableHeaderView = headerView;
+        
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed)];
+        cancelButton.tintColor = [UIColor navBarButtonColor];
+        self.navigationItem.leftBarButtonItem = cancelButton;
     } 
     
     self.tableView.tableFooterView = [UIView new];
+    
+    
 }
 
 - (void)viewDidUnload
@@ -73,7 +85,9 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self setTitle:@"Restaurants"];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -115,10 +129,11 @@
     self.navigationItem.backBarButtonItem = backButton;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if ([self photoId]) {
+    if ([self photoToTag]) {
         FindMenuItemViewController *viewController = [[FindMenuItemViewController alloc] initWithNibName:@"FindMenuItemViewController" bundle:nil];
         viewController.restaurantIdentifier = (NSInteger *)[location.entityId intValue];
-        viewController.photoId = self.photoId;
+        [_photoToTag setRestaurantName:location.name];
+        viewController.photoToTag = self.photoToTag;
         [self.navigationController pushViewController:viewController animated:YES];
     } else {
         MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
@@ -157,7 +172,7 @@
 {
     [SVProgressHUD showWithStatus:@"Loading"];
     
-    if ([self photoId]) {
+    if ([self photoToTag]) {
         [self getSuggestedLocations:newLocation];
     } else {
         [self getNearbyLocations:newLocation];
@@ -219,7 +234,7 @@
 
 - (void)getSuggestedLocations:(CLLocation *)location 
 { 
-    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/geocode_near_photo/%d?latitude=%+.6f&longitude=%+.6f&type=nearby", [self photoId], location.coordinate.latitude, location.coordinate.longitude];;
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/geocode_near_photo/%d?latitude=%+.6f&longitude=%+.6f&type=nearby", [[_photoToTag photoId] intValue], location.coordinate.latitude, location.coordinate.longitude];;
     
     NSLog(@"URL String: %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -292,6 +307,15 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+}
+
+#pragma mark Helper Functions
+
+- (void)cancelButtonPressed
+{
+    [_photoToTag setMenuItemName:nil];
+    [_photoToTag setRestaurantName:nil];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

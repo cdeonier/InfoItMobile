@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class  OrderedDictionary;
+@class Photo;
+@class OrderedDictionary;
 
 enum {
     FindCurrentMenuTab = 1,
@@ -18,7 +19,7 @@ typedef NSInteger FindMenuItemTab;
 
 @interface FindMenuItemViewController : UIViewController <UITabBarDelegate, UIActionSheetDelegate>
 
-@property (nonatomic) NSInteger photoId;
+@property (nonatomic, strong) Photo *photoToTag;
 
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
 @property (nonatomic) NSInteger *restaurantIdentifier;

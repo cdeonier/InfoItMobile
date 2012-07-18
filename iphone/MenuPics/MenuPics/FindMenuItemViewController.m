@@ -15,6 +15,7 @@
 #import "OrderedDictionary.h"
 #import "AFNetworking.h"
 #import "SVProgressHUD.h"
+#import "Photo.h"
 
 @interface FindMenuItemViewController ()
 
@@ -22,7 +23,7 @@
 
 @implementation FindMenuItemViewController
 
-@synthesize photoId = _photoId;
+@synthesize photoToTag = _photoToTag;
 @synthesize tabBar = _tabBar;
 @synthesize restaurantIdentifier = _restaurantIdentifier;
 @synthesize menuTypes = _menuTypes;
@@ -308,7 +309,7 @@
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
         [request setEntity:entity];
         
-        NSString *predicateString = [NSString stringWithFormat:@"photoId == %d", [self photoId]];
+        NSString *predicateString = [NSString stringWithFormat:@"photoId == %d", [[_photoToTag photoId] intValue]];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
         
@@ -323,7 +324,11 @@
             NSLog(@"Error saving to Core Data");
         }
         
-        [SavedPhoto tagPhoto:savedPhoto];
+        [_photoToTag setMenuItemName:[menuItem name]];
+        [_photoToTag setPoints:[NSNumber numberWithInt:1]];
+        [Photo tagPhoto:_photoToTag withMenuItemId:[[menuItem entityId] intValue]];
+        
+        [self dismissModalViewControllerAnimated:YES];
     }
     
     [_currentMenuTable deselectRowAtIndexPath:indexPath animated:YES];
@@ -360,12 +365,13 @@
             _currentMenuTable = (UITableView *)currentMenuView;
             
             UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+            [headerView setBackgroundColor:[UIColor lightGrayColor]];
             
-            UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+            UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, 320, 20)];
             [instructions setText:@"Choose photo's menu item"];
             [instructions setFont:[UIFont fontWithName:@"STHeitiTC-Medium" size:12.0]];
             [instructions setTextColor:[UIColor whiteColor]];
-            [instructions setBackgroundColor:[UIColor lightGrayColor]];
+            [instructions setBackgroundColor:[UIColor clearColor]];
             [instructions setTextAlignment:UITextAlignmentCenter];
             [headerView addSubview:instructions];
             

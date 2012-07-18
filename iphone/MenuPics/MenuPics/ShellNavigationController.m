@@ -15,6 +15,15 @@
 
 @implementation ShellNavigationController
 
+- (id)initWithRootViewController:(UIViewController *)rootViewController
+{
+    id navigationController = [super initWithRootViewController:rootViewController];
+    
+    [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
+    
+    return navigationController;
+}
+
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
     UIViewController *targetViewController = [self.viewControllers objectAtIndex:([self.viewControllers count] - 2)];
@@ -25,8 +34,13 @@
         if (selectedTabItem == photosTabItem) {
             [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_translucent"] forBarMetrics:UIBarMetricsDefault];
             [self.navigationBar setTranslucent:YES];
+        } else {
+            [self.navigationBar setBarStyle:UIBarStyleBlackOpaque];
+            [self.navigationBar setTranslucent:NO];
+            [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
         }
     } else {
+        [self.navigationBar setBarStyle:UIBarStyleBlackOpaque];
         [self.navigationBar setTranslucent:NO];
         [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
     }

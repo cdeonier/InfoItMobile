@@ -40,6 +40,7 @@
 // Properties
 @synthesize underlyingImage = _underlyingImage, 
 caption = _caption;
+@synthesize photo = _photo;
 
 #pragma mark Class Methods
 
@@ -84,6 +85,7 @@ caption = _caption;
 	[_photoPath release];
 	[_photoURL release];
 	[_underlyingImage release];
+    [_photo release];
 	[super dealloc];
 }
 

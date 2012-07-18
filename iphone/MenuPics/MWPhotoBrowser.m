@@ -12,6 +12,11 @@
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
 
+#import "Photo.h"
+#import "FindRestaurantViewController.h"
+#import "ShellNavigationController.h"
+#import "UIColor+ExtendedColor.h"
+
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -61,6 +66,9 @@
     BOOL _viewIsActive; // active as in it's in the view heirarchy
     BOOL _didSavePreviousStateOfNavBar;
     
+    //MenuPics
+    UIBarButtonItem *_tagButton;
+    UIBarButtonItem *_untagButton;
 }
 
 // Private Properties
@@ -121,6 +129,10 @@
 - (void)savePhoto;
 - (void)copyPhoto;
 - (void)emailPhoto;
+
+// MenuPics
+- (void)tagPhoto;
+- (void)untagPhoto;
 
 @end
 
@@ -200,6 +212,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [[SDImageCache sharedImageCache] clearMemory]; // clear memory
     [_photos release];
     [_progressHUD release];
+    
+    [_tagButton release];
     [super dealloc];
 }
 
@@ -253,6 +267,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     _nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/UIBarButtonItemArrowRight.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
     _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
     
+    //MenuPics
+    _tagButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tags.png"] style:UIBarButtonItemStylePlain target:self action:@selector(tagPhoto)];
+    _untagButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"untags.png"] style:UIBarButtonItemStylePlain target:self action:@selector(untagPhoto)];
+    
     // Update
     [self reloadData];
     
@@ -283,6 +301,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     fixedLeftSpace.width = 32; // To balance action button
     UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
     NSMutableArray *items = [[NSMutableArray alloc] init];
+    
+    /* MenuPics Begin */
+    /*
     if (_displayActionButton) [items addObject:fixedLeftSpace];
     [items addObject:flexSpace];
     if (numberOfPhotos > 1) [items addObject:_previousButton];
@@ -293,6 +314,18 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_toolbar setItems:items];
     [items release];
 	[self updateNavigation];
+     */
+    
+    [items addObject:flexSpace];
+    [items addObject:_tagButton];
+    [items addObject:flexSpace];
+    [items addObject:_actionButton];
+    [items addObject:flexSpace];
+    [_toolbar setItems:items];
+    [items release];
+	[self updateNavigation];
+    
+    /* MenuPics End */
     
     // Navigation buttons
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
@@ -343,6 +376,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_previousButton release], _previousButton = nil;
     [_nextButton release], _nextButton = nil;
     self.progressHUD = nil;
+    
+    //MenuPics
+    [_tagButton release], _tagButton = nil;
+    
     [super viewDidUnload];
 }
 
@@ -371,6 +408,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Update UI
 	[self hideControlsAfterDelay];
     
+    //MenuPics -- we may have tagged
+    [self updateNavigation];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -383,7 +422,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         _viewIsActive = NO;
         
         // Bar state / appearance
-        [self restorePreviousNavBarAppearance:animated];
+        //[self restorePreviousNavBarAppearance:animated];
         
     }
     
@@ -868,7 +907,31 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	// Buttons
 	_previousButton.enabled = (_currentPageIndex > 0);
 	_nextButton.enabled = (_currentPageIndex < [self numberOfPhotos]-1);
-	
+    
+    //MenuPics -- Change tag/untag buttons if necessary
+    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
+    Photo *photo = [mwPhoto photo];
+	if ([photo points] != nil) {
+        UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
+        NSMutableArray *items = [[NSMutableArray alloc] init];
+        [items addObject:flexSpace];
+        [items addObject:_untagButton];
+        [items addObject:flexSpace];
+        [items addObject:_actionButton];
+        [items addObject:flexSpace];
+        [_toolbar setItems:items];
+        [items release];
+    } else {
+        UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
+        NSMutableArray *items = [[NSMutableArray alloc] init];
+        [items addObject:flexSpace];
+        [items addObject:_tagButton];
+        [items addObject:flexSpace];
+        [items addObject:_actionButton];
+        [items addObject:flexSpace];
+        [_toolbar setItems:items];
+        [items release];
+    }
 }
 
 - (void)jumpToPageAtIndex:(NSUInteger)index {
@@ -1152,6 +1215,29 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 		[alert show];
     }
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark MenuPics
+
+- (void)tagPhoto
+{
+    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
+    Photo *photoToTag = [mwPhoto photo];
+    FindRestaurantViewController *viewController = [[FindRestaurantViewController alloc] initWithNibName:@"FindRestaurantViewController" bundle:nil];
+    [viewController setPhotoToTag:photoToTag];
+    UINavigationController *nc = [[ShellNavigationController alloc] initWithRootViewController:viewController];
+    [self presentModalViewController:nc animated:YES];
+}
+
+- (void)untagPhoto
+{
+    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
+    Photo *photo = [mwPhoto photo];
+    [photo setPoints:nil];
+    [photo setMenuItemName:nil];
+    [photo setRestaurantName:nil];
+    [self updateNavigation];
+    [Photo untagPhoto:photo];
 }
 
 @end

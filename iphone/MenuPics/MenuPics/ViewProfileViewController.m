@@ -333,26 +333,15 @@
 {
     if (gridView == _photosGridView) {
         _photoBrowserArray = _photos;
-        [_photoBrowser setInitialPageIndex:position];
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:_photoBrowser];
-        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        [_photoBrowser reloadData];
-        [self presentModalViewController:nc animated:YES];
     } else if (gridView == _recentPhotosGridView) {
         _photoBrowserArray = _recentPhotos;
-        [_photoBrowser setInitialPageIndex:position];
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:_photoBrowser];
-        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        [_photoBrowser reloadData];
-        [self presentModalViewController:nc animated:YES];
     } else if (gridView == _popularPhotosGridView) {
         _photoBrowserArray = _popularPhotos;
-        [_photoBrowser setInitialPageIndex:position];
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:_photoBrowser];
-        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        [_photoBrowser reloadData];
-        [self presentModalViewController:nc animated:YES];
     }
+    
+    [_photoBrowser setInitialPageIndex:position];
+    [_photoBrowser reloadData]; 
+    [self.navigationController pushViewController:_photoBrowser animated:YES];
 }
 
 #pragma mark MWPhotoBrowser Delegate
@@ -368,8 +357,10 @@
         MWPhoto *mwPhoto;
         if ([photo fileLocation]) {
             mwPhoto = [MWPhoto photoWithFilePath:[photo fileLocation]];
+            [mwPhoto setPhoto:photo];
         } else {
             mwPhoto = [MWPhoto photoWithURL:[NSURL URLWithString:[photo photoUrl]]];
+            [mwPhoto setPhoto:photo];
         }
         return mwPhoto;
     }
@@ -436,7 +427,7 @@
 - (void)initializePopularPhotosGridView
 {
     [_popularPhotosGridView setItemSpacing:12];
-    [_popularPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal]];
+    [_popularPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutVertical]];
     [_popularPhotosGridView setMinEdgeInsets:UIEdgeInsetsMake(0, 11, 0, 11)];
     [_popularPhotosGridView setCenterGrid:NO];
 }
@@ -551,7 +542,7 @@
     }
     
     NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"likeCount" ascending:NO];
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"points" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     _popularPhotos = [NSMutableArray arrayWithArray:[_popularPhotos sortedArrayUsingDescriptors:sortDescriptors]];
     
@@ -622,6 +613,9 @@
             if (![fileName isEqualToString:@"profile_photo"] && [[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"] > 0) {
                 SavedPhoto *savedPhoto = [SavedPhoto photoWithFilename:fileName];
                 [savedPhoto setPoints:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"]];
+            } else {
+                SavedPhoto *savedPhoto = [SavedPhoto photoWithFilename:fileName];
+                [savedPhoto setPoints:nil];
             }
         }
         

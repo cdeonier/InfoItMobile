@@ -24,6 +24,11 @@
 @property (nonatomic, strong) NSNumber *points;
 @property (nonatomic) BOOL votedForPhoto;
 
+@property (nonatomic, strong) NSString *menuItemName;
+@property (nonatomic, strong) NSString *restaurantName;
+
 - (id)initWithSavedPhoto:(SavedPhoto *)savedPhoto;
++ (void)tagPhoto:(Photo *)photo withMenuItemId:(NSInteger)menuItemId;
++ (void)untagPhoto:(Photo *)photo;
 
 @end

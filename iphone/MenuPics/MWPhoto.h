@@ -10,6 +10,7 @@
 #import "MWPhotoProtocol.h"
 #import "SDWebImageDecoder.h"
 #import "SDWebImageManager.h"
+#import "Photo.h"
 
 // This class models a photo/image and it's caption
 // If you want to handle photos, caching, decompression
@@ -29,6 +30,9 @@
 - (id)initWithImage:(UIImage *)image;
 - (id)initWithFilePath:(NSString *)path;
 - (id)initWithURL:(NSURL *)url;
+
+//MenuPics
+@property (nonatomic, retain) Photo *photo;
 
 @end
 

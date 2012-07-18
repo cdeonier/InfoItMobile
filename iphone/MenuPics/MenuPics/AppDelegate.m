@@ -29,10 +29,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    self.navController = [[NavController alloc] initWithNibName:@"NavController" bundle:nil];
-    
+
     HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    self.window.rootViewController = [[ShellNavigationController alloc] initWithRootViewController:homeViewController];
+    
+    /*
+    self.navController = [[NavController alloc] initWithNibName:@"NavController" bundle:nil];
+     
     self.centerViewController = [[ShellNavigationController alloc] initWithRootViewController:homeViewController];
     
     IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.centerViewController leftViewController:self.navController];
@@ -40,7 +43,7 @@
     [deckController setPanningMode:IIViewDeckNavigationBarPanning];
     self.deckController = deckController;
     
-    self.window.rootViewController = deckController;
+    self.window.rootViewController = [[ShellNavigationController alloc] initWithRootViewController:homeViewController];*/
     [self.window makeKeyAndVisible];
     
     NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

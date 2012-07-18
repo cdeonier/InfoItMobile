@@ -44,7 +44,6 @@
 		3C2D9C83157F2021001DAC77 /* selected_picture_no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D9C81157F2021001DAC77 /* selected_picture_no@2x.png */; };
 		3C2D9C84157F2021001DAC77 /* selected_picture_yes@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D9C82157F2021001DAC77 /* selected_picture_yes@2x.png */; };
 		3C2D9C88157F5C33001DAC77 /* grid_cell_selected_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D9C87157F5C33001DAC77 /* grid_cell_selected_background@2x.png */; };
-		3C2D9CAA15801BCB001DAC77 /* libSDWebImageARC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D949A156F13A100331EB3 /* libSDWebImageARC.a */; };
 		3C2D9CAE1580850C001DAC77 /* photos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D9CAC1580850C001DAC77 /* photos.png */; };
 		3C2E7F5D15798B9B00DED59B /* MenuPicsAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E7F5C15798B9B00DED59B /* MenuPicsAPIClient.m */; };
 		3C314B501596FB2E0001210B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C314B4F1596FB2E0001210B /* SystemConfiguration.framework */; };
@@ -174,6 +173,8 @@
 		3CCDB991157D7CC200590DB3 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCDB98F157D7CC200590DB3 /* SVProgressHUD.m */; };
 		3CCDB9A2157ED09300590DB3 /* focus_indicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB9A1157ED09300590DB3 /* focus_indicator@2x.png */; };
 		3CCDB9A4157ED9BF00590DB3 /* focus_indicator_dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCDB9A3157ED9BF00590DB3 /* focus_indicator_dark@2x.png */; };
+		3CCFA69615B4DC73002F5DBC /* libSDWebImage.a in Resources */ = {isa = PBXBuildFile; fileRef = 3C6D9498156F13A100331EB3 /* libSDWebImage.a */; };
+		3CCFA69715B4DCAC002F5DBC /* libSDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6D9498156F13A100331EB3 /* libSDWebImage.a */; };
 		3CD8BDC71558C4A600890F62 /* find_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC61558C4A600890F62 /* find_menu.png */; };
 		3CD8BDC91558C4B900890F62 /* take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDC81558C4B900890F62 /* take_photo.png */; };
 		3CD8BDCB1558C4C700890F62 /* view_profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD8BDCA1558C4C700890F62 /* view_profile.png */; };
@@ -350,19 +351,12 @@
 			remoteGlobalIDString = 53922D6F148C55820056699D;
 			remoteInfo = SDWebImage;
 		};
-		3C6D9499156F13A100331EB3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 53761325155AD0D5005750A4;
-			remoteInfo = "SDWebImage ARC";
-		};
-		3C6D949B156F13B200331EB3 /* PBXContainerItemProxy */ = {
+		3CCFA69415B4DBFA002F5DBC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3C6D9492156F13A100331EB3 /* SDWebImage.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 53761307155AD0D5005750A4;
-			remoteInfo = "SDWebImage ARC";
+			remoteGlobalIDString = 53922D6E148C55810056699D;
+			remoteInfo = SDWebImage;
 		};
 		3CF510F715777282004418FC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -791,8 +785,8 @@
 				3C13138815A25E82009769A7 /* Security.framework in Frameworks */,
 				3C314B501596FB2E0001210B /* SystemConfiguration.framework in Frameworks */,
 				3C9594351550C7D100627182 /* UIKit.framework in Frameworks */,
+				3CCFA69715B4DCAC002F5DBC /* libSDWebImage.a in Frameworks */,
 				3CF510FB157772C2004418FC /* libGMGridView.a in Frameworks */,
-				3C2D9CAA15801BCB001DAC77 /* libSDWebImageARC.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1303,7 +1297,6 @@
 			isa = PBXGroup;
 			children = (
 				3C6D9498156F13A100331EB3 /* libSDWebImage.a */,
-				3C6D949A156F13A100331EB3 /* libSDWebImageARC.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1820,8 +1813,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				3CCFA69515B4DBFA002F5DBC /* PBXTargetDependency */,
 				3CF510FA157772A4004418FC /* PBXTargetDependency */,
-				3C6D949C156F13B200331EB3 /* PBXTargetDependency */,
 			);
 			name = MenuPics;
 			productName = MenuPics;
@@ -1872,13 +1865,6 @@
 			remoteRef = 3C6D9497156F13A100331EB3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3C6D949A156F13A100331EB3 /* libSDWebImageARC.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSDWebImageARC.a;
-			remoteRef = 3C6D9499156F13A100331EB3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		3CF510F815777282004418FC /* libGMGridView.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1893,6 +1879,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CCFA69615B4DC73002F5DBC /* libSDWebImage.a in Resources */,
 				3C95943F1550C7D100627182 /* InfoPlist.strings in Resources */,
 				3C9594681552211300627182 /* NavController.xib in Resources */,
 				3C959478155252BA00627182 /* menu_header_separator.png in Resources */,
@@ -2229,10 +2216,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3C6D949C156F13B200331EB3 /* PBXTargetDependency */ = {
+		3CCFA69515B4DBFA002F5DBC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "SDWebImage ARC";
-			targetProxy = 3C6D949B156F13B200331EB3 /* PBXContainerItemProxy */;
+			name = SDWebImage;
+			targetProxy = 3CCFA69415B4DBFA002F5DBC /* PBXContainerItemProxy */;
 		};
 		3CF510FA157772A4004418FC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

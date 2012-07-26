@@ -15,6 +15,8 @@
 #import "UIColor+ExtendedColor.h"
 #import "ImageUtil.h"
 
+NSString *const MenuPicsFacebookNotification = @"MenuPicsFacebookNotification";
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -24,7 +26,6 @@
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -91,7 +92,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [FBSession.activeSession close];
 }
 
 - (void)disableNavigationMenu
@@ -236,6 +237,27 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+//FB Integration
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    // attempt to extract a token from the url
+    return [FBSession.activeSession handleOpenURL:url]; 
+}
+
+- (void)openFacebookSession {
+    NSArray *permissions = [NSArray arrayWithObjects:@"publish_actions", nil];
+    [FBSession sessionOpenWithPermissions:permissions completionHandler:
+     ^(FBSession *session, FBSessionState state, NSError *error) {
+         [self sessionStateChanged:session state:state error:error];
+     }];    
+}
+
+- (void)sessionStateChanged:(FBSession *)session 
+                      state:(FBSessionState)state
+                      error:(NSError *)error
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:MenuPicsFacebookNotification object:session];
 }
 
 

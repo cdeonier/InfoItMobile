@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FBiOSSDK/FacebookSDK.h>
+
+extern NSString *const MenuPicsFacebookNotification;
 
 @class ViewController;
 @class NavController;
@@ -28,5 +31,7 @@
 
 - (void)disableNavigationMenu;
 - (void)enableNavigationMenu;
+
+- (void)openFacebookSession;
 
 @end

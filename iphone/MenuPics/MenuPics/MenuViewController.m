@@ -65,6 +65,8 @@
     self.restaurantMenus = [[OrderedDictionary alloc] init];
     self.menuTypes = [[NSMutableArray alloc] init];
     
+    self.allMenusTable.tableFooterView = [UIView new];
+    
     self.restaurant = [[Restaurant alloc] init];
 
     if (![self.requestedTab isEqual:[NSNull null]] && [self.requestedTab isEqualToString:@"Restaurant"]) {
@@ -80,7 +82,6 @@
     self.currentMenuTable.tableFooterView = [UIView new];
     self.allMenusTable.tableFooterView = [UIView new];
     
-    //[self restGetRestaurantMenus:self.restaurantIdentifier];
     [self getMenu:self.restaurantIdentifier];
 }
 

@@ -33,5 +33,6 @@
 
 - (IBAction)createAccount:(id)sender;
 - (IBAction)signIn:(id)sender;
+- (IBAction)signInWithFacebook:(id)sender;
 
 @end

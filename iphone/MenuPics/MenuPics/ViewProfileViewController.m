@@ -176,8 +176,6 @@
 
 - (void)didSyncPhoto:(SavedPhoto *)syncedPhoto 
 {
-    Photo *photo = [[Photo alloc] initWithSavedPhoto:syncedPhoto];
-    [[self photos] addObject:photo];
     [[self photosGridView] reloadData];
 }
 
@@ -301,7 +299,12 @@
             [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
             cell.contentView = imageView;
         }
-        [(UIImageView *)cell.contentView setImage:[[self.recentPhotos objectAtIndex:index] thumbnail]];
+        
+        if ([[self.recentPhotos objectAtIndex:index] thumbnail]) {
+            [(UIImageView *)cell.contentView setImage:[[self.recentPhotos objectAtIndex:index] thumbnail]];
+        } else {
+            [(UIImageView *)cell.contentView setImageWithURL:[NSURL URLWithString:[[self.recentPhotos objectAtIndex:index] thumbnailUrl]]];
+        }
     } else if (gridView == _popularPhotosGridView) {
         if (!cell) 
         {
@@ -628,6 +631,8 @@
         [self populatePhotosGridView];
         
         [self updatePoints];
+        
+        [self populateRecentPhotosGridView];
         
         [self populatePopularPhotosGridView:JSON];
                 

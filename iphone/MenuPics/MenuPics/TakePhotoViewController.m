@@ -140,6 +140,16 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [self finishUpdatingLocation];
     }
     
+    //We may have taken photos, but cancel-- we'll remove entries from Core Data that were created when we took them, since we don't actually save
+    for (SavedPhoto *photo in _photos) {
+        [_context deleteObject:photo];
+    }
+    
+    NSError *error = nil;
+    if (![_context save:&error]) {
+        NSLog(@"Error saving photos to Core Data");
+    }
+    
     //Anytime we're done with this view, we should be able to 
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate enableNavigationMenu];
@@ -315,10 +325,26 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 
 - (IBAction)savePhotos:(id)sender
 { 
-    NSIndexSet *indexSet = [self.photos indexesOfObjectsPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+    NSIndexSet *selectedSet = [self.photos indexesOfObjectsPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
         return [(SavedPhoto *)obj isSelected]; 
     }];
-    NSArray *selectedPhotos = [self.photos objectsAtIndexes:indexSet];
+    NSArray *selectedPhotos = [self.photos objectsAtIndexes:selectedSet];
+    
+    NSIndexSet *unselectedSet = [self.photos indexesOfObjectsPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([(SavedPhoto *)obj isSelected]) {
+            return NO;
+        } else {
+            return YES;
+        }
+    }];
+    NSArray *unselectedPhotos = [self.photos objectsAtIndexes:unselectedSet];
+    
+    for (SavedPhoto *unselectedPhoto in unselectedPhotos) {
+        [_context deleteObject:unselectedPhoto];
+    }
+    
+    //Clear out photos array to cleanup now so viewDidDisappear doesn't remove out selected photos
+    [self setPhotos:nil];
     
     NSDate *saveDate = [NSDate date];
     
@@ -343,7 +369,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [fileManager moveItemAtPath:[selectedPhoto fileLocation] toPath:[photosDirectory stringByAppendingPathComponent:[selectedPhoto fileName]] error:nil];
         [selectedPhoto setFileLocation:[photosDirectory stringByAppendingPathComponent:[selectedPhoto fileName]]];
     }
-    
+     
     NSError *error = nil;
     if (![_context save:&error]) {
         NSLog(@"Error saving photos to Core Data");
@@ -438,10 +464,10 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setDisplayedPhotoIndex:0];
                 [self setPreviewPhotoFileLocation:filePath];
-//                UIImageView *portraitPreview = (UIImageView *)[self.portraitView viewWithTag:1];
-//                UIImageView *landscapePreview = (UIImageView *)[self.landscapeView viewWithTag:1];
-//                [portraitPreview setImage:scaledImage];
-//                [landscapePreview setImage:scaledImage];
+                UIImageView *previewImagePortrait = (UIImageView *)[self.portraitView viewWithTag:1];
+                UIImageView *previewImageLandscape = (UIImageView *)[self.landscapeView viewWithTag:1];
+                [previewImagePortrait setImage:scaledImage];
+                [previewImageLandscape setImage:scaledImage];
             });
         }
         

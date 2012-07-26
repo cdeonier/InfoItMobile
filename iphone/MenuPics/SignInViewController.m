@@ -8,6 +8,7 @@
 
 #import "SignInViewController.h"
 #import "CreateAccountViewController.h"
+#import "AppDelegate.h"
 #import "UIColor+ExtendedColor.h"
 #import "AFNetworking.h"
 #import "User.h"
@@ -162,6 +163,27 @@
         [operation start];
     } else {
         [self displayError:@"Email and password cannot be blank."];
+    }
+}
+
+- (IBAction)signInWithFacebook:(id)sender
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate openFacebookSession];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(didFinishSigningInWithFacebook:) 
+                                                 name:MenuPicsFacebookNotification
+                                               object:nil];
+}
+
+- (void)didFinishSigningInWithFacebook:(NSNotification *)notification
+{
+    FBSession *session = (FBSession *)[notification object];
+    
+    if (session.state == FBSessionStateOpen) {
+        NSLog(@"Logged In with access token: %@", [session accessToken]);
+        [_delegate signInViewController:self didSignIn:YES];
     }
 }
 

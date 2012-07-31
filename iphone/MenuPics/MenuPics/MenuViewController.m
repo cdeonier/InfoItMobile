@@ -44,6 +44,14 @@
 
 /* Restaurant */
 @synthesize restaurant = _restaurant;
+@synthesize restaurantScrollView = _restaurantScrollView;
+@synthesize restaurantName = _restaurantName;
+@synthesize restaurantDescription = _restaurantDescription;
+@synthesize addressContainer = _addressContainer;
+@synthesize addressOne = _addressOne;
+@synthesize addressTwo = _addressTwo;
+@synthesize cityStateZip = _cityStateZip;
+@synthesize phoneNumber = _phoneNumber;
 
 /* All Menus */
 @synthesize allMenusTable = _allMenusTable;
@@ -136,6 +144,7 @@
         NSLog(@"%@", entityJson);
         id placeDetailsJson = [entityJson valueForKey:@"place_details"];
         id addressJson = [placeDetailsJson valueForKey:@"address"];
+        id contactJson = [placeDetailsJson valueForKey:@"contact_information"];
         NSArray *menuItemsJson = [placeDetailsJson objectForKey:@"menu_items"];
 
         [self.restaurant setEntityId:[entityJson valueForKey:@"id"]];
@@ -147,6 +156,7 @@
         [self.restaurant setCity:[addressJson valueForKey:@"city"]];
         [self.restaurant setState:[addressJson valueForKey:@"state"]];
         [self.restaurant setZipCode:[addressJson valueForKey:@"zip_code"]];
+        [self.restaurant setPhone:[contactJson valueForKey:@"phone"]];
         
         OrderedDictionary *menu;
         NSMutableArray *categoryItems;
@@ -457,28 +467,9 @@
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"RestaurantView" owner:self options:nil]; 
             UIView *restaurantView = [xib objectAtIndex:0];
             [self.view insertSubview:restaurantView atIndex:0];
-            UIScrollView *scrollView = (UIScrollView *)[restaurantView viewWithTag:1000];
-            [scrollView setFrame:CGRectMake(0, 0, 320, 367)];
-            [scrollView setContentSize:CGSizeMake(320, 600)];
             
-            [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePhotoUrl] success:nil];
-                        
-            UILabel *restaurantName = (UILabel *)[restaurantView viewWithTag:202];
-            [restaurantName setText:[self.restaurant name]];
-
-            UILabel *restaurantDescription = (UILabel *)[restaurantView viewWithTag:203];
-            [restaurantDescription setText:[self.restaurant description]];
-            UIFont *descriptionFont = [UIFont fontWithName:@"GillSans" size:13.0];
-            CGSize maximumLabelSize = CGSizeMake(296,9999);
+            [self setRestaurantScrollView];
             
-            CGSize expectedLabelSize = [[self.restaurant description] sizeWithFont:descriptionFont
-                                                                      constrainedToSize:maximumLabelSize
-                                                                      lineBreakMode:UILineBreakModeWordWrap]; 
-            
-            CGRect newFrame = restaurantDescription.frame;
-            newFrame.size.height = expectedLabelSize.height;
-            restaurantDescription.frame = newFrame; 
-
             break;
         }
         case AllMenusTab: {
@@ -535,6 +526,76 @@
     self.navigationItem.backBarButtonItem = backButton;
     
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)initializeRestaurantDescriptionView
+{
+    [_restaurantDescription setText:[_restaurant description]];
+    UIFont *descriptionFont = [UIFont fontWithName:@"GillSans" size:13.0];
+    CGSize maximumLabelSize = CGSizeMake(296,9999);
+    CGSize expectedLabelSize = [[_restaurant description] sizeWithFont:descriptionFont
+                                                          constrainedToSize:maximumLabelSize
+                                                          lineBreakMode:UILineBreakModeWordWrap];
+    CGRect newFrame = _restaurantDescription.frame;
+    newFrame.size.height = expectedLabelSize.height;
+    _restaurantDescription.frame = newFrame;
+}
+
+- (void)initializeAddressView
+{
+    [_addressOne setText:[_restaurant streetOne]];
+    
+    if ([_restaurant streetTwo] && ![[_restaurant streetTwo] isEqualToString:@""]) {
+        [_addressTwo setText:[_restaurant streetTwo]];
+    } else {
+        [_addressTwo removeFromSuperview];
+        CGRect frame = _cityStateZip.frame;
+        frame.origin.y -= _addressTwo.frame.size.height;
+        [_cityStateZip setFrame:frame];
+        frame = _phoneNumber.frame;
+        frame.origin.y -= _addressTwo.frame.size.height;
+        [_phoneNumber setFrame:frame];
+        frame = _addressContainer.frame;
+        frame.size.height -= _addressTwo.frame.size.height;
+        [_addressContainer setFrame:frame];
+    }
+    
+    NSString *cityStateZipString = [[_restaurant city] stringByAppendingString:@", "];
+    cityStateZipString = [cityStateZipString stringByAppendingString:[_restaurant state]];
+    cityStateZipString = [cityStateZipString stringByAppendingString:@" "];
+    cityStateZipString = [cityStateZipString stringByAppendingString:[_restaurant zipCode]];
+    [_cityStateZip setText:cityStateZipString];
+    [_phoneNumber setText:[_restaurant phone]];
+}
+
+- (void)setRestaurantScrollView
+{
+    [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePhotoUrl] success:nil];
+    
+    [_restaurantName setText:[_restaurant name]];
+    
+    [self initializeRestaurantDescriptionView];
+    [self initializeAddressView];
+    
+    int restaurantDescriptionEnd = _restaurantDescription.frame.origin.y;
+    restaurantDescriptionEnd += _restaurantDescription.frame.size.height;
+    
+    int addressWidth = _addressContainer.frame.size.width;
+    int addressHeight = _addressContainer.frame.size.height;
+    
+    [_addressContainer setFrame:CGRectMake(0, restaurantDescriptionEnd + 15, addressWidth, addressHeight)];
+    
+    int contentSize = 240;  //assume profile image of size 320x240
+    contentSize += _restaurantDescription.frame.origin.y;
+    contentSize += _restaurantDescription.frame.size.height;
+    NSLog(@"contentSize: %d",contentSize);
+    contentSize += 5; //padding
+    contentSize += _addressContainer.frame.size.height;
+    NSLog(@"contentSize: %d",contentSize);
+    contentSize += 15; //padding
+    [_restaurantScrollView setFrame:CGRectMake(0, 0, 320, 367)];
+    [_restaurantScrollView setContentSize:CGSizeMake(320, contentSize)];
+    [_restaurantScrollView setBounces:NO];
 }
 
 @end

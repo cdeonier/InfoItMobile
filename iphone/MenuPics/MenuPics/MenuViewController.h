@@ -42,6 +42,14 @@ typedef NSInteger MenuTab;
 
 /* Restaurant */
 @property (nonatomic, strong) Restaurant *restaurant;
+@property (nonatomic, strong) IBOutlet UIScrollView *restaurantScrollView;
+@property (nonatomic, strong) IBOutlet UILabel *restaurantName;
+@property (nonatomic, strong) IBOutlet UILabel *restaurantDescription;
+@property (nonatomic, strong) IBOutlet UIView *addressContainer;
+@property (nonatomic, strong) IBOutlet UILabel *addressOne;
+@property (nonatomic, strong) IBOutlet UILabel *addressTwo;
+@property (nonatomic, strong) IBOutlet UILabel *cityStateZip;
+@property (nonatomic, strong) IBOutlet UILabel *phoneNumber;
 
 /* All Menus */
 @property (nonatomic, strong) IBOutlet UITableView *allMenusTable;

@@ -45,6 +45,8 @@
 {
     [super viewDidLoad];
     
+    [TestFlight passCheckpoint:@"Presented Sign In View"];
+    
     [self setTitle:@"Sign In"];
     
     [_navBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
@@ -95,6 +97,8 @@
 
 - (IBAction)createAccount:(id)sender
 {
+    [TestFlight passCheckpoint:@"Selected Create Account"];
+    
     CreateAccountViewController *viewController = [[CreateAccountViewController alloc] initWithNibName:@"CreateAccountViewController" bundle:nil];
     [viewController setDelegate:self];
     [self presentModalViewController:viewController animated:YES];

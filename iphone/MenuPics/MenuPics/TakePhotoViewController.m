@@ -68,6 +68,8 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 {
     [super viewDidLoad];
     
+    [TestFlight passCheckpoint:@"Taking a picture"];
+    
     [self setTitle:@"Select and Save"];
     UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"camera_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(startImagePicker)];
     cameraButton.tintColor = [UIColor navBarButtonColor];
@@ -324,7 +326,9 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 }
 
 - (IBAction)savePhotos:(id)sender
-{ 
+{
+    [TestFlight passCheckpoint:@"Saving Picture"];
+    
     NSIndexSet *selectedSet = [self.photos indexesOfObjectsPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
         return [(SavedPhoto *)obj isSelected]; 
     }];

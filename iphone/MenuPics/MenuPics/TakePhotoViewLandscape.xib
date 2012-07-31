@@ -49,7 +49,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">image_loading.jpg</string>
+							<string key="NSResourceName">image_loading.png</string>
 						</object>
 					</object>
 					<object class="IBUIButton" id="645357185">
@@ -316,7 +316,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="brushed_metal_landscape@2x.png">{246, 80}</string>
-			<string key="image_loading.jpg">{320, 240}</string>
+			<string key="image_loading.png">{320, 240}</string>
 			<string key="save_photos_button@2x.png">{206, 60}</string>
 			<string key="save_photos_button_pressed@2x.png">{206, 60}</string>
 			<string key="selected_picture_yes@2x.png">{80, 80}</string>

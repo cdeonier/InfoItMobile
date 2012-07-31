@@ -110,6 +110,8 @@
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
         {
+            [TestFlight passCheckpoint:@"Created Account"];
+            
             NSLog(@"Operation success.");
             if (!JSON) {
                 NSLog(@"Success, but no JSON.");

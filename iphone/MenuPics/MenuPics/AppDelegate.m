@@ -29,6 +29,12 @@ NSString *const MenuPicsFacebookNotification = @"MenuPicsFacebookNotification";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //TestFlight
+    [TestFlight takeOff:@"4a49a431dcd4e3613671ae999204fae0_MTA5Mzk0MjAxMi0wNy0xMiAwNDozNjozOC45MTMxMTg"];
+    
+    //Comment out in release
+    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
@@ -57,7 +63,7 @@ NSString *const MenuPicsFacebookNotification = @"MenuPicsFacebookNotification";
         [[NSFileManager defaultManager] createDirectoryAtPath:takePhotosDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
         [[NSFileManager defaultManager] createDirectoryAtPath:photosDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
     }
-    
+
     //[self clearApp];
     
     //Ping the animation array because it's slow loading

@@ -93,7 +93,7 @@
         UIScrollView *scrollView = (UIScrollView *)[view viewWithTag:1000];
         UIView *contentContainer = [view viewWithTag:1001];
         
-        UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_loading"]];
+        UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_loading@2x.jpg"]];
         CGRect contentContainerFrame = contentContainer.frame;
         contentContainerFrame.origin.y += placeholderImage.frame.size.height;
         contentContainer.frame = contentContainerFrame;
@@ -127,8 +127,9 @@
                 contentContainerFrame.origin.y += profileImage.frame.size.height;
                 contentContainer.frame = contentContainerFrame;
                 
-                if (success)
+                if (success) {
                     success(contentContainer);
+                }
             });
         });
     } else {
@@ -142,11 +143,6 @@
         contentContainer.frame = contentContainerFrame;
         [scrollView insertSubview:placeholderImage atIndex:0];
     }
-}
-
-+ (void) initializeProfileImageWithUrl:(NSString *)url success:(void (^)(UIView *))success
-{
-    
 }
 
 @end

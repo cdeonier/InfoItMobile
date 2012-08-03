@@ -138,10 +138,10 @@
     success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) 
     {
         NSLog(@"Menu Success");
-        NSLog(@"Menu: %@", JSON);
+        //NSLog(@"Menu: %@", JSON);
 
         id entityJson = [JSON valueForKey:@"entity"];
-        NSLog(@"%@", entityJson);
+        //NSLog(@"%@", entityJson);
         id placeDetailsJson = [entityJson valueForKey:@"place_details"];
         id addressJson = [placeDetailsJson valueForKey:@"address"];
         id contactJson = [placeDetailsJson valueForKey:@"contact_information"];
@@ -201,7 +201,7 @@
             
             int photoCount = [[menuItem valueForKey:@"photo_count"] intValue] + [[menuItem valueForKey:@"external_photo_count"] intValue];
             [menuItemRecord setPhotoCount:[NSNumber numberWithInt:photoCount]];
-            NSLog(@"Menu Item Name: %@ with # photos: %@", [menuItemRecord name], [[menuItemRecord photoCount] stringValue]);
+            //NSLog(@"Menu Item Name: %@ with # photos: %@", [menuItemRecord name], [[menuItemRecord photoCount] stringValue]);
             
             if ([[menuItem objectForKey:@"profile_photo_type"] isEqualToString:@"ExternalPhoto"]) {
                 [menuItemRecord setSmallThumbnailUrl:[menuItem valueForKey:@"profile_photo_thumbnail"]];
@@ -570,7 +570,8 @@
 
 - (void)setRestaurantScrollView
 {
-    [ImageUtil initializeProfileImage:self.view withUrl:[self.restaurant profilePhotoUrl] success:nil];
+    NSURL *profileImageURL = [NSURL URLWithString:_restaurant.profilePhotoUrl];
+    [ImageUtil loadProfileImage:_restaurantScrollView withUrl:profileImageURL];
     
     [_restaurantName setText:[_restaurant name]];
     
@@ -585,7 +586,7 @@
     
     [_addressContainer setFrame:CGRectMake(0, restaurantDescriptionEnd + 15, addressWidth, addressHeight)];
     
-    int contentSize = 240;  //assume profile image of size 320x240
+    int contentSize = 0;
     contentSize += _restaurantDescription.frame.origin.y;
     contentSize += _restaurantDescription.frame.size.height;
     NSLog(@"contentSize: %d",contentSize);

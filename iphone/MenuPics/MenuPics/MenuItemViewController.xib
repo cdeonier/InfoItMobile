@@ -2,21 +2,21 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1296</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
-		<string key="IBDocument.HIToolboxVersion">569.00</string>
+		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1181</string>
+			<string key="NS.object.0">1498</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBUILabel</string>
+			<string>IBProxyObject</string>
 			<string>IBUIButton</string>
 			<string>IBUIImageView</string>
-			<string>IBUIView</string>
+			<string>IBUILabel</string>
 			<string>IBUIScrollView</string>
-			<string>IBProxyObject</string>
+			<string>IBUIView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -65,7 +65,7 @@
 								<string key="NSFrameSize">{320, 240}</string>
 								<reference key="NSSuperview" ref="614039601"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="299781836"/>
+								<reference key="NSNextKeyView" ref="678765849"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -77,10 +77,10 @@
 							<object class="IBUIButton" id="678765849">
 								<reference key="NSNextResponder" ref="614039601"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{220, 215}, {100, 25}}</string>
+								<string key="NSFrame">{{0, 215}, {100, 25}}</string>
 								<reference key="NSSuperview" ref="614039601"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="124818943"/>
+								<reference key="NSNextKeyView" ref="299781836"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -100,9 +100,13 @@
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="173162977">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">photo_username_background@2x.png</string>
+									<string key="NSResourceName">photo_button_background_pressed@2x.png</string>
+								</object>
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="985055799">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">photo_button_background@2x.png</string>
 								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="1069069359">
 									<string key="name">GillSans</string>
@@ -119,7 +123,7 @@
 							<object class="IBUIImageView" id="299781836">
 								<reference key="NSNextResponder" ref="614039601"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{0, 215}, {80, 25}}</string>
+								<string key="NSFrame">{{100, 215}, {120, 25}}</string>
 								<reference key="NSSuperview" ref="614039601"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="871238241"/>
@@ -134,7 +138,7 @@
 							<object class="IBUILabel" id="871238241">
 								<reference key="NSNextResponder" ref="614039601"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{0, 215}, {80, 25}}</string>
+								<string key="NSFrame">{{100, 215}, {120, 25}}</string>
 								<reference key="NSSuperview" ref="614039601"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="491586929"/>
@@ -165,16 +169,16 @@
 							<object class="IBUIButton" id="491586929">
 								<reference key="NSNextResponder" ref="614039601"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{80, 215}, {25, 25}}</string>
+								<string key="NSFrame">{{220, 215}, {100, 25}}</string>
 								<reference key="NSSuperview" ref="614039601"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="678765849"/>
+								<reference key="NSNextKeyView" ref="124818943"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<string key="IBUINormalTitle">+1</string>
+								<string key="IBUINormalTitle">Upvote Photo</string>
 								<object class="NSColor" key="IBUIHighlightedTitleColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAwLjUxNTYwOTYwMjcgMC4xNDk2NzAzNTI3AA</bytes>
@@ -185,10 +189,8 @@
 								</object>
 								<reference key="IBUINormalTitleColor" ref="542837750"/>
 								<reference key="IBUINormalTitleShadowColor" ref="584059960"/>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">photo_upvote_background@2x.png</string>
-								</object>
+								<reference key="IBUIHighlightedBackgroundImage" ref="173162977"/>
+								<reference key="IBUINormalBackgroundImage" ref="985055799"/>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<string key="name">GillSans</string>
 									<string key="family">Gill Sans</string>
@@ -268,6 +270,7 @@
 								<string key="NSFrame">{{10, 61}, {300, 153}}</string>
 								<reference key="NSSuperview" ref="992543359"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -290,7 +293,7 @@
 							<object class="IBUIButton" id="706642711">
 								<reference key="NSNextResponder" ref="992543359"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{10, 28}, {90, 25}}</string>
+								<string key="NSFrame">{{10, 28}, {145, 25}}</string>
 								<reference key="NSSuperview" ref="992543359"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="65964113"/>
@@ -326,10 +329,10 @@
 							<object class="IBUIButton" id="65964113">
 								<reference key="NSNextResponder" ref="992543359"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{115, 28}, {90, 25}}</string>
+								<string key="NSFrame">{{165, 28}, {145, 25}}</string>
 								<reference key="NSSuperview" ref="992543359"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="668278206"/>
+								<reference key="NSNextKeyView" ref="184200781"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -353,44 +356,15 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">like_button@2x.png</string>
 								</object>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="46756463">
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">2</int>
 									<double key="pointSize">15</double>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="1020088235">
+								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">15</double>
 									<int key="NSfFlags">16</int>
 								</object>
-							</object>
-							<object class="IBUIButton" id="668278206">
-								<reference key="NSNextResponder" ref="992543359"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{220, 28}, {90, 25}}</string>
-								<reference key="NSSuperview" ref="992543359"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="184200781"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="542837750"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="584059960"/>
-								<object class="NSCustomResource" key="IBUIHighlightedImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">restaurant_button_highlighted@2x.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">restaurant_button@2x.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="46756463"/>
-								<reference key="IBUIFont" ref="1020088235"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{0, 335}, {320, 240}}</string>
@@ -543,15 +517,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">pressRestaurantButton:</string>
-						<reference key="source" ref="668278206"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">26</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">pressUpvoteButton:</string>
 						<reference key="source" ref="491586929"/>
 						<reference key="destination" ref="372490531"/>
@@ -597,7 +562,6 @@
 							<reference ref="1061331714"/>
 							<reference ref="706642711"/>
 							<reference ref="65964113"/>
-							<reference ref="668278206"/>
 							<reference ref="184200781"/>
 						</array>
 						<reference key="parent" ref="763023481"/>
@@ -619,12 +583,6 @@
 						<reference key="object" ref="65964113"/>
 						<reference key="parent" ref="992543359"/>
 						<string key="objectName">Like Button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">15</int>
-						<reference key="object" ref="668278206"/>
-						<reference key="parent" ref="992543359"/>
-						<string key="objectName">Restaurant Button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">11</int>
@@ -698,14 +656,13 @@
 				<real value="1" key="13.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="2" key="14.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
-				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="15.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="48.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="1" key="48.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="2" key="50.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="1" key="50.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="61.CustomClassName">UIActivityIndicatorView</string>
@@ -833,13 +790,11 @@
 			<string key="like_button_selected@2x.png">{180, 50}</string>
 			<string key="menu_button@2x.png">{180, 50}</string>
 			<string key="menu_button_highlighted@2x.png">{180, 50}</string>
+			<string key="photo_button_background@2x.png">{200, 50}</string>
+			<string key="photo_button_background_pressed@2x.png">{200, 50}</string>
 			<string key="photo_points_background@2x.png">{200, 50}</string>
-			<string key="photo_upvote_background@2x.png">{50, 50}</string>
-			<string key="photo_username_background@2x.png">{200, 50}</string>
 			<string key="profile_no_image.jpg">{720, 540}</string>
-			<string key="restaurant_button@2x.png">{180, 50}</string>
-			<string key="restaurant_button_highlighted@2x.png">{180, 50}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1181</string>
+		<string key="IBCocoaTouchPluginVersion">1498</string>
 	</data>
 </archive>

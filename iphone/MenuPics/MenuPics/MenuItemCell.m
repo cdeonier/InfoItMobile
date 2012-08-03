@@ -94,9 +94,9 @@
     }
     
     if ([[menuItem likeCount] intValue] > 1) {
-        [_likeCount setText:[NSString stringWithFormat:@"%@ likes", [[menuItem likeCount] description]]];
+        [_likeCount setText:[NSString stringWithFormat:@"%@ favorites", [[menuItem likeCount] description]]];
     } else if ([[menuItem likeCount] intValue] > 0) {
-        [_likeCount setText:[NSString stringWithFormat:@"%@ like", [[menuItem likeCount] description]]];
+        [_likeCount setText:[NSString stringWithFormat:@"%@ favorite", [[menuItem likeCount] description]]];
     } else {
         [_likeIcon setHidden:YES];
         [_likeCount setHidden:YES];

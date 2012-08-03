@@ -100,11 +100,11 @@
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="173162977">
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="453824571">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">photo_button_background_pressed@2x.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="985055799">
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="927226197">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">photo_button_background@2x.png</string>
 								</object>
@@ -178,7 +178,8 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<string key="IBUINormalTitle">Upvote Photo</string>
+								<string key="IBUIHighlightedTitle">Voted</string>
+								<string key="IBUINormalTitle">Vote For Photo</string>
 								<object class="NSColor" key="IBUIHighlightedTitleColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAwLjUxNTYwOTYwMjcgMC4xNDk2NzAzNTI3AA</bytes>
@@ -189,8 +190,8 @@
 								</object>
 								<reference key="IBUINormalTitleColor" ref="542837750"/>
 								<reference key="IBUINormalTitleShadowColor" ref="584059960"/>
-								<reference key="IBUIHighlightedBackgroundImage" ref="173162977"/>
-								<reference key="IBUINormalBackgroundImage" ref="985055799"/>
+								<reference key="IBUIHighlightedBackgroundImage" ref="453824571"/>
+								<reference key="IBUINormalBackgroundImage" ref="927226197"/>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<string key="name">GillSans</string>
 									<string key="family">Gill Sans</string>
@@ -346,15 +347,15 @@
 								<reference key="IBUINormalTitleShadowColor" ref="584059960"/>
 								<object class="NSCustomResource" key="IBUIHighlightedImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">like_button_highlighted@2x.png</string>
+									<string key="NSResourceName">favorite_button_highlighted@2x.png</string>
 								</object>
 								<object class="NSCustomResource" key="IBUISelectedImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">like_button_selected@2x.png</string>
+									<string key="NSResourceName">favorite_button_selected@2x.png</string>
 								</object>
 								<object class="NSCustomResource" key="IBUINormalImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">like_button@2x.png</string>
+									<string key="NSResourceName">favorite_button@2x.png</string>
 								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">2</int>
@@ -582,7 +583,7 @@
 						<int key="objectID">14</int>
 						<reference key="object" ref="65964113"/>
 						<reference key="parent" ref="992543359"/>
-						<string key="objectName">Like Button</string>
+						<string key="objectName">Favorite Button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">11</int>
@@ -655,7 +656,7 @@
 				<real value="0.0" key="13.IBUIButtonInspectorSelectedEdgeInsetMetadataKey"/>
 				<real value="1" key="13.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="2" key="14.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="0.0" key="14.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -785,11 +786,11 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="like_button@2x.png">{180, 50}</string>
-			<string key="like_button_highlighted@2x.png">{180, 50}</string>
-			<string key="like_button_selected@2x.png">{180, 50}</string>
-			<string key="menu_button@2x.png">{180, 50}</string>
-			<string key="menu_button_highlighted@2x.png">{180, 50}</string>
+			<string key="favorite_button@2x.png">{290, 50}</string>
+			<string key="favorite_button_highlighted@2x.png">{290, 50}</string>
+			<string key="favorite_button_selected@2x.png">{290, 50}</string>
+			<string key="menu_button@2x.png">{290, 50}</string>
+			<string key="menu_button_highlighted@2x.png">{290, 50}</string>
 			<string key="photo_button_background@2x.png">{200, 50}</string>
 			<string key="photo_button_background_pressed@2x.png">{200, 50}</string>
 			<string key="photo_points_background@2x.png">{200, 50}</string>

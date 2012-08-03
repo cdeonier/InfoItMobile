@@ -362,7 +362,7 @@
     if (tableView == self.currentMenuTable) {
         return [self.currentMenu keyAtIndex:section];
     } else if (tableView == self.mostLikedTable) {
-        return @"Most Popular Dishes";
+        return @"Popular Dishes";
     }
     
     return nil;

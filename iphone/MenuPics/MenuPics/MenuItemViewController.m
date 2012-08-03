@@ -148,6 +148,7 @@
             _menuItemPhotos = [[NSMutableArray alloc] initWithArray:[_menuItemPhotos sortedArrayUsingDescriptors:sortDescriptors]];
             
             Photo *photo = [_menuItemPhotos objectAtIndex:0];
+            _displayedPhoto = photo;
             
             if ([[photo points] isEqualToNumber:[NSNumber numberWithInt:1]]) {
                 [_points setText:@"1 Point"];
@@ -179,56 +180,6 @@
     }];
     [operation start];
 
-}
-
-- (void)initializeDescriptionView
-{
-    UILabel *description = (UILabel *)[self.view viewWithTag:4];
-    [description setText:[self.menuItem description]];
-    UIFont *descriptionFont = [UIFont fontWithName:@"GillSans" size:13.0];
-    CGSize maximumLabelSize = CGSizeMake(296,9999);
-    CGSize expectedLabelSize = [[self.menuItem description] sizeWithFont:descriptionFont
-                                                       constrainedToSize:maximumLabelSize
-                                                           lineBreakMode:UILineBreakModeWordWrap]; 
-    CGRect newFrame = description.frame;
-    newFrame.size.height = expectedLabelSize.height;
-    description.frame = newFrame;
-}
-
-- (void)setScrollView
-{
-    int contentSize = 0;
-    contentSize += _contentContainer.frame.origin.y;
-    contentSize += _description.frame.origin.y;
-    contentSize += _description.frame.size.height;
-    contentSize += 5; //padding
-    [(UIScrollView *)self.view setContentSize:CGSizeMake(320, contentSize)];
-    [(UIScrollView *)self.view setBounces:NO];
-}
-
-- (void)initializeProfileImage
-{
-    if (![[_menuItem profilePhotoUrl] isEqual:[NSNull null]] && [[_menuItem profilePhotoUrl] length] > 0) {
-        UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_loading"]];
-        [placeholderImage setFrame:CGRectMake(0, 0, 320, 240)];
-        [self.view addSubview:placeholderImage];
-        
-        UIImageView *loadingAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-        [loadingAnimation setAnimationImages:[ImageUtil getSweepImageArray]];
-        [loadingAnimation setAnimationDuration:4.0f];
-        [loadingAnimation setAnimationRepeatCount:INFINITY];
-        [loadingAnimation startAnimating];
-        [loadingAnimation setCenter:CGPointMake(160, 120)];
-        [self.view addSubview:loadingAnimation];
-                    
-        [_profileImage setImageWithURL:[NSURL URLWithString:[_menuItem profilePhotoUrl]] success:^(UIImage *image) {
-            [placeholderImage removeFromSuperview];
-            [loadingAnimation removeFromSuperview];
-        } failure:^(NSError *error) {
-            [placeholderImage removeFromSuperview];
-            [loadingAnimation removeFromSuperview];
-        }]; 
-    }
 }
 
 #pragma mark SignInDelegate
@@ -650,6 +601,57 @@
     [operation start];
 }
 
+#pragma mark Helper Functions
+
+- (void)initializeDescriptionView
+{
+    UILabel *description = (UILabel *)[self.view viewWithTag:4];
+    [description setText:[self.menuItem description]];
+    UIFont *descriptionFont = [UIFont fontWithName:@"GillSans" size:13.0];
+    CGSize maximumLabelSize = CGSizeMake(296,9999);
+    CGSize expectedLabelSize = [[self.menuItem description] sizeWithFont:descriptionFont
+                                                       constrainedToSize:maximumLabelSize
+                                                           lineBreakMode:UILineBreakModeWordWrap];
+    CGRect newFrame = description.frame;
+    newFrame.size.height = expectedLabelSize.height;
+    description.frame = newFrame;
+}
+
+- (void)setScrollView
+{
+    int contentSize = 0;
+    contentSize += _contentContainer.frame.origin.y;
+    contentSize += _description.frame.origin.y;
+    contentSize += _description.frame.size.height;
+    contentSize += 5; //padding
+    [(UIScrollView *)self.view setContentSize:CGSizeMake(320, contentSize)];
+    [(UIScrollView *)self.view setBounces:NO];
+}
+
+- (void)initializeProfileImage
+{
+    if (![[_menuItem profilePhotoUrl] isEqual:[NSNull null]] && [[_menuItem profilePhotoUrl] length] > 0) {
+        UIImageView *placeholderImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"image_loading"]];
+        [placeholderImage setFrame:CGRectMake(0, 0, 320, 240)];
+        [self.view addSubview:placeholderImage];
+        
+        UIImageView *loadingAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        [loadingAnimation setAnimationImages:[ImageUtil getSweepImageArray]];
+        [loadingAnimation setAnimationDuration:4.0f];
+        [loadingAnimation setAnimationRepeatCount:INFINITY];
+        [loadingAnimation startAnimating];
+        [loadingAnimation setCenter:CGPointMake(160, 120)];
+        [self.view addSubview:loadingAnimation];
+        
+        [_profileImage setImageWithURL:[NSURL URLWithString:[_menuItem profilePhotoUrl]] success:^(UIImage *image) {
+            [placeholderImage removeFromSuperview];
+            [loadingAnimation removeFromSuperview];
+        } failure:^(NSError *error) {
+            [placeholderImage removeFromSuperview];
+            [loadingAnimation removeFromSuperview];
+        }];
+    }
+}
 
 
 @end

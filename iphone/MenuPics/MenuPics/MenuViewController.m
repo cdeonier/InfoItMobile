@@ -73,8 +73,6 @@
     self.restaurantMenus = [[OrderedDictionary alloc] init];
     self.menuTypes = [[NSMutableArray alloc] init];
     
-    self.allMenusTable.tableFooterView = [UIView new];
-    
     self.restaurant = [[Restaurant alloc] init];
 
     if (![self.requestedTab isEqual:[NSNull null]] && [self.requestedTab isEqualToString:@"Restaurant"]) {
@@ -88,7 +86,6 @@
     [self.view addSubview:currentMenuView];
     
     self.currentMenuTable.tableFooterView = [UIView new];
-    self.allMenusTable.tableFooterView = [UIView new];
     
     [self getMenu:self.restaurantIdentifier];
 }
@@ -435,6 +432,7 @@
             UIView *currentMenuView = [xib objectAtIndex:0];
             [self.view insertSubview:currentMenuView atIndex:0];
             [self setTitle:self.currentMenuType];
+            _currentMenuTable.tableFooterView = [UIView new];
             break;
         }
         case MostLikedTab: {
@@ -477,6 +475,7 @@
             UIView *allMenusView = [xib objectAtIndex:0];
             [self.view insertSubview:allMenusView atIndex:0];
             [self setTitle:@"All Menus"];
+            _allMenusTable.tableFooterView = [UIView new];
             break;
         }
         default:

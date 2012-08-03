@@ -76,7 +76,7 @@
 {
     [SVProgressHUD showWithStatus:@"Loading"];
     
-    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/menus/%d", *(self.restaurantIdentifier)];
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/menus/%d", (int)_restaurantIdentifier];
     
     NSLog(@"URL String: %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];

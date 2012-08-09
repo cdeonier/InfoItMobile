@@ -247,14 +247,19 @@
     { 
         NSMutableArray *locations = [[NSMutableArray alloc] init];
         
-        id suggestedRestaurantJSON = [[[JSON valueForKey:@"nearby_suggested_restaurant"] valueForKey:@"entity_restaurant"] objectAtIndex:0];
-
         Location *suggestedRestaurant = [[Location alloc] init];
-        [suggestedRestaurant setName:[suggestedRestaurantJSON valueForKey:@"name"]];
-        [suggestedRestaurant setDistance:[suggestedRestaurantJSON valueForKey:@"distance"]];
-        [suggestedRestaurant setEntityId:[suggestedRestaurantJSON valueForKey:@"id"]];
-        [suggestedRestaurant setThumbnailUrl:[suggestedRestaurantJSON valueForKey:@"profile_photo_thumbnail_100x100"]];
-        [locations addObject:suggestedRestaurant];
+        
+        if ([[[JSON valueForKey:@"nearby_suggested_restaurant"] valueForKey:@"entity_restaurant"] count] > 0) {
+            id suggestedRestaurantJSON = [[[JSON valueForKey:@"nearby_suggested_restaurant"] valueForKey:@"entity_restaurant"] objectAtIndex:0];
+
+            [suggestedRestaurant setName:[suggestedRestaurantJSON valueForKey:@"name"]];
+            [suggestedRestaurant setDistance:[suggestedRestaurantJSON valueForKey:@"distance"]];
+            [suggestedRestaurant setEntityId:[suggestedRestaurantJSON valueForKey:@"id"]];
+            [suggestedRestaurant setThumbnailUrl:[suggestedRestaurantJSON valueForKey:@"profile_photo_thumbnail_100x100"]];
+            [locations addObject:suggestedRestaurant];
+        } else {
+            suggestedRestaurant = nil;
+        }
 
         for (id restaurantJSON in [[JSON valueForKey:@"nearby_user"] valueForKey:@"entity_restaurant"]) {
             Location *restaurant = [[Location alloc] init];
@@ -265,7 +270,9 @@
             
             NSString *entityType = [restaurantJSON valueForKey:@"entity_sub_type"];
             
-            if (![[restaurant entityId] isEqualToNumber:[suggestedRestaurant entityId]] && [entityType isEqualToString:@"Restaurant"]) {
+            if (!suggestedRestaurant && [entityType isEqualToString:@"Restaurant"]) {
+                [locations addObject:restaurant]; 
+            } else if (suggestedRestaurant && ![[restaurant entityId] isEqualToNumber:[suggestedRestaurant entityId]] && [entityType isEqualToString:@"Restaurant"]) {
                 [locations addObject:restaurant];
             }
         }

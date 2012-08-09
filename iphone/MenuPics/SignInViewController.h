@@ -28,6 +28,7 @@
 @property (nonatomic, strong) IBOutlet UITextField *passwordInputText;
 @property (nonatomic, strong) IBOutlet UIButton *signInButton;
 @property (nonatomic, strong) IBOutlet UIButton *createAccountButton;
+@property (nonatomic, strong) IBOutlet UIButton *facebookLoginButton;
 @property (nonatomic, strong) IBOutlet UILabel *errorLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 

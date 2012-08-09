@@ -124,6 +124,16 @@
     }
 }
 
+- (void)initializeFlash
+{
+    _flashMode = UIImagePickerControllerCameraFlashModeAuto;
+    [_portraitFlashButton setImage:[UIImage imageNamed:@"flash_button_auto"] forState:UIControlStateNormal];
+    [_landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_auto"] forState:UIControlStateNormal];
+    [_landscapeLeftFlashButton setImage:[UIImage imageNamed:@"left_flash_auto_pressed"] forState:UIControlStateHighlighted];
+    [_landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_auto"] forState:UIControlStateNormal];
+    [_landscapeRightFlashButton setImage:[UIImage imageNamed:@"right_flash_auto_pressed"] forState:UIControlStateHighlighted];
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;

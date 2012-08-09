@@ -28,6 +28,7 @@
 @synthesize passwordInputText = _passwordInputText;
 @synthesize signInButton = _signInButton;
 @synthesize createAccountButton = _createAccountButton;
+@synthesize facebookLoginButton = _facebookLoginButton;
 @synthesize errorLabel = _errorLabel;
 @synthesize activityIndicator = _activityIndicator;
 
@@ -114,6 +115,7 @@
         [[self passwordInputText] setEnabled:NO];
         [[self signInButton] setEnabled:NO];
         [[self createAccountButton] setEnabled:NO];
+        [[self facebookLoginButton] setEnabled:NO];
         
         [self displayActivityIndicator];
         NSString *requestString = [NSString stringWithFormat:@"user=%@&password=%@", self.emailInputText.text, self.passwordInputText.text]; 
@@ -134,8 +136,9 @@
             NSString *email = [JSON valueForKeyPath:@"email"];
             NSString *username = [JSON valueForKey:@"user_display_name"];
             NSNumber *userId = [JSON valueForKey:@"user_id"];
+            NSString *loginType = [JSON valueForKey:@"login_type"];
 
-            [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId];
+            [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId withLoginType:loginType];
             User *currentUser = [User currentUser];
             NSLog(@"current user access_token: %@", [currentUser accessToken]);
 
@@ -145,6 +148,7 @@
             [[self passwordInputText] setText:nil];
             [[self signInButton] setEnabled:YES];
             [[self createAccountButton] setEnabled:YES];
+            [[self facebookLoginButton] setEnabled:YES];
 
             [_delegate signInViewController:self didSignIn:YES];
 
@@ -163,6 +167,7 @@
             [[self passwordInputText] setEnabled:YES];
             [[self signInButton] setEnabled:YES];
             [[self createAccountButton] setEnabled:YES];
+            [[self facebookLoginButton] setEnabled:YES];
         }];
         [operation start];
     } else {
@@ -172,13 +177,23 @@
 
 - (IBAction)signInWithFacebook:(id)sender
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate openFacebookSession];
+    [[self emailInputText] setEnabled:NO];
+    [[self passwordInputText] setEnabled:NO];
+    [[self signInButton] setEnabled:NO];
+    [[self createAccountButton] setEnabled:NO];
+    [[self facebookLoginButton] setEnabled:NO];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(didFinishSigningInWithFacebook:) 
+    [self displayActivityIndicator];
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishSigningInWithFacebook:)
                                                  name:MenuPicsFacebookNotification
-                                               object:nil];
+                                               object:nil];	
+    
+    [delegate closeFacebookSession];
+    [delegate openFacebookSession];
 }
 
 - (void)didFinishSigningInWithFacebook:(NSNotification *)notification
@@ -187,7 +202,63 @@
     
     if (session.state == FBSessionStateOpen) {
         NSLog(@"Logged In with access token: %@", [session accessToken]);
-        [_delegate signInViewController:self didSignIn:YES];
+        
+        NSString *requestString = [NSString stringWithFormat:@"fb_access_token=%@", [session accessToken]];
+        NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+        
+        NSURL *url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/facebook/create"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+        [request setHTTPBody:requestData];
+        
+        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+        {
+            [self hideActivityIndicator];
+
+            NSLog(@"User Login: %@", JSON);
+
+            NSString *accessToken = [JSON valueForKeyPath:@"access_token"];
+            NSString *email = [JSON valueForKeyPath:@"email"];
+            NSString *username = [JSON valueForKey:@"username"];
+            NSNumber *userId = [JSON valueForKey:@"user_id"];
+            NSString *loginType = [JSON valueForKey:@"login_type"];
+
+            [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId withLoginType:loginType];
+            User *currentUser = [User currentUser];
+            NSLog(@"current user access_token: %@", [currentUser accessToken]);
+
+            [[self emailInputText] setEnabled:YES];
+            [[self passwordInputText] setEnabled:YES];
+            [[self signInButton] setEnabled:YES];
+            [[self createAccountButton] setEnabled:YES];
+            [[self facebookLoginButton] setEnabled:YES];
+
+            [_delegate signInViewController:self didSignIn:YES];
+        }
+        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
+        {
+            if (error) {
+                NSLog(@"%@", [error description]);
+            }
+            
+            NSLog(@"%@", JSON);
+            
+            [[self activityIndicator] stopAnimating];
+            if (JSON) {
+                [self displayError:[JSON valueForKeyPath:@"message"]];
+            } else {
+                [self displayError:@"Unable to connect.  Try again later."];  
+            }
+
+            [[self emailInputText] setEnabled:YES];
+            [[self passwordInputText] setEnabled:YES];
+            [[self signInButton] setEnabled:YES];
+            [[self createAccountButton] setEnabled:YES];
+            [[self facebookLoginButton] setEnabled:YES];
+        }];
+        [operation start];
     }
 }
 

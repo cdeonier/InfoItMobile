@@ -25,14 +25,17 @@
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, strong) UIImage *profilePhoto;
+@property (nonatomic, strong) NSString *loginType;
 
 @property (nonatomic, strong) id<SyncUserDelegate> syncDelegate;
 
 + (BOOL)isUserLoggedIn;
 + (User *)currentUser;
-+ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username withUserId:(NSNumber *)userId;
++ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username withUserId:(NSNumber *)userId withLoginType:(NSString *)loginType;
 + (void)signOutUser;
 + (void)uploadProfilePhoto:(User *)user withImage:(UIImage *)profilePhoto;
 + (void)downloadProfilePhoto:(User *)user withURL:(NSString *)url;
+
+- (BOOL)isFacebookOnly;
 
 @end

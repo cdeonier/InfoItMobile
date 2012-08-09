@@ -37,11 +37,14 @@ typedef NSInteger ViewProfileTab;
 @property (nonatomic, strong) IBOutlet UIButton *profilePhotoButton;
 @property (nonatomic, strong) IBOutlet UILabel *profileUsername;
 @property (nonatomic, strong) IBOutlet UILabel *profilePoints;
+@property (nonatomic, strong) IBOutlet UILabel *profilePointsCalculatingLabel;
 @property (nonatomic, strong) IBOutlet GMGridView *popularPhotosGridView;
+@property (nonatomic, strong) IBOutlet UILabel *popularPhotosHeader;
 @property (nonatomic, strong) NSMutableArray *popularPhotos;
 @property (nonatomic, strong) IBOutlet GMGridView *recentPhotosGridView;
 @property (nonatomic, strong) NSMutableArray *recentPhotos;
 @property (nonatomic) BOOL didUpdateProfilePhoto;
+@property (nonatomic, strong) IBOutlet UILabel *noPhotosLabel;
 
 //Photos
 @property (nonatomic, strong) NSMutableArray *photos;

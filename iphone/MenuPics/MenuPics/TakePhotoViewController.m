@@ -109,6 +109,16 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    
+    //We may have taken photos, but cancel-- we'll remove entries from Core Data that were created when we took them, since we don't actually save
+    for (SavedPhoto *photo in _photos) {
+        [_context deleteObject:photo];
+    }
+    
+    NSError *error = nil;
+    if (![_context save:&error]) {
+        NSLog(@"Error saving photos to Core Data");
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -140,16 +150,6 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     //View disappears when presenting image picker-- but only stop locations when we leave actual view
     if ([self imagePicker] == nil) {
         [self finishUpdatingLocation];
-    }
-    
-    //We may have taken photos, but cancel-- we'll remove entries from Core Data that were created when we took them, since we don't actually save
-    for (SavedPhoto *photo in _photos) {
-        [_context deleteObject:photo];
-    }
-    
-    NSError *error = nil;
-    if (![_context save:&error]) {
-        NSLog(@"Error saving photos to Core Data");
     }
     
     //Anytime we're done with this view, we should be able to 
@@ -255,6 +255,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     [imagePicker setAllowsEditing:NO];
     [imagePicker setShowsCameraControls:NO];
     [imagePicker setCameraOverlayView:self.cameraOverlay];
+    [_cameraOverlay initializeFlash];
     [self presentModalViewController:imagePicker animated:NO];
 }
 
@@ -379,8 +380,8 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         NSLog(@"Error saving photos to Core Data");
     }
     
-    for (SavedPhoto *selectedPhoto in selectedPhotos) {
-        if ([self connectedToNetwork]) {
+    if ([self connectedToNetwork]) {
+        for (SavedPhoto *selectedPhoto in selectedPhotos) {
             [SavedPhoto uploadPhoto:selectedPhoto];
         }
     }
@@ -598,7 +599,7 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 #pragma mark Helper Methods
 - (BOOL) connectedToNetwork
 {
-	Reachability *r = [Reachability reachabilityWithHostname:@"infoit-app.herokuapp.com"];
+	Reachability *r = [Reachability reachabilityWithHostname:@"www.google.com"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL internet;
 	if ((internetStatus != ReachableViaWiFi) && (internetStatus != ReachableViaWWAN)) {

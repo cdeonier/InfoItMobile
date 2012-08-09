@@ -252,18 +252,23 @@ NSString *const MenuPicsFacebookNotification = @"MenuPicsFacebookNotification";
 }
 
 - (void)openFacebookSession {
-    NSArray *permissions = [NSArray arrayWithObjects:@"publish_actions", nil];
+    NSArray *permissions = [NSArray arrayWithObjects:@"email", @"publish_actions", nil];
     [FBSession sessionOpenWithPermissions:permissions completionHandler:
      ^(FBSession *session, FBSessionState state, NSError *error) {
          [self sessionStateChanged:session state:state error:error];
      }];    
 }
 
+- (void)closeFacebookSession {
+    [[FBSession activeSession] close];
+}
+
 - (void)sessionStateChanged:(FBSession *)session 
                       state:(FBSessionState)state
                       error:(NSError *)error
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MenuPicsFacebookNotification object:session];
+    if ([[FBSession activeSession] isOpen])
+         [[NSNotificationCenter defaultCenter] postNotificationName:MenuPicsFacebookNotification object:session];
 }
 
 

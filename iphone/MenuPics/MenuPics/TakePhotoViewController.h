@@ -11,6 +11,7 @@
 #import "GMGridView.h"
 
 @class TakePhotoViewController;
+@class CameraOverlayView;
 @class MenuItem;
 
 @protocol TakePhotoDelegate <NSObject>
@@ -26,7 +27,7 @@
 @property NSInteger displayedPhotoIndex;
 @property (nonatomic, strong) NSArray *savedPhotos;
 
-@property (nonatomic, strong) UIView *cameraOverlay;
+@property (nonatomic, strong) CameraOverlayView *cameraOverlay;
 @property (nonatomic, strong) UIView *portraitView;
 @property (nonatomic, strong) UIView *landscapeView;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;

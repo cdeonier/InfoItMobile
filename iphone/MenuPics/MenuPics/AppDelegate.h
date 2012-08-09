@@ -33,5 +33,6 @@ extern NSString *const MenuPicsFacebookNotification;
 - (void)enableNavigationMenu;
 
 - (void)openFacebookSession;
+- (void)closeFacebookSession;
 
 @end

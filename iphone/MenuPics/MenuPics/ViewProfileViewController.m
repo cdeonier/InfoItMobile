@@ -38,13 +38,16 @@
 @synthesize profilePhotoButton = _profilePhotoButton;
 @synthesize profileUsername = _profileUsername;
 @synthesize profilePoints = _profilePoints;
+@synthesize profilePointsCalculatingLabel = _profilePointsCalculatingLabel;
 @synthesize popularPhotosGridView = _popularPhotosGridView;
+@synthesize popularPhotosHeader = _popularPhotosHeader;
 @synthesize popularPhotos = _popularPhotos;
 @synthesize recentPhotosGridView = _recentPhotosGridView;
 @synthesize photoBrowser = _photoBrowser;
 @synthesize photoBrowserArray = _photoBrowserArray;
 @synthesize recentPhotos = _recentPhotos;
 @synthesize didUpdateProfilePhoto = _didUpdateProfilePhoto;
+@synthesize noPhotosLabel = _noPhotosLabel;
 
 @synthesize photos = _photos;
 @synthesize photosGridView = _photosGridView;
@@ -225,6 +228,8 @@
 
 - (void)updateAccountViewController:(UpdateAccountViewController *)updateAccountViewController didUpdateAccount:(BOOL)didUpdateAccount
 {
+    [_profileUsername setText:[[User currentUser] username]];
+    
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -509,6 +514,12 @@
     }
     [self setRecentPhotos:photosArray];
     
+    if ([photosArray count] > 0) {
+        [_noPhotosLabel setHidden:YES];
+    } else {
+        [_noPhotosLabel setHidden:NO];
+    }
+    
     [_recentPhotosGridView reloadData];
 }
 
@@ -542,6 +553,10 @@
             [photo setPoints:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"]];
             [_popularPhotos addObject:photo];
         }
+    }
+    
+    if ([_popularPhotos count] > 0) {
+        [_popularPhotosHeader setHidden:NO];
     }
     
     NSSortDescriptor *sortDescriptor;
@@ -716,6 +731,7 @@
     }
     [_profilePoints setText:pointsString];
     [_profilePoints setHidden:NO];
+    [_profilePointsCalculatingLabel setHidden:YES];
 }
 
 @end

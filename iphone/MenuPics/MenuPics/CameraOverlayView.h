@@ -31,4 +31,6 @@
 -(IBAction)toggleFlash:(id)sender;
 -(IBAction)showFocusIndicator:(id)sender;
 
+- (void)initializeFlash;
+
 @end

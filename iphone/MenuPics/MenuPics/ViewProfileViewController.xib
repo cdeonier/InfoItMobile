@@ -2,21 +2,21 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1296</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
-		<string key="IBDocument.HIToolboxVersion">569.00</string>
+		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1181</string>
+			<string key="NS.object.0">1498</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBUITabBar</string>
-			<string>IBUILabel</string>
-			<string>IBUIButton</string>
-			<string>IBUIView</string>
-			<string>IBUITabBarItem</string>
 			<string>IBProxyObject</string>
+			<string>IBUIButton</string>
+			<string>IBUILabel</string>
+			<string>IBUITabBar</string>
+			<string>IBUITabBarItem</string>
+			<string>IBUIView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -45,7 +45,7 @@
 							<object class="IBUILabel" id="587544221">
 								<reference key="NSNextResponder" ref="129639453"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{78, 20}, {200, 25}}</string>
+								<string key="NSFrame">{{69, 20}, {200, 25}}</string>
 								<reference key="NSSuperview" ref="129639453"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="625900237"/>
@@ -67,21 +67,21 @@
 									<string key="name">STHeitiSC-Light</string>
 									<string key="family">Heiti SC</string>
 									<int key="traits">0</int>
-									<double key="pointSize">19</double>
+									<double key="pointSize">16</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">STHeitiSC-Light</string>
-									<double key="NSSize">19</double>
+									<double key="NSSize">16</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
 							<object class="IBUILabel" id="625900237">
 								<reference key="NSNextResponder" ref="129639453"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{78, 45}, {100, 25}}</string>
+								<string key="NSFrame">{{69, 45}, {100, 25}}</string>
 								<reference key="NSSuperview" ref="129639453"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="723886954"/>
+								<reference key="NSNextKeyView" ref="853141136"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -89,7 +89,7 @@
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">500 Points</string>
-								<object class="NSColor" key="IBUITextColor">
+								<object class="NSColor" key="IBUITextColor" id="12694910">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
 								</object>
@@ -100,18 +100,48 @@
 									<string key="name">STHeitiSC-Medium</string>
 									<string key="family">Heiti SC</string>
 									<int key="traits">2</int>
-									<double key="pointSize">16</double>
+									<double key="pointSize">14</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">STHeitiSC-Medium</string>
-									<double key="NSSize">16</double>
+									<double key="NSSize">14</double>
+									<int key="NSfFlags">16</int>
+								</object>
+							</object>
+							<object class="IBUILabel" id="853141136">
+								<reference key="NSNextResponder" ref="129639453"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{69, 45}, {161, 25}}</string>
+								<reference key="NSSuperview" ref="129639453"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="723886954"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<string key="IBUIText">Calculating Points...</string>
+								<reference key="IBUITextColor" ref="12694910"/>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">0</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
+									<string key="name">STHeitiSC-Medium</string>
+									<string key="family">Heiti SC</string>
+									<int key="traits">2</int>
+									<double key="pointSize">12</double>
+								</object>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">STHeitiSC-Medium</string>
+									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
 							<object class="IBUIButton" id="309689095">
 								<reference key="NSNextResponder" ref="129639453"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 20}, {50, 50}}</string>
+								<string key="NSFrame">{{11, 20}, {50, 50}}</string>
 								<reference key="NSSuperview" ref="129639453"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="587544221"/>
@@ -183,17 +213,49 @@
 							<object class="IBUIView" id="935235371">
 								<reference key="NSNextResponder" ref="129639453"/>
 								<int key="NSvFlags">292</int>
+								<array class="NSMutableArray" key="NSSubviews"/>
 								<string key="NSFrame">{{0, 114}, {320, 50}}</string>
 								<reference key="NSSuperview" ref="129639453"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="470607265"/>
+								<reference key="NSNextKeyView" ref="302067866"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="656744204"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
+							<object class="IBUILabel" id="302067866">
+								<reference key="NSNextResponder" ref="129639453"/>
+								<int key="NSvFlags">-2147483356</int>
+								<string key="NSFrame">{{10, 130}, {300, 21}}</string>
+								<reference key="NSSuperview" ref="129639453"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="470607265"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<string key="IBUIText">No recent photos taken.</string>
+								<reference key="IBUITextColor" ref="12694910"/>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">0</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">1</int>
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
+									<string key="name">STHeitiSC-Light</string>
+									<string key="family">Heiti SC</string>
+									<int key="traits">0</int>
+									<double key="pointSize">12</double>
+								</object>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">STHeitiSC-Light</string>
+									<double key="NSSize">12</double>
+									<int key="NSfFlags">16</int>
+								</object>
+							</object>
 							<object class="IBUILabel" id="470607265">
 								<reference key="NSNextResponder" ref="129639453"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{11, 177}, {200, 22}}</string>
 								<reference key="NSSuperview" ref="129639453"/>
 								<reference key="NSWindow"/>
@@ -248,6 +310,7 @@
 						<string key="NSFrame">{{0, 367}, {320, 49}}</string>
 						<reference key="NSSuperview" ref="880234673"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -357,6 +420,30 @@
 						<reference key="destination" ref="625900237"/>
 					</object>
 					<int key="connectionID">82</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">popularPhotosHeader</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="470607265"/>
+					</object>
+					<int key="connectionID">86</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">profilePointsCalculatingLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="853141136"/>
+					</object>
+					<int key="connectionID">88</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">noPhotosLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="302067866"/>
+					</object>
+					<int key="connectionID">89</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -475,13 +562,15 @@
 						<int key="objectID">48</int>
 						<reference key="object" ref="129639453"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="625900237"/>
-							<reference ref="309689095"/>
-							<reference ref="587544221"/>
 							<reference ref="723886954"/>
 							<reference ref="935235371"/>
 							<reference ref="470607265"/>
 							<reference ref="340121782"/>
+							<reference ref="302067866"/>
+							<reference ref="309689095"/>
+							<reference ref="587544221"/>
+							<reference ref="625900237"/>
+							<reference ref="853141136"/>
 						</array>
 						<reference key="parent" ref="880234673"/>
 						<string key="objectName">Profile View</string>
@@ -504,11 +593,6 @@
 						<string key="objectName">Profile Photo Button</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">57</int>
-						<reference key="object" ref="470607265"/>
-						<reference key="parent" ref="129639453"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">58</int>
 						<reference key="object" ref="723886954"/>
 						<reference key="parent" ref="129639453"/>
@@ -522,8 +606,26 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">70</int>
 						<reference key="object" ref="935235371"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="129639453"/>
 						<string key="objectName">Recent Photos GridView</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">83</int>
+						<reference key="object" ref="302067866"/>
+						<reference key="parent" ref="129639453"/>
+						<string key="objectName">Label - No Photos</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">87</int>
+						<reference key="object" ref="853141136"/>
+						<reference key="parent" ref="129639453"/>
+						<string key="objectName">Label - Calculating Points</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">57</int>
+						<reference key="object" ref="470607265"/>
+						<reference key="parent" ref="129639453"/>
 					</object>
 				</array>
 			</object>
@@ -546,13 +648,15 @@
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="70.CustomClassName">GMGridView</string>
 				<string key="70.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="87.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">82</int>
+			<int key="maxID">89</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -616,18 +720,29 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="noPhotosLabel">UILabel</string>
 						<string key="popularPhotosGridView">GMGridView</string>
+						<string key="popularPhotosHeader">UILabel</string>
 						<string key="profilePhotoButton">UIButton</string>
 						<string key="profilePoints">UILabel</string>
+						<string key="profilePointsCalculatingLabel">UILabel</string>
 						<string key="profileUsername">UILabel</string>
 						<string key="profileView">UIView</string>
 						<string key="recentPhotosGridView">GMGridView</string>
 						<string key="tabBar">UITabBar</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="noPhotosLabel">
+							<string key="name">noPhotosLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="popularPhotosGridView">
 							<string key="name">popularPhotosGridView</string>
 							<string key="candidateClassName">GMGridView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="popularPhotosHeader">
+							<string key="name">popularPhotosHeader</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="profilePhotoButton">
 							<string key="name">profilePhotoButton</string>
@@ -635,6 +750,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="profilePoints">
 							<string key="name">profilePoints</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="profilePointsCalculatingLabel">
+							<string key="name">profilePointsCalculatingLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="profileUsername">
@@ -675,6 +794,6 @@
 			<string key="photos-white.png">{22, 24}</string>
 			<string key="user-white.png">{24, 21}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1181</string>
+		<string key="IBCocoaTouchPluginVersion">1498</string>
 	</data>
 </archive>

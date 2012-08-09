@@ -28,14 +28,15 @@
 @property (nonatomic, strong) IBOutlet UITextField *usernameInputText;
 @property (nonatomic, strong) IBOutlet UITextField *currentPasswordInputText;
 @property (nonatomic, strong) IBOutlet UITextField *passwordInputText;
-@property (nonatomic, strong) IBOutlet UITextField *verifyPasswordInputText;
 @property (nonatomic, strong) IBOutlet UILabel *errorLabel;
+@property (nonatomic, strong) IBOutlet UILabel *facebookLabel;
+@property (nonatomic, strong) IBOutlet UISwitch *facebookSwitch;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UITextField *activeField;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)updateAccount:(id)sender;
-
+- (IBAction)facebookSwitch:(UISwitch *)facebookSwitch;
 
 @end

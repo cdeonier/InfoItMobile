@@ -13,7 +13,7 @@
 
 @implementation User
 
-@dynamic email, accessToken, username, userId, profilePhoto;
+@dynamic email, accessToken, username, userId, profilePhoto, loginType;
 
 @synthesize syncDelegate;
 
@@ -62,7 +62,7 @@
     }
 }
 
-+ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username withUserId:(NSNumber *)userId
++ (void)signInUser:(NSString *)email withAccessToken:(NSString *)accessToken withUsername:(NSString *)username withUserId:(NSNumber *)userId withLoginType:(NSString *)loginType
 {
     [self signOutUser];
     
@@ -74,6 +74,7 @@
     [newUser setAccessToken:accessToken];
     [newUser setUsername:username];
     [newUser setUserId:userId];
+    [newUser setLoginType:loginType];
     
     NSError *error = nil;
     if (![context save:&error]) {
@@ -159,6 +160,14 @@
     }];
     
     [operation start];
+}
+
+- (BOOL)isFacebookOnly {
+    if ([[self loginType] isEqualToString:@"FACEBOOK"]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 @end

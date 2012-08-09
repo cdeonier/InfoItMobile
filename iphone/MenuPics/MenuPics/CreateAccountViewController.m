@@ -50,7 +50,7 @@
     [_cancelButton setTintColor:[UIColor navBarButtonColor]];
     
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicator setFrame:CGRectMake(150, 365, 20, 20)];
+    [activityIndicator setFrame:CGRectMake(150, 370, 20, 20)];
     [self setActivityIndicator:activityIndicator];
     [self.view addSubview:activityIndicator];
     
@@ -124,9 +124,10 @@
             NSString *email = [[JSON valueForKey:@"user"] valueForKeyPath:@"email"];
             NSString *username = [[JSON valueForKey:@"user"] valueForKeyPath:@"username"];
             NSNumber *userId = [[JSON valueForKey:@"user"] valueForKey:@"user_id"];
+            NSString *loginType = @"NATIVE";
 
             [User signOutUser];
-            [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId];
+            [User signInUser:email withAccessToken:accessToken withUsername:username withUserId:userId withLoginType:loginType];
             [_delegate createAccountViewController:self didCreate:YES];
         } 
         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)

@@ -11,6 +11,8 @@
 #import "MWPhoto.h"
 #import "MWPhotoProtocol.h"
 #import "MWCaptionView.h"
+#import "FindMenuItemViewController.h"
+#import "GMGridView.h"
 
 // Debug Logging
 #if 0 // Set to 1 to enable debug logging
@@ -21,6 +23,7 @@
 
 // Delgate
 @class MWPhotoBrowser;
+
 @protocol MWPhotoBrowserDelegate <NSObject>
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
@@ -29,7 +32,7 @@
 @end
 
 // MWPhotoBrowser
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> 
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, TagDelegate>
 
 // Properties
 @property (nonatomic) BOOL displayActionButton;

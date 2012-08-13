@@ -26,12 +26,13 @@ typedef NSInteger MenuTab;
 
 /* General */
 @property (nonatomic, strong) IBOutlet UITabBar *tabBar;
-@property (nonatomic) NSNumber *restaurantIdentifier;
+@property (nonatomic, strong) NSNumber *restaurantIdentifier;
 @property (nonatomic, strong) NSMutableArray *menuTypes;
 @property (nonatomic, strong) OrderedDictionary *restaurantMenus;
 @property (nonatomic, strong) NSString *currentMenuType;
 @property (nonatomic, strong) OrderedDictionary *currentMenu;
 @property (nonatomic, strong) NSString *requestedTab;
+@property (nonatomic, strong) IBOutlet UIView *contentContainer;
 
 /* Current Menu */
 @property (nonatomic, strong) IBOutlet UITableView *currentMenuTable;

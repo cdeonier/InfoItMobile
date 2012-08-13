@@ -7,6 +7,8 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import <FBiOSSDK/FacebookSDK.h>
+#import "AppDelegate.h"
 #import "MWPhotoBrowser.h"
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
@@ -16,6 +18,8 @@
 #import "FindRestaurantViewController.h"
 #import "ShellNavigationController.h"
 #import "UIColor+ExtendedColor.h"
+#import "FacebookGraphProtocols.h"
+#import "MenuViewController.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -69,6 +73,7 @@
     //MenuPics
     UIBarButtonItem *_tagButton;
     UIBarButtonItem *_untagButton;
+    UIBarButtonItem *_menuButton;
 }
 
 // Private Properties
@@ -270,6 +275,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     //MenuPics
     _tagButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tags.png"] style:UIBarButtonItemStylePlain target:self action:@selector(tagPhoto)];
     _untagButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"untags.png"] style:UIBarButtonItemStylePlain target:self action:@selector(untagPhoto)];
+    _menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(viewMenu)];
     
     // Update
     [self reloadData];
@@ -915,6 +921,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
         NSMutableArray *items = [[NSMutableArray alloc] init];
         [items addObject:flexSpace];
+        [items addObject:_menuButton];
+        [items addObject:flexSpace];
         [items addObject:_untagButton];
         [items addObject:flexSpace];
         [items addObject:_actionButton];
@@ -1065,13 +1073,20 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             
             // Sheet
             if ([MFMailComposeViewController canSendMail]) {
+                /*self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
+                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), NSLocalizedString(@"Email", nil), nil] autorelease];*/
                 self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), NSLocalizedString(@"Email", nil), nil] autorelease];
+                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Email", nil),
+                                                            NSLocalizedString(@"Post to Facebook", nil),  nil] autorelease];
             } else {
+                /*self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
+                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), nil] autorelease];*/
                 self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), nil] autorelease];
+                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Post to Facebook", nil), nil] autorelease];
             }
             _actionsSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -1091,12 +1106,20 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         // Actions 
         self.actionsSheet = nil;
         if (buttonIndex != actionSheet.cancelButtonIndex) {
-            if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-                [self savePhoto]; return;
-            } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
-                [self copyPhoto]; return;	
-            } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 2) {
-                [self emailPhoto]; return;
+            if ([MFMailComposeViewController canSendMail]) {
+                if (buttonIndex == actionSheet.firstOtherButtonIndex) {
+                    [self savePhoto]; return;
+                } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
+                    [self emailPhoto]; return;
+                } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 2) {
+                    [self postToFacebook]; return;
+                }
+            } else {
+                if (buttonIndex == actionSheet.firstOtherButtonIndex) {
+                    [self savePhoto]; return;
+                } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
+                    [self postToFacebook]; return;
+                }
             }
         }
     }
@@ -1173,6 +1196,19 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     }
 }
 
+- (void)postToFacebook {
+    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
+    Photo *photo = [mwPhoto photo];
+    
+    if (![[FBSession activeSession] isOpen]) {
+        
+    } else {
+        [self postOnFacebookOpenGraph];
+    }
+    
+    NSLog(@"Post to Facebook");
+}
+
 - (void)actuallyCopyPhoto:(id<MWPhoto>)photo {
     if ([photo underlyingImage]) {
         [[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation([photo underlyingImage])
@@ -1221,10 +1257,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 
 - (void)tagPhoto
 {
-    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
-    Photo *photoToTag = [mwPhoto photo];
+    MWPhoto *photoToTag = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
     FindRestaurantViewController *viewController = [[FindRestaurantViewController alloc] initWithNibName:@"FindRestaurantViewController" bundle:nil];
     [viewController setPhotoToTag:photoToTag];
+    [viewController setTagDelegate:self];
     UINavigationController *nc = [[ShellNavigationController alloc] initWithRootViewController:viewController];
     [self presentModalViewController:nc animated:YES];
 }
@@ -1235,9 +1271,118 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     Photo *photo = [mwPhoto photo];
     [photo setPoints:nil];
     [photo setMenuItemName:nil];
+    [photo setMenuItemId:nil];
     [photo setRestaurantName:nil];
+    [photo setRestaurantId:nil];
+    [mwPhoto setCaption:nil];
     [self updateNavigation];
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSString *predicateString = [NSString stringWithFormat:@"photoId == %d", [[photo photoId] intValue]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+    SavedPhoto *savedPhoto = [mutableFetchResults objectAtIndex:0];
+    
+    [savedPhoto setMenuItemId:nil];
+    [savedPhoto setMenuItemName:nil];
+    [savedPhoto setRestaurantId:nil];
+    [savedPhoto setRestaurantName:nil];
+    
+    if (![context save:&error]) {
+        NSLog(@"Error saving to Core Data");
+    }
+    
+    [self reloadData];
+    
     [Photo untagPhoto:photo];
 }
+
+- (void)viewMenu
+{
+    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
+    Photo *photo = [mwPhoto photo];
+    MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
+    viewController.restaurantIdentifier = [photo restaurantId];
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackOpaque];
+    [self.navigationController.navigationBar setTranslucent:NO];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Photos" style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
+    self.navigationItem.backBarButtonItem = backButton;
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    [self.navigationController.navigationBar setTranslucent:NO];
+
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)didFinishTagging
+{
+    [self reloadData];
+}
+
+#pragma mark Facebook
+
+// FBSample logic
+// Creates an Open Graph object using a simple repeater app that just echoes its
+// input back as the properties of the OG object.
+- (id<FBDishObject>)getFBDishForPhoto {
+    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
+    Photo *photo = [mwPhoto photo];
+    
+    NSString *format = @"http://infoit-app.herokuapp.com/profiles/%@?photo_id=%@"; 
+
+    id<FBDishObject> result = (id<FBDishObject>)[FBGraphObject graphObject];
+    
+    result.url = [NSString stringWithFormat:format, [photo menuItemId], [photo photoId]];
+    
+    return result;
+}
+
+// FBSample logic
+// Creates the Open Graph Action with an optional photo URL.
+- (void)postOnFacebookOpenGraph {
+    // First create the Open Graph meal object for the meal we ate.
+    id<FBDishObject> dishObject = [self getFBDishForPhoto];
+    
+    // Now create an Open Graph eat action with the meal, our location, and the people we were with.
+    id<FBPhotographAction> action = (id<FBPhotographAction>)[FBGraphObject graphObject];
+    action.dish = dishObject;
+    
+    // Create the request and post the action to the "me/fb_sample_scrumps:eat" path.
+    [FBRequest startForPostWithGraphPath:@"me/menupics:photograph"
+                             graphObject:action
+                       completionHandler:
+     ^(FBRequestConnection *connection, id result, NSError *error) {
+         [self.view setUserInteractionEnabled:YES];
+         
+         NSString *alertText;
+         if (!error) {
+             alertText = [NSString stringWithFormat:@"Posted Open Graph action, id: %@",
+                          [result objectForKey:@"id"]];
+         } else {
+             alertText = [NSString stringWithFormat:@"error: domain = %@, code = %d",
+                          error.domain, error.code];
+         }
+         [[[UIAlertView alloc] initWithTitle:@"Result"
+                                     message:alertText
+                                    delegate:nil
+                           cancelButtonTitle:@"Thanks!"
+                           otherButtonTitles:nil]
+          show];
+     }];
+} 
+
 
 @end

@@ -347,8 +347,9 @@
         _photoBrowserArray = _popularPhotos;
     }
     
+    [_photoBrowser reloadData];
     [_photoBrowser setInitialPageIndex:position];
-    [_photoBrowser reloadData]; 
+     
     [self.navigationController pushViewController:_photoBrowser animated:YES];
 }
 
@@ -366,9 +367,29 @@
         if ([photo fileLocation]) {
             mwPhoto = [MWPhoto photoWithFilePath:[photo fileLocation]];
             [mwPhoto setPhoto:photo];
+            
+            if ([[photo menuItemId] intValue] > 0) {
+                NSString *format = @"%@ @ %@";
+                NSString *caption = [NSString stringWithFormat:format, [photo menuItemName], [photo restaurantName]];
+                [mwPhoto setCaption:caption];
+            } else if ([[photo restaurantId] intValue] > 0) {
+                NSString *format = @"@ %@";
+                NSString *caption = [NSString stringWithFormat:format, [photo restaurantName]];
+                [mwPhoto setCaption:caption];
+            }
         } else {
             mwPhoto = [MWPhoto photoWithURL:[NSURL URLWithString:[photo photoUrl]]];
             [mwPhoto setPhoto:photo];
+            
+            if ([[photo menuItemId] intValue] > 0) {
+                NSString *format = @"%@ @ %@";
+                NSString *caption = [NSString stringWithFormat:format, [photo menuItemName], [photo restaurantName]];
+                [mwPhoto setCaption:caption];
+            } else if ([[photo restaurantId] intValue] > 0) {
+                NSString *format = @"@ %@";
+                NSString *caption = [NSString stringWithFormat:format, [photo restaurantName]];
+                [mwPhoto setCaption:caption];
+            }
         }
         return mwPhoto;
     }
@@ -551,6 +572,10 @@
         if ([[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"]) {
             Photo *photo = [[Photo alloc] initWithSavedPhoto:[photosOnPhone objectForKey:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]]];
             [photo setPoints:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"]];
+            [photo setMenuItemName:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"menu_item_name"]];
+            [photo setMenuItemId:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"menu_item_id"]];
+            [photo setRestaurantName:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"restaurant_name"]];
+            [photo setRestaurantId:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"restaurant_id"]];
             [_popularPhotos addObject:photo];
         }
     }
@@ -605,7 +630,7 @@
         NSManagedObjectContext *context = [delegate managedObjectContext];
         
         for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
-            //NSLog(@"Photo Entry: %@", photoEntry);
+            NSLog(@"Photo Entry: %@", photoEntry);
             
             NSString *photoFilename = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"];
             
@@ -631,6 +656,10 @@
             if (![fileName isEqualToString:@"profile_photo"] && [[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"] > 0) {
                 SavedPhoto *savedPhoto = [SavedPhoto photoWithFilename:fileName];
                 [savedPhoto setPoints:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"photo_points"]];
+                [savedPhoto setMenuItemId:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"menu_item_id"]];
+                [savedPhoto setMenuItemName:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"menu_item_name"]];
+                [savedPhoto setRestaurantId:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"restaurant_id"]];
+                [savedPhoto setRestaurantName:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"restaurant_name"]];
             } else {
                 SavedPhoto *savedPhoto = [SavedPhoto photoWithFilename:fileName];
                 [savedPhoto setPoints:nil];

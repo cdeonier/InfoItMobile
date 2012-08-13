@@ -29,7 +29,9 @@
 @property (nonatomic, strong) NSNumber *didTag;
 @property (nonatomic, strong) NSNumber *photoId;
 @property (nonatomic, strong) NSNumber *restaurantId;
+@property (nonatomic, strong) NSString *restaurantName;
 @property (nonatomic, strong) NSNumber *menuItemId;
+@property (nonatomic, strong) NSString *menuItemName;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSNumber *points;
 

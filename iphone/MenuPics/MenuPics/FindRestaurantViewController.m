@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 InfoIt Labs, Inc. All rights reserved.
 //
 
-#import <SDWebImage/UIImageView+WebCache.h>
-
 #import "FindRestaurantViewController.h"
 #import "MenuViewController.h"
 #import "FindMenuItemViewController.h"
@@ -17,7 +15,7 @@
 #import "Location.h"
 #import "TakePhotoViewController.h"
 #import "SVProgressHUD.h"
-#import "Photo.h"
+#import "MWPhoto.h"
 
 @interface FindRestaurantViewController ()
 
@@ -30,6 +28,7 @@
 @synthesize locationsTableData = _locationsTableData;
 @synthesize searchBar = _searchBar;
 @synthesize photoToTag = _photoToTag;
+@synthesize tagDelegate = _tagDelegate;
 
 #pragma mark ViewController
 
@@ -132,8 +131,10 @@
     if ([self photoToTag]) {
         FindMenuItemViewController *viewController = [[FindMenuItemViewController alloc] initWithNibName:@"FindMenuItemViewController" bundle:nil];
         viewController.restaurantIdentifier = (NSInteger *)[location.entityId intValue];
-        [_photoToTag setRestaurantName:location.name];
+        [[_photoToTag photo] setRestaurantName:location.name];
+        [[_photoToTag photo] setRestaurantId:location.entityId];
         viewController.photoToTag = self.photoToTag;
+        viewController.tagDelegate = self.tagDelegate;
         [self.navigationController pushViewController:viewController animated:YES];
     } else {
         MenuViewController *viewController = [[MenuViewController alloc] initWithNibName:@"MenuViewController" bundle:nil];
@@ -234,7 +235,7 @@
 
 - (void)getSuggestedLocations:(CLLocation *)location 
 { 
-    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/geocode_near_photo/%d?latitude=%+.6f&longitude=%+.6f&type=nearby", [[_photoToTag photoId] intValue], location.coordinate.latitude, location.coordinate.longitude];;
+    NSString *urlString = [NSString stringWithFormat:@"https://infoit-app.herokuapp.com/services/geocode_near_photo/%d?latitude=%+.6f&longitude=%+.6f&type=nearby", [[[_photoToTag photo] photoId] intValue], location.coordinate.latitude, location.coordinate.longitude];
     
     NSLog(@"URL String: %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -320,8 +321,10 @@
 
 - (void)cancelButtonPressed
 {
-    [_photoToTag setMenuItemName:nil];
-    [_photoToTag setRestaurantName:nil];
+    [[_photoToTag photo] setMenuItemName:nil];
+    [[_photoToTag photo] setMenuItemId:nil];
+    [[_photoToTag photo] setRestaurantName:nil];
+    [[_photoToTag photo] setRestaurantId:nil];
     [self dismissModalViewControllerAnimated:YES];
 }
 

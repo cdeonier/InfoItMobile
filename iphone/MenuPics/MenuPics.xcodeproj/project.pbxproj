@@ -503,6 +503,7 @@
 		3C70CB6F15AC22C100030821 /* SmallThumbnail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmallThumbnail.xib; sourceTree = "<group>"; };
 		3C70D87A1570E30E00B15663 /* flash_button_auto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash_button_auto.png; sourceTree = "<group>"; };
 		3C70D87C1570EAAE00B15663 /* flash_button_auto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_button_auto@2x.png"; sourceTree = "<group>"; };
+		3C7A34AB15D79677007C426B /* FacebookGraphProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookGraphProtocols.h; sourceTree = "<group>"; };
 		3C81BF85156C2006005FC0A1 /* MenuItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemViewController.h; sourceTree = "<group>"; };
 		3C81BF86156C2006005FC0A1 /* MenuItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemViewController.m; sourceTree = "<group>"; };
 		3C81BF87156C2006005FC0A1 /* MenuItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuItemViewController.xib; sourceTree = "<group>"; };
@@ -1507,6 +1508,7 @@
 				3C366ACB158851DE000D6D2A /* Custom Classes */,
 				3CD8BDC31558C45800890F62 /* Home */,
 				3C959463155220E100627182 /* Navigation */,
+				3C7A34AB15D79677007C426B /* FacebookGraphProtocols.h */,
 			);
 			name = Shell;
 			sourceTree = "<group>";

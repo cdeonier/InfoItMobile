@@ -25,7 +25,9 @@
 @synthesize points = _points;
 @synthesize votedForPhoto = _votedForPhoto;
 @synthesize menuItemName = _menuItemName;
+@synthesize menuItemId = _menuItemId;
 @synthesize restaurantName = _restaurantName;
+@synthesize restaurantId = _restaurantId;
 
 - (id)initWithSavedPhoto:(SavedPhoto *)savedPhoto
 {
@@ -38,6 +40,10 @@
     [self setAuthorId:[[User currentUser] userId]];
     [self setAuthor:[[User currentUser] username]];
     [self setPoints:[savedPhoto points]];
+    [self setMenuItemId:[savedPhoto menuItemId]];
+    [self setMenuItemName:[savedPhoto menuItemName]];
+    [self setRestaurantId:[savedPhoto restaurantId]];
+    [self setRestaurantName:[savedPhoto restaurantName]];
     
     return self;
 }

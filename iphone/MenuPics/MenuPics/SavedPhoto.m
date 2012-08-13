@@ -24,7 +24,9 @@
 @dynamic didTag;
 @dynamic photoId;
 @dynamic restaurantId;
+@dynamic restaurantName;
 @dynamic menuItemId;
+@dynamic menuItemName;
 @dynamic username;
 @dynamic points;
 

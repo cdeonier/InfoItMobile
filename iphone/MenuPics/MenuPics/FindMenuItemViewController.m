@@ -15,7 +15,7 @@
 #import "OrderedDictionary.h"
 #import "AFNetworking.h"
 #import "SVProgressHUD.h"
-#import "Photo.h"
+#import "MWPhoto.h"
 
 @interface FindMenuItemViewController ()
 
@@ -24,6 +24,7 @@
 @implementation FindMenuItemViewController
 
 @synthesize photoToTag = _photoToTag;
+@synthesize tagDelegate = _tagDelegate;
 @synthesize tabBar = _tabBar;
 @synthesize restaurantIdentifier = _restaurantIdentifier;
 @synthesize menuTypes = _menuTypes;
@@ -309,7 +310,7 @@
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
         [request setEntity:entity];
         
-        NSString *predicateString = [NSString stringWithFormat:@"photoId == %d", [[_photoToTag photoId] intValue]];
+        NSString *predicateString = [NSString stringWithFormat:@"photoId == %d", [[[_photoToTag photo] photoId] intValue]];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
         
@@ -318,15 +319,24 @@
         SavedPhoto *savedPhoto = [mutableFetchResults objectAtIndex:0];
         
         [savedPhoto setMenuItemId:[menuItem entityId]];
+        [savedPhoto setMenuItemName:[menuItem name]];
         [savedPhoto setRestaurantId:[menuItem restaurantId]];
+        [savedPhoto setRestaurantName:[[_photoToTag photo] restaurantName]];
         
         if (![context save:&error]) {
             NSLog(@"Error saving to Core Data");
         }
         
-        [_photoToTag setMenuItemName:[menuItem name]];
-        [_photoToTag setPoints:[NSNumber numberWithInt:1]];
-        [Photo tagPhoto:_photoToTag withMenuItemId:[[menuItem entityId] intValue]];
+        [[_photoToTag photo] setMenuItemName:[menuItem name]];
+        [[_photoToTag photo] setMenuItemId:[menuItem entityId]];
+        [[_photoToTag photo] setPoints:[NSNumber numberWithInt:1]];
+        
+        NSString *format = @"%@ @ %@";
+        NSString *caption = [NSString stringWithFormat:format, [[_photoToTag photo] menuItemName], [[_photoToTag photo] restaurantName]];
+        [_photoToTag setCaption:caption];
+        [Photo tagPhoto:[_photoToTag photo] withMenuItemId:[[menuItem entityId] intValue]];
+        
+        [_tagDelegate didFinishTagging];
         
         [self dismissModalViewControllerAnimated:YES];
     }

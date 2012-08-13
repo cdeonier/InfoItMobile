@@ -252,7 +252,7 @@ NSString *const MenuPicsFacebookNotification = @"MenuPicsFacebookNotification";
 }
 
 - (void)openFacebookSession {
-    NSArray *permissions = [NSArray arrayWithObjects:@"email", @"publish_actions", nil];
+    NSArray *permissions = [NSArray arrayWithObjects:@"email", @"user_photos", @"publish_actions", nil];
     [FBSession sessionOpenWithPermissions:permissions completionHandler:
      ^(FBSession *session, FBSessionState state, NSError *error) {
          [self sessionStateChanged:session state:state error:error];

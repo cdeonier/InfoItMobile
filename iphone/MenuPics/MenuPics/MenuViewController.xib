@@ -36,10 +36,27 @@
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
+					<object class="IBUIView" id="400871184">
+						<reference key="NSNextResponder" ref="828213203"/>
+						<int key="NSvFlags">274</int>
+						<string key="NSFrameSize">{320, 367}</string>
+						<reference key="NSSuperview" ref="828213203"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="877188515"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MQA</bytes>
+							<object class="NSColorSpace" key="NSCustomColorSpace" id="367746945">
+								<int key="NSID">2</int>
+							</object>
+						</object>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+					</object>
 					<object class="IBUITabBar" id="877188515">
 						<reference key="NSNextResponder" ref="828213203"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{0, 411}, {320, 49}}</string>
+						<string key="NSFrame">{{0, 367}, {320, 49}}</string>
 						<reference key="NSSuperview" ref="828213203"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -103,17 +120,19 @@
 						</array>
 					</object>
 				</array>
-				<string key="NSFrameSize">{320, 460}</string>
+				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="877188515"/>
+				<reference key="NSNextKeyView" ref="400871184"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
-					<object class="NSColorSpace" key="NSCustomColorSpace">
-						<int key="NSID">2</int>
-					</object>
+					<reference key="NSCustomColorSpace" ref="367746945"/>
+				</object>
+				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+				<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
+					<bool key="IBUIPrompted">NO</bool>
 				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
@@ -135,6 +154,14 @@
 						<reference key="destination" ref="828213203"/>
 					</object>
 					<int key="connectionID">55</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">contentContainer</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="400871184"/>
+					</object>
+					<int key="connectionID">65</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -169,6 +196,7 @@
 						<reference key="object" ref="828213203"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="877188515"/>
+							<reference ref="400871184"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -209,6 +237,12 @@
 						<reference key="object" ref="273113917"/>
 						<reference key="parent" ref="877188515"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">64</int>
+						<reference key="object" ref="400871184"/>
+						<reference key="parent" ref="828213203"/>
+						<string key="objectName">Content Container</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -223,12 +257,13 @@
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="64.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">63</int>
+			<int key="maxID">65</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -241,6 +276,7 @@
 						<string key="addressTwo">UILabel</string>
 						<string key="allMenusTable">UITableView</string>
 						<string key="cityStateZip">UILabel</string>
+						<string key="contentContainer">UIView</string>
 						<string key="currentMenuTable">UITableView</string>
 						<string key="mostLikedTable">UITableView</string>
 						<string key="phoneNumber">UILabel</string>
@@ -269,6 +305,10 @@
 						<object class="IBToOneOutletInfo" key="cityStateZip">
 							<string key="name">cityStateZip</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="contentContainer">
+							<string key="name">contentContainer</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="currentMenuTable">
 							<string key="name">currentMenuTable</string>

@@ -9,7 +9,6 @@
 #import "MenuViewController.h"
 #import "MenuItemViewController.h"
 #import "OrderedDictionary.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "UIColor+ExtendedColor.h"
 #import "MenuItem.h"
 #import "Restaurant.h"
@@ -34,6 +33,7 @@
 @synthesize currentMenuType = _currentMenuType;
 @synthesize currentMenu = _currentMenu;
 @synthesize requestedTab = _requestedTab;
+@synthesize contentContainer = _contentContainer;
 
 /* Current Menu */
 @synthesize currentMenuTable = _currentMenuTable;
@@ -83,7 +83,7 @@
     
     NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"CurrentMenuView" owner:self options:nil]; 
     UIView *currentMenuView = [xib objectAtIndex:0];
-    [self.view addSubview:currentMenuView];
+    [_contentContainer addSubview:currentMenuView];
     
     self.currentMenuTable.tableFooterView = [UIView new];
     
@@ -416,7 +416,7 @@
 - (void) changeViewForTabIndex:(MenuTab)tab
 {
     if (tab != TakePhotoTab) {
-        for (UIView *view in self.view.subviews) {
+        for (UIView *view in _contentContainer.subviews) {
             if (![view isKindOfClass:[UITabBar class]]) {
                 [view removeFromSuperview];
             }
@@ -430,7 +430,7 @@
         case CurrentMenuTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"CurrentMenuView" owner:self options:nil]; 
             UIView *currentMenuView = [xib objectAtIndex:0];
-            [self.view insertSubview:currentMenuView atIndex:0];
+            [_contentContainer insertSubview:currentMenuView atIndex:0];
             [self setTitle:self.currentMenuType];
             _currentMenuTable.tableFooterView = [UIView new];
             break;
@@ -438,7 +438,7 @@
         case MostLikedTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"MostLikedView" owner:self options:nil]; 
             UIView *mostLikedView = [xib objectAtIndex:0];
-            [self.view insertSubview:mostLikedView atIndex:0];
+            [_contentContainer insertSubview:mostLikedView atIndex:0];
             [self setTitle:self.currentMenuType];
             if ([self.mostLikedMenuItems count] > 0) {
                 [self.mostLikedTable setHidden:NO];
@@ -464,7 +464,7 @@
         case RestaurantTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"RestaurantView" owner:self options:nil]; 
             UIView *restaurantView = [xib objectAtIndex:0];
-            [self.view insertSubview:restaurantView atIndex:0];
+            [_contentContainer insertSubview:restaurantView atIndex:0];
             
             [self setRestaurantScrollView];
             
@@ -473,7 +473,7 @@
         case AllMenusTab: {
             NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"AllMenusView" owner:self options:nil]; 
             UIView *allMenusView = [xib objectAtIndex:0];
-            [self.view insertSubview:allMenusView atIndex:0];
+            [_contentContainer insertSubview:allMenusView atIndex:0];
             [self setTitle:@"All Menus"];
             _allMenusTable.tableFooterView = [UIView new];
             break;

@@ -33,10 +33,42 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"MenuItemCell" owner:self options:nil];
-        UITableViewCell *nibView = [nibObjects objectAtIndex:0];
-        [self.contentView addSubview:nibView.contentView];
+        //NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"MenuItemCell" owner:self options:nil];
+        //UITableViewCell *nibView = [nibObjects objectAtIndex:0];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
+        
+        UIFont *nameFont = [UIFont fontWithName:@"STHeitiSC-Medium" size:15];
+        UIFont *priceFont = [UIFont fontWithName:@"GillSans-Light" size:15];
+        UIFont *descriptionFont = [UIFont fontWithName:@"GillSans-Light" size:14];
+        UIFont *likesFont = [UIFont fontWithName:@"STHeitiSC-Medium" size:13];
+        
+        _name = [[UILabel alloc] initWithFrame:CGRectMake(110, 5, 150, 45)];
+        [_name setFont:nameFont];
+        _price = [[UILabel alloc] initWithFrame:CGRectMake(265, 1, 50, 21)];
+        [_price setFont:priceFont];
+        _description = [[UILabel alloc] initWithFrame:CGRectMake(5, 105, 310, 40)];
+        [_description setFont:descriptionFont];
+        _likeCount = [[UILabel alloc] initWithFrame:CGRectMake(132, 80, 96, 21)];
+        [_likeCount setFont:likesFont];
+        
+        _thumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
+        _likeIcon = [[UIImageView alloc] initWithFrame:CGRectMake(114, 82, 15, 15)];
+        [_likeIcon setImage:[UIImage imageNamed:@"like_icon"]];
+        
+        _addPhotoButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
+        [_addPhotoButton setImage:[UIImage imageNamed:@"add_photo"] forState:UIControlStateNormal];
+        
+        [view addSubview:_name];
+        [view addSubview:_price];
+        [view addSubview:_description];
+        [view addSubview:_likeCount];
+        [view addSubview:_thumbnail];
+        [view addSubview:_likeIcon];
+        [view addSubview:_addPhotoButton];
+        
+        [self.contentView addSubview:view];
     }
+    //return (MenuItemCell *)[[[NSBundle mainBundle] loadNibNamed:@"MenuItemCell" owner:self options:nil] objectAtIndex:0];
     return self;
 }
 
@@ -122,6 +154,11 @@
         [viewController setDelegate:self];
         [_parentController presentModalViewController:viewController animated:YES];
     }
+}
+
+- (IBAction)handleLongPress:(id)sender
+{
+    NSLog(@"Long press");
 }
 
 #pragma mark SignInDelegate

@@ -21,6 +21,7 @@
 #import "User.h"
 #import "UIColor+ExtendedColor.h"
 #import "MenuItem.h"
+#import "ShellNavigationController.h"
 
 @interface TakePhotoViewController ()
 
@@ -141,6 +142,12 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
             });
         });
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSLog(@"View Will Disappear");
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

@@ -13,17 +13,18 @@
 @class MenuItem;
 @class MenuViewController;
 
-@interface MenuItemCell : UITableViewCell <SignInDelegate, TakePhotoDelegate>
+@interface MenuItemCell : UITableViewCell <SignInDelegate, TakePhotoDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) IBOutlet UILabel *name;
-@property (nonatomic, strong) IBOutlet UILabel *price;
-@property (nonatomic, strong) IBOutlet UILabel *description;
-@property (nonatomic, strong) IBOutlet UIImageView *thumbnail;
-@property (nonatomic, strong) IBOutlet UIButton *addPhotoButton;
-@property (nonatomic, strong) IBOutlet UIImageView *likeIcon;
-@property (nonatomic, strong) IBOutlet UILabel *likeCount;
+@property (nonatomic, strong) UILabel *name;
+@property (nonatomic, strong) UILabel *price;
+@property (nonatomic, strong) UILabel *description;
+@property (nonatomic, strong) UIImageView *thumbnail;
+@property (nonatomic, strong) UIButton *addPhotoButton;
+@property (nonatomic, strong) UIImageView *likeIcon;
+@property (nonatomic, strong) UILabel *likeCount;
 
 - (IBAction)takePhoto:(id)sender;
+- (IBAction)handleLongPress:(id)sender;
 
 @property (nonatomic, strong) MenuItem *menuItem;
 @property (nonatomic, strong) MenuViewController *parentController; 

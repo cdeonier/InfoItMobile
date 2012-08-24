@@ -122,7 +122,7 @@
         [_errorLabel setHidden:YES];
         [_activityIndicator startAnimating];
         
-        NSString *requestString = [[NSString alloc] init];
+        NSString *requestString;
         if ([[User currentUser] isFacebookOnly]) {
             requestString = [NSString stringWithFormat:@"access_token=%@", [[User currentUser] accessToken]];
         } else {
@@ -145,7 +145,7 @@
         NSLog(@"Request String: %@",requestString);
         NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
         
-        NSURL *url = [[NSURL alloc] init];
+        NSURL *url;
         if ([[User currentUser] isFacebookOnly]) {
             url = [NSURL URLWithString:@"https://infoit-app.herokuapp.com/services/facebook/update_user"];
         } else {

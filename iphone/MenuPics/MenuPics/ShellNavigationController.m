@@ -8,6 +8,7 @@
 
 #import "ShellNavigationController.h"
 #import "ViewProfileViewController.h"
+#import "TakePhotoViewController.h"
 
 @interface ShellNavigationController ()
 
@@ -44,6 +45,7 @@
         [self.navigationBar setTranslucent:NO];
         [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
     }
+    
     return [super popViewControllerAnimated:animated];
 }
 
@@ -53,5 +55,32 @@
     [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
     [super pushViewController:viewController animated:animated];
 }
+
+//- (NSUInteger)supportedInterfaceOrientations
+//{
+//    return UIInterfaceOrientationPortrait;
+//}
+//
+//- (BOOL)shouldAutorotate
+//{
+//    return NO;
+//}
+
+//- (NSUInteger)supportedInterfaceOrientations
+//{
+//    return [self.topViewController supportedInterfaceOrientations];
+//    UIViewController *targetViewController = [self.viewControllers objectAtIndex:([self.viewControllers count] - 1)];
+//    if ([targetViewController isKindOfClass:[TakePhotoViewController class]]) {
+//        return UIInterfaceOrientationMaskAllButUpsideDown;
+//    } else {
+//        return UIInterfaceOrientationMaskPortrait;
+//    }
+//}
+
+//- (BOOL)shouldAutorotate
+//{
+//    return [self.topViewController shouldAutorotate];
+//    //return _shouldAutorotate;
+//}
 
 @end

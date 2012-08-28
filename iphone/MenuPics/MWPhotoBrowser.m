@@ -1113,20 +1113,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         // Actions 
         self.actionsSheet = nil;
         if (buttonIndex != actionSheet.cancelButtonIndex) {
-            if ([MFMailComposeViewController canSendMail]) {
-                if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-                    [self savePhoto]; return;
-                } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
-                    [self emailPhoto]; return;
-                } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 2) {
-                    [self postToFacebook]; return;
-                }
-            } else {
-                if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-                    [self savePhoto]; return;
-                } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
-                    [self postToFacebook]; return;
-                }
+            if (buttonIndex == actionSheet.firstOtherButtonIndex) {
+                [self savePhoto]; return;
+            } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
+                [self postToFacebook]; return;
             }
         }
     }

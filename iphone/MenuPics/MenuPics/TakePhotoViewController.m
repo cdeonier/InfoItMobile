@@ -53,7 +53,9 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
 @synthesize locationManager = _locationManager;
 @synthesize currentLocation = _currentLocation;
 @synthesize restaurantId = _restaurantId;
+@synthesize restaurantName = _restaurantName;
 @synthesize menuItemId = _menuItemId;
+@synthesize menuItemName = _menuItemName;
 @synthesize menuItem = _menuItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -370,7 +372,9 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [selectedPhoto setDidUpload:[NSNumber numberWithBool:NO]];
         [selectedPhoto setDidDelete:[NSNumber numberWithBool:NO]];
         [selectedPhoto setRestaurantId:[self restaurantId]];
+        [selectedPhoto setRestaurantName:[self restaurantName]];
         [selectedPhoto setMenuItemId:[self menuItemId]];
+        [selectedPhoto setMenuItemName:[self menuItemName]];
         [selectedPhoto setUsername:[[User currentUser] username]];
         
         if ([self currentLocation]) {

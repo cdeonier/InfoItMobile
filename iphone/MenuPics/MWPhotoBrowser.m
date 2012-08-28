@@ -1077,22 +1077,23 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             // Keep controls hidden
             [self setControlsHidden:NO animated:YES permanent:YES];
             
+            Photo *basePhoto = (Photo *)[(MWPhoto *)photo photo];
+            
+            NSMutableArray *options = [[NSMutableArray alloc] initWithCapacity:3];
+            [options addObject:NSLocalizedString(@"Save", nil)];
+            
             // Sheet
-            if ([MFMailComposeViewController canSendMail]) {
-                /*self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), NSLocalizedString(@"Email", nil), nil] autorelease];*/
+            if ([[basePhoto menuItemId] intValue] != 0) {
                 self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Email", nil),
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:NSLocalizedString(@"Save to Phone", nil),
                                                             NSLocalizedString(@"Post to Facebook", nil),  nil] autorelease];
             } else {
-                /*self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), nil] autorelease];*/
                 self.actionsSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                        otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Post to Facebook", nil), nil] autorelease];
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:NSLocalizedString(@"Save to Phone", nil), nil] autorelease];
             }
             _actionsSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -1203,11 +1204,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)postToFacebook {
-    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
-    Photo *photo = [mwPhoto photo];
-    
     if (![[FBSession activeSession] isOpen]) {
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
+        [delegate openFacebookSession];
     } else {
         [self postOnFacebookOpenGraph];
     }

@@ -44,7 +44,9 @@
 @property (nonatomic, strong) CLLocation *currentLocation;
 
 @property (nonatomic, strong) NSNumber *restaurantId;
+@property (nonatomic, strong) NSString *restaurantName;
 @property (nonatomic, strong) NSNumber *menuItemId;
+@property (nonatomic, strong) NSString *menuItemName;
 @property (nonatomic, strong) MenuItem *menuItem;
 
 - (IBAction)toggleSelectionBox:(id)sender;

@@ -11,7 +11,7 @@
 @interface Location : NSObject
 
 @property NSNumber *entityId;
-@property NSNumber *distance;
+@property NSString *distance;
 @property NSString *name;
 @property NSString *thumbnailUrl;
 

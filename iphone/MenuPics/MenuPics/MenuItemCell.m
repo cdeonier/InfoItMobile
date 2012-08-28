@@ -15,6 +15,7 @@
 #import "TakePhotoViewController.h"
 #import "UIColor+ExtendedColor.h"
 #import "User.h"
+#import "Restaurant.h"
 
 @implementation MenuItemCell
 
@@ -57,6 +58,7 @@
         
         _addPhotoButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
         [_addPhotoButton setImage:[UIImage imageNamed:@"add_photo"] forState:UIControlStateNormal];
+        [_addPhotoButton addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
         
         [view addSubview:_name];
         [view addSubview:_price];
@@ -141,7 +143,9 @@
         TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
         [viewController setDelegate:self];
         [viewController setMenuItemId:[_menuItem entityId]];
+        [viewController setMenuItemName:[_menuItem name]];
         [viewController setRestaurantId:[_menuItem restaurantId]];
+        [viewController setRestaurantName:[_parentController.restaurant name]];
         [viewController setMenuItem:_menuItem];
         
         UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu Item" style:UIBarButtonItemStylePlain target:nil action:nil];

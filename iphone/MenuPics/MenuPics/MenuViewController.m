@@ -518,6 +518,7 @@
     TakePhotoViewController *viewController = [[TakePhotoViewController alloc] initWithNibName:@"TakePhotoViewPortrait" bundle:nil];
     [viewController setDelegate:self];
     [viewController setRestaurantId:[self.restaurant entityId]];
+    [viewController setRestaurantName:[self.restaurant name]];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu Item" style:UIBarButtonItemStylePlain target:nil action:nil];
     [backButton setTintColor:[UIColor navBarButtonColor]];

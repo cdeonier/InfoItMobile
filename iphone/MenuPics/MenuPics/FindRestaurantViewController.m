@@ -112,7 +112,7 @@
     UILabel *name = (UILabel *)[cell viewWithTag:1];
     name.text = [location name];
     UILabel *distance = (UILabel *)[cell viewWithTag:2];
-    distance.text = [[NSString alloc] initWithFormat:@"%@%@", [[location distance] description], @" miles"];
+    distance.text = [[NSString alloc] initWithFormat:@"%@%@", [location distance], @" miles"];
     UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:3];
     [thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]]];
     
@@ -207,7 +207,7 @@
                 Location *locationRecord = [[Location alloc] init];
                 
                 NSString *name = [location valueForKey:@"name"];
-                NSNumber *distance = [location valueForKey:@"distance"];
+                NSString *distance = [location valueForKey:@"distance"];
                 NSNumber *entityId = [location valueForKey:@"id"];
                 NSString *thumbnailUrl = [location valueForKey:@"profile_photo_thumbnail_100x100"];
                 

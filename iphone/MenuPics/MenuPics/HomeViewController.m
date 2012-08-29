@@ -26,6 +26,7 @@
 @synthesize findMenuTitle = _findMenuTitle;
 @synthesize takePhotoTitle = _takePhotoTitle;
 @synthesize viewProfileTitle = _viewProfileTitle;
+@synthesize notificationButton = _notificationButton;
 
 @synthesize nonUserView = _nonUserView;
 @synthesize findMenuTitleNonUser = _findMenuTitleNonUser;
@@ -69,6 +70,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
     [self.viewDeckController.view setNeedsDisplay];
@@ -79,7 +81,33 @@
         [self setView:_nonUserView];
     }
     
-    [self outputState];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"didTag == 0"];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
+    if (mutableFetchResults == nil) {
+        NSLog(@"Error fetching from Core Data");
+    }
+    
+    if ([mutableFetchResults count] > 1) {
+        [_notificationButton setHidden:NO];
+        NSString *numberUntaggedPhotos = [NSString stringWithFormat:@"%d untagged photos", [mutableFetchResults count]];
+        [_notificationButton setTitle:numberUntaggedPhotos forState:UIControlStateNormal];
+    } else if ([mutableFetchResults count] > 0) {
+        [_notificationButton setHidden:NO];
+        NSString *numberUntaggedPhotos = [NSString stringWithFormat:@"%d untagged photo", [mutableFetchResults count]];
+        [_notificationButton setTitle:numberUntaggedPhotos forState:UIControlStateNormal];
+    } else {
+        [_notificationButton setHidden:YES];
+    }
 }
 
 - (void)viewDidUnload

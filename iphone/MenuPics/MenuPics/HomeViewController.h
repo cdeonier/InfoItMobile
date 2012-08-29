@@ -16,6 +16,7 @@
 @property IBOutlet UILabel *findMenuTitle;
 @property IBOutlet UILabel *takePhotoTitle;
 @property IBOutlet UILabel *viewProfileTitle;
+@property IBOutlet UIButton *notificationButton;
 
 //Non-User View Properties
 @property IBOutlet UIView *nonUserView;

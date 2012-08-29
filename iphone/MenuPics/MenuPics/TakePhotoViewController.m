@@ -377,6 +377,10 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         [selectedPhoto setMenuItemName:[self menuItemName]];
         [selectedPhoto setUsername:[[User currentUser] username]];
         
+        if ([[self menuItemId] intValue] > 0) {
+            [selectedPhoto setDidTag:[NSNumber numberWithBool:YES]];
+        }
+        
         if ([self currentLocation]) {
             [selectedPhoto setLatitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.latitude]];
             [selectedPhoto setLongitude:[NSNumber numberWithDouble:self.currentLocation.coordinate.longitude]];

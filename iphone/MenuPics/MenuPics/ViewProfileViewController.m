@@ -642,7 +642,7 @@
                 [photo setThumbnailUrl:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
                 [photo setDidUpload:[NSNumber numberWithBool:YES]];
                 [photo setDidDelete:[NSNumber numberWithBool:NO]];
-                [photo setDidTag:[NSNumber numberWithBool:[[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_original"] boolValue]]];
+                [photo setDidTag:[NSNumber numberWithBool:[[[photoEntry valueForKey:@"photo"] valueForKey:@"is_tagged"] boolValue]]];
                 [photo setUsername:[[User currentUser] username]];
 
                 NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
@@ -660,9 +660,11 @@
                 [savedPhoto setMenuItemName:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"menu_item_name"]];
                 [savedPhoto setRestaurantId:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"restaurant_id"]];
                 [savedPhoto setRestaurantName:[[[photoEntry valueForKey:@"photo"] valueForKey:@"tagged_info"] valueForKey:@"restaurant_name"]];
+                [savedPhoto setDidTag:[NSNumber numberWithBool:YES]];
             } else {
                 SavedPhoto *savedPhoto = [SavedPhoto photoWithFilename:fileName];
                 [savedPhoto setPoints:nil];
+                [savedPhoto setDidTag:[NSNumber numberWithBool:NO]];
             }
         }
         

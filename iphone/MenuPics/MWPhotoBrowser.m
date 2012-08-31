@@ -54,6 +54,7 @@
 	NSTimer *_controlVisibilityTimer;
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
     UIActionSheet *_actionsSheet;
+    UIActionSheet *_deleteSheet;
     MBProgressHUD *_progressHUD;
     
     // Appearance
@@ -75,6 +76,7 @@
     UIBarButtonItem *_tagButton;
     UIBarButtonItem *_untagButton;
     UIBarButtonItem *_menuButton;
+    UIBarButtonItem *_deleteButton;
 }
 
 // Private Properties
@@ -82,6 +84,7 @@
 @property (nonatomic, retain) UIBarButtonItem *previousViewControllerBackButton;
 @property (nonatomic, retain) UIImage *navigationBarBackgroundImageDefault, *navigationBarBackgroundImageLandscapePhone;
 @property (nonatomic, retain) UIActionSheet *actionsSheet;
+@property (nonatomic, retain) UIActionSheet *deleteSheet;
 @property (nonatomic, retain) MBProgressHUD *progressHUD;
 
 // Private Methods
@@ -154,7 +157,7 @@
 @synthesize previousNavBarTintColor = _previousNavBarTintColor;
 @synthesize navigationBarBackgroundImageDefault = _navigationBarBackgroundImageDefault,
 navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandscapePhone;
-@synthesize displayActionButton = _displayActionButton, actionsSheet = _actionsSheet;
+@synthesize displayActionButton = _displayActionButton, actionsSheet = _actionsSheet, deleteSheet = _deleteSheet;
 @synthesize progressHUD = _progressHUD;
 @synthesize previousViewControllerBackButton = _previousViewControllerBackButton;
 
@@ -213,6 +216,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	[_previousButton release];
 	[_nextButton release];
     [_actionButton release];
+    [_deleteButton release];
   	[_depreciatedPhotoData release];
     [self releaseAllUnderlyingPhotos];
     [[SDImageCache sharedImageCache] clearMemory]; // clear memory
@@ -242,9 +246,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    
-    //iOS 6 autorotation
-    [(ShellNavigationController *)self.navigationController setShouldAutorotate:YES];
 	
 	// View
 	self.view.backgroundColor = [UIColor blackColor];
@@ -280,7 +281,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     _tagButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tags.png"] style:UIBarButtonItemStylePlain target:self action:@selector(tagPhoto)];
     _untagButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"untags.png"] style:UIBarButtonItemStylePlain target:self action:@selector(untagPhoto)];
     _menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(viewMenu)];
-    
+    _deleteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trash.png"] style:UIBarButtonItemStylePlain target:self action:@selector(deleteButtonPressed:)];
     // Update
     [self reloadData];
     
@@ -330,6 +331,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [items addObject:_tagButton];
     [items addObject:flexSpace];
     [items addObject:_actionButton];
+    [items addObject:flexSpace];
+    [items addObject:_deleteButton];
     [items addObject:flexSpace];
     [_toolbar setItems:items];
     [items release];
@@ -933,6 +936,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         [items addObject:flexSpace];
         [items addObject:_actionButton];
         [items addObject:flexSpace];
+        [items addObject:_deleteButton];
+        [items addObject:flexSpace];
         [_toolbar setItems:items];
         [items release];
     } else {
@@ -942,6 +947,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         [items addObject:_tagButton];
         [items addObject:flexSpace];
         [items addObject:_actionButton];
+        [items addObject:flexSpace];
+        [items addObject:_deleteButton];
         [items addObject:flexSpace];
         [_toolbar setItems:items];
         [items release];
@@ -1106,6 +1113,26 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     }
 }
 
+- (void)deleteButtonPressed:(id)sender
+{
+    if (_deleteSheet) {
+        // Dismiss
+        [_deleteSheet dismissWithClickedButtonIndex:_actionsSheet.cancelButtonIndex animated:YES];
+    } else {
+        self.deleteSheet = [[[UIActionSheet alloc] initWithTitle:nil delegate:self
+                                                cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                           destructiveButtonTitle:NSLocalizedString(@"Delete Photo", nil)
+                                                otherButtonTitles:nil, nil] autorelease];
+        _deleteSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [_deleteSheet showFromBarButtonItem:sender animated:YES];
+        } else {
+            [_deleteSheet showInView:self.view];
+        }
+    }
+}
+
 #pragma mark - Action Sheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -1119,8 +1146,18 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
                 [self postToFacebook]; return;
             }
         }
+    } else if (actionSheet == _deleteSheet) {
+        self.deleteSheet = nil;
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            [self deletePhoto];
+        }
     }
-    [self hideControlsAfterDelay]; // Continue as normal...
+    
+    if ([self numberOfPhotos] == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self hideControlsAfterDelay]; // Continue as normal...
+    }
 }
 
 #pragma mark - MBProgressHUD
@@ -1326,6 +1363,19 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)didFinishTagging
 {
     [self reloadData];
+}
+
+- (void)deletePhoto
+{
+    MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
+    Photo *photo = [mwPhoto photo];
+    
+    MWZoomingScrollView *page = [self pageDisplayingPhoto:mwPhoto];
+    [page prepareForReuse];
+    
+    [_delegate deletePhotoAtIndex:_currentPageIndex];
+    [self reloadData];
+    [self gotoPreviousPage];
 }
 
 #pragma mark Facebook

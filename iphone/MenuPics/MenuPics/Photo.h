@@ -32,5 +32,7 @@
 - (id)initWithSavedPhoto:(SavedPhoto *)savedPhoto;
 + (void)tagPhoto:(Photo *)photo withMenuItemId:(NSInteger)menuItemId;
 + (void)untagPhoto:(Photo *)photo;
++ (void)deletePhoto:(Photo *)photo;
++ (SavedPhoto *)savedPhotoWithPhotoId:(NSNumber *)photoId;
 
 @end

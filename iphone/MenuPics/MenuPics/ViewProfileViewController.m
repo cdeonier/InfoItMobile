@@ -359,6 +359,18 @@
     return _photoBrowserArray.count;
 }
 
+- (void)deletePhotoAtIndex:(NSUInteger)index
+{
+    Photo *photo = [_photoBrowserArray objectAtIndex:index];
+    [Photo deletePhoto:photo];
+    
+    [_photoBrowserArray removeObjectAtIndex:index];
+    
+    [_photosGridView reloadData];
+    [_recentPhotosGridView reloadData];
+    [_popularPhotosGridView reloadData];
+}
+
 - (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
     if (index < _photoBrowserArray.count) {
         Photo *photo = [_photoBrowserArray objectAtIndex:index];
@@ -478,7 +490,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
     [request setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"username == '%@'", [[User currentUser] username]]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"(username == '%@') and (didDelete != 1)", [[User currentUser] username]]];
     [request setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
@@ -514,7 +526,7 @@
     NSDate *today = [NSDate date];
     NSDate *thisWeek  = [today dateByAddingTimeInterval:-604800.0];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(creationDate > %@) and (username == %@)", thisWeek, [[User currentUser] username]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(creationDate > %@) and (username == %@) and (didDelete != 1)", thisWeek, [[User currentUser] username]];
     [request setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO];
@@ -552,7 +564,7 @@
     NSFetchRequest *coreDataRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
     [coreDataRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"username == '%@'", [[User currentUser] username]]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"(username == '%@') and (didDelete != 1)", [[User currentUser] username]]];
     [coreDataRequest setPredicate:predicate];
     
     NSError *error = nil;
@@ -683,6 +695,8 @@
         [self populatePopularPhotosGridView:JSON];
                 
         [self downloadPendingImages];
+        
+        [self clearDeletedPhotos];
     }
     failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
     {
@@ -733,6 +747,49 @@
     for (SavedPhoto *photo in mutableFetchResults) {
         [photo setSyncDelegate:self];
         [SavedPhoto downloadThumbnail:photo];
+    }
+}
+
+- (void)clearDeletedPhotos
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *coreDataRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [coreDataRequest setEntity:entity];
+    
+    NSString *predicateString = @"didDelete == 1";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+    [coreDataRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:coreDataRequest error:&error] mutableCopy];
+    
+    for (SavedPhoto *savedPhoto in mutableFetchResults) {
+        NSUInteger index = [_recentPhotos indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [[(SavedPhoto *)obj photoId] intValue] == [[savedPhoto photoId] intValue];
+        }];
+        if (index != NSNotFound) {
+            [_recentPhotos removeObjectAtIndex:index];
+        }
+        
+        index = [_popularPhotos indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [[(SavedPhoto *)obj photoId] intValue] == [[savedPhoto photoId] intValue];
+        }];
+        if (index != NSNotFound) {
+            [_popularPhotos removeObjectAtIndex:index];
+        }
+        
+        index = [_photos indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [[(SavedPhoto *)obj photoId] intValue] == [[savedPhoto photoId] intValue];
+        }];
+        if (index != NSNotFound) {
+            [_photos removeObjectAtIndex:index];
+        }
+        
+        Photo *photo = [[Photo alloc] initWithSavedPhoto:savedPhoto];
+        [Photo deletePhoto:photo];
     }
 }
 

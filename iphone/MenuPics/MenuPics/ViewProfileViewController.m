@@ -43,6 +43,9 @@
 @synthesize popularPhotosHeader = _popularPhotosHeader;
 @synthesize popularPhotos = _popularPhotos;
 @synthesize recentPhotosGridView = _recentPhotosGridView;
+@synthesize untaggedPhotosHeader = _untaggedPhotosHeader;
+@synthesize untaggedPhotosGridView = _untaggedPhotosGridView;
+@synthesize untaggedPhotos = _untaggedPhotos;
 @synthesize photoBrowser = _photoBrowser;
 @synthesize photoBrowserArray = _photoBrowserArray;
 @synthesize recentPhotos = _recentPhotos;
@@ -81,8 +84,9 @@
     }
     
     [self initializePhotosGridView];
-    [self initializePopularPhotosGridView];
     [self initializeRecentPhotosGridView];
+    [self initializeUntaggedPhotosGridView];
+    [self initializePopularPhotosGridView];
     
     [self.view insertSubview:self.photosGridView atIndex:0];
     [self.photosGridView setHidden:YES];
@@ -241,6 +245,8 @@
         return [self.photos count];
     } else if (gridView == _recentPhotosGridView) {
         return [_recentPhotos count];
+    } else if (gridView == _untaggedPhotosGridView) {
+        return [_untaggedPhotos count];
     } else if (gridView == _popularPhotosGridView) {
         return [_popularPhotos count];
     } else {
@@ -254,6 +260,8 @@
     if (gridView == _photosGridView) {
         return CGSizeMake(75, 75);
     } else if (gridView == _recentPhotosGridView) {
+        return CGSizeMake(50, 50);
+    } else if (gridView == _untaggedPhotosGridView) {
         return CGSizeMake(50, 50);
     } else if (gridView == _popularPhotosGridView) {
         return CGSizeMake(50, 50);
@@ -294,6 +302,21 @@
         } else {
             [contentView.pointsBackground setHidden:YES];
             [contentView.points setHidden:YES];
+        }
+    } else if (gridView == _untaggedPhotosGridView) {
+        if (!cell)
+        {
+            cell = [[GMGridViewCell alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:[[self.untaggedPhotos objectAtIndex:index] thumbnail]];
+            [imageView.layer setBorderWidth:1.0];
+            [imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+            cell.contentView = imageView;
+        }
+        
+        if ([[self.untaggedPhotos objectAtIndex:index] thumbnail]) {
+            [(UIImageView *)cell.contentView setImage:[[self.untaggedPhotos objectAtIndex:index] thumbnail]];
+        } else {
+            [(UIImageView *)cell.contentView setImageWithURL:[NSURL URLWithString:[[self.untaggedPhotos objectAtIndex:index] thumbnailUrl]]];
         }
     } else if (gridView == _recentPhotosGridView) {
         if (!cell) 
@@ -343,6 +366,8 @@
         _photoBrowserArray = _photos;
     } else if (gridView == _recentPhotosGridView) {
         _photoBrowserArray = _recentPhotos;
+    } else if (gridView == _untaggedPhotosGridView) {
+        _photoBrowserArray = _untaggedPhotos;
     } else if (gridView == _popularPhotosGridView) {
         _photoBrowserArray = _popularPhotos;
     }
@@ -368,6 +393,7 @@
     
     [_photosGridView reloadData];
     [_recentPhotosGridView reloadData];
+    [_untaggedPhotosGridView reloadData];
     [_popularPhotosGridView reloadData];
 }
 
@@ -467,18 +493,26 @@
 
 - (void)initializePopularPhotosGridView
 {
-    [_popularPhotosGridView setItemSpacing:12];
-    [_popularPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutVertical]];
+    [_popularPhotosGridView setItemSpacing:10];
+    [_popularPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal]];
     [_popularPhotosGridView setMinEdgeInsets:UIEdgeInsetsMake(0, 11, 0, 11)];
     [_popularPhotosGridView setCenterGrid:NO];
 }
 
 - (void)initializeRecentPhotosGridView
 {
-    [_recentPhotosGridView setItemSpacing:12];
+    [_recentPhotosGridView setItemSpacing:10];
     [_recentPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal]];
     [_recentPhotosGridView setMinEdgeInsets:UIEdgeInsetsMake(0, 11, 0, 11)];
     [_recentPhotosGridView setCenterGrid:NO];
+}
+
+- (void)initializeUntaggedPhotosGridView
+{
+    [_untaggedPhotosGridView setItemSpacing:10];
+    [_untaggedPhotosGridView setLayoutStrategy:[GMGridViewLayoutStrategyFactory strategyFromType:GMGridViewLayoutHorizontal]];
+    [_untaggedPhotosGridView setMinEdgeInsets:UIEdgeInsetsMake(0, 11, 0, 11)];
+    [_untaggedPhotosGridView setCenterGrid:NO];
 }
 
 - (void)populatePhotosGridView
@@ -594,6 +628,8 @@
     
     if ([_popularPhotos count] > 0) {
         [_popularPhotosHeader setHidden:NO];
+    } else {
+        [_popularPhotosHeader setHidden:YES];
     }
     
     NSSortDescriptor *sortDescriptor;
@@ -605,6 +641,55 @@
         _popularPhotos = [NSMutableArray arrayWithArray:[_popularPhotos subarrayWithRange:NSMakeRange(0, 10)]];
     
     [_popularPhotosGridView reloadData];
+}
+
+- (void)populateUntaggedPhotosGridView:(id)JSON
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    NSFetchRequest *coreDataRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SavedPhoto" inManagedObjectContext:context];
+    [coreDataRequest setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"(username == '%@') and (didDelete != 1)", [[User currentUser] username]]];
+    [coreDataRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:coreDataRequest error:&error] mutableCopy];
+    if (mutableFetchResults == nil) {
+        NSLog(@"Error fetching from Core Data");
+    }
+    
+    NSMutableDictionary *photosOnPhone = [[NSMutableDictionary alloc] initWithCapacity:200];
+    for (SavedPhoto *coreDataPhoto in mutableFetchResults) {
+        [photosOnPhone setObject:coreDataPhoto forKey:[coreDataPhoto fileName]];
+    }
+    
+    _untaggedPhotos = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    for (id photoEntry in [[JSON valueForKey:@"user"] valueForKey:@"photos"]) {
+        NSLog(@"The JSON: %@", photoEntry);
+        NSNumber *isTagged = [[photoEntry valueForKey:@"photo"] valueForKey:@"is_tagged"];
+        NSString *photoFilename = [[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"];
+        if ([isTagged intValue] == 0 && ![photoFilename isEqualToString:@"profile_photo"]) {
+            Photo *photo = [[Photo alloc] initWithSavedPhoto:[photosOnPhone objectForKey:[[photoEntry valueForKey:@"photo"] valueForKey:@"photo_filename"]]];
+            [_untaggedPhotos addObject:photo];
+        }
+    }
+    
+    if ([_untaggedPhotos count] > 0) {
+        [_untaggedPhotosHeader setHidden:NO];
+        
+        [_popularPhotosHeader setFrame:CGRectMake(11, 269, 200, 22)];
+        [_popularPhotosGridView setFrame:CGRectMake(0, 299, 320, 50)];
+    } else {
+        [_untaggedPhotosHeader setHidden:YES];
+        
+        [_popularPhotosHeader setFrame:CGRectMake(11, 177, 200, 22)];
+        [_popularPhotosGridView setFrame:CGRectMake(0, 207, 320, 50)];
+    }
+    
+    [_untaggedPhotosGridView reloadData];
 }
 
 - (void)syncProfile
@@ -693,6 +778,8 @@
         [self populateRecentPhotosGridView];
         
         [self populatePopularPhotosGridView:JSON];
+        
+        [self populateUntaggedPhotosGridView:JSON];
                 
         [self downloadPendingImages];
         

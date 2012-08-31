@@ -26,5 +26,6 @@
 - (IBAction)findMenu:(id)sender;
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)viewProfile:(id)sender;
+- (IBAction)notificationButtonSelected:(id)sender;
 
 @end

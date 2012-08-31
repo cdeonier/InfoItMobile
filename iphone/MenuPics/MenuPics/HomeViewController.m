@@ -158,6 +158,15 @@
     [self presentModalViewController:viewController animated:YES];
 }
 
+- (IBAction)notificationButtonSelected:(id)sender
+{
+    ViewProfileViewController *viewController = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
+    self.navigationItem.backBarButtonItem = backButton;
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 #pragma mark SignInDelegate
 
 - (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn

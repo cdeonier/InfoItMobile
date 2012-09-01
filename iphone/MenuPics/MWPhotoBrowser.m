@@ -12,6 +12,7 @@
 #import "MWPhotoBrowser.h"
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
+#import "SVProgressHUD.h"
 #import "SDImageCache.h"
 
 #import "Photo.h"
@@ -448,6 +449,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
     }
+    
+    [SVProgressHUD dismiss];
     
 	// Super
 	[super viewWillDisappear:animated];
@@ -1233,13 +1236,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)postToFacebook {
     if (![[FBSession activeSession] isOpen]) {
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        
         [delegate openFacebookSession];
-    } else {
-        [self postOnFacebookOpenGraph];
     }
     
-    NSLog(@"Post to Facebook");
+    [self postOnFacebookOpenGraph];
 }
 
 - (void)actuallyCopyPhoto:(id<MWPhoto>)photo {
@@ -1368,7 +1368,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 - (void)deletePhoto
 {
     MWPhoto *mwPhoto = (MWPhoto *)[self photoAtIndex:_currentPageIndex];
-    Photo *photo = [mwPhoto photo];
     
     MWZoomingScrollView *page = [self pageDisplayingPhoto:mwPhoto];
     [page prepareForReuse];
@@ -1399,6 +1398,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 // FBSample logic
 // Creates the Open Graph Action with an optional photo URL.
 - (void)postOnFacebookOpenGraph {
+    [SVProgressHUD showWithStatus:@"Posting..."];
+    
     // First create the Open Graph meal object for the meal we ate.
     id<FBDishObject> dishObject = [self getFBDishForPhoto];
     
@@ -1412,23 +1413,20 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
                        completionHandler:
      ^(FBRequestConnection *connection, id result, NSError *error) {
          [self.view setUserInteractionEnabled:YES];
-         
-         NSString *alertText;
          if (!error) {
-             alertText = [NSString stringWithFormat:@"Posted Open Graph action, id: %@",
-                          [result objectForKey:@"id"]];
+             [SVProgressHUD showWithStatus:@"Posted"];
+             [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(facebookPostNotificationFinish) userInfo:nil repeats:NO];
          } else {
-             alertText = [NSString stringWithFormat:@"error: domain = %@, code = %d",
-                          error.domain, error.code];
+             NSLog(@"%@", [error description]);
+             [SVProgressHUD showErrorWithStatus:@"Connection Error"];
          }
-         [[[UIAlertView alloc] initWithTitle:@"Result"
-                                     message:alertText
-                                    delegate:nil
-                           cancelButtonTitle:@"Thanks!"
-                           otherButtonTitles:nil]
-          show];
      }];
-} 
+}
+
+- (void)facebookPostNotificationFinish
+{
+    [SVProgressHUD dismiss];
+}
 
 
 @end

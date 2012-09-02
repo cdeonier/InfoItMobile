@@ -161,7 +161,7 @@
     [[self errorLabel] setHidden:NO];
 }
 
-#pragma mark UITextViewDelegate
+#pragma mark UITextField Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -179,6 +179,16 @@
     }
     
     return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    _activeField = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    _activeField = nil;
 }
 
 #pragma mark TextField display w/keyboard
@@ -224,16 +234,6 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     [self scrollView].contentInset = contentInsets;
     [self scrollView].scrollIndicatorInsets = contentInsets;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    _activeField = textField;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    _activeField = nil;
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "FindRestaurantViewController.h"
 #import "TakePhotoViewController.h"
 #import "ViewProfileViewController.h"
+#import "FeedbackViewController.h"
 #import "SignInViewController.h"
 #import "IIViewDeckController.h"
 #import "UIColor+ExtendedColor.h"
@@ -65,6 +66,10 @@
     
     //Title not actually displayed on Home screen, used for back button title acquisition in NavController
     [self setTitle:@"Home"];
+    
+    UIBarButtonItem *feedbackButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lightbulb"] style:UIBarButtonItemStylePlain target:self action:@selector(sendFeedback)];
+    feedbackButton.tintColor = [UIColor navBarButtonColor];
+    self.navigationItem.rightBarButtonItem = feedbackButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -161,6 +166,15 @@
 - (IBAction)notificationButtonSelected:(id)sender
 {
     ViewProfileViewController *viewController = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
+    backButton.tintColor = [UIColor navBarButtonColor];
+    self.navigationItem.backBarButtonItem = backButton;
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)sendFeedback
+{
+    FeedbackViewController *viewController = [[FeedbackViewController alloc] initWithNibName:@"FeedbackViewController" bundle:nil];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:nil action:nil];
     backButton.tintColor = [UIColor navBarButtonColor];
     self.navigationItem.backBarButtonItem = backButton;

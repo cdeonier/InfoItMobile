@@ -8,18 +8,28 @@
 
 #import "HomeViewController.h"
 
+#import "JSONResponse.h"
+#import "Location.h"
 #import "MenuPicsAPIClient.h"
+#import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
 
 @interface HomeViewController ()
 
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSMutableArray *nearbyLocations;
 
 @end
 
 @implementation HomeViewController
 
+@synthesize tableView = _tableView;
+
 @synthesize locationManager = _locationManager;
+@synthesize nearbyLocations = _nearbyLocations;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +47,8 @@
     UIImageView *titleView = [[UIImageView alloc] initWithImage:navigationLogo];
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     [navigationBar.topItem setTitleView:titleView];
+    
+    [_tableView setTableFooterView:[UIView new]];
     
     [self initializeLocationManager];
 }
@@ -73,15 +85,89 @@
 
 - (void)getNearbyLocations:(CLLocation *)location
 {
-    [SVProgressHUD showWithStatus:@"Loading"];
+    id pastJsonResponse = [JSONResponse recentJsonResponse:self];
+    
+    if (!pastJsonResponse) {
+        [SVProgressHUD showWithStatus:@"Loading"];
+    } else {
+        [self populateTableData:pastJsonResponse];
+    }
     
     void (^didReceiveNearbyLocationsBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
     didReceiveNearbyLocationsBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSLog(@"%@", JSON);
+        [JSONResponse saveJsonResponse:self withJsonResponse:JSON];
+        
+        [self populateTableData:JSON];
+        
         [SVProgressHUD dismiss];
     };
     
     [MenuPicsAPIClient getNearbyLocationsAtLocation:location success:didReceiveNearbyLocationsBlock];
+}
+
+- (void)populateTableData:(id)json
+{
+    _nearbyLocations = [[NSMutableArray alloc] init];
+    
+    for (id locationJson in json) {
+        NSDictionary *location = [locationJson valueForKey:@"entity"];
+        
+        Location *locationRecord = [[Location alloc] init];
+        
+        NSString *name = [location valueForKey:@"name"];
+        NSString *distance = [location valueForKey:@"distance"];
+        NSNumber *entityId = [location valueForKey:@"id"];
+        NSString *thumbnailUrl = [location valueForKey:@"profile_photo_thumbnail_100x100"];
+        
+        [locationRecord setName:name];
+        [locationRecord setDistance:distance];
+        [locationRecord setEntityId:entityId];
+        [locationRecord setThumbnailUrl:thumbnailUrl];
+        
+        [_nearbyLocations addObject:locationRecord];
+    }
+    
+    [_tableView reloadData];
+}
+
+#pragma mark Table Delegate
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"LocationCellIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"LocationCell" owner:self options:nil] objectAtIndex:0];
+    }
+    
+    Location *location = [_nearbyLocations objectAtIndex:indexPath.row];
+    
+    UILabel *name = (UILabel *)[cell viewWithTag:1];
+    name.text = [location name];
+    
+    UILabel *distance = (UILabel *)[cell viewWithTag:2];
+    distance.text = [[NSString alloc] initWithFormat:@"%@%@", [location distance], @" miles"];
+    
+    UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:3];
+    [thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]]];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_nearbyLocations count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.0f;
 }
 
 @end

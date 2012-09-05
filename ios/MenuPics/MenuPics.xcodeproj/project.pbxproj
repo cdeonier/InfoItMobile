@@ -37,7 +37,6 @@
 		3C573F5C15F563FB00CE7BE3 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F5A15F563FB00CE7BE3 /* SVProgressHUD.m */; };
 		3C573F6015F5C49A00CE7BE3 /* JSONResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F5F15F5C49A00CE7BE3 /* JSONResponse.m */; };
 		3C573F6515F5E26C00CE7BE3 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F6415F5E26C00CE7BE3 /* Location.m */; };
-		3C573F6715F5E52600CE7BE3 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C573F6615F5E52600CE7BE3 /* LocationCell.xib */; };
 		3C573F8115F5E81D00CE7BE3 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F6E15F5E81D00CE7BE3 /* MKAnnotationView+WebCache.m */; };
 		3C573F8215F5E81D00CE7BE3 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F7015F5E81D00CE7BE3 /* SDImageCache.m */; };
 		3C573F8315F5E81D00CE7BE3 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F7415F5E81D00CE7BE3 /* SDWebImageDecoder.m */; };
@@ -49,6 +48,8 @@
 		3C573F8A15F5E91400CE7BE3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C573F8915F5E91400CE7BE3 /* ImageIO.framework */; };
 		3C573F8C15F5E92F00CE7BE3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C573F8B15F5E92F00CE7BE3 /* MapKit.framework */; };
 		3C573F9315F748B600CE7BE3 /* MenuPicsDBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F9215F748B600CE7BE3 /* MenuPicsDBClient.m */; };
+		3C573F9815F7511C00CE7BE3 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F9715F7511C00CE7BE3 /* MenuViewController.m */; };
+		3C573F9B15F7559B00CE7BE3 /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573F9A15F7559B00CE7BE3 /* LocationCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,7 +104,6 @@
 		3C573F6115F5D33D00CE7BE3 /* Base.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Base.xcdatamodel; sourceTree = "<group>"; };
 		3C573F6315F5E26C00CE7BE3 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		3C573F6415F5E26C00CE7BE3 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		3C573F6615F5E52600CE7BE3 /* LocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
 		3C573F6D15F5E81D00CE7BE3 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		3C573F6E15F5E81D00CE7BE3 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		3C573F6F15F5E81D00CE7BE3 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
@@ -128,6 +128,10 @@
 		3C573F8B15F5E92F00CE7BE3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3C573F9115F748B600CE7BE3 /* MenuPicsDBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuPicsDBClient.h; sourceTree = "<group>"; };
 		3C573F9215F748B600CE7BE3 /* MenuPicsDBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuPicsDBClient.m; sourceTree = "<group>"; };
+		3C573F9615F7511C00CE7BE3 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		3C573F9715F7511C00CE7BE3 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		3C573F9915F7559B00CE7BE3 /* LocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
+		3C573F9A15F7559B00CE7BE3 /* LocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +189,7 @@
 				3C573F6215F5E22000CE7BE3 /* Models */,
 				3C573F2215F4D27300CE7BE3 /* Application */,
 				3C573F2415F4D29B00CE7BE3 /* Home */,
+				3C573F9515F750FE00CE7BE3 /* Menu */,
 				3C573F0915F4D0D800CE7BE3 /* Supporting Files */,
 				3C573F3115F5429500CE7BE3 /* Vendor */,
 			);
@@ -309,7 +314,8 @@
 		3C573F6815F5E52F00CE7BE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3C573F6615F5E52600CE7BE3 /* LocationCell.xib */,
+				3C573F9915F7559B00CE7BE3 /* LocationCell.h */,
+				3C573F9A15F7559B00CE7BE3 /* LocationCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -339,6 +345,15 @@
 				3C573F8015F5E81D00CE7BE3 /* UIImageView+WebCache.m */,
 			);
 			name = SDWebImage;
+			sourceTree = "<group>";
+		};
+		3C573F9515F750FE00CE7BE3 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				3C573F9615F7511C00CE7BE3 /* MenuViewController.h */,
+				3C573F9715F7511C00CE7BE3 /* MenuViewController.m */,
+			);
+			name = Menu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -399,7 +414,6 @@
 				3C573F2B15F4D35E00CE7BE3 /* nav_logo.png in Resources */,
 				3C573F2C15F4D35E00CE7BE3 /* nav_logo@2x.png in Resources */,
 				3C573F5B15F563FB00CE7BE3 /* SVProgressHUD.bundle in Resources */,
-				3C573F6715F5E52600CE7BE3 /* LocationCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +451,8 @@
 				3C573F8715F5E81D00CE7BE3 /* UIButton+WebCache.m in Sources */,
 				3C573F8815F5E81D00CE7BE3 /* UIImageView+WebCache.m in Sources */,
 				3C573F9315F748B600CE7BE3 /* MenuPicsDBClient.m in Sources */,
+				3C573F9815F7511C00CE7BE3 /* MenuViewController.m in Sources */,
+				3C573F9B15F7559B00CE7BE3 /* LocationCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,9 @@
 
 #import "JSONResponse.h"
 #import "Location.h"
+#import "LocationCell.h"
 #import "MenuPicsAPIClient.h"
+#import "MenuViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
 
@@ -134,30 +136,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"LocationCellIdentifier";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"LocationCell" owner:self options:nil] objectAtIndex:0];
-    }
+    LocationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LocationCell"];
     
     Location *location = [_nearbyLocations objectAtIndex:indexPath.row];
     
-    UILabel *name = (UILabel *)[cell viewWithTag:1];
-    name.text = [location name];
-    
-    UILabel *distance = (UILabel *)[cell viewWithTag:2];
-    distance.text = [[NSString alloc] initWithFormat:@"%@%@", [location distance], @" miles"];
-    
-    UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:3];
-    [thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]]];
+    [cell.name setText:[location name]];
+    [cell.distance setText:[[NSString alloc] initWithFormat:@"%@%@", [location distance], @" miles"]];
+    [cell.thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]]];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    MenuViewController *menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menu"];
+    [self.navigationController pushViewController:menuViewController animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -169,5 +162,6 @@
 {
     return 60.0f;
 }
+
 
 @end

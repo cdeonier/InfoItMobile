@@ -390,7 +390,7 @@
 
 - (void)setProfileImageWithPhoto:(Photo *)photo
 {
-    [_photoView setHidden:YES];
+    //[_photoView setHidden:YES];
     [_activityIndicator startAnimating];
     
     if ([[photo points] isEqualToNumber:[NSNumber numberWithInt:1]]) {
@@ -441,7 +441,7 @@
             UIActivityIndicatorView *activityIndicatorReference = _activityIndicator;
             [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
                                    success:^(UIImage *image) {
-                                       [viewReference setHidden:NO];
+                                       //[viewReference setHidden:NO];
                                        [activityIndicatorReference stopAnimating];
                                    } 
                                    failure:^(NSError *error) {
@@ -457,7 +457,7 @@
         UIActivityIndicatorView *activityIndicatorReference = _activityIndicator;
         [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
                                success:^(UIImage *image) {
-                                   [viewReference setHidden:NO];
+                                   //[viewReference setHidden:NO];
                                    [activityIndicatorReference stopAnimating];
                                } 
                                failure:^(NSError *error) {

@@ -8,7 +8,7 @@
 
 #import "JSONResponse.h"
 
-#import "AppDelegate.h"
+#import "MenuPicsDBClient.h"
 
 @implementation JSONResponse
 
@@ -17,26 +17,12 @@
 + (id)recentJsonResponse:(UIViewController *)viewController
 {
     NSString *viewControllerName = NSStringFromClass([viewController class]);
+    NSString *predicateString = [NSString stringWithFormat:@"viewController == '%@'", viewControllerName];
+    NSMutableArray *fetchResults = [MenuPicsDBClient fetchResultsFromDB:@"JSONResponse" withPredicate:predicateString];
     
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [delegate managedObjectContext];
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"JSONResponse" inManagedObjectContext:context];
-    [request setEntity:entity];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"viewController == %@", viewControllerName];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
-    if (mutableFetchResults == nil) {
-        NSLog(@"Error fetching JSON from Core Data");
-    }
-    
-    if ([mutableFetchResults count] > 0) {
-        JSONResponse *pastJsonResponse = [mutableFetchResults objectAtIndex:0];
-        id JSON = [NSJSONSerialization JSONObjectWithData:[pastJsonResponse jsonResponse] options:NSJSONReadingAllowFragments error:&error];
+    if ([fetchResults count] > 0) {
+        JSONResponse *pastJsonResponse = [fetchResults objectAtIndex:0];
+        id JSON = [NSJSONSerialization JSONObjectWithData:[pastJsonResponse jsonResponse] options:NSJSONReadingAllowFragments error:nil];
         return JSON;
     } else {
         return nil;
@@ -46,25 +32,11 @@
 + (NSDate *)recentJsonDate:(UIViewController *)viewController
 {
     NSString *viewControllerName = NSStringFromClass([viewController class]);
+    NSString *predicateString = [NSString stringWithFormat:@"viewController == '%@'", viewControllerName];
+    NSMutableArray *fetchResults = [MenuPicsDBClient fetchResultsFromDB:@"JSONResponse" withPredicate:predicateString];
     
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [delegate managedObjectContext];
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"JSONResponse" inManagedObjectContext:context];
-    [request setEntity:entity];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"viewController == %@", viewControllerName];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
-    if (mutableFetchResults == nil) {
-        NSLog(@"Error fetching JSON from Core Data");
-    }
-    
-    if ([mutableFetchResults count] > 0) {
-        JSONResponse *pastJsonResponse = [mutableFetchResults objectAtIndex:0];
+    if ([fetchResults count] > 0) {
+        JSONResponse *pastJsonResponse = [fetchResults objectAtIndex:0];
         return [pastJsonResponse fetchDate];
     } else {
         return nil;
@@ -76,35 +48,19 @@
     NSData *jsonAsData = [NSJSONSerialization dataWithJSONObject:jsonResponse options:0 error:nil];
     
     NSString *viewControllerName = NSStringFromClass([viewController class]);
+    NSString *predicateString = [NSString stringWithFormat:@"viewController == '%@'", viewControllerName];
+    NSMutableArray *fetchResults = [MenuPicsDBClient fetchResultsFromDB:@"JSONResponse" withPredicate:predicateString];
     
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [delegate managedObjectContext];
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"JSONResponse" inManagedObjectContext:context];
-    [request setEntity:entity];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"viewController == %@", viewControllerName];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
-    if (mutableFetchResults == nil) {
-        NSLog(@"Error fetching JSON from Core Data");
+    if ([fetchResults count] > 0) {
+        [MenuPicsDBClient deleteObject:[fetchResults objectAtIndex:0]];
     }
     
-    if ([mutableFetchResults count] > 0) {
-        [context deleteObject:[mutableFetchResults objectAtIndex:0]];
-    }
-    
-    JSONResponse *newJson = (JSONResponse *)[NSEntityDescription insertNewObjectForEntityForName:@"JSONResponse" inManagedObjectContext:context];
+    JSONResponse *newJson = (JSONResponse *)[MenuPicsDBClient generateManagedObject:@"JSONResponse"];
     [newJson setFetchDate:[NSDate date]];
     [newJson setJsonResponse:jsonAsData];
     [newJson setViewController:viewControllerName];
     
-    if (![context save:&error]) {
-        NSLog(@"Error saving to Core Data");
-    }
+    [MenuPicsDBClient saveContext];
 }
 
 @end

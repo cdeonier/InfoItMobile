@@ -166,11 +166,11 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     [delegate enableNavigationMenu];
 }
 
+
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait || 
-            interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void) didReceiveMemoryWarning

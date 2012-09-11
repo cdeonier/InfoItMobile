@@ -41,7 +41,6 @@
 @synthesize points = _points;
 @synthesize photoPointsBackground = _photoPointsBackground;
 
-@synthesize activityIndicator = _activityIndicator;
 @synthesize displayedPhoto = _displayedPhoto;
 @synthesize profileImage = _profileImage;
 @synthesize menuItem = _menuItem;
@@ -390,9 +389,6 @@
 
 - (void)setProfileImageWithPhoto:(Photo *)photo
 {
-    //[_photoView setHidden:YES];
-    [_activityIndicator startAnimating];
-    
     if ([[photo points] isEqualToNumber:[NSNumber numberWithInt:1]]) {
         [_points setText:@"1 Point"];
     } else {
@@ -437,12 +433,17 @@
             [photo setFileLocation:nil];
             [photo setPhotoId:[savedPhoto photoId]];
             
-            UIView *viewReference = _photoView;
-            UIActivityIndicatorView *activityIndicatorReference = _activityIndicator;
-            [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
+            UIImageView *loadingAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+            [loadingAnimation setAnimationImages:[ImageUtil getSweepImageArray]];
+            [loadingAnimation setAnimationDuration:4.0f];
+            [loadingAnimation setAnimationRepeatCount:INFINITY];
+            [loadingAnimation setCenter:CGPointMake(160, 120)];
+            [loadingAnimation startAnimating];
+            [self.view addSubview:loadingAnimation];
+            
+            [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] placeholderImage:[UIImage imageNamed:@"image_loading@2x.jpg"] 
                                    success:^(UIImage *image) {
-                                       //[viewReference setHidden:NO];
-                                       [activityIndicatorReference stopAnimating];
+                                       [loadingAnimation removeFromSuperview];
                                    } 
                                    failure:^(NSError *error) {
                                        NSLog(@"%@", [error description]);
@@ -453,12 +454,17 @@
             [_profileImage setImage:image];
         }
     } else {
-        UIView *viewReference = _photoView;
-        UIActivityIndicatorView *activityIndicatorReference = _activityIndicator;
-        [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] 
+        UIImageView *loadingAnimation = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        [loadingAnimation setAnimationImages:[ImageUtil getSweepImageArray]];
+        [loadingAnimation setAnimationDuration:4.0f];
+        [loadingAnimation setAnimationRepeatCount:INFINITY];
+        [loadingAnimation setCenter:CGPointMake(160, 120)];
+        [loadingAnimation startAnimating];
+        [self.view addSubview:loadingAnimation];
+        
+        [_profileImage setImageWithURL:[NSURL URLWithString:[photo photoUrl]] placeholderImage:[UIImage imageNamed:@"image_loading@2x.jpg"]
                                success:^(UIImage *image) {
-                                   //[viewReference setHidden:NO];
-                                   [activityIndicatorReference stopAnimating];
+                                   [loadingAnimation removeFromSuperview];
                                } 
                                failure:^(NSError *error) {
                                    NSLog(@"%@", [error description]);

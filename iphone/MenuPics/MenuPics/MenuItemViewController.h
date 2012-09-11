@@ -36,7 +36,6 @@ typedef NSInteger ButtonAction;
 @property (nonatomic, strong) IBOutlet UILabel *points;
 @property (nonatomic, strong) IBOutlet UIView *photoPointsBackground;
 
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) Photo *displayedPhoto;
 @property (nonatomic, strong) IBOutlet UIImageView *profileImage;
 

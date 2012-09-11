@@ -207,12 +207,18 @@
                 Location *locationRecord = [[Location alloc] init];
                 
                 NSString *name = [location valueForKey:@"name"];
-                NSString *distance = [location valueForKey:@"distance"];
                 NSNumber *entityId = [location valueForKey:@"id"];
                 NSString *thumbnailUrl = [location valueForKey:@"profile_photo_thumbnail_100x100"];
                 
+                NSNumber *distance = [location valueForKey:@"distance"];
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                [formatter setMaximumFractionDigits:2];
+                [formatter setRoundingMode:NSNumberFormatterRoundDown];
+                NSString *distanceString = [formatter stringFromNumber:[NSNumber numberWithFloat:[distance floatValue]]];
+                
                 [locationRecord setName:name];
-                [locationRecord setDistance:distance];
+                [locationRecord setDistance:distanceString];
                 [locationRecord setEntityId:entityId];
                 [locationRecord setThumbnailUrl:thumbnailUrl];
                 

@@ -202,11 +202,11 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     UIView *landscapeRightView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView];
     [landscapeRightView setHidden:YES];
     
-    self.view = self.portraitView;
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
-        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
-    }
+//    self.view = self.portraitView;
+//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+//        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background"] forBarMetrics:UIBarMetricsDefault];
+//    }
 }
 
 - (void) setLandscapeLeftView
@@ -218,11 +218,11 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     UIView *landscapeRightView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView];
     [landscapeRightView setHidden:YES];
     
-    self.view = self.landscapeView;
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
-        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background_landscape"] forBarMetrics:UIBarMetricsDefault];
-    }
+//    self.view = self.landscapeView;
+//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+//        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background_landscape"] forBarMetrics:UIBarMetricsDefault];
+//    }
 }
 
 - (void) setLandscapeRightView
@@ -234,11 +234,11 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
     UIView *landscapeRightView = [self.cameraOverlay viewWithTag:CameraOverlayLandscapeRightView];
     [landscapeRightView setHidden:NO];
     
-    self.view = self.landscapeView;
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
-        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background_landscape"] forBarMetrics:UIBarMetricsDefault];
-    }
+//    self.view = self.landscapeView;
+//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//    if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+//        [navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_background_landscape"] forBarMetrics:UIBarMetricsDefault];
+//    }
 }
 
 
@@ -379,6 +379,8 @@ NSInteger const CameraFlashOverlayLandscapeRight = 31;
         
         if ([[self menuItemId] intValue] > 0) {
             [selectedPhoto setDidTag:[NSNumber numberWithBool:YES]];
+        } else {
+            [selectedPhoto setDidTag:[NSNumber numberWithBool:NO]];
         }
         
         if ([self currentLocation]) {

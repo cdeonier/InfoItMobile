@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Accounts/Accounts.h>
+#import <Social/Social.h>
 
 #import "CreateAccountViewController.h"
 

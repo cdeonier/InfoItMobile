@@ -88,6 +88,25 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
     [operation start];
 }
 
++ (void)createAccountFromFacebook:(NSString *)accessToken success:(SuccessBlock)success failure:(FailureBlock)failure
+{
+    NSString *endpoint = @"services/facebook/create";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"fb_access_token=%@", accessToken];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
 + (void)updateAccount:(NSString *)user email:(NSString *)email password:(NSString *)password updatedPassword:(NSString *)updatedPassword success:(SuccessBlock)success failure:(FailureBlock)failure
 {
     NSString *endpoint;

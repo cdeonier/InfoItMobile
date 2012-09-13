@@ -23,6 +23,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *errorLabel;
 
 - (IBAction)signIn:(id)sender;
+- (IBAction)signInWithFacebook:(id)sender;
 - (IBAction)createAccount:(id)sender;
 
 @end
@@ -109,6 +110,59 @@
     }
 }
 
+- (IBAction)signInWithFacebook:(id)sender
+{
+    [self disableViewInteraction];
+    
+    void (^didSignInBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
+    didSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSString *accessToken = [JSON valueForKeyPath:@"access_token"];
+        NSString *email = [JSON valueForKeyPath:@"email"];
+        NSString *username = [JSON valueForKey:@"username"];
+        NSNumber *userId = [JSON valueForKey:@"user_id"];
+        NSString *loginType = [JSON valueForKey:@"login_type"];
+        
+        [User signInUser:email accessToken:accessToken username:username userId:userId loginType:loginType];
+        
+        [self.navigationController popViewControllerAnimated:NO];
+        [_delegate signInViewController:self didSignIn:YES];
+    };
+    
+    void (^failureSignInBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
+    failureSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        [self enableViewInteraction];
+        
+        if (JSON) {
+            [self displayError:[JSON valueForKeyPath:@"message"]];
+        } else {
+            [self displayError:@"Unable to connect.  Try again later."];
+        }
+    };
+    
+    //Access exisiting Facebook credentials on phone
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    ACAccountType *facebookAccountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+    
+    NSDictionary *facebookOptions = @{ACFacebookAppIdKey : @"378548658877603",
+                                      ACFacebookPermissionsKey : @[@"email"],
+                                      ACFacebookAudienceKey : ACFacebookAudienceOnlyMe};
+    
+    void (^facebookCompletionBlock)(BOOL, NSError *);
+    facebookCompletionBlock = ^(BOOL granted, NSError *error) {
+        if (granted) {
+            NSArray *accounts = [accountStore accountsWithAccountType:facebookAccountType];
+            ACAccount *facebookAccount = [accounts lastObject];
+            
+            [MenuPicsAPIClient createAccountFromFacebook:facebookAccount.credential.oauthToken success:didSignInBlock failure:failureSignInBlock];
+        } else {
+            NSLog(@"%@", [error description]);
+            NSLog(@"Did not grant permission.");
+        }
+    };
+    
+    [accountStore requestAccessToAccountsWithType:facebookAccountType options:facebookOptions completion:facebookCompletionBlock];
+}
+
 - (IBAction)createAccount:(id)sender
 {
     [self performSegueWithIdentifier:@"CreateAccountSegue" sender:self];
@@ -128,6 +182,7 @@
 
     [_signInButton setEnabled:NO];
     [_createButton setEnabled:NO];
+    [_facebookLoginButton setEnabled:NO];
 }
 
 - (void)enableViewInteraction
@@ -137,6 +192,7 @@
 
     [_signInButton setEnabled:YES];
     [_createButton setEnabled:YES];
+    [_facebookLoginButton setEnabled:YES];
 }
 
 #pragma mark UITextViewDelegate

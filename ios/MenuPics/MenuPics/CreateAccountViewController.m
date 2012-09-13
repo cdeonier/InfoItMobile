@@ -87,7 +87,6 @@
         NSNumber *userId = [[JSON valueForKey:@"user"] valueForKey:@"user_id"];
         NSString *loginType = @"NATIVE";
         
-        [User signOutUser];
         [User signInUser:email accessToken:accessToken username:username userId:userId loginType:loginType];
         
         [self.navigationController popViewControllerAnimated:NO];

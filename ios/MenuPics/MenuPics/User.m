@@ -29,6 +29,7 @@
 
 + (void)signInUser:(NSString *)email accessToken:(NSString *)accessToken username:(NSString *)username userId:(NSNumber *)userId loginType:(NSString *)loginType
 {
+    [self signOutUser];
     User *user = (User *)[MenuPicsDBClient generateManagedObject:@"User"];
     [user setEmail:email];
     [user setAccessToken:accessToken];

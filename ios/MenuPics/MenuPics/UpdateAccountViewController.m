@@ -85,7 +85,6 @@
             NSNumber *userId = [JSON valueForKey:@"user_id"];
             NSString *loginType = [JSON valueForKey:@"login_type"];
             
-            [User signOutUser];
             [User signInUser:email accessToken:accessToken username:username userId:userId loginType:loginType];
         } else {
             NSString *accessToken = [[User currentUser] accessToken];

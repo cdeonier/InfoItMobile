@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MenuViewController : UIViewController
+@interface MenuViewController : UITabBarController <UITabBarControllerDelegate>
+
+@property (nonatomic, strong) NSNumber *restaurantId;
+
+- (void)selectMenu:(NSString *)menuType;
 
 @end

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
+#import "SignInViewController.h"
+
+@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, SignInDelegate>
 
 @end

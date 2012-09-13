@@ -21,9 +21,11 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     [request setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-    [request setPredicate:predicate];
-    
+    if (predicateString) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+
     NSError *error = nil;
     NSMutableArray *mutableFetchResults = [[context executeFetchRequest:request error:&error] mutableCopy];
     if (mutableFetchResults == nil) {

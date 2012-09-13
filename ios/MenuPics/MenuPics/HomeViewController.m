@@ -8,13 +8,15 @@
 
 #import "HomeViewController.h"
 
-#import "JSONResponse.h"
+#import "JSONCachedResponse.h"
 #import "Location.h"
 #import "LocationCell.h"
 #import "MenuPicsAPIClient.h"
 #import "MenuViewController.h"
 #import "UIImageView+WebCache.h"
+#import "SignInViewController.h"
 #import "SVProgressHUD.h"
+#import "User.h"
 
 @interface HomeViewController ()
 
@@ -22,6 +24,8 @@
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *nearbyLocations;
+
+- (IBAction)pressAccountButton:(id)sender;
 
 @end
 
@@ -53,6 +57,12 @@
     [_tableView setTableFooterView:[UIView new]];
     
     [self initializeLocationManager];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
+    [_tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,7 +97,7 @@
 
 - (void)getNearbyLocations:(CLLocation *)location
 {
-    id pastJsonResponse = [JSONResponse recentJsonResponse:self];
+    id pastJsonResponse = [JSONCachedResponse recentJsonResponse:self withIdentifier:nil];
     
     if (!pastJsonResponse) {
         [SVProgressHUD showWithStatus:@"Loading"];
@@ -97,7 +107,7 @@
     
     void (^didReceiveNearbyLocationsBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
     didReceiveNearbyLocationsBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        [JSONResponse saveJsonResponse:self withJsonResponse:JSON];
+        [JSONCachedResponse saveJsonResponse:self withJsonResponse:JSON withIdentifier:nil];
         
         [self populateTableData:JSON];
         
@@ -147,21 +157,46 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MenuViewController *menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menu"];
-    [self.navigationController pushViewController:menuViewController animated:YES];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [_nearbyLocations count];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
 {
-    return 60.0f;
+    if (didSignIn) {
+        [self performSegueWithIdentifier:@"ViewProfileSegue" sender:self];
+    }
 }
 
+#pragma mark Storyboard
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"MenuSegue"]) {
+        NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
+        Location *selectedRestaurant = [_nearbyLocations objectAtIndex:selectedIndexPath.row];
+        
+        MenuViewController *menuViewController = [segue destinationViewController];
+        [menuViewController setRestaurantId:[selectedRestaurant entityId]];
+    } else if ([[segue identifier] isEqualToString:@"HomeSignInSegue"]) {
+        
+        SignInViewController *signInViewController = [segue destinationViewController];
+        [signInViewController setDelegate:self];
+    }
+}
+
+- (IBAction)pressAccountButton:(id)sender
+{
+    User *user = [User currentUser];
+    
+    if (user) {
+        [self performSegueWithIdentifier:@"ViewProfileSegue" sender:self];
+    } else {
+        [self performSegueWithIdentifier:@"HomeSignInSegue" sender:self];
+    }
+}
 
 @end

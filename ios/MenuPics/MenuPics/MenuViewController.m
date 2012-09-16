@@ -120,7 +120,6 @@
 {
     Restaurant *restaurant = [[Restaurant alloc] initWithJson:json];
     [_restaurantController setRestaurant:restaurant];
-    [_restaurantController reloadData];
     
     NSArray *menuItemsJson = [json valueForKeyPath:@"entity.place_details.menu_items"];
     _menuTypes = [[NSMutableArray alloc] init];

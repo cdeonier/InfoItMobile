@@ -13,6 +13,14 @@
 
 @interface RestaurantViewController ()
 
+@property (nonatomic, strong) IBOutlet UIImageView *profileImage;
+@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, strong) IBOutlet UILabel *addressOneLabel;
+@property (nonatomic, strong) IBOutlet UILabel *addressTwoLabel;
+@property (nonatomic, strong) IBOutlet UILabel *cityStateZipLabel;
+@property (nonatomic, strong) IBOutlet UILabel *phoneNumberLabel;
+
 @end
 
 @implementation RestaurantViewController
@@ -44,6 +52,28 @@
 - (void)reloadData
 {
     [_profileImage setImageWithURL:[NSURL URLWithString:[_restaurant profilePhotoUrl]]];
+    [_nameLabel setText:_restaurant.name];
+    [_descriptionLabel setText:_restaurant.description];
+    [_addressOneLabel setText:_restaurant.streetOne];
+    [_addressTwoLabel setText:_restaurant.streetTwo];
+    [_cityStateZipLabel setText:[NSString stringWithFormat:@"%@, %@ %@", _restaurant.city, _restaurant.state, _restaurant.zipCode]];
+    [_phoneNumberLabel setText:_restaurant.phone];
+    
+    if (_restaurant.streetTwo == nil || [_restaurant.streetTwo isEqualToString:@""]) {
+        UILabel *addressOneLabel = _addressOneLabel;
+        UILabel *cityStateZipLabel = _cityStateZipLabel;
+        
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[addressOneLabel][cityStateZipLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(addressOneLabel, cityStateZipLabel)]];
+        [_addressTwoLabel removeFromSuperview];
+    }
+    
+    if (_restaurant.description == nil || [_restaurant.description isEqualToString:@""]) {
+        UILabel *nameLabel = _nameLabel;
+        UILabel *addressOneLabel = _addressOneLabel;
+        
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[nameLabel]-10-[addressOneLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(nameLabel, addressOneLabel)]];
+        [_descriptionLabel removeFromSuperview];
+    }
 }
 
 @end

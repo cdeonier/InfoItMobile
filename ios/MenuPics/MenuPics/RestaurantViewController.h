@@ -14,8 +14,6 @@
 
 @property (nonatomic, strong) Restaurant *restaurant;
 
-@property (nonatomic, strong) IBOutlet UIImageView *profileImage;
-
 - (void)reloadData;
 
 @end

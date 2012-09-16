@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C048A041605BF7D0002D4A7 /* 57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C048A031605BF7D0002D4A7 /* 57x57.png */; };
+		3C048A071605BF870002D4A7 /* 114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C048A061605BF870002D4A7 /* 114x114.png */; };
+		3C048A0A1605C1E80002D4A7 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C048A091605C1E80002D4A7 /* Default@2x.png */; };
+		3C048A0C1605C1EB0002D4A7 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C048A0B1605C1EB0002D4A7 /* Default.png */; };
 		3C13F44A160204E000B244F7 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13F449160204E000B244F7 /* Accounts.framework */; };
 		3C13F44D1602072B00B244F7 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13F44C1602072B00B244F7 /* Social.framework */; };
 		3C1871301601B6EF0043C684 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C18712F1601B6EF0043C684 /* Default-568h@2x.png */; };
@@ -102,6 +106,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C048A031605BF7D0002D4A7 /* 57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57x57.png; path = ../57x57.png; sourceTree = "<group>"; };
+		3C048A061605BF870002D4A7 /* 114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 114x114.png; path = ../114x114.png; sourceTree = "<group>"; };
+		3C048A091605C1E80002D4A7 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
+		3C048A0B1605C1EB0002D4A7 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		3C13F449160204E000B244F7 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		3C13F44C1602072B00B244F7 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3C18712F1601B6EF0043C684 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -272,6 +280,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C048A081605C0280002D4A7 /* Application Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C048A0B1605C1EB0002D4A7 /* Default.png */,
+				3C048A091605C1E80002D4A7 /* Default@2x.png */,
+				3C18712F1601B6EF0043C684 /* Default-568h@2x.png */,
+				3C048A031605BF7D0002D4A7 /* 57x57.png */,
+				3C048A061605BF870002D4A7 /* 114x114.png */,
+			);
+			name = "Application Images";
+			sourceTree = "<group>";
+		};
 		3C573EF115F4D0D800CE7BE3 = {
 			isa = PBXGroup;
 			children = (
@@ -352,6 +372,7 @@
 		3C573F2315F4D27D00CE7BE3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3C048A081605C0280002D4A7 /* Application Images */,
 				3C573F1E15F4D26C00CE7BE3 /* nav_bar_background.png */,
 				3C573F1F15F4D26C00CE7BE3 /* nav_bar_background@2x.png */,
 			);
@@ -372,7 +393,6 @@
 		3C573F2815F4D31B00CE7BE3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				3C18712F1601B6EF0043C684 /* Default-568h@2x.png */,
 				3C573F2915F4D35E00CE7BE3 /* nav_logo.png */,
 				3C573F2A15F4D35E00CE7BE3 /* nav_logo@2x.png */,
 			);
@@ -709,6 +729,10 @@
 				3CA6CE0215FC8A3D00175850 /* LoginWithFacebookPressed.png in Resources */,
 				3CA6CE0315FC8A3D00175850 /* LoginWithFacebookPressed@2x.png in Resources */,
 				3C1871301601B6EF0043C684 /* Default-568h@2x.png in Resources */,
+				3C048A041605BF7D0002D4A7 /* 57x57.png in Resources */,
+				3C048A071605BF870002D4A7 /* 114x114.png in Resources */,
+				3C048A0A1605C1E80002D4A7 /* Default@2x.png in Resources */,
+				3C048A0C1605C1EB0002D4A7 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

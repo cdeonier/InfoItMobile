@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class MenuItem;
+
 @interface MenuItemViewController : UIViewController
+
+@property (nonatomic, strong) MenuItem *menuItem;
 
 @end

@@ -8,7 +8,15 @@
 
 #import "MenuItemViewController.h"
 
+#import "MenuItem.h"
+#import "UIImageView+WebCache.h"
+
 @interface MenuItemViewController ()
+
+@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
 
 @end
 
@@ -18,7 +26,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -26,13 +33,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    [_profileImage setImageWithURL:[NSURL URLWithString:_menuItem.profilePhotoUrl]];
+    [_nameLabel setText:_menuItem.name];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

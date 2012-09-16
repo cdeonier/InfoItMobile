@@ -20,7 +20,7 @@
 
 @interface HomeViewController ()
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *nearbyLocations;

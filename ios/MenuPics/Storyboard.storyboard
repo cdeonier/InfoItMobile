@@ -95,12 +95,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eqE-17-nc3">
-                        <barButtonItem key="rightBarButtonItem" title="Profile" id="d8e-5i-xzz">
-                            <color key="tintColor" red="0.047058823530000002" green="0.31372549020000001" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="pressAccountButton:" destination="paN-qd-SKb" id="meU-dR-PLE"/>
-                            </connections>
-                        </barButtonItem>
                         <connections>
                             <outlet property="backBarButtonItem" destination="tIu-b2-owo" id="2d7-pg-y7F"/>
                         </connections>
@@ -215,7 +209,7 @@
                                             <outlet property="numberFavorites" destination="Rg0-a0-viM" id="FBF-lm-qba"/>
                                             <outlet property="price" destination="4AJ-VZ-dsk" id="xvH-JX-PdV"/>
                                             <outlet property="thumbnail" destination="kZw-ym-h7z" id="d9g-3E-KFr"/>
-                                            <segue destination="09v-ik-Eds" kind="push" id="Hgi-Ma-S8U"/>
+                                            <segue destination="09v-ik-Eds" kind="push" identifier="PopularMenuMenuItemSegue" id="Hgi-Ma-S8U"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EmptyMenuItemCell" rowHeight="110" id="p8n-Fb-E0G" customClass="EmptyMenuItemCell">
@@ -235,7 +229,7 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="k47-MT-I0w" kind="modal" id="BHO-Dg-krV"/>
+                                                        <segue destination="k47-MT-I0w" kind="modal" identifier="PopularMenuTakePhotoSegue" id="BHO-Dg-krV"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Menu Item Really Really Really Long" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="yhT-vc-HbW" userLabel="Menu Item Name">
@@ -303,7 +297,7 @@
                                             <outlet property="name" destination="yhT-vc-HbW" id="re1-xn-0G1"/>
                                             <outlet property="numberFavorites" destination="h2h-qv-6u4" id="jNc-oZ-oIB"/>
                                             <outlet property="price" destination="vnP-7D-6Ws" id="mZT-Em-pk0"/>
-                                            <segue destination="09v-ik-Eds" kind="push" id="adN-oU-aPI"/>
+                                            <segue destination="09v-ik-Eds" kind="push" identifier="PopularMenuEmptyMenuItemSegue" id="adN-oU-aPI"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -346,6 +340,12 @@
                                     <constraint firstAttribute="height" constant="240" type="user" id="nmD-yc-fSi"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Xb-Ux-GU9" userLabel="Separator">
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="FRv-TV-oP7"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Restaurant Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oll-Wp-pYS" userLabel="Name">
                                 <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -392,10 +392,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="fzF-Ar-XnU" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="6IC-co-Bec"/>
+                            <constraint firstItem="5Xb-Ux-GU9" firstAttribute="trailing" secondItem="Znp-Rl-24m" secondAttribute="trailing" type="default" id="6Ng-6p-W0A"/>
                             <constraint firstItem="E6F-OO-NH9" firstAttribute="top" secondItem="ssI-6C-deC" secondAttribute="bottom" type="user" id="7hT-Jj-dYe"/>
                             <constraint firstItem="o3C-V3-TX1" firstAttribute="leading" secondItem="Znp-Rl-24m" secondAttribute="leading" type="default" id="8pk-BZ-kj1"/>
-                            <constraint firstItem="7UC-YY-1gy" firstAttribute="centerX" secondItem="Znp-Rl-24m" secondAttribute="centerX" type="default" id="COk-uC-Rbt"/>
                             <constraint firstItem="o3C-V3-TX1" firstAttribute="trailing" secondItem="Znp-Rl-24m" secondAttribute="trailing" type="default" id="CuY-iV-XRq"/>
+                            <constraint firstItem="5Xb-Ux-GU9" firstAttribute="leading" secondItem="Znp-Rl-24m" secondAttribute="leading" type="default" id="DkB-2M-gAK"/>
                             <constraint firstItem="fXz-Ax-d1B" firstAttribute="leading" secondItem="Znp-Rl-24m" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="FdM-JN-ip4"/>
                             <constraint firstItem="7UC-YY-1gy" firstAttribute="top" secondItem="E6F-OO-NH9" secondAttribute="bottom" type="user" id="IL9-vM-bux"/>
                             <constraint firstAttribute="trailing" secondItem="fXz-Ax-d1B" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="NIu-WQ-Ewr"/>
@@ -406,6 +407,8 @@
                             <constraint firstItem="fzF-Ar-XnU" firstAttribute="top" secondItem="Oll-Wp-pYS" secondAttribute="bottom" constant="15" type="user" id="YVk-y1-lQn"/>
                             <constraint firstAttribute="trailing" secondItem="7UC-YY-1gy" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="aij-CB-kAr"/>
                             <constraint firstItem="Oll-Wp-pYS" firstAttribute="leading" secondItem="Znp-Rl-24m" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="bZt-BV-3UR"/>
+                            <constraint firstItem="5Xb-Ux-GU9" firstAttribute="centerX" secondItem="Znp-Rl-24m" secondAttribute="centerX" type="default" id="blh-tl-7oV"/>
+                            <constraint firstItem="5Xb-Ux-GU9" firstAttribute="top" secondItem="Znp-Rl-24m" secondAttribute="top" constant="240" id="e23-ck-O9b"/>
                             <constraint firstItem="Oll-Wp-pYS" firstAttribute="top" secondItem="o3C-V3-TX1" secondAttribute="bottom" constant="15" type="user" id="h11-vE-AFP"/>
                             <constraint firstAttribute="trailing" secondItem="ssI-6C-deC" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="hgc-zh-zYv"/>
                             <constraint firstItem="ssI-6C-deC" firstAttribute="top" secondItem="fzF-Ar-XnU" secondAttribute="bottom" constant="15" type="user" id="iwj-c5-QDI"/>
@@ -435,13 +438,104 @@
         <scene sceneID="hvU-Tl-kIC">
             <objects>
                 <viewController id="09v-ik-Eds" customClass="MenuItemViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="m4l-gO-ru8">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="zhK-vX-1Ro">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogY-Vg-0j3">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" type="user" id="4GP-j9-66g"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETv-IQ-9hu" userLabel="Separator">
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="uQo-q8-aAC"/>
+                                </constraints>
+                            </view>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-qU-RCW" userLabel="Thumbnails">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="Gww-sB-dPT"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="djR-AX-P8h">
+                                    <size key="itemSize" width="75" height="75"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="hvU-as-gWa">
+                                        <rect key="frame" x="10" y="7" width="75" height="75"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="age-1D-GDN">
+                                        <rect key="frame" x="95" y="7" width="75" height="75"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="tIP-cX-4sl">
+                                        <rect key="frame" x="180" y="7" width="75" height="75"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="PDM-aS-fTu">
+                                        <rect key="frame" x="265" y="7" width="75" height="75"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Menu Item Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="hd2-0n-yKv" userLabel="Name">
+                                <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" constant="240" id="4UR-LC-ToN"/>
+                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="CuM-Ep-CIG"/>
+                            <constraint firstItem="zG1-qU-RCW" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="Gfk-xa-9bl"/>
+                            <constraint firstItem="hd2-0n-yKv" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" constant="10" type="user" id="Gxf-4x-QfR"/>
+                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="Mkg-iI-g4w"/>
+                            <constraint firstItem="zG1-qU-RCW" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="R6I-ij-bib"/>
+                            <constraint firstItem="hd2-0n-yKv" firstAttribute="top" secondItem="zG1-qU-RCW" secondAttribute="bottom" constant="5" type="user" id="cb2-mR-7c7"/>
+                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="centerX" secondItem="zhK-vX-1Ro" secondAttribute="centerX" type="default" id="hYl-ac-TNS"/>
+                            <constraint firstAttribute="bottom" secondItem="hd2-0n-yKv" secondAttribute="bottom" constant="100" id="kga-e5-mcH"/>
+                            <constraint firstItem="ogY-Vg-0j3" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="nch-rO-SEO"/>
+                            <constraint firstItem="ogY-Vg-0j3" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="obi-fj-9Cu"/>
+                            <constraint firstItem="ogY-Vg-0j3" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" type="default" id="oiG-HA-5tL"/>
+                            <constraint firstAttribute="trailing" secondItem="hd2-0n-yKv" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="p02-XX-nYy"/>
+                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="top" secondItem="zG1-qU-RCW" secondAttribute="top" type="default" id="ps3-LR-l89"/>
+                        </constraints>
+                    </scrollView>
                     <navigationItem key="navigationItem" id="pkT-Xw-ygE"/>
                     <connections>
+                        <outlet property="collectionView" destination="zG1-qU-RCW" id="P3v-fz-9il"/>
+                        <outlet property="nameLabel" destination="hd2-0n-yKv" id="MYE-rY-G8b"/>
+                        <outlet property="profileImage" destination="ogY-Vg-0j3" id="Q4b-Hj-gsR"/>
                         <segue destination="Pgy-NG-TuN" kind="push" identifier="MenuItemSignInSegue" id="wCg-tC-EZi"/>
                         <segue destination="k47-MT-I0w" kind="modal" identifier="MenuItemPictureSegue" id="m4V-8N-RBQ"/>
                     </connections>
@@ -1145,7 +1239,7 @@
                                             <outlet property="numberFavorites" destination="rqZ-DZ-W1p" id="5Zc-fH-YTX"/>
                                             <outlet property="price" destination="zh3-oF-VoE" id="RGG-QR-ajm"/>
                                             <outlet property="thumbnail" destination="GLr-Fu-Ixi" id="Om5-Ie-cV0"/>
-                                            <segue destination="09v-ik-Eds" kind="push" identifier="CurrentMenuTakePhotoSegue" id="qBh-Zb-rrt"/>
+                                            <segue destination="09v-ik-Eds" kind="push" identifier="CurrentMenuMenuItemSegue" id="qBh-Zb-rrt"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EmptyMenuItemCell" rowHeight="110" id="XbH-H9-Mc4" customClass="EmptyMenuItemCell">
@@ -1165,7 +1259,7 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="k47-MT-I0w" kind="modal" id="cSS-uk-TzI"/>
+                                                        <segue destination="k47-MT-I0w" kind="modal" identifier="CurrentMenuTakePhotoSegue" id="cSS-uk-TzI"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Menu Item Really Really Really Long" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="hkA-D8-CkT" userLabel="Menu Item Name">
@@ -1233,7 +1327,7 @@
                                             <outlet property="name" destination="hkA-D8-CkT" id="mpH-py-ACE"/>
                                             <outlet property="numberFavorites" destination="2vO-hs-vSY" id="y9w-38-TDg"/>
                                             <outlet property="price" destination="DRK-7f-kEX" id="Pj1-Xk-GaT"/>
-                                            <segue destination="09v-ik-Eds" kind="push" identifier="CurrentMenuEmptyTakePhotoSegue" id="fhn-ph-Chw"/>
+                                            <segue destination="09v-ik-Eds" kind="push" identifier="CurrentMenuEmptyMenuItemSegue" id="fhn-ph-Chw"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1434,6 +1528,11 @@
         </class>
         <class className="MenuItemViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MenuItemViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="profileImage" candidateClass="UIImageView"/>
+            </relationships>
         </class>
         <class className="MenuViewController" superclassName="UITabBarController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MenuViewController.h"/>
@@ -1500,9 +1599,6 @@
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
         <class className="UpdateAccountViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateAccountViewController.h"/>
             <relationships>
@@ -1533,8 +1629,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="BHO-Dg-krV"/>
+        <segue reference="eRM-Wm-79c"/>
         <segue reference="adN-oU-aPI"/>
-        <segue reference="PwS-Xl-RsZ"/>
+        <segue reference="m4V-8N-RBQ"/>
     </inferredMetricsTieBreakers>
 </document>

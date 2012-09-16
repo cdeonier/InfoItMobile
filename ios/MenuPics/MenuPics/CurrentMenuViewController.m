@@ -13,12 +13,13 @@
 #import "EmptyMenuItemCell.h"
 #import "MenuItem.h"
 #import "MenuItemCell.h"
+#import "MenuItemViewController.h"
 #import "OrderedDictionary.h"
 #import "UIImageView+WebCache.h"
 
 @interface CurrentMenuViewController ()
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -41,6 +42,12 @@
     [super viewDidLoad];
     
     [_tableView setTableFooterView:[UIView new]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
+    [_tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,6 +100,21 @@
 - (void)reloadData
 {
     [_tableView reloadData];
+}
+
+#pragma mark Storyboard
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if (![[segue identifier] isEqualToString:@"CurrentMenuTakePhotoSegue"]) {
+        NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
+        
+        NSString *sectionKey = [_menu keyAtIndex:selectedIndexPath.section];
+        MenuItem *menuItem = [[_menu objectForKey:sectionKey] objectAtIndex:selectedIndexPath.row];
+        
+        MenuItemViewController *menuItemViewController = [segue destinationViewController];
+        [menuItemViewController setMenuItem:menuItem];
+    }
 }
 
 @end

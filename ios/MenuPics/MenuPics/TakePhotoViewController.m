@@ -11,7 +11,7 @@
 @interface TakePhotoViewController ()
 
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
-@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;

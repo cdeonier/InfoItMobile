@@ -13,13 +13,13 @@
 
 @interface RestaurantViewController ()
 
-@property (nonatomic, strong) IBOutlet UIImageView *profileImage;
-@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
-@property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, strong) IBOutlet UILabel *addressOneLabel;
-@property (nonatomic, strong) IBOutlet UILabel *addressTwoLabel;
-@property (nonatomic, strong) IBOutlet UILabel *cityStateZipLabel;
-@property (nonatomic, strong) IBOutlet UILabel *phoneNumberLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addressOneLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addressTwoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *cityStateZipLabel;
+@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
 
 @end
 

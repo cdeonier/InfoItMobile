@@ -15,7 +15,7 @@
 
 @interface PopularViewController ()
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -44,6 +44,12 @@
     } else {
         [_tableView setHidden:YES];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
+    [_tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

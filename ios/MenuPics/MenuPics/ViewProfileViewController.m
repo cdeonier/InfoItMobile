@@ -62,7 +62,7 @@
 
 - (IBAction)displayActionSheet:(id)sender
 {
-    [_actionSheet showFromTabBar:self.tabBar];
+    [self.actionSheet showFromTabBar:self.tabBar];
 }
 
 @end

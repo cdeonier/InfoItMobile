@@ -61,15 +61,15 @@
     
     [self setDelegate:self];
     
-    _currentMenuController = [[self viewControllers] objectAtIndex:0];
-    _popularMenuController = [[self viewControllers] objectAtIndex:1];
-    _restaurantController = [[self viewControllers] objectAtIndex:2];
-    _allMenusController = [[self viewControllers] objectAtIndex:3];
+    self.currentMenuController = [[self viewControllers] objectAtIndex:0];
+    self.popularMenuController = [[self viewControllers] objectAtIndex:1];
+    self.restaurantController = [[self viewControllers] objectAtIndex:2];
+    self.allMenusController = [[self viewControllers] objectAtIndex:3];
     
     
-    [self setSelectedViewController:_currentMenuController];
+    [self setSelectedViewController:self.currentMenuController];
 	
-    [self getMenu:_restaurantId];
+    [self fetchMenu:self.restaurantId];
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,22 +81,22 @@
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-    if (viewController == _currentMenuController) {
-        [self setTitle:_currentMenuType];
-    } else if (viewController == _popularMenuController) {
-        [self setTitle:@"Popular Items"];
-    } else if (viewController == _restaurantController) {
-        [self setTitle:[[_restaurantController restaurant] name]];
-    } else if (viewController == _allMenusController) {
+    if (viewController == self.currentMenuController) {
+        [self setTitle:self.currentMenuType];
+    } else if (viewController == self.popularMenuController) {
+        [self setTitle:@"Most Popular"];
+    } else if (viewController == self.restaurantController) {
+        [self setTitle:[[self.restaurantController restaurant] name]];
+    } else if (viewController == self.allMenusController) {
         [self setTitle:@"Choose Menu"];
     }
 }
 
 #pragma mark Web Service
 
-- (void)getMenu:(NSNumber *)restaurantId
+- (void)fetchMenu:(NSNumber *)restaurantId
 {
-    id pastJsonResponse = [JSONCachedResponse recentJsonResponse:self withIdentifier:_restaurantId];
+    id pastJsonResponse = [JSONCachedResponse recentJsonResponse:self withIdentifier:self.restaurantId];
     
     if (!pastJsonResponse) {
         [SVProgressHUD showWithStatus:@"Loading"];
@@ -104,26 +104,26 @@
         [self loadMenuFromJson:pastJsonResponse];
     }
     
-    void (^didGetMenuBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didGetMenuBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        [JSONCachedResponse saveJsonResponse:self withJsonResponse:JSON withIdentifier:_restaurantId];
+    void (^didFetchMenuBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
+    didFetchMenuBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        [JSONCachedResponse saveJsonResponse:self withJsonResponse:JSON withIdentifier:self.restaurantId];
         
         [self loadMenuFromJson:JSON];
         
         [SVProgressHUD dismiss];
     };
     
-    [MenuPicsAPIClient getMenu:restaurantId success:didGetMenuBlock];
+    [MenuPicsAPIClient fetchMenu:restaurantId success:didFetchMenuBlock];
 }
 
 - (void)loadMenuFromJson:(id)json
 {
     Restaurant *restaurant = [[Restaurant alloc] initWithJson:json];
-    [_restaurantController setRestaurant:restaurant];
+    [self.restaurantController setRestaurant:restaurant];
     
     NSArray *menuItemsJson = [json valueForKeyPath:@"entity.place_details.menu_items"];
-    _menuTypes = [[NSMutableArray alloc] init];
-    _restaurantMenus = [[OrderedDictionary alloc] init];
+    self.menuTypes = [[NSMutableArray alloc] init];
+    self.restaurantMenus = [[OrderedDictionary alloc] init];
     
     OrderedDictionary *menu;
     NSMutableArray *categoryItems;
@@ -148,8 +148,8 @@
             
             [menu setObject:categoryItems forKey:currentCategory];
             
-            [_restaurantMenus setObject:menu forKey:currentMenuType];
-            [_menuTypes addObject:currentMenuType];
+            [self.restaurantMenus setObject:menu forKey:currentMenuType];
+            [self.menuTypes addObject:currentMenuType];
         }
         
         if (![menuItemCategory isEqualToString:currentCategory]) {
@@ -159,20 +159,20 @@
         }
         
         MenuItem *menuItemRecord = [[MenuItem alloc] initWithJson:menuItem];
-        [menuItemRecord setRestaurantId:_restaurantId];
+        [menuItemRecord setRestaurantId:self.restaurantId];
         
         [categoryItems addObject:menuItemRecord];
     }
     
-    _allMenusController.menuTypes = _menuTypes;
-    [_allMenusController reloadData];
+    self.allMenusController.menuTypes = self.menuTypes;
+    [self.allMenusController reloadData];
     
-    _currentMenuType = [_menuTypes objectAtIndex:0];
+    self.currentMenuType = [self.menuTypes objectAtIndex:0];
     
-    [self changeMenu:_currentMenuType];
+    [self changeMenu:self.currentMenuType];
     
-    if ([self selectedViewController] == _currentMenuController) {
-        [self setTitle:_currentMenuType];
+    if ([self selectedViewController] == self.currentMenuController) {
+        [self setTitle:self.currentMenuType];
     }
 }
 
@@ -181,17 +181,17 @@
 - (void)selectMenu:(NSString *)menuType
 {
     [self changeMenu:menuType];
-    [self setTitle:_currentMenuType];
-    [self setSelectedViewController:_currentMenuController];
+    [self setTitle:self.currentMenuType];
+    [self setSelectedViewController:self.currentMenuController];
 }
 
 - (void)changeMenu:(NSString *)menuType
 {
-    _currentMenuType = menuType;
-    _currentMenu = [_restaurantMenus objectForKey:_currentMenuType];
+    self.currentMenuType = menuType;
+    self.currentMenu = [self.restaurantMenus objectForKey:self.currentMenuType];
     
-    [_currentMenuController setMenu:_currentMenu];
-    [_currentMenuController reloadData];
+    [self.currentMenuController setMenu:self.currentMenu];
+    [self.currentMenuController reloadData];
     
     [self populatePopularTable];
 }
@@ -199,9 +199,9 @@
 - (void)populatePopularTable
 {
     NSMutableArray *allCurrentMenuItems = [[NSMutableArray alloc] init];
-    for (NSString *key in _currentMenu) {
-        for (MenuItem *menuItemInSection in [_currentMenu objectForKey:key]) {
-            if ([[menuItemInSection likeCount] intValue] > 0)
+    for (NSString *key in self.currentMenu) {
+        for (MenuItem *menuItemInSection in [self.currentMenu objectForKey:key]) {
+            if ([menuItemInSection.likeCount intValue] > 0)
                 [allCurrentMenuItems addObject:menuItemInSection];
         }
     }
@@ -211,8 +211,8 @@
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *popularItems = [allCurrentMenuItems sortedArrayUsingDescriptors:sortDescriptors];
     
-    [_popularMenuController setPopularItems:popularItems];
-    [_popularMenuController reloadData];
+    [self.popularMenuController setPopularItems:popularItems];
+    [self.popularMenuController reloadData];
 }
 
 @end

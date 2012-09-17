@@ -55,7 +55,7 @@
 {
     [super viewDidLoad];
 	
-    [_activityIndicator setHidden:YES];
+    [self.activityIndicator setHidden:YES];
     
     [self registerForKeyboardNotifications];
 }
@@ -63,7 +63,7 @@
 -(void) viewWillDisappear:(BOOL)animated {
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
         //Back Button pressed
-        [_delegate createAccountController:self didCreate:NO];
+        [self.delegate createAccountController:self didCreate:NO];
     }
     
     [super viewWillDisappear:animated];
@@ -77,7 +77,7 @@
 - (IBAction)createAccount:(id)sender
 {
     [self disableViewInteraction];
-    [_errorLabel setHidden:YES];
+    [self.errorLabel setHidden:YES];
     
     void (^didCreateBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
     didCreateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
@@ -90,7 +90,7 @@
         [User signInUser:email accessToken:accessToken username:username userId:userId loginType:loginType];
         
         [self.navigationController popViewControllerAnimated:NO];
-        [_delegate createAccountController:self didCreate:YES];
+        [self.delegate createAccountController:self didCreate:YES];
     };
     
     void (^failureCreateBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
@@ -104,9 +104,9 @@
         }
     };
     
-    NSString *email = _emailTextField.text;
-    NSString *password = _passwordTextField.text;
-    NSString *verifyPassword = _verifyPasswordTextField.text;
+    NSString *email = self.emailTextField.text;
+    NSString *password = self.passwordTextField.text;
+    NSString *verifyPassword = self.verifyPasswordTextField.text;
     NSString *username = _usernameTextField.text;
     
     if (email.length == 0 || username.length == 0 || password.length == 0 || verifyPassword == 0) {
@@ -122,40 +122,40 @@
 
 - (void)displayError:(NSString *)error
 {
-    [_errorLabel setHidden:NO];
-    [_errorLabel setText:error];
+    [self.errorLabel setHidden:NO];
+    [self.errorLabel setText:error];
 }
 
 //Called to disable buttons and show activity indicator
 - (void)disableViewInteraction
 {
-    [_activityIndicator setHidden:NO];
-    [_activityIndicator startAnimating];
+    [self.activityIndicator setHidden:NO];
+    [self.activityIndicator startAnimating];
     
-    [_createButton setEnabled:NO];
+    [self.createButton setEnabled:NO];
 }
 
 - (void)enableViewInteraction
 {
-    [_activityIndicator setHidden:YES];
-    [_activityIndicator stopAnimating];
+    [self.activityIndicator setHidden:YES];
+    [self.activityIndicator stopAnimating];
     
-    [_createButton setEnabled:YES];
+    [self.createButton setEnabled:YES];
 }
 
 #pragma mark UITextViewDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == _emailTextField) {
+    if (textField == self.emailTextField) {
         [textField resignFirstResponder];
-        [_usernameTextField becomeFirstResponder];
-    } else if (textField == _usernameTextField) {
+        [self.usernameTextField becomeFirstResponder];
+    } else if (textField == self.usernameTextField) {
         [textField resignFirstResponder];
-        [_passwordTextField becomeFirstResponder];
-    } else if (textField == _passwordTextField) {
+        [self.passwordTextField becomeFirstResponder];
+    } else if (textField == self.passwordTextField) {
         [textField resignFirstResponder];
-        [_verifyPasswordTextField becomeFirstResponder];
+        [self.verifyPasswordTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
     }
@@ -165,12 +165,12 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    _activeField = textField;
+    self.activeField = textField;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    _activeField = nil;
+    self.activeField = nil;
 }
 
 #pragma mark TextField display w/keyboard
@@ -199,14 +199,14 @@
     
     // If active text field is hidden by keyboard, scroll it so it's visible
     // Your application might not need or want this behavior.
-    CGRect aRect = _scrollView.frame;
+    CGRect aRect = self.scrollView.frame;
     aRect.origin.y = 0;
     aRect.size.height -= kbSize.height;
-    CGPoint origin = _activeField.frame.origin;
-    origin.y -= _scrollView.contentOffset.y;
+    CGPoint origin = self.activeField.frame.origin;
+    origin.y -= self.scrollView.contentOffset.y;
     if (!CGRectContainsPoint(aRect, origin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0, _activeField.frame.origin.y-(aRect.size.height) + _activeField.frame.size.height + 7);
-        [_scrollView setContentOffset:scrollPoint animated:YES];
+        CGPoint scrollPoint = CGPointMake(0.0, self.activeField.frame.origin.y-(aRect.size.height) + self.activeField.frame.size.height + 7);
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
     }
 }
 

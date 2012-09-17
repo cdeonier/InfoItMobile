@@ -35,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    [_tableView setTableFooterView:[UIView new]];
+    [self.tableView setTableFooterView:[UIView new]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,26 +48,26 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AllMenusCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AllMenusCell"];
-    [cell.menuTypeName setText:[_menuTypes objectAtIndex:indexPath.row]];
+    [cell.menuTypeName setText:[self.menuTypes objectAtIndex:indexPath.row]];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_menuTypes count];
+    return [self.menuTypes count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    NSString *selectedMenuType = [_menuTypes objectAtIndex:indexPath.row];
+    NSString *selectedMenuType = [self.menuTypes objectAtIndex:indexPath.row];
     [(MenuViewController *)self.parentViewController selectMenu:selectedMenuType];
 }
 
 - (void)reloadData
 {
-    [_tableView reloadData];
+    [self.tableView reloadData];
 }
 
 

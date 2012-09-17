@@ -52,7 +52,7 @@
 {
     [super viewDidLoad];
     
-    [_activityIndicator setHidden:YES];
+    [self.activityIndicator setHidden:YES];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
@@ -72,7 +72,7 @@
 - (IBAction)signIn:(id)sender
 {
     [self disableViewInteraction];
-    [_errorLabel setHidden:YES];
+    [self.errorLabel setHidden:YES];
     
     void (^didSignInBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
     didSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {        
@@ -99,8 +99,8 @@
         }
     };
     
-    NSString *email = _emailTextField.text;
-    NSString *password = _passwordTextField.text;
+    NSString *email = self.emailTextField.text;
+    NSString *password = self.passwordTextField.text;
     
     if (email.length > 0 && password.length > 0) {
         [MenuPicsAPIClient signIn:email password:password success:didSignInBlock failure:failureSignInBlock];
@@ -170,38 +170,38 @@
 
 - (void)displayError:(NSString *)error
 {
-    [_errorLabel setHidden:NO];
-    [_errorLabel setText:error];
+    [self.errorLabel setHidden:NO];
+    [self.errorLabel setText:error];
 }
 
 //Called to disable buttons and show activity indicator
 - (void)disableViewInteraction
 {
-    [_activityIndicator setHidden:NO];
-    [_activityIndicator startAnimating];
+    [self.activityIndicator setHidden:NO];
+    [self.activityIndicator startAnimating];
 
-    [_signInButton setEnabled:NO];
-    [_createButton setEnabled:NO];
-    [_facebookLoginButton setEnabled:NO];
+    [self.signInButton setEnabled:NO];
+    [self.createButton setEnabled:NO];
+    [self.facebookLoginButton setEnabled:NO];
 }
 
 - (void)enableViewInteraction
 {
-    [_activityIndicator setHidden:YES];
-    [_activityIndicator stopAnimating];
+    [self.activityIndicator setHidden:YES];
+    [self.activityIndicator stopAnimating];
 
-    [_signInButton setEnabled:YES];
-    [_createButton setEnabled:YES];
-    [_facebookLoginButton setEnabled:YES];
+    [self.signInButton setEnabled:YES];
+    [self.createButton setEnabled:YES];
+    [self.facebookLoginButton setEnabled:YES];
 }
 
 #pragma mark UITextViewDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == _emailTextField) {
+    if (textField == self.emailTextField) {
         [textField resignFirstResponder];
-        [_passwordTextField becomeFirstResponder];
+        [self.passwordTextField becomeFirstResponder];
     } else {
         [textField resignFirstResponder];
     }

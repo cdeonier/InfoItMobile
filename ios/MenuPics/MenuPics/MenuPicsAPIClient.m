@@ -16,7 +16,7 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
 
 @implementation MenuPicsAPIClient
 
-+ (void)getNearbyLocationsAtLocation:(CLLocation *)location success:(SuccessBlock)success
++ (void)fetchNearbyLocationsAtLocation:(CLLocation *)location success:(SuccessBlock)success
 {
     NSString *endpoint = [NSString stringWithFormat:@"services/geocode?latitude=%f&longitude=%f&type=nearby", location.coordinate.latitude, location.coordinate.longitude];
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
@@ -33,9 +33,26 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
     [operation start];
 }
 
-+ (void)getMenu:(NSNumber *)locationId success:(SuccessBlock)success
++ (void)fetchMenu:(NSNumber *)locationId success:(SuccessBlock)success
 {
     NSString *endpoint = [NSString stringWithFormat:@"services/%d", [locationId intValue]];
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)fetchMenuItem:(NSNumber *)menuItemId success:(SuccessBlock)success
+{
+    NSString *endpoint = [NSString stringWithFormat:@"services/%d", [menuItemId intValue]];
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
     NSURL *url = [NSURL URLWithString:urlString];

@@ -41,13 +41,13 @@
 {
     [super viewDidLoad];
     
-    [_tableView setTableFooterView:[UIView new]];
+    [self.tableView setTableFooterView:[UIView new]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
-    [_tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
+    [self.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,8 +59,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *sectionKey = [_menu keyAtIndex:indexPath.section];
-    MenuItem *menuItem = [[_menu objectForKey:sectionKey] objectAtIndex:indexPath.row];
+    NSString *sectionKey = [self.menu keyAtIndex:indexPath.section];
+    MenuItem *menuItem = [[self.menu objectForKey:sectionKey] objectAtIndex:indexPath.row];
     
     UITableViewCell *cell;
     
@@ -83,23 +83,23 @@
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-    return [_menu count];
+    return [self.menu count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[_menu objectForKey:[_menu keyAtIndex:section]] count];
+    return [[self.menu objectForKey:[self.menu keyAtIndex:section]] count];
 }
 
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [_menu keyAtIndex:section];
+    return [self.menu keyAtIndex:section];
 }
 
 #pragma mark Helper Functions
 
 - (void)reloadData
 {
-    [_tableView reloadData];
+    [self.tableView reloadData];
 }
 
 #pragma mark Storyboard
@@ -107,10 +107,10 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if (![[segue identifier] isEqualToString:@"CurrentMenuTakePhotoSegue"]) {
-        NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
-        NSString *sectionKey = [_menu keyAtIndex:selectedIndexPath.section];
-        MenuItem *menuItem = [[_menu objectForKey:sectionKey] objectAtIndex:selectedIndexPath.row];
+        NSString *sectionKey = [self.menu keyAtIndex:selectedIndexPath.section];
+        MenuItem *menuItem = [[self.menu objectForKey:sectionKey] objectAtIndex:selectedIndexPath.row];
         
         MenuItemViewController *menuItemViewController = [segue destinationViewController];
         [menuItemViewController setMenuItem:menuItem];

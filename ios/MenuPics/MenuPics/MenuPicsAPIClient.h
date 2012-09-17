@@ -14,8 +14,9 @@ typedef void (^FailureBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id)
 
 @interface MenuPicsAPIClient : NSObject
 
-+ (void)getNearbyLocationsAtLocation:(CLLocation *)location success:(SuccessBlock)success;
-+ (void)getMenu:(NSNumber *)locationId success:(SuccessBlock)success;
++ (void)fetchNearbyLocationsAtLocation:(CLLocation *)location success:(SuccessBlock)success;
++ (void)fetchMenu:(NSNumber *)locationId success:(SuccessBlock)success;
++ (void)fetchMenuItem:(NSNumber *)menuItemId success:(SuccessBlock)success;
 
 //Accounts
 + (void)signIn:(NSString *)user password:(NSString *)password success:(SuccessBlock)success failure:(FailureBlock)failure;

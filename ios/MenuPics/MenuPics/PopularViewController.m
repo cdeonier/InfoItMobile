@@ -39,17 +39,17 @@
     
     [_tableView setTableFooterView:[UIView new]];
     
-    if (_popularItems.count > 0) {
-        [_tableView setHidden:NO];
+    if (self.popularItems.count > 0) {
+        [self.tableView setHidden:NO];
     } else {
-        [_tableView setHidden:YES];
+        [self.tableView setHidden:YES];
     }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
-    [_tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    [self.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,7 +59,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MenuItem *menuItem = [_popularItems objectAtIndex:indexPath.row];
+    MenuItem *menuItem = [self.popularItems objectAtIndex:indexPath.row];
     
     UITableViewCell *cell;
     
@@ -88,7 +88,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_popularItems count];
+    return [self.popularItems count];
 }
 
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -99,11 +99,11 @@
 
 - (void)reloadData
 {
-    if (_popularItems.count > 0) {
-        [_tableView setHidden:NO];
-        [_tableView reloadData];
+    if (self.popularItems.count > 0) {
+        [self.tableView setHidden:NO];
+        [self.tableView reloadData];
     } else {
-        [_tableView setHidden:YES];
+        [self.tableView setHidden:YES];
     }
 }
 

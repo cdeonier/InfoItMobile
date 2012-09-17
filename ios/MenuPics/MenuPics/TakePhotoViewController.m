@@ -34,7 +34,7 @@
 {
     [super viewDidLoad];
     
-    [_toolbar setBackgroundImage:[UIImage imageNamed:@"toolbar_gradient"] forToolbarPosition:UIToolbarPositionBottom barMetrics:UIBarMetricsDefault];
+    [self.toolbar setBackgroundImage:[UIImage imageNamed:@"toolbar_gradient"] forToolbarPosition:UIToolbarPositionBottom barMetrics:UIBarMetricsDefault];
     
     //UIView *cameraOverlay = [[[NSBundle mainBundle] loadNibNamed:@"CameraOverlayView" owner:self options:nil] objectAtIndex:0];
     
@@ -68,7 +68,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [_imagePicker dismissViewControllerAnimated:YES completion:nil];
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

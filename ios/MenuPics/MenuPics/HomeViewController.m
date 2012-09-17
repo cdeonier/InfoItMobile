@@ -54,7 +54,7 @@
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     [navigationBar.topItem setTitleView:titleView];
     
-    [_tableView setTableFooterView:[UIView new]];
+    [self.tableView setTableFooterView:[UIView new]];
     
     [self initializeLocationManager];
 }
@@ -62,7 +62,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
-    [_tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
+    [self.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -88,14 +88,14 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    [self getNearbyLocations:newLocation];
+    [self fetchNearbyLocations:newLocation];
     
     [self.locationManager stopUpdatingLocation];
 }
 
 #pragma mark Web Service
 
-- (void)getNearbyLocations:(CLLocation *)location
+- (void)fetchNearbyLocations:(CLLocation *)location
 {
     id pastJsonResponse = [JSONCachedResponse recentJsonResponse:self withIdentifier:nil];
     
@@ -114,12 +114,12 @@
         [SVProgressHUD dismiss];
     };
     
-    [MenuPicsAPIClient getNearbyLocationsAtLocation:location success:didReceiveNearbyLocationsBlock];
+    [MenuPicsAPIClient fetchNearbyLocationsAtLocation:location success:didReceiveNearbyLocationsBlock];
 }
 
 - (void)populateTableData:(id)json
 {
-    _nearbyLocations = [[NSMutableArray alloc] init];
+    self.nearbyLocations = [[NSMutableArray alloc] init];
     
     for (id locationJson in json) {
         NSDictionary *location = [locationJson valueForKey:@"entity"];
@@ -136,10 +136,10 @@
         [locationRecord setEntityId:entityId];
         [locationRecord setThumbnailUrl:thumbnailUrl];
         
-        [_nearbyLocations addObject:locationRecord];
+        [self.nearbyLocations addObject:locationRecord];
     }
     
-    [_tableView reloadData];
+    [self.tableView reloadData];
 }
 
 #pragma mark Table Delegate
@@ -148,7 +148,7 @@
 {
     LocationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LocationCell"];
     
-    Location *location = [_nearbyLocations objectAtIndex:indexPath.row];
+    Location *location = [self.nearbyLocations objectAtIndex:indexPath.row];
     
     [cell.name setText:[location name]];
     [cell.distance setText:[[NSString alloc] initWithFormat:@"%@%@", [location distance], @" miles"]];
@@ -159,7 +159,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_nearbyLocations count];
+    return [self.nearbyLocations count];
 }
 
 #pragma mark SignInDelegate
@@ -176,8 +176,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"MenuSegue"]) {
-        NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
-        Location *selectedRestaurant = [_nearbyLocations objectAtIndex:selectedIndexPath.row];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        Location *selectedRestaurant = [self.nearbyLocations objectAtIndex:selectedIndexPath.row];
         
         MenuViewController *menuViewController = [segue destinationViewController];
         [menuViewController setRestaurantId:[selectedRestaurant entityId]];

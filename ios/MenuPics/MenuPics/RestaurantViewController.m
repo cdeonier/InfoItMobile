@@ -51,28 +51,28 @@
 
 - (void)reloadData
 {
-    [_profileImage setImageWithURL:[NSURL URLWithString:[_restaurant profilePhotoUrl]]];
-    [_nameLabel setText:_restaurant.name];
-    [_descriptionLabel setText:_restaurant.description];
-    [_addressOneLabel setText:_restaurant.streetOne];
-    [_addressTwoLabel setText:_restaurant.streetTwo];
-    [_cityStateZipLabel setText:[NSString stringWithFormat:@"%@, %@ %@", _restaurant.city, _restaurant.state, _restaurant.zipCode]];
-    [_phoneNumberLabel setText:_restaurant.phone];
+    [self.profileImage setImageWithURL:[NSURL URLWithString:[self.restaurant profilePhotoUrl]]];
+    [self.nameLabel setText:self.restaurant.name];
+    [self.descriptionLabel setText:self.restaurant.description];
+    [self.addressOneLabel setText:self.restaurant.streetOne];
+    [self.addressTwoLabel setText:self.restaurant.streetTwo];
+    [self.cityStateZipLabel setText:[NSString stringWithFormat:@"%@, %@ %@", self.restaurant.city, self.restaurant.state, self.restaurant.zipCode]];
+    [self.phoneNumberLabel setText:self.restaurant.phone];
     
-    if (_restaurant.streetTwo == nil || [_restaurant.streetTwo isEqualToString:@""]) {
-        UILabel *addressOneLabel = _addressOneLabel;
-        UILabel *cityStateZipLabel = _cityStateZipLabel;
+    if (self.restaurant.streetTwo == nil || [self.restaurant.streetTwo isEqualToString:@""]) {
+        UILabel *addressOneLabel = self.addressOneLabel;
+        UILabel *cityStateZipLabel = self.cityStateZipLabel;
         
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[addressOneLabel][cityStateZipLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(addressOneLabel, cityStateZipLabel)]];
-        [_addressTwoLabel removeFromSuperview];
+        [self.addressTwoLabel removeFromSuperview];
     }
     
-    if (_restaurant.description == nil || [_restaurant.description isEqualToString:@""]) {
-        UILabel *nameLabel = _nameLabel;
-        UILabel *addressOneLabel = _addressOneLabel;
+    if (self.restaurant.description == nil || [self.restaurant.description isEqualToString:@""]) {
+        UILabel *nameLabel = self.nameLabel;
+        UILabel *addressOneLabel = self.addressOneLabel;
         
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[nameLabel]-10-[addressOneLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(nameLabel, addressOneLabel)]];
-        [_descriptionLabel removeFromSuperview];
+        [self.descriptionLabel removeFromSuperview];
     }
 }
 

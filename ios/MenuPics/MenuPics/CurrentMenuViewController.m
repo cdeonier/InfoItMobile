@@ -25,10 +25,6 @@
 
 @implementation CurrentMenuViewController
 
-@synthesize menu = _menu;
-
-@synthesize tableView = _tableView;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

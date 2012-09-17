@@ -19,10 +19,6 @@
 
 @implementation AllMenusViewController
 
-@synthesize menuTypes = _menuTypes;
-
-@synthesize tableView = _tableView;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

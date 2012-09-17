@@ -23,12 +23,6 @@
 
 @implementation MenuItemViewController
 
-@synthesize menuItem = _menuItem;
-
-@synthesize profileImage = _profileImage;
-@synthesize nameLabel = _nameLabel;
-@synthesize collectionView = _collectionView;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

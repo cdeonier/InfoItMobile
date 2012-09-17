@@ -20,8 +20,6 @@
 
 @implementation TakePhotoViewController
 
-@synthesize toolbar = _toolbar;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

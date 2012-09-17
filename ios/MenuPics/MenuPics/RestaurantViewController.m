@@ -25,10 +25,6 @@
 
 @implementation RestaurantViewController
 
-@synthesize restaurant = _restaurant;
-
-@synthesize profileImage = _profileImage;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

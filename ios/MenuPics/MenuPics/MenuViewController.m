@@ -35,18 +35,6 @@
 
 @implementation MenuViewController
 
-@synthesize restaurantId = _restaurantId;
-
-@synthesize currentMenuController = _currentMenuController;
-@synthesize popularMenuController = _popularMenuController;
-@synthesize restaurantController = _restaurantController;
-@synthesize allMenusController = _allMenusController;
-
-@synthesize currentMenuType = _currentMenuType;
-@synthesize menuTypes = _menuTypes;
-@synthesize currentMenu = _currentMenu;
-@synthesize restaurantMenus = _restaurantMenus;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

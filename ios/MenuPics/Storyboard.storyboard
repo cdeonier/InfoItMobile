@@ -95,6 +95,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eqE-17-nc3">
+                        <barButtonItem key="rightBarButtonItem" title="Account" id="NBQ-4a-fi5">
+                            <color key="tintColor" red="0.047058823530000002" green="0.31372549020000001" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="pressAccountButton:" destination="paN-qd-SKb" id="HBb-fw-RBR"/>
+                            </connections>
+                        </barButtonItem>
                         <connections>
                             <outlet property="backBarButtonItem" destination="tIu-b2-owo" id="2d7-pg-y7F"/>
                         </connections>
@@ -1585,7 +1591,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateAccountViewController.h"/>
             <relationships>
                 <relationship kind="action" name="updateAccount:"/>
-                <relationship kind="outlet" name="activeField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="currentPasswordTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>

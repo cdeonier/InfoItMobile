@@ -20,8 +20,6 @@
 
 @implementation ViewProfileViewController
 
-@synthesize actionSheet = _actionSheet;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

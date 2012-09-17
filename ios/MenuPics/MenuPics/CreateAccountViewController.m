@@ -30,19 +30,6 @@
 
 @implementation CreateAccountViewController
 
-@synthesize delegate = _delegate;
-
-@synthesize emailTextField = _emailTextField;
-@synthesize usernameTextField = _usernameTextField;
-@synthesize passwordTextField = _passwordTextField;
-@synthesize verifyPasswordTextField = _verifyPasswordTextField;
-@synthesize createButton = _createButton;
-@synthesize activityIndicator = _activityIndicator;
-@synthesize errorLabel = _errorLabel;
-@synthesize scrollView = _scrollView;
-
-@synthesize activeField = _activeField;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

@@ -10,9 +10,5 @@
 
 @implementation Location
 
-@synthesize entityId = _entityId;
-@synthesize distance = _distance;
-@synthesize name = _name;
-@synthesize thumbnailUrl = _thumbnailUrl;
 
 @end

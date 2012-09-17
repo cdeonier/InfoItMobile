@@ -30,16 +30,6 @@
 
 @implementation SignInViewController
 
-@synthesize delegate = _delegate;
-
-@synthesize emailTextField = _emailTextField;
-@synthesize passwordTextField = _passwordTextField;
-@synthesize signInButton = _signInButton;
-@synthesize createButton = _createButton;
-@synthesize facebookLoginButton = _facebookLoginButton;
-@synthesize activityIndicator = _activityIndicator;
-@synthesize errorLabel = _errorLabel;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

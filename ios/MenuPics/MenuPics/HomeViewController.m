@@ -31,12 +31,6 @@
 
 @implementation HomeViewController
 
-@synthesize tableView = _tableView;
-
-@synthesize locationManager = _locationManager;
-@synthesize nearbyLocations = _nearbyLocations;
-
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

@@ -24,28 +24,13 @@
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
-@property (nonatomic, strong) IBOutlet UITextField *activeField;
+@property (nonatomic, strong) UITextField *activeField;
 
 - (IBAction)updateAccount:(id)sender;
 
 @end
 
 @implementation UpdateAccountViewController
-
-@synthesize delegate = _delegate;
-
-@synthesize emailTextField = _emailTextField;
-@synthesize usernameTextField = _usernameTextField;
-@synthesize currentPasswordTextField = _currentPasswordTextField;
-@synthesize updatedPasswordTextField = _updatedPasswordTextField;
-@synthesize facebookSwitch = _facebookSwitch;
-@synthesize updateAccountButton = _updateAccountButton;
-@synthesize errorLabel = _errorLabel;
-@synthesize facebookLabel = _facebookLabel;
-@synthesize activityIndicator = _activityIndicator;
-@synthesize scrollView = _scrollView;
-
-@synthesize activeField = _activeField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

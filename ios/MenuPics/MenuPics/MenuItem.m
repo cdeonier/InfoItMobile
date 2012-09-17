@@ -10,21 +10,6 @@
 
 @implementation MenuItem
 
-@synthesize name = _name;
-@synthesize price = _price;
-@synthesize description = _description;
-@synthesize entityId = _entityId;
-@synthesize restaurantId = _restaurantId;
-@synthesize likeCount = _likeCount;
-@synthesize photoCount = _photoCount;
-@synthesize profilePhotoUrl = _profilePhotoUrl;
-@synthesize smallThumbnailUrl = _smallThumbnailUrl;
-@synthesize largeThumbnailUrl = _largeThumbnailUrl;
-@synthesize category = _category;
-@synthesize menuType = _menuType;
-@synthesize thumbnail = _thumbnail;
-@synthesize isLiked = _isLiked;
-
 - (MenuItem *)initWithJson:(id)json
 {
     self = [super init];

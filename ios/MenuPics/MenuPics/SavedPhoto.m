@@ -42,7 +42,8 @@
         [photosOnServer setObject:photo forKey:photo.fileName];
     }
     
-    NSMutableArray *savedPhotos = [MenuPicsDBClient fetchResultsFromDB:@"SavedPhoto" withPredicate:nil];    
+    NSString *predicateString = [NSString stringWithFormat:@"(username == '%@')", [[User currentUser] username]];
+    NSMutableArray *savedPhotos = [MenuPicsDBClient fetchResultsFromDB:@"SavedPhoto" withPredicate:predicateString];
     NSMutableDictionary *photosOnPhone = [[NSMutableDictionary alloc] initWithCapacity:savedPhotos.count];
     for (SavedPhoto *savedPhoto in savedPhotos) {
         [photosOnPhone setObject:savedPhoto forKey:savedPhoto.fileName];
@@ -87,6 +88,11 @@
                 [viewController addNewPhoto:savedPhoto];
             };
             [MenuPicsAPIClient downloadPhotoThumbnail:savedPhoto success:didFetchThumbnailBlock]; 
+        } else {
+            Photo *photoOnServer = (Photo *)[photosOnServer objectForKey:key];
+            SavedPhoto *photoOnPhone = [photosOnPhone objectForKey:key];
+            photoOnPhone.points = photoOnServer.points;
+            [MenuPicsDBClient saveContext];
         }
     }
 }
@@ -106,6 +112,7 @@
     savedPhoto.restaurantName = photo.restaurantName;
     savedPhoto.didUpload = [NSNumber numberWithBool:YES];
     savedPhoto.didDelete = [NSNumber numberWithBool:NO];
+    savedPhoto.username = [[User currentUser] username];
     
     if (savedPhoto.menuItemId) {
         savedPhoto.didTag = [NSNumber numberWithBool:YES];

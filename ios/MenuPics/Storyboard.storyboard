@@ -95,7 +95,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eqE-17-nc3">
-                        <barButtonItem key="rightBarButtonItem" title="Account" id="NBQ-4a-fi5">
+                        <barButtonItem key="rightBarButtonItem" title="Profile" id="NBQ-4a-fi5">
                             <color key="tintColor" red="0.047058823530000002" green="0.31372549020000001" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="pressAccountButton:" destination="paN-qd-SKb" id="HBb-fw-RBR"/>
@@ -1645,9 +1645,6 @@
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
         <class className="UpdateAccountViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateAccountViewController.h"/>
             <relationships>
@@ -1677,8 +1674,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="eRM-Wm-79c"/>
         <segue reference="adN-oU-aPI"/>
         <segue reference="m4V-8N-RBQ"/>
-        <segue reference="wCg-tC-EZi"/>
     </inferredMetricsTieBreakers>
 </document>

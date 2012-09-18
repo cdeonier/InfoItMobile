@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1807" systemVersion="12B19" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="12B19" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="JSONCachedResponse" representedClassName="JSONCachedResponse" syncable="YES">
         <attribute name="fetchDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="jsonResponse" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="viewController" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SavedPhoto" representedClassName="SavedPhoto" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="didDelete" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="didTag" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="didUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="fileLocation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="menuItemId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="menuItemName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photoId" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="points" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="restaurantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="restaurantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Transformable" valueTransformerName="ImageToDataTransformer" syncable="YES"/>
+        <attribute name="thumbnailUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="accessToken" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,5 +37,6 @@
     <elements>
         <element name="JSONCachedResponse" positionX="0" positionY="0" width="128" height="103"/>
         <element name="User" positionX="-200" positionY="2" width="128" height="133"/>
+        <element name="SavedPhoto" positionX="160" positionY="192" width="128" height="315"/>
     </elements>
 </model>

@@ -10,4 +10,6 @@
 
 @interface ProfileViewController : UIViewController
 
+@property (nonatomic, strong) NSMutableArray *photos;
+
 @end

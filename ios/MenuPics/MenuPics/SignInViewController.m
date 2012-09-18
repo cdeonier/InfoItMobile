@@ -173,6 +173,9 @@
     [self.signInButton setEnabled:NO];
     [self.createButton setEnabled:NO];
     [self.facebookLoginButton setEnabled:NO];
+    
+    [self.passwordTextField resignFirstResponder];
+    [self.emailTextField resignFirstResponder];
 }
 
 - (void)enableViewInteraction

@@ -453,12 +453,6 @@
                                     <constraint firstAttribute="height" constant="240" type="user" id="4GP-j9-66g"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETv-IQ-9hu" userLabel="Separator">
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1" id="uQo-q8-aAC"/>
-                                </constraints>
-                            </view>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-qU-RCW" userLabel="Thumbnails">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -468,30 +462,74 @@
                                     <size key="itemSize" width="75" height="75"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="7" minY="0.0" maxX="7" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ThumbnailCell" id="hvU-as-gWa">
-                                        <rect key="frame" x="10" y="7" width="75" height="75"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddPhotoCell" id="hvU-as-gWa" customClass="AddPhotoCell">
+                                        <rect key="frame" x="7" y="7" width="75" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GYD-hB-VMS"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bek-Zm-4PY" userLabel="Add Photo Button">
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <state key="normal" image="add_photo.png">
+                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="GYD-hB-VMS" firstAttribute="top" secondItem="hvU-as-gWa" secondAttribute="top" type="default" id="2U7-rT-kE4"/>
-                                            <constraint firstItem="GYD-hB-VMS" firstAttribute="trailing" secondItem="hvU-as-gWa" secondAttribute="trailing" type="default" id="DtR-Vg-ASe"/>
-                                            <constraint firstItem="GYD-hB-VMS" firstAttribute="bottom" secondItem="hvU-as-gWa" secondAttribute="bottom" type="default" id="JYH-As-lGm"/>
-                                            <constraint firstItem="GYD-hB-VMS" firstAttribute="leading" secondItem="hvU-as-gWa" secondAttribute="leading" type="default" id="lOW-yP-qp6"/>
+                                            <constraint firstItem="bek-Zm-4PY" firstAttribute="leading" secondItem="hvU-as-gWa" secondAttribute="leading" type="default" id="9cj-Ht-aeE"/>
+                                            <constraint firstItem="bek-Zm-4PY" firstAttribute="trailing" secondItem="hvU-as-gWa" secondAttribute="trailing" type="default" id="ari-qv-U3I"/>
+                                            <constraint firstItem="bek-Zm-4PY" firstAttribute="centerY" secondItem="hvU-as-gWa" secondAttribute="centerY" type="default" id="gce-qL-XY2"/>
+                                            <constraint firstItem="bek-Zm-4PY" firstAttribute="top" secondItem="hvU-as-gWa" secondAttribute="top" type="default" id="hUb-3b-VKn"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="addPhotoButton" destination="bek-Zm-4PY" id="F93-t4-GfB"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MenuItemThumbnailCell" id="gho-kf-iXY" customClass="MenuItemThumbnailCell">
+                                        <rect key="frame" x="92" y="7" width="75" height="75"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gS9-9s-CgZ"/>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="gS9-9s-CgZ" firstAttribute="trailing" secondItem="gho-kf-iXY" secondAttribute="trailing" type="default" id="Hd8-V9-kb2"/>
+                                            <constraint firstItem="gS9-9s-CgZ" firstAttribute="bottom" secondItem="gho-kf-iXY" secondAttribute="bottom" type="default" id="J82-hr-YoU"/>
+                                            <constraint firstItem="gS9-9s-CgZ" firstAttribute="leading" secondItem="gho-kf-iXY" secondAttribute="leading" type="default" id="kvA-Ap-J0g"/>
+                                            <constraint firstItem="gS9-9s-CgZ" firstAttribute="top" secondItem="gho-kf-iXY" secondAttribute="top" type="default" id="y3C-3K-gqE"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="thumbnailImage" destination="gS9-9s-CgZ" id="tFO-PK-KNs"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="09v-ik-Eds" id="idg-YF-3uw"/>
+                                    <outlet property="delegate" destination="09v-ik-Eds" id="M2A-Mw-fFs"/>
+                                </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETv-IQ-9hu" userLabel="Separator">
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="uQo-q8-aAC"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Menu Item Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="hd2-0n-yKv" userLabel="Name">
                                 <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="18"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -500,20 +538,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" constant="240" id="4UR-LC-ToN"/>
                             <constraint firstItem="ETv-IQ-9hu" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="CuM-Ep-CIG"/>
                             <constraint firstItem="zG1-qU-RCW" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="Gfk-xa-9bl"/>
                             <constraint firstItem="hd2-0n-yKv" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" constant="10" type="user" id="Gxf-4x-QfR"/>
                             <constraint firstItem="ETv-IQ-9hu" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="Mkg-iI-g4w"/>
                             <constraint firstItem="zG1-qU-RCW" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="R6I-ij-bib"/>
                             <constraint firstItem="hd2-0n-yKv" firstAttribute="top" secondItem="zG1-qU-RCW" secondAttribute="bottom" constant="5" type="user" id="cb2-mR-7c7"/>
-                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="centerX" secondItem="zhK-vX-1Ro" secondAttribute="centerX" type="default" id="hYl-ac-TNS"/>
                             <constraint firstAttribute="bottom" secondItem="hd2-0n-yKv" secondAttribute="bottom" constant="100" id="kga-e5-mcH"/>
                             <constraint firstItem="ogY-Vg-0j3" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="nch-rO-SEO"/>
                             <constraint firstItem="ogY-Vg-0j3" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="obi-fj-9Cu"/>
                             <constraint firstItem="ogY-Vg-0j3" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" type="default" id="oiG-HA-5tL"/>
                             <constraint firstAttribute="trailing" secondItem="hd2-0n-yKv" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="p02-XX-nYy"/>
                             <constraint firstItem="ETv-IQ-9hu" firstAttribute="top" secondItem="zG1-qU-RCW" secondAttribute="top" type="default" id="ps3-LR-l89"/>
+                            <constraint firstItem="zG1-qU-RCW" firstAttribute="centerX" secondItem="zhK-vX-1Ro" secondAttribute="centerX" type="default" id="qN8-8c-ffF"/>
+                            <constraint firstItem="zG1-qU-RCW" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" constant="240" id="vpP-Xw-rZ1"/>
                         </constraints>
                     </scrollView>
                     <navigationItem key="navigationItem" id="pkT-Xw-ygE"/>
@@ -1140,11 +1178,14 @@
             <objects>
                 <viewController id="0nH-VI-wnJ" customClass="CurrentMenuViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gO3-XR-WFs">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="110" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LaI-uv-rx9">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="455" id="8Gv-gs-WbR"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MenuItemCell" rowHeight="110" id="JPj-bq-yjk" customClass="MenuItemCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="110"/>
@@ -1325,12 +1366,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LaI-uv-rx9" firstAttribute="trailing" secondItem="gO3-XR-WFs" secondAttribute="trailing" type="default" id="6Ci-dW-XrF"/>
-                            <constraint firstItem="LaI-uv-rx9" firstAttribute="bottom" secondItem="gO3-XR-WFs" secondAttribute="bottom" type="default" id="QYv-4q-n6o"/>
-                            <constraint firstItem="LaI-uv-rx9" firstAttribute="top" secondItem="gO3-XR-WFs" secondAttribute="top" type="default" id="Xbu-AP-O17"/>
+                            <constraint firstItem="LaI-uv-rx9" firstAttribute="centerY" secondItem="gO3-XR-WFs" secondAttribute="centerY" type="default" id="ARi-Lg-Upj"/>
                             <constraint firstItem="LaI-uv-rx9" firstAttribute="leading" secondItem="gO3-XR-WFs" secondAttribute="leading" type="default" id="fqE-hJ-Rnc"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Menu" image="menu_icon.png" id="XV2-VH-5wF"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="LaI-uv-rx9" id="HJZ-W7-JYd"/>
                         <segue destination="Pgy-NG-TuN" kind="push" identifier="CurrentMenuSignInSegue" id="OEZ-lz-ind"/>
@@ -1405,7 +1447,11 @@
         <scene sceneID="Q3n-cW-3b2">
             <objects>
                 <tabBarController definesPresentationContext="YES" id="HqW-lr-i74" customClass="MenuViewController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="J3O-VQ-lSy"/>
+                    <navigationItem key="navigationItem" id="J3O-VQ-lSy">
+                        <connections>
+                            <outlet property="backBarButtonItem" destination="S0L-31-tgz" id="ZTg-75-ObB"/>
+                        </connections>
+                    </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ksb-Vh-vGR">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
@@ -1420,6 +1466,9 @@
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sug-qb-8sX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <barButtonItem title="Menu" id="S0L-31-tgz">
+                    <color key="tintColor" red="0.047058823530000002" green="0.31372549020000001" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="793" y="1516"/>
         </scene>
@@ -1442,6 +1491,12 @@
         <image name="user-white.png" width="24" height="21"/>
     </resources>
     <classes>
+        <class className="AddPhotoCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPhotoCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addPhotoButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
         <class className="AllMenusCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AllMenusCell.h"/>
             <relationships>
@@ -1509,6 +1564,12 @@
                 <relationship kind="outlet" name="numberFavorites" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="price" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="thumbnail" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="MenuItemThumbnailCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MenuItemThumbnailCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="thumbnailImage" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="MenuItemViewController" superclassName="UIViewController">
@@ -1616,8 +1677,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="eRM-Wm-79c"/>
         <segue reference="adN-oU-aPI"/>
         <segue reference="m4V-8N-RBQ"/>
+        <segue reference="wCg-tC-EZi"/>
     </inferredMetricsTieBreakers>
 </document>

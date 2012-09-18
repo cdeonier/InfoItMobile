@@ -9,16 +9,18 @@
 #import "MenuPicsAPIClient.h"
 
 #import "AFNetworking.h"
+#import "MenuPicsDBClient.h"
+#import "SavedPhoto.h"
 #import "SVProgressHUD.h"
 #import "User.h"
 
-static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
+static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
 
 @implementation MenuPicsAPIClient
 
 + (void)fetchNearbyLocationsAtLocation:(CLLocation *)location success:(SuccessBlock)success
 {
-    NSString *endpoint = [NSString stringWithFormat:@"services/geocode?latitude=%f&longitude=%f&type=nearby", location.coordinate.latitude, location.coordinate.longitude];
+    NSString *endpoint = [NSString stringWithFormat:@"/services/geocode?latitude=%f&longitude=%f&type=nearby", location.coordinate.latitude, location.coordinate.longitude];
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -35,7 +37,7 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
 
 + (void)fetchMenu:(NSNumber *)locationId success:(SuccessBlock)success
 {
-    NSString *endpoint = [NSString stringWithFormat:@"services/%d", [locationId intValue]];
+    NSString *endpoint = [NSString stringWithFormat:@"/services/%d", [locationId intValue]];
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -52,7 +54,7 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
 
 + (void)fetchMenuItem:(NSNumber *)menuItemId success:(SuccessBlock)success
 {
-    NSString *endpoint = [NSString stringWithFormat:@"services/%d", [menuItemId intValue]];
+    NSString *endpoint = [NSString stringWithFormat:@"/services/%d", [menuItemId intValue]];
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
     NSURL *url = [NSURL URLWithString:urlString];
@@ -67,9 +69,26 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
     [operation start];
 }
 
++ (void)fetchProfile:(NSNumber *)userId success:(SuccessBlock)success
+{
+    NSString *endpoint = [NSString stringWithFormat:@"/services/user_profile?access_token=%@&user_id=%@", [[User currentUser] accessToken], userId.stringValue];
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
 + (void)signIn:(NSString *)user password:(NSString *)password success:(SuccessBlock)success failure:(FailureBlock)failure
 {
-    NSString *endpoint = @"services/tokens";
+    NSString *endpoint = @"/services/tokens";
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
     NSString *requestString = [NSString stringWithFormat:@"user=%@&password=%@", user, password];
@@ -88,7 +107,7 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
 
 + (void)createAccount:(NSString *)user email:(NSString *)email password:(NSString *)password success:(SuccessBlock)success failure:(FailureBlock)failure
 {
-    NSString *endpoint = @"users.json";
+    NSString *endpoint = @"/users.json";
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
     NSString *requestString = [NSString stringWithFormat:@"user[email]=%@&user[username]=%@&user[password]=%@&user[password_confirmation]=%@", email, user, password, password];
@@ -107,7 +126,7 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
 
 + (void)createAccountFromFacebook:(NSString *)accessToken success:(SuccessBlock)success failure:(FailureBlock)failure
 {
-    NSString *endpoint = @"services/facebook/create";
+    NSString *endpoint = @"/services/facebook/create";
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
     NSString *requestString = [NSString stringWithFormat:@"fb_access_token=%@", accessToken];
@@ -128,9 +147,9 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
 {
     NSString *endpoint;
     if ([[User currentUser] isFacebookOnly]) {
-        endpoint = @"services/facebook/update_user";
+        endpoint = @"/services/facebook/update_user";
     } else {
-        endpoint = @"services/update_user";
+        endpoint = @"/services/update_user";
     }
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
@@ -152,6 +171,196 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com/";
     [request setHTTPMethod:@"PUT"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     [request setHTTPBody:requestData];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)uploadPhoto:(SavedPhoto *)photo
+{
+    NSString *endpoint = [NSString stringWithFormat:@"/services/photos?access_token=%@", [[User currentUser] accessToken]];
+    
+    NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionary];
+    [mutableParameters setObject:[photo latitude] forKey:@"photo[lat]"];
+    [mutableParameters setObject:[photo longitude] forKey:@"photo[lng]"];
+    [mutableParameters setObject:[photo restaurantId] forKey:@"photo[suggested_restaurant_id]"];
+    
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"]; // e.g., set for mysql date strings
+    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    NSString *mysqlGMTString = [formatter stringFromDate:[photo creationDate]];
+    [mutableParameters setObject:mysqlGMTString forKey:@"photo[taken_at]"];
+    
+    NSData *imageData = [NSData dataWithContentsOfFile:[photo fileLocation]];
+    
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
+    
+    NSMutableURLRequest *mutableURLRequest = [httpClient multipartFormRequestWithMethod:@"POST" path:endpoint parameters:mutableParameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"photo[photo_attachment]" fileName:[photo fileName] mimeType:@"image/jpeg"];
+    }];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:mutableURLRequest];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [photo setDidUpload:[NSNumber numberWithBool:YES]];
+        [MenuPicsDBClient saveContext];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"Connection Error"];
+        NSLog(@"%@", [error description]);
+    }];
+    [operation start];
+}
+
++ (void)deletePhoto:(SavedPhoto *)photo success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/delete_photo";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&access_token=%@", [photo.photoId stringValue], [[User currentUser] accessToken]];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)tagPhoto:(SavedPhoto *)photo success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/tag_photo";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&entity_id=%d&access_token=%@", [photo.photoId stringValue], [photo.menuItemId intValue], [[User currentUser] accessToken]];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"PUT"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)untagPhoto:(SavedPhoto *)photo success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/untag_photo";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&access_token=%@", [photo.photoId stringValue], [[User currentUser] accessToken]];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)downloadPhotoThumbnail:(SavedPhoto *)photo success:(ImageSuccessBlock)success
+{
+    NSURLRequest *thumbnailRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:photo.thumbnailUrl]];
+    
+    AFImageRequestOperation *thumbnailOperation = [AFImageRequestOperation imageRequestOperationWithRequest:thumbnailRequest success:success];
+    
+    [thumbnailOperation start];
+}
+
++ (void)favoriteMenuItem:(NSNumber *)menuItemId success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/like";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [menuItemId stringValue], [[User currentUser] accessToken]];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)unfavoriteMenuItem:(NSNumber *)menuItemId success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/unlike";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"entity_id=%@&access_token=%@", [menuItemId stringValue], [[User currentUser] accessToken]];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)votePhoto:(NSNumber *)photoId success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/photo_vote";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&access_token=%@", [photoId stringValue], [[User currentUser] accessToken]];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
++ (void)unvotePhoto:(NSNumber *)photoId success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/photo_remove_vote";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    NSString *requestString = [NSString stringWithFormat:@"photo_id=%@&access_token=%@", [photoId stringValue], [[User currentUser] accessToken]];
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
     
     AFJSONRequestOperation *operation =
     [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class SavedPhoto;
+
 @interface ViewProfileViewController : UITabBarController  <UIActionSheetDelegate>
+
+- (void)addNewPhoto:(SavedPhoto *)photo;
 
 @end

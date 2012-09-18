@@ -8,6 +8,10 @@
 
 #import "ViewProfileViewController.h"
 
+#import "MenuPicsAPIClient.h"
+#import "MenuPicsDBClient.h"
+#import "Photo.h"
+#import "SavedPhoto.h"
 #import "User.h"
 
 @interface ViewProfileViewController ()
@@ -39,11 +43,28 @@
                                       cancelButtonTitle:@"Cancel"
                                  destructiveButtonTitle:@"Sign Out"
                                       otherButtonTitles:@"Update Account", nil];
+    
+    [self fetchProfile];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark Web Service
+
+- (void)fetchProfile
+{
+    User *currentUser = [User currentUser];
+    
+    SuccessBlock didFetchUserProfileBlock;
+    didFetchUserProfileBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSMutableArray *userPhotos = [Photo userPhotosFromJson:JSON];
+        [SavedPhoto syncPhotos:userPhotos viewController:self];
+    };
+    
+    [MenuPicsAPIClient fetchProfile:currentUser.userId success:didFetchUserProfileBlock];
 }
 
 #pragma mark UIActionSheet Delegate
@@ -61,6 +82,13 @@
 - (IBAction)displayActionSheet:(id)sender
 {
     [self.actionSheet showFromTabBar:self.tabBar];
+}
+
+#pragma mark Helper Functions
+
+- (void)addNewPhoto:(SavedPhoto *)photo
+{
+    
 }
 
 @end

@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSNumber *photoId;
 
+@property (nonatomic, strong) NSDate *creationDate;
 @property (nonatomic, strong) NSString *photoUrl;
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *fileLocation;
@@ -28,5 +29,8 @@
 @property (nonatomic, strong) NSNumber *authorId;
 @property (nonatomic, strong) NSNumber *menuItemId;
 @property (nonatomic, strong) NSNumber *restaurantId;
+
++ (NSMutableArray *)menuItemPhotosFromJson:(id)json;
++ (NSMutableArray *)userPhotosFromJson:(id)json;
 
 @end

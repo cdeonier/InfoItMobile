@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @class MenuItem;
 
-@interface MenuItemViewController : UIViewController
+@interface MenuItemViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) MenuItem *menuItem;
 

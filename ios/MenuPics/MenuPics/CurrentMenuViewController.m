@@ -91,6 +91,13 @@
     return [self.menu keyAtIndex:section];
 }
 
+#pragma mark TakePhotoDelegate
+
+- (void)didTakePhoto:(TakePhotoViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark Helper Functions
 
 - (void)reloadData
@@ -102,7 +109,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if (![[segue identifier] isEqualToString:@"CurrentMenuTakePhotoSegue"]) {
+    if ([segue.destinationViewController isKindOfClass:[MenuItemViewController class]]) {
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
         NSString *sectionKey = [self.menu keyAtIndex:selectedIndexPath.section];
@@ -110,6 +117,8 @@
         
         MenuItemViewController *menuItemViewController = [segue destinationViewController];
         [menuItemViewController setMenuItem:menuItem];
+    } else if ([segue.destinationViewController isKindOfClass:[TakePhotoViewController class]]) {
+        [segue.destinationViewController setDelegate:self];
     }
 }
 

@@ -11,12 +11,18 @@
 #import "MenuPicsAPIClient.h"
 #import "MenuPicsDBClient.h"
 #import "Photo.h"
+#import "PhotosViewController.h"
+#import "ProfileViewController.h"
 #import "SavedPhoto.h"
 #import "User.h"
 
 @interface ViewProfileViewController ()
 
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) PhotosViewController *photoViewController;
+@property (nonatomic, strong) ProfileViewController *profileViewController;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *accountButton;
 
 - (IBAction)displayActionSheet:(id)sender;
 
@@ -38,11 +44,18 @@
     
     [self setTitle:@"Profile"];
     
-    _actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                delegate:self
                                       cancelButtonTitle:@"Cancel"
                                  destructiveButtonTitle:@"Sign Out"
                                       otherButtonTitles:@"Update Account", nil];
+    
+    self.profileViewController = [[self viewControllers] objectAtIndex:0];
+    self.photoViewController = [[self viewControllers] objectAtIndex:1];
+    
+    self.navigationItem.rightBarButtonItem = self.accountButton;
+    
+    self.delegate = self;
     
     [self fetchProfile];
 }
@@ -82,6 +95,17 @@
 - (IBAction)displayActionSheet:(id)sender
 {
     [self.actionSheet showFromTabBar:self.tabBar];
+}
+
+#pragma mark UITabBarDelegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    if (viewController == self.profileViewController) {
+        self.navigationItem.rightBarButtonItem = self.accountButton;
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 #pragma mark Helper Functions

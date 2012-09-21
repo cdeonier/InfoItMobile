@@ -10,7 +10,7 @@
 
 @class SavedPhoto;
 
-@interface ViewProfileViewController : UITabBarController  <UIActionSheetDelegate>
+@interface ViewProfileViewController : UITabBarController  <UITabBarControllerDelegate, UIActionSheetDelegate>
 
 - (void)addNewPhoto:(SavedPhoto *)photo;
 

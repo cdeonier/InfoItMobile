@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-@interface PhotosViewController : UICollectionViewController
+@interface PhotosViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end

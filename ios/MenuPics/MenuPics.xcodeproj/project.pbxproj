@@ -27,6 +27,7 @@
 		3C13F44A160204E000B244F7 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13F449160204E000B244F7 /* Accounts.framework */; };
 		3C13F44D1602072B00B244F7 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13F44C1602072B00B244F7 /* Social.framework */; };
 		3C1871301601B6EF0043C684 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C18712F1601B6EF0043C684 /* Default-568h@2x.png */; };
+		3C22AF76160F1EBE00A3C8EE /* CameraOverlayView5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C22AF75160F1EBE00A3C8EE /* CameraOverlayView5.xib */; };
 		3C573F0115F4D0D800CE7BE3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C573F0015F4D0D800CE7BE3 /* UIKit.framework */; };
 		3C573F0315F4D0D800CE7BE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C573F0215F4D0D800CE7BE3 /* Foundation.framework */; };
 		3C573F0515F4D0D800CE7BE3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C573F0415F4D0D800CE7BE3 /* CoreGraphics.framework */; };
@@ -92,7 +93,6 @@
 		3C57403715F9779A00CE7BE3 /* PopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403615F9779900CE7BE3 /* PopularViewController.m */; };
 		3C57403A15F98A8500CE7BE3 /* AllMenusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403915F98A8400CE7BE3 /* AllMenusCell.m */; };
 		3CA6CDB215FABDE000175850 /* TakePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA6CDB115FABDE000175850 /* TakePhotoViewController.m */; };
-		3CA6CDB815FAD73800175850 /* toolbar_gradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA6CDB715FAD73800175850 /* toolbar_gradient@2x.png */; };
 		3CA6CDBB15FADB9B00175850 /* CameraOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CA6CDBA15FADB9B00175850 /* CameraOverlayView.xib */; };
 		3CA6CDBF15FAEE8700175850 /* MenuItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA6CDBE15FAEE8700175850 /* MenuItemViewController.m */; };
 		3CA6CDC315FB3F8000175850 /* ViewProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA6CDC215FB3F8000175850 /* ViewProfileViewController.m */; };
@@ -144,6 +144,7 @@
 		3C13F449160204E000B244F7 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		3C13F44C1602072B00B244F7 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3C18712F1601B6EF0043C684 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		3C22AF75160F1EBE00A3C8EE /* CameraOverlayView5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayView5.xib; sourceTree = "<group>"; };
 		3C573EFC15F4D0D800CE7BE3 /* MenuPics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuPics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C573F0015F4D0D800CE7BE3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3C573F0215F4D0D800CE7BE3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -256,7 +257,6 @@
 		3C57403915F98A8400CE7BE3 /* AllMenusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllMenusCell.m; sourceTree = "<group>"; };
 		3CA6CDB015FABDE000175850 /* TakePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhotoViewController.h; sourceTree = "<group>"; };
 		3CA6CDB115FABDE000175850 /* TakePhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakePhotoViewController.m; sourceTree = "<group>"; };
-		3CA6CDB715FAD73800175850 /* toolbar_gradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_gradient@2x.png"; sourceTree = "<group>"; };
 		3CA6CDBA15FADB9B00175850 /* CameraOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlayView.xib; sourceTree = "<group>"; };
 		3CA6CDBD15FAEE8700175850 /* MenuItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemViewController.h; sourceTree = "<group>"; };
 		3CA6CDBE15FAEE8700175850 /* MenuItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemViewController.m; sourceTree = "<group>"; };
@@ -619,6 +619,7 @@
 			children = (
 				3CA6CDB915FAD75F00175850 /* Images */,
 				3CA6CDBA15FADB9B00175850 /* CameraOverlayView.xib */,
+				3C22AF75160F1EBE00A3C8EE /* CameraOverlayView5.xib */,
 				3CA6CDB015FABDE000175850 /* TakePhotoViewController.h */,
 				3CA6CDB115FABDE000175850 /* TakePhotoViewController.m */,
 			);
@@ -635,7 +636,6 @@
 				3C048A29160BC1820002D4A7 /* flash_on_pressed@2x.png */,
 				3C048A2A160BC1820002D4A7 /* flash_on@2x.png */,
 				3C048A23160971940002D4A7 /* photo.png */,
-				3CA6CDB715FAD73800175850 /* toolbar_gradient@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -777,7 +777,6 @@
 				3C573FCA15F7F01100CE7BE3 /* menu_icon@2x.png in Resources */,
 				3C573FCB15F7F01100CE7BE3 /* more_menu_icon.png in Resources */,
 				3C573FCC15F7F01100CE7BE3 /* more_menu_icon@2x.png in Resources */,
-				3CA6CDB815FAD73800175850 /* toolbar_gradient@2x.png in Resources */,
 				3CA6CDBB15FADB9B00175850 /* CameraOverlayView.xib in Resources */,
 				3CA6CDC915FB452800175850 /* photos-white.png in Resources */,
 				3CA6CDCA15FB452800175850 /* photos-white@2x.png in Resources */,
@@ -806,6 +805,7 @@
 				3C048A2E160BC1820002D4A7 /* flash_off@2x.png in Resources */,
 				3C048A2F160BC1820002D4A7 /* flash_on_pressed@2x.png in Resources */,
 				3C048A30160BC1820002D4A7 /* flash_on@2x.png in Resources */,
+				3C22AF76160F1EBE00A3C8EE /* CameraOverlayView5.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

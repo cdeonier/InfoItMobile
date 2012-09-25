@@ -19,6 +19,14 @@
     UIImage *navigationBarBackground = [UIImage imageNamed:@"nav_bar_background.png"];
     [[UINavigationBar appearance] setBackgroundImage:navigationBarBackground forBarMetrics:UIBarMetricsDefault];
     
+    //Create directory to store photos if it doesn't exist
+    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docsDir = [dirPaths objectAtIndex:0];
+    NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:takePhotosDirectory]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:takePhotosDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
+    
     return YES;
 }
 

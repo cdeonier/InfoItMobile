@@ -177,7 +177,7 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
     [operation start];
 }
 
-+ (void)uploadPhoto:(SavedPhoto *)photo
++ (void)uploadPhoto:(SavedPhoto *)photo success:(UploadSuccessBlock)success failure:(UploadFailureBlock)failure
 {
     NSString *endpoint = [NSString stringWithFormat:@"/services/photos?access_token=%@", [[User currentUser] accessToken]];
     
@@ -201,13 +201,7 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
     }];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:mutableURLRequest];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [photo setDidUpload:[NSNumber numberWithBool:YES]];
-        [MenuPicsDBClient saveContext];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"Connection Error"];
-        NSLog(@"%@", [error description]);
-    }];
+    [operation setCompletionBlockWithSuccess:success failure:failure];
     [operation start];
 }
 

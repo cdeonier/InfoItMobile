@@ -63,8 +63,7 @@
         [self.collectionView reloadData];
     }
     
-    void (^didFetchMenuItemBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didFetchMenuItemBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    SuccessBlock didFetchMenuItemBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         [JSONCachedResponse saveJsonResponse:self withJsonResponse:JSON withIdentifier:self.menuItem.entityId];
         
         [self loadMenuItemFromJson:JSON];

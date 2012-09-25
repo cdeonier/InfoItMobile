@@ -66,8 +66,7 @@
     [self disableViewInteraction];
     [self.errorLabel setHidden:YES];
     
-    void (^didCreateBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didCreateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    SuccessBlock didCreateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSString *accessToken = [[JSON valueForKey:@"user"] valueForKeyPath:@"access_token"];
         NSString *email = [[JSON valueForKey:@"user"] valueForKeyPath:@"email"];
         NSString *username = [[JSON valueForKey:@"user"] valueForKeyPath:@"username"];
@@ -80,8 +79,7 @@
         [self.delegate createAccountController:self didCreate:YES];
     };
     
-    void (^failureCreateBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
-    failureCreateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+    FailureBlock failureCreateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         [self enableViewInteraction];
         
         if (JSON) {

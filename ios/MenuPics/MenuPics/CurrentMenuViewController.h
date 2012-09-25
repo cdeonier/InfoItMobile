@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "TakePhotoViewController.h"
+#import "SignInViewController.h"
 
 @class OrderedDictionary;
 

@@ -64,8 +64,7 @@
     [self disableViewInteraction];
     [self.errorLabel setHidden:YES];
     
-    void (^didSignInBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {        
+    SuccessBlock didSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSString *accessToken = [JSON valueForKeyPath:@"token"];
         NSString *email = [JSON valueForKeyPath:@"email"];
         NSString *username = [JSON valueForKey:@"user_display_name"];
@@ -74,12 +73,12 @@
         
         [User signInUser:email accessToken:accessToken username:username userId:userId loginType:loginType];
         
-        [self.navigationController popViewControllerAnimated:NO];
-        [_delegate signInViewController:self didSignIn:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate signInViewController:self didSignIn:YES];
+        });
     };
     
-    void (^failureSignInBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
-    failureSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+    FailureBlock failureSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         [self enableViewInteraction];
         
         if (JSON) {
@@ -104,8 +103,7 @@
 {
     [self disableViewInteraction];
     
-    void (^didSignInBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    SuccessBlock didSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSString *accessToken = [JSON valueForKeyPath:@"access_token"];
         NSString *email = [JSON valueForKeyPath:@"email"];
         NSString *username = [JSON valueForKey:@"username"];
@@ -118,8 +116,7 @@
         [_delegate signInViewController:self didSignIn:YES];
     };
     
-    void (^failureSignInBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
-    failureSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+    FailureBlock failureSignInBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         [self enableViewInteraction];
         
         if (JSON) {

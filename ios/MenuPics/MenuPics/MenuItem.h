@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *description;
 @property (nonatomic, strong) NSNumber *entityId;
 @property (nonatomic, strong) NSNumber *restaurantId;
+@property (nonatomic, strong) NSString *restaurantName;
 @property (nonatomic, strong) NSNumber *likeCount;
 @property (nonatomic, strong) NSNumber *photoCount;
 @property (nonatomic, strong) NSString *profilePhotoUrl;

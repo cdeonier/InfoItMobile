@@ -63,11 +63,16 @@
     if ([menuItem smallThumbnailUrl]) {
         MenuItemCell *menuItemCell = (MenuItemCell *)[tableView dequeueReusableCellWithIdentifier:@"MenuItemCell"];
         
+        [menuItemCell setMenuItem:menuItem];
+        [menuItemCell setViewController:self];
         [menuItemCell styleCell:menuItem];
         
         cell = menuItemCell;
     } else {
         EmptyMenuItemCell *menuItemCell = [tableView dequeueReusableCellWithIdentifier:@"EmptyMenuItemCell"];
+        
+        [menuItemCell setMenuItem:menuItem];
+        [menuItemCell setViewController:self];
         [menuItemCell styleCell:menuItem];
         
         [menuItemCell.name setText:[menuItem name]];
@@ -111,14 +116,25 @@
 {
     if ([segue.destinationViewController isKindOfClass:[MenuItemViewController class]]) {
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-        
         NSString *sectionKey = [self.menu keyAtIndex:selectedIndexPath.section];
         MenuItem *menuItem = [[self.menu objectForKey:sectionKey] objectAtIndex:selectedIndexPath.row];
         
         MenuItemViewController *menuItemViewController = [segue destinationViewController];
         [menuItemViewController setMenuItem:menuItem];
     } else if ([segue.destinationViewController isKindOfClass:[TakePhotoViewController class]]) {
-        [segue.destinationViewController setDelegate:self];
+        MenuItem *menuItem;
+        
+        if ([sender isKindOfClass:[MenuItemCell class]]) {
+            menuItem = [(MenuItemCell *)sender menuItem];
+        } else {
+            menuItem = [(EmptyMenuItemCell *)sender menuItem];
+        }
+        
+        TakePhotoViewController *takePhotoViewController = [segue destinationViewController];
+        [takePhotoViewController setDelegate:self];
+        [takePhotoViewController setMenuItem:menuItem];
+    } else if ([segue.destinationViewController isKindOfClass:[SignInViewController class]]) {
+        [(SignInViewController *)segue.destinationViewController setDelegate:sender];
     }
 }
 

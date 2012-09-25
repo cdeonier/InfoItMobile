@@ -11,6 +11,7 @@
 #import "MenuPicsAPIClient.h"
 #import "MenuPicsDBClient.h"
 #import "Photo.h"
+#import "SVProgressHUD.h"
 #import "User.h"
 #import "ViewProfileViewController.h"
 
@@ -22,7 +23,7 @@
 @dynamic didUpload;
 @dynamic fileLocation;
 @dynamic fileName;
-@dynamic fileUrl;
+@dynamic photoUrl;
 @dynamic latitude;
 @dynamic longitude;
 @dynamic menuItemId;
@@ -55,12 +56,16 @@
             if ([phonePhoto.didUpload boolValue]) {
                 [MenuPicsDBClient deleteObject:phonePhoto];
             } else {
-                [MenuPicsAPIClient uploadPhoto:phonePhoto];
+                [MenuPicsAPIClient uploadPhoto:phonePhoto success:[self uploadSuccessBlock:phonePhoto] failure:[self uploadFailureBlock:phonePhoto]];
             }
         } else {
             SavedPhoto *phonePhoto = [photosOnPhone objectForKey:key];
             if ([phonePhoto.didDelete boolValue]) {
                 [MenuPicsAPIClient deletePhoto:phonePhoto success:nil];
+            }
+            
+            if (!phonePhoto.thumbnail) {
+                //download thumbnail
             }
             
             if (phonePhoto.thumbnail == nil) {
@@ -79,6 +84,13 @@
         if (![photosOnPhone objectForKey:key]) {
             Photo *missingPhotoOnPhone = [photosOnServer objectForKey:key];
             SavedPhoto *savedPhoto = [SavedPhoto savedPhotoFromPhoto:missingPhotoOnPhone];
+            savedPhoto.didUpload = [NSNumber numberWithBool:YES];
+            savedPhoto.didDelete = [NSNumber numberWithBool:NO];
+            if (savedPhoto.menuItemId) {
+                savedPhoto.didTag = [NSNumber numberWithBool:YES];
+            } else {
+                savedPhoto.didTag = [NSNumber numberWithBool:NO];
+            }
             [MenuPicsDBClient saveContext];
             
             void (^didFetchThumbnailBlock)(UIImage *);
@@ -102,25 +114,74 @@
     SavedPhoto *savedPhoto = (SavedPhoto *)[MenuPicsDBClient generateManagedObject:@"SavedPhoto"];
     savedPhoto.photoId = photo.photoId;
     savedPhoto.fileName = photo.fileName;
+    savedPhoto.fileLocation = photo.fileLocation;
     savedPhoto.creationDate = photo.creationDate;
-    savedPhoto.fileUrl = photo.photoUrl;
+    savedPhoto.photoUrl = photo.photoUrl;
     savedPhoto.thumbnailUrl = photo.thumbnailUrl;
+    savedPhoto.thumbnail = photo.thumbnail;
     savedPhoto.points = photo.points;
     savedPhoto.menuItemId = photo.menuItemId;
     savedPhoto.menuItemName = photo.menuItemName;
     savedPhoto.restaurantId = photo.restaurantId;
     savedPhoto.restaurantName = photo.restaurantName;
-    savedPhoto.didUpload = [NSNumber numberWithBool:YES];
+    savedPhoto.didUpload = [NSNumber numberWithBool:NO];
     savedPhoto.didDelete = [NSNumber numberWithBool:NO];
+    savedPhoto.didTag = [NSNumber numberWithBool:NO];
     savedPhoto.username = [[User currentUser] username];
     
-    if (savedPhoto.menuItemId) {
-        savedPhoto.didTag = [NSNumber numberWithBool:YES];
-    } else {
-        savedPhoto.didTag = [NSNumber numberWithBool:NO];
-    }
-    
     return savedPhoto;
+}
+
++ (SavedPhoto *)uploadPhoto:(Photo *)photo
+{
+    SavedPhoto *savedPhoto = [self savedPhotoFromPhoto:photo];    
+    [MenuPicsAPIClient uploadPhoto:savedPhoto success:[self uploadSuccessBlock:savedPhoto] failure:[self uploadFailureBlock:savedPhoto]];
+    return savedPhoto;
+}
+
++ (void)tagPhoto:(SavedPhoto *)savedPhoto
+{
+    SuccessBlock success = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        savedPhoto.didTag = [NSNumber numberWithBool:YES];
+        [MenuPicsDBClient saveContext];
+    };
+    
+    [MenuPicsAPIClient tagPhoto:savedPhoto success:success];
+}
+
++ (UploadSuccessBlock)uploadSuccessBlock:(SavedPhoto *)savedPhoto
+{
+    UploadSuccessBlock success = ^(AFHTTPRequestOperation *operation, id data) {
+        id JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        
+        NSLog(@"%@", JSON);
+        
+        [savedPhoto setPhotoId:[[JSON valueForKey:@"photo"] valueForKey:@"photo_id"]];
+        [savedPhoto setPhotoUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_original"]];
+        [savedPhoto setThumbnailUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
+        [savedPhoto setDidUpload:[NSNumber numberWithBool:YES]];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        [fileManager removeItemAtPath:[savedPhoto fileLocation] error:nil];
+        [savedPhoto setFileLocation:nil];
+        
+        [MenuPicsDBClient saveContext];
+        
+        if (savedPhoto.menuItemId) {
+            [self tagPhoto:savedPhoto];
+        }
+    };
+    
+    return success;
+}
+
++ (UploadFailureBlock)uploadFailureBlock:(SavedPhoto *)savedPhoto
+{
+    UploadFailureBlock failure = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"Connection Error"];
+        NSLog(@"%@", [error description]);
+    };
+    return failure;
 }
 
 @end

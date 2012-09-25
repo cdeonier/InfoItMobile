@@ -10,7 +10,7 @@
 
 @class OrderedDictionary;
 
-@interface PopularViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface PopularMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *popularItems;
 

@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+#import "SignInViewController.h"
+
 @class MenuItem;
 
-@interface MenuItemCell : UITableViewCell
+@interface MenuItemCell : UITableViewCell <SignInDelegate>
+
+@property (nonatomic, strong) UIViewController *viewController;
+@property (nonatomic, strong) MenuItem *menuItem;
 
 @property (nonatomic, strong) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, strong) IBOutlet UILabel *name;
@@ -20,5 +25,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *description;
 
 - (void)styleCell:(MenuItem *)menuItem;
+
+- (IBAction)addPhoto:(id)sender;
 
 @end

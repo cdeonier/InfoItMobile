@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSNumber *didUpload;
 @property (nonatomic, strong) NSString *fileLocation;
 @property (nonatomic, strong) NSString *fileName;
-@property (nonatomic, strong) NSString *fileUrl;
+@property (nonatomic, strong) NSString *photoUrl;
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic, strong) NSNumber *menuItemId;
@@ -33,7 +33,10 @@
 @property (nonatomic, strong) NSString *username;
 
 + (void)syncPhotos:(NSMutableArray *)photos viewController:(ViewProfileViewController *)viewController;
+
 + (SavedPhoto *)savedPhotoFromPhoto:(Photo *)photo;
++ (SavedPhoto *)uploadPhoto:(Photo *)photo;
++ (void)tagPhoto:(SavedPhoto *)savedPhoto;
 
 @end
 

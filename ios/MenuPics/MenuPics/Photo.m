@@ -8,6 +8,8 @@
 
 #import "Photo.h"
 
+#import "MenuItem.h"
+#import "SavedPhoto.h"
 #import "User.h"
 
 @implementation Photo
@@ -78,5 +80,42 @@
     
     return photos;
 }
+
++ (Photo *)didTakeNewPhoto:(MenuItem *)menuItem image:(UIImage *)image thumbnail:(UIImage *)thumbnail
+{
+    Photo *photo = [[Photo alloc] init];
+    
+    [photo setMenuItemId:menuItem.entityId];
+    [photo setMenuItemName:menuItem.name];
+    [photo setRestaurantId:menuItem.restaurantId];
+    [photo setRestaurantName:menuItem.restaurantName];
+    [photo setPoints:[NSNumber numberWithInt:1]];
+    [photo setVotedForPhoto:YES];
+    [photo setCreationDate:[NSDate date]];
+    
+    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docsDir = [dirPaths objectAtIndex:0];
+    NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
+    CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
+    NSString *imageFileName = [NSString stringWithFormat:@"%f", currentTime];
+    imageFileName = [imageFileName stringByReplacingOccurrencesOfString:@"." withString:@""];
+    imageFileName = [imageFileName stringByAppendingString:@".jpg"];
+    NSString *filePath = [takePhotosDirectory stringByAppendingPathComponent:imageFileName];
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.8);
+    [imageData writeToFile:filePath atomically:YES];
+    
+    [photo setFileName:imageFileName];
+    [photo setFileLocation:filePath];
+    [photo setThumbnail:thumbnail];
+    
+    User *author = [User currentUser];
+    [photo setAuthor:author.username];
+    [photo setAuthorId:author.userId];
+    
+    [SavedPhoto uploadPhoto:photo];
+    
+    return photo;
+}
+
 
 @end

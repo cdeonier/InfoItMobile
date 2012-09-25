@@ -60,7 +60,11 @@
 - (void)reloadData
 {
     NSString *predicateString = [NSString stringWithFormat:@"(username == '%@') and (didDelete != 1)", [[User currentUser] username]];
-    self.photos = [MenuPicsDBClient fetchResultsFromDB:@"SavedPhoto" withPredicate:predicateString];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
+    NSMutableArray *savedPhotos = [MenuPicsDBClient fetchResultsFromDB:@"SavedPhoto" withPredicate:predicateString];
+    [savedPhotos sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    self.photos = savedPhotos;
 }
 
 #pragma mark UICollectionViewDelegate

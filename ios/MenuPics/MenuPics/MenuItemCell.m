@@ -10,8 +10,11 @@
 
 #import "MenuItemCell.h"
 
+#import "CurrentMenuViewController.h"
 #import "MenuItem.h"
+#import "PopularMenuViewController.h"
 #import "UIImageView+WebCache.h"
+#import "User.h"
 
 @implementation MenuItemCell
 
@@ -56,6 +59,37 @@
     }
     
     [_description setText:[menuItem description]];
+}
+
+- (IBAction)addPhoto:(id)sender
+{
+    if ([User currentUser]) {
+        if ([self.viewController isKindOfClass:[CurrentMenuViewController class]]) {
+            [self.viewController performSegueWithIdentifier:@"CurrentMenuTakePhotoSegue" sender:self];
+        } else if ([self.viewController isKindOfClass:[PopularMenuViewController class]]) {
+            [self.viewController performSegueWithIdentifier:@"PopularMenuTakePhotoSegue" sender:self];
+        }
+    } else {
+        if ([self.viewController isKindOfClass:[CurrentMenuViewController class]]) {
+            [self.viewController performSegueWithIdentifier:@"CurrentMenuSignInSegue" sender:self];
+        } else if ([self.viewController isKindOfClass:[PopularMenuViewController class]]) {
+            [self.viewController performSegueWithIdentifier:@"PopularMenuSignInSegue" sender:self];
+        }
+    }
+}
+
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
+{
+    if (didSignIn) {
+        [signInViewController.navigationController popViewControllerAnimated:YES];
+        if ([self.viewController isKindOfClass:[CurrentMenuViewController class]]) {
+            [self.viewController performSegueWithIdentifier:@"CurrentMenuTakePhotoSegue" sender:self];
+        } else if ([self.viewController isKindOfClass:[PopularMenuViewController class]]) {
+            [self.viewController performSegueWithIdentifier:@"PopularMenuTakePhotoSegue" sender:self];
+        }
+    }
 }
 
 @end

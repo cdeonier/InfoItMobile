@@ -9,11 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class SavedPhoto;
+@class AFHTTPRequestOperation;
+
 typedef void (^SuccessBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
 typedef void (^FailureBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
+typedef void (^UploadSuccessBlock)(AFHTTPRequestOperation *, id);
+typedef void (^UploadFailureBlock)(AFHTTPRequestOperation *, NSError *);
 typedef void (^ImageSuccessBlock)(UIImage *);
-
-@class SavedPhoto;
 
 @interface MenuPicsAPIClient : NSObject
 
@@ -30,7 +33,7 @@ typedef void (^ImageSuccessBlock)(UIImage *);
 + (void)updateAccount:(NSString *)user email:(NSString *)email password:(NSString *)password updatedPassword:(NSString *)updatedPassword success:(SuccessBlock)success failure:(FailureBlock)failure;
 
 //Photos
-+ (void)uploadPhoto:(SavedPhoto *)photo;
++ (void)uploadPhoto:(SavedPhoto *)photo success:(UploadSuccessBlock)success failure:(UploadFailureBlock)failure;
 + (void)deletePhoto:(SavedPhoto *)photo success:(SuccessBlock)success;
 + (void)tagPhoto:(SavedPhoto *)photo success:(SuccessBlock)success;
 + (void)untagPhoto:(SavedPhoto *)photo success:(SuccessBlock)success;

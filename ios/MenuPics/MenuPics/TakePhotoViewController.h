@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class MenuItem;
 @class TakePhotoViewController;
 
 @protocol TakePhotoDelegate <NSObject>
@@ -19,6 +20,7 @@
 @interface TakePhotoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) id<TakePhotoDelegate> delegate;
+@property (nonatomic, strong) MenuItem *menuItem;
 
 @property (nonatomic, strong) UIImage *photo;
 @property (nonatomic, strong) UIImage *thumbnail;

@@ -60,9 +60,8 @@
 {
     [self disableViewInteraction];
     [self.errorLabel setHidden:YES];
-    
-    void (^didUpdateBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didUpdateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+
+    SuccessBlock didUpdateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if ([[User currentUser] isFacebookOnly]) {
             NSString *accessToken = [[User currentUser] accessToken];
             NSString *email = [JSON valueForKeyPath:@"email"];
@@ -86,8 +85,7 @@
         [self.delegate updateAccountViewController:self didUpdateAccount:YES];
     };
     
-    void (^failureCreateBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
-    failureCreateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+    FailureBlock failureCreateBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         [self enableViewInteraction];
         
         if (JSON) {

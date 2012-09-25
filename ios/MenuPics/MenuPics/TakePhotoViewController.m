@@ -8,6 +8,9 @@
 
 #import "TakePhotoViewController.h"
 
+#import "MenuItem.h"
+#import "Photo.h"
+
 @interface TakePhotoViewController ()
 
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
@@ -52,10 +55,8 @@
     
     [self.view setHidden:YES];
     
-    self.photo = [UIImage imageNamed:@"photo"];
-    [self.previewImage setImage:self.photo];
+    [self performSelector:@selector(startImagePicker) withObject:nil afterDelay:0.5];
     
-    [self performSelector:@selector(startImagePicker) withObject:nil afterDelay:0.01];
 }
 
 - (void)didReceiveMemoryWarning
@@ -218,6 +219,24 @@
     UIGraphicsEndImageContext();
     
     [self.previewImage setImage:scaledImage];
+    
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        //Create thumbnail
+        CGFloat height = scaledImage.size.height;
+        CGFloat offset = (scaledImage.size.width - scaledImage.size.height) / 2;
+        CGImageRef preThumbnailSquare = CGImageCreateWithImageInRect(scaledImage.CGImage, CGRectMake(offset, 0, height, height));
+        
+        //For Selecting Photos
+        CGSize thumbnailSize = CGSizeMake(200, 200);
+        UIGraphicsBeginImageContext(thumbnailSize);
+        [[UIImage imageWithCGImage:preThumbnailSquare] drawInRect:CGRectMake(0,0,thumbnailSize.width,thumbnailSize.height)];
+        UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        self.thumbnail = thumbnail;
+        
+        [Photo didTakeNewPhoto:self.menuItem image:scaledImage thumbnail:thumbnail];
+    });
     
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
 }

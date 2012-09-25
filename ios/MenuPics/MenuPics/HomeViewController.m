@@ -99,8 +99,7 @@
         [self populateTableData:pastJsonResponse];
     }
     
-    void (^didReceiveNearbyLocationsBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didReceiveNearbyLocationsBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    SuccessBlock didReceiveNearbyLocationsBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         [JSONCachedResponse saveJsonResponse:self withJsonResponse:JSON withIdentifier:nil];
         
         [self populateTableData:JSON];

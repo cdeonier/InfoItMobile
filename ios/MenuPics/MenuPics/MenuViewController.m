@@ -14,7 +14,7 @@
 #import "MenuItem.h"
 #import "MenuPicsAPIClient.h"
 #import "OrderedDictionary.h"
-#import "PopularViewController.h"
+#import "PopularMenuViewController.h"
 #import "Restaurant.h"
 #import "RestaurantViewController.h"
 #import "SVProgressHUD.h"
@@ -22,7 +22,7 @@
 @interface MenuViewController ()
 
 @property (nonatomic, strong) CurrentMenuViewController *currentMenuController;
-@property (nonatomic, strong) PopularViewController *popularMenuController;
+@property (nonatomic, strong) PopularMenuViewController *popularMenuController;
 @property (nonatomic, strong) RestaurantViewController *restaurantController;
 @property (nonatomic, strong) AllMenusViewController *allMenusController;
 
@@ -92,8 +92,7 @@
         [self loadMenuFromJson:pastJsonResponse];
     }
     
-    void (^didFetchMenuBlock)(NSURLRequest *, NSHTTPURLResponse *, id);
-    didFetchMenuBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    SuccessBlock didFetchMenuBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         [JSONCachedResponse saveJsonResponse:self withJsonResponse:JSON withIdentifier:self.restaurantId];
         
         [self loadMenuFromJson:JSON];
@@ -148,6 +147,7 @@
         
         MenuItem *menuItemRecord = [[MenuItem alloc] initWithJson:menuItem];
         [menuItemRecord setRestaurantId:self.restaurantId];
+        [menuItemRecord setRestaurantName:restaurant.name];
         
         [categoryItems addObject:menuItemRecord];
     }

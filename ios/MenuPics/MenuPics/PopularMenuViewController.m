@@ -6,20 +6,20 @@
 //  Copyright (c) 2012 Christian Deonier. All rights reserved.
 //
 
-#import "PopularViewController.h"
+#import "PopularMenuViewController.h"
 
 #import "EmptyMenuItemCell.h"
 #import "MenuItem.h"
 #import "MenuItemCell.h"
 #import "OrderedDictionary.h"
 
-@interface PopularViewController ()
+@interface PopularMenuViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation PopularViewController
+@implementation PopularMenuViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

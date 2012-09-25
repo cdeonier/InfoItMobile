@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class MenuItem;
+
 @interface Photo : NSObject
 
 @property (nonatomic, strong) NSNumber *photoId;
@@ -30,7 +32,12 @@
 @property (nonatomic, strong) NSNumber *menuItemId;
 @property (nonatomic, strong) NSNumber *restaurantId;
 
+@property (nonatomic, strong) NSNumber *latitude;
+@property (nonatomic, strong) NSNumber *longitude;
+
 + (NSMutableArray *)menuItemPhotosFromJson:(id)json;
 + (NSMutableArray *)userPhotosFromJson:(id)json;
+
++ (Photo *)didTakeNewPhoto:(MenuItem *)menuItem image:(UIImage *)image thumbnail:(UIImage *)thumbnail;
 
 @end

@@ -90,7 +90,7 @@
 		3C573FE515F8579300CE7BE3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C573FE415F8579200CE7BE3 /* QuartzCore.framework */; };
 		3C573FE815F8844F00CE7BE3 /* EmptyMenuItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C573FE715F8844F00CE7BE3 /* EmptyMenuItemCell.m */; };
 		3C57403415F9777200CE7BE3 /* AllMenusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403315F9777200CE7BE3 /* AllMenusViewController.m */; };
-		3C57403715F9779A00CE7BE3 /* PopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403615F9779900CE7BE3 /* PopularViewController.m */; };
+		3C57403715F9779A00CE7BE3 /* PopularMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403615F9779900CE7BE3 /* PopularMenuViewController.m */; };
 		3C57403A15F98A8500CE7BE3 /* AllMenusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403915F98A8400CE7BE3 /* AllMenusCell.m */; };
 		3CA6CDB215FABDE000175850 /* TakePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA6CDB115FABDE000175850 /* TakePhotoViewController.m */; };
 		3CA6CDBB15FADB9B00175850 /* CameraOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CA6CDBA15FADB9B00175850 /* CameraOverlayView.xib */; };
@@ -251,8 +251,8 @@
 		3C573FE715F8844F00CE7BE3 /* EmptyMenuItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyMenuItemCell.m; sourceTree = "<group>"; };
 		3C57403215F9777200CE7BE3 /* AllMenusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllMenusViewController.h; sourceTree = "<group>"; };
 		3C57403315F9777200CE7BE3 /* AllMenusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllMenusViewController.m; sourceTree = "<group>"; };
-		3C57403515F9779900CE7BE3 /* PopularViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularViewController.h; sourceTree = "<group>"; };
-		3C57403615F9779900CE7BE3 /* PopularViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularViewController.m; sourceTree = "<group>"; };
+		3C57403515F9779900CE7BE3 /* PopularMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopularMenuViewController.h; sourceTree = "<group>"; };
+		3C57403615F9779900CE7BE3 /* PopularMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMenuViewController.m; sourceTree = "<group>"; };
 		3C57403815F98A8400CE7BE3 /* AllMenusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllMenusCell.h; sourceTree = "<group>"; };
 		3C57403915F98A8400CE7BE3 /* AllMenusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllMenusCell.m; sourceTree = "<group>"; };
 		3CA6CDB015FABDE000175850 /* TakePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhotoViewController.h; sourceTree = "<group>"; };
@@ -565,8 +565,8 @@
 				3C573FCE15F7F1B600CE7BE3 /* MenuViewController.m */,
 				3C573FDD15F84C3900CE7BE3 /* CurrentMenuViewController.h */,
 				3C573FDE15F84C3900CE7BE3 /* CurrentMenuViewController.m */,
-				3C57403515F9779900CE7BE3 /* PopularViewController.h */,
-				3C57403615F9779900CE7BE3 /* PopularViewController.m */,
+				3C57403515F9779900CE7BE3 /* PopularMenuViewController.h */,
+				3C57403615F9779900CE7BE3 /* PopularMenuViewController.m */,
 				3C573FD715F81C7700CE7BE3 /* RestaurantViewController.h */,
 				3C573FD815F81C7700CE7BE3 /* RestaurantViewController.m */,
 				3C57403215F9777200CE7BE3 /* AllMenusViewController.h */,
@@ -853,7 +853,7 @@
 				3C573FE315F84E3700CE7BE3 /* MenuItemCell.m in Sources */,
 				3C573FE815F8844F00CE7BE3 /* EmptyMenuItemCell.m in Sources */,
 				3C57403415F9777200CE7BE3 /* AllMenusViewController.m in Sources */,
-				3C57403715F9779A00CE7BE3 /* PopularViewController.m in Sources */,
+				3C57403715F9779A00CE7BE3 /* PopularMenuViewController.m in Sources */,
 				3C57403A15F98A8500CE7BE3 /* AllMenusCell.m in Sources */,
 				3CA6CDB215FABDE000175850 /* TakePhotoViewController.m in Sources */,
 				3CA6CDBF15FAEE8700175850 /* MenuItemViewController.m in Sources */,

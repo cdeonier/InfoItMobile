@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "TakePhotoViewController.h"
+
 @class OrderedDictionary;
 
-@interface PopularMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface PopularMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, TakePhotoDelegate>
 
 @property (nonatomic, strong) NSArray *popularItems;
 

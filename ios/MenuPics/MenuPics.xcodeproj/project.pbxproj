@@ -24,6 +24,7 @@
 		3C048A2E160BC1820002D4A7 /* flash_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C048A28160BC1820002D4A7 /* flash_off@2x.png */; };
 		3C048A2F160BC1820002D4A7 /* flash_on_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C048A29160BC1820002D4A7 /* flash_on_pressed@2x.png */; };
 		3C048A30160BC1820002D4A7 /* flash_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C048A2A160BC1820002D4A7 /* flash_on@2x.png */; };
+		3C0912CB1611A52B00920A99 /* profile_no_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C0912CA1611A52B00920A99 /* profile_no_image.jpg */; };
 		3C13F44A160204E000B244F7 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13F449160204E000B244F7 /* Accounts.framework */; };
 		3C13F44D1602072B00B244F7 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C13F44C1602072B00B244F7 /* Social.framework */; };
 		3C1871301601B6EF0043C684 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C18712F1601B6EF0043C684 /* Default-568h@2x.png */; };
@@ -141,6 +142,7 @@
 		3C048A28160BC1820002D4A7 /* flash_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_off@2x.png"; sourceTree = "<group>"; };
 		3C048A29160BC1820002D4A7 /* flash_on_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_on_pressed@2x.png"; sourceTree = "<group>"; };
 		3C048A2A160BC1820002D4A7 /* flash_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flash_on@2x.png"; sourceTree = "<group>"; };
+		3C0912CA1611A52B00920A99 /* profile_no_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = profile_no_image.jpg; sourceTree = "<group>"; };
 		3C13F449160204E000B244F7 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		3C13F44C1602072B00B244F7 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3C18712F1601B6EF0043C684 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -341,6 +343,14 @@
 				3C048A1C160921DA0002D4A7 /* PhotoThumbnailCell.m */,
 			);
 			name = CollectionViewCells;
+			sourceTree = "<group>";
+		};
+		3C0912CD1611A52F00920A99 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C0912CA1611A52B00920A99 /* profile_no_image.jpg */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		3C573EF115F4D0D800CE7BE3 = {
@@ -644,6 +654,7 @@
 			isa = PBXGroup;
 			children = (
 				3C048A10160710250002D4A7 /* CollectionViewCells */,
+				3C0912CD1611A52F00920A99 /* Images */,
 				3CA6CDBD15FAEE8700175850 /* MenuItemViewController.h */,
 				3CA6CDBE15FAEE8700175850 /* MenuItemViewController.m */,
 			);
@@ -806,6 +817,7 @@
 				3C048A2F160BC1820002D4A7 /* flash_on_pressed@2x.png in Resources */,
 				3C048A30160BC1820002D4A7 /* flash_on@2x.png in Resources */,
 				3C22AF76160F1EBE00A3C8EE /* CameraOverlayView5.xib in Resources */,
+				3C0912CB1611A52B00920A99 /* profile_no_image.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

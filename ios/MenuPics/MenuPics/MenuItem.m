@@ -27,13 +27,13 @@
         
         if ([[json objectForKey:@"profile_photo_type"] isEqualToString:@"ExternalPhoto"]) {
             [self setSmallThumbnailUrl:[json valueForKey:@"profile_photo_thumbnail"]];
-            [self setLargeThumbnailUrl:[json valueForKey:@"profile_photo_thumbnail"]];
+            [self setThumbnailUrl:[json valueForKey:@"profile_photo_thumbnail"]];
         } else {
             [self setSmallThumbnailUrl:[json valueForKey:@"profile_photo_thumbnail_100x100"]];
-            [self setLargeThumbnailUrl:[json valueForKey:@"profile_photo_thumbnail_200x200"]];
+            [self setThumbnailUrl:[json valueForKey:@"profile_photo_thumbnail_200x200"]];
         }
         
-        [self setProfilePhotoUrl:[json valueForKey:@"profile_photo"]];
+        [self setPhotoUrl:[json valueForKey:@"profile_photo"]];
         [self setEntityId:[json valueForKey:@"entity_id"]];
 
         BOOL isLiked = [[json valueForKeyPath:@"logged_in_user.liked"] boolValue];

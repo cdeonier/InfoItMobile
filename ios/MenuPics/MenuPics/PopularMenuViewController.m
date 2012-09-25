@@ -11,7 +11,10 @@
 #import "EmptyMenuItemCell.h"
 #import "MenuItem.h"
 #import "MenuItemCell.h"
+#import "MenuItemViewController.h"
+#import "MenuViewController.h"
 #import "OrderedDictionary.h"
+#import "TakePhotoViewController.h"
 
 @interface PopularMenuViewController ()
 
@@ -59,14 +62,19 @@
     
     UITableViewCell *cell;
     
-    if ([menuItem smallThumbnailUrl]) {
+    if ([menuItem thumbnailUrl] || [menuItem thumbnail]) {
         MenuItemCell *menuItemCell = (MenuItemCell *)[tableView dequeueReusableCellWithIdentifier:@"MenuItemCell"];
         
+        [menuItemCell setMenuItem:menuItem];
+        [menuItemCell setViewController:self];
         [menuItemCell styleCell:menuItem];
         
         cell = menuItemCell;
     } else {
         EmptyMenuItemCell *menuItemCell = [tableView dequeueReusableCellWithIdentifier:@"EmptyMenuItemCell"];
+        
+        [menuItemCell setMenuItem:menuItem];
+        [menuItemCell setViewController:self];
         [menuItemCell styleCell:menuItem];
         
         [menuItemCell.name setText:[menuItem name]];
@@ -100,6 +108,47 @@
         [self.tableView reloadData];
     } else {
         [self.tableView setHidden:YES];
+    }
+}
+
+#pragma mark TakePhotoDelegate
+
+- (void)didTakePhoto:(TakePhotoViewController *)viewController
+{
+    MenuItem *menuItem = viewController.menuItem;
+    
+    if (!menuItem.thumbnailUrl) {
+        [menuItem setThumbnail:viewController.thumbnail];
+        [(MenuViewController *)self.parentViewController reloadData];
+    }
+    
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark Storyboard
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[MenuItemViewController class]]) {
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        MenuItem *menuItem = [self.popularItems objectAtIndex:selectedIndexPath.row];
+        
+        MenuItemViewController *menuItemViewController = [segue destinationViewController];
+        [menuItemViewController setMenuItem:menuItem];
+    } else if ([segue.destinationViewController isKindOfClass:[TakePhotoViewController class]]) {
+        MenuItem *menuItem;
+        
+        if ([sender isKindOfClass:[MenuItemCell class]]) {
+            menuItem = [(MenuItemCell *)sender menuItem];
+        } else {
+            menuItem = [(EmptyMenuItemCell *)sender menuItem];
+        }
+        
+        TakePhotoViewController *takePhotoViewController = [segue destinationViewController];
+        [takePhotoViewController setDelegate:self];
+        [takePhotoViewController setMenuItem:menuItem];
+    } else if ([segue.destinationViewController isKindOfClass:[SignInViewController class]]) {
+        [(SignInViewController *)segue.destinationViewController setDelegate:sender];
     }
 }
 

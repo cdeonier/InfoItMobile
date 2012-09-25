@@ -14,6 +14,7 @@
 #import "MenuItem.h"
 #import "MenuItemCell.h"
 #import "MenuItemViewController.h"
+#import "MenuViewController.h"
 #import "OrderedDictionary.h"
 #import "UIImageView+WebCache.h"
 
@@ -60,7 +61,7 @@
     
     UITableViewCell *cell;
     
-    if ([menuItem smallThumbnailUrl]) {
+    if ([menuItem thumbnailUrl] || [menuItem thumbnail]) {
         MenuItemCell *menuItemCell = (MenuItemCell *)[tableView dequeueReusableCellWithIdentifier:@"MenuItemCell"];
         
         [menuItemCell setMenuItem:menuItem];
@@ -75,7 +76,7 @@
         [menuItemCell setViewController:self];
         [menuItemCell styleCell:menuItem];
         
-        [menuItemCell.name setText:[menuItem name]];
+        //[menuItemCell.name setText:[menuItem name]];
         
         cell = menuItemCell;
     }
@@ -100,6 +101,13 @@
 
 - (void)didTakePhoto:(TakePhotoViewController *)viewController
 {
+    MenuItem *menuItem = viewController.menuItem;
+    
+    if (!menuItem.thumbnailUrl) {
+        [menuItem setThumbnail:viewController.thumbnail];
+        [(MenuViewController *)self.parentViewController reloadData];
+    }
+    
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 

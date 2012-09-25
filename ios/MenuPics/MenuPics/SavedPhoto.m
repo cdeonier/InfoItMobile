@@ -8,6 +8,7 @@
 
 #import "SavedPhoto.h"
 
+#import "MenuItem.h"
 #import "MenuPicsAPIClient.h"
 #import "MenuPicsDBClient.h"
 #import "Photo.h"
@@ -56,7 +57,7 @@
             if ([phonePhoto.didUpload boolValue]) {
                 [MenuPicsDBClient deleteObject:phonePhoto];
             } else {
-                [MenuPicsAPIClient uploadPhoto:phonePhoto success:[self uploadSuccessBlock:phonePhoto] failure:[self uploadFailureBlock:phonePhoto]];
+                [MenuPicsAPIClient uploadPhoto:phonePhoto success:[self uploadSuccessBlock:phonePhoto photo:nil] failure:[self uploadFailureBlock:phonePhoto]];
             }
         } else {
             SavedPhoto *phonePhoto = [photosOnPhone objectForKey:key];
@@ -135,7 +136,7 @@
 + (SavedPhoto *)uploadPhoto:(Photo *)photo
 {
     SavedPhoto *savedPhoto = [self savedPhotoFromPhoto:photo];    
-    [MenuPicsAPIClient uploadPhoto:savedPhoto success:[self uploadSuccessBlock:savedPhoto] failure:[self uploadFailureBlock:savedPhoto]];
+    [MenuPicsAPIClient uploadPhoto:savedPhoto success:[self uploadSuccessBlock:savedPhoto photo:photo] failure:[self uploadFailureBlock:savedPhoto]];
     return savedPhoto;
 }
 
@@ -149,17 +150,27 @@
     [MenuPicsAPIClient tagPhoto:savedPhoto success:success];
 }
 
-+ (UploadSuccessBlock)uploadSuccessBlock:(SavedPhoto *)savedPhoto
++ (UploadSuccessBlock)uploadSuccessBlock:(SavedPhoto *)savedPhoto photo:(Photo *)photo
 {
     UploadSuccessBlock success = ^(AFHTTPRequestOperation *operation, id data) {
         id JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        
-        NSLog(@"%@", JSON);
         
         [savedPhoto setPhotoId:[[JSON valueForKey:@"photo"] valueForKey:@"photo_id"]];
         [savedPhoto setPhotoUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_original"]];
         [savedPhoto setThumbnailUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_thumbnail_200x200"]];
         [savedPhoto setDidUpload:[NSNumber numberWithBool:YES]];
+        
+        if (photo) {
+            [photo setSmallThumbnailUrl:[[JSON valueForKey:@"photo"] valueForKey:@"photo_thumbnail_100x100"]];
+            [photo setThumbnailUrl:savedPhoto.thumbnailUrl];
+            [photo setPhotoUrl:savedPhoto.photoUrl];
+            
+            if (photo.menuItem && !photo.menuItem.photoUrl) {
+                [photo.menuItem setSmallThumbnailUrl:photo.smallThumbnailUrl];
+                [photo.menuItem setThumbnailUrl:photo.thumbnailUrl];
+                [photo.menuItem setPhotoUrl:photo.photoUrl];
+            }
+        }
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         [fileManager removeItemAtPath:[savedPhoto fileLocation] error:nil];

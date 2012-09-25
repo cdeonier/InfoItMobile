@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) NSNumber *photoId;
 
+@property (nonatomic, strong) MenuItem *menuItem;
+
 @property (nonatomic, strong) NSDate *creationDate;
 @property (nonatomic, strong) NSString *photoUrl;
 @property (nonatomic, strong) NSString *fileName;

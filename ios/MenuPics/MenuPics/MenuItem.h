@@ -18,9 +18,10 @@
 @property (nonatomic, strong) NSString *restaurantName;
 @property (nonatomic, strong) NSNumber *likeCount;
 @property (nonatomic, strong) NSNumber *photoCount;
-@property (nonatomic, strong) NSString *profilePhotoUrl;
+@property (nonatomic, strong) NSString *photoFileLocation;
+@property (nonatomic, strong) NSString *photoUrl;
 @property (nonatomic, strong) NSString *smallThumbnailUrl;
-@property (nonatomic, strong) NSString *largeThumbnailUrl;
+@property (nonatomic, strong) NSString *thumbnailUrl;
 @property (nonatomic, strong) NSString *category;
 @property (nonatomic, strong) NSString *menuType;
 @property (nonatomic, strong) UIImage *thumbnail;

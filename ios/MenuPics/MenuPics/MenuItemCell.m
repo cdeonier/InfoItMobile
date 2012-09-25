@@ -40,7 +40,12 @@
 
 - (void)styleCell:(MenuItem *)menuItem
 {
-    [_thumbnail setImageWithURL:[NSURL URLWithString:[menuItem largeThumbnailUrl]]];
+    if ([menuItem thumbnailUrl]) {
+        [_thumbnail setImageWithURL:[NSURL URLWithString:[menuItem thumbnailUrl]]];
+    } else {
+        [_thumbnail setImage:menuItem.thumbnail];
+    }
+    
     [_thumbnail.layer setBorderColor:[[UIColor grayColor] CGColor]];
     [_thumbnail.layer setBorderWidth:1.0];
     

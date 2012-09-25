@@ -203,4 +203,10 @@
     [self.popularMenuController reloadData];
 }
 
+- (void)reloadData
+{
+    [self.currentMenuController reloadData];
+    [self.popularMenuController reloadData];
+}
+
 @end

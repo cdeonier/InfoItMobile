@@ -93,6 +93,8 @@
     [photo setVotedForPhoto:YES];
     [photo setCreationDate:[NSDate date]];
     
+    [photo setMenuItem:menuItem];
+    
     NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsDir = [dirPaths objectAtIndex:0];
     NSString *takePhotosDirectory = [docsDir stringByAppendingPathComponent:@"takePhotos"];
@@ -107,6 +109,8 @@
     [photo setFileName:imageFileName];
     [photo setFileLocation:filePath];
     [photo setThumbnail:thumbnail];
+    
+    [menuItem setPhotoFileLocation:filePath];
     
     User *author = [User currentUser];
     [photo setAuthor:author.username];

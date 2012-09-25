@@ -40,10 +40,26 @@
 {
     [super viewDidLoad];
     
-    [self.profileImage setImageWithURL:[NSURL URLWithString:self.menuItem.profilePhotoUrl]];
+    if (self.menuItem.photoUrl) {
+        [self.profileImage setImageWithURL:[NSURL URLWithString:self.menuItem.photoUrl]];
+    } else if (self.menuItem.photoFileLocation) {
+        //We've taken a photo, but it hasn't uploaded yet, so we load from file
+        UIImage *profilePhoto = [UIImage imageWithContentsOfFile:self.menuItem.photoFileLocation];
+        [self.profileImage setImage:profilePhoto];
+        [self checkForUpdatedThumbnails:self.menuItem];
+    } else {
+        UIImage *profilePhoto = [UIImage imageNamed:@"profile_no_image.jpg"];
+        [self.profileImage setImage:profilePhoto];
+    }
+    
     [self.nameLabel setText:self.menuItem.name];
     
     [self fetchMenuItem:self.menuItem.entityId];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,6 +124,17 @@
         [thumbnailCell.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
         [thumbnailCell.thumbnailImage setImageWithURL:[NSURL URLWithString:menuItemPhoto.thumbnailUrl]];
         return thumbnailCell;
+    }
+}
+
+#pragma mark Helper Functions
+
+- (void)checkForUpdatedThumbnails:(MenuItem *)menuItem
+{
+    if (menuItem.photoUrl) {
+        [self fetchMenuItem:menuItem.entityId];
+    } else {
+        [self performSelector:@selector(checkForUpdatedThumbnails:) withObject:menuItem afterDelay:1];
     }
 }
 

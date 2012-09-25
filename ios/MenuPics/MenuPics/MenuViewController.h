@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSNumber *restaurantId;
 
 - (void)selectMenu:(NSString *)menuType;
+- (void)reloadData;
 
 @end

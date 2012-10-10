@@ -233,9 +233,7 @@
         UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
-        self.thumbnail = thumbnail;
-        
-        [Photo didTakeNewPhoto:self.menuItem image:scaledImage thumbnail:thumbnail];
+        self.photo = [Photo didTakeNewPhoto:self.menuItem image:scaledImage thumbnail:thumbnail];
     });
     
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];

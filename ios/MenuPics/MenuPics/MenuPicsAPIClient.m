@@ -184,7 +184,10 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionary];
     [mutableParameters setObject:[photo latitude] forKey:@"photo[lat]"];
     [mutableParameters setObject:[photo longitude] forKey:@"photo[lng]"];
-    [mutableParameters setObject:[photo restaurantId] forKey:@"photo[suggested_restaurant_id]"];
+    
+    if ([photo restaurantId]) {
+        [mutableParameters setObject:[photo restaurantId] forKey:@"photo[suggested_restaurant_id]"];
+    }
     
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"]; // e.g., set for mysql date strings

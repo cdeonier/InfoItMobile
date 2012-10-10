@@ -14,6 +14,7 @@
 #import "MenuItemViewController.h"
 #import "MenuViewController.h"
 #import "OrderedDictionary.h"
+#import "Photo.h"
 #import "TakePhotoViewController.h"
 
 @interface PopularMenuViewController ()
@@ -118,7 +119,7 @@
     MenuItem *menuItem = viewController.menuItem;
     
     if (!menuItem.thumbnailUrl) {
-        [menuItem setThumbnail:viewController.thumbnail];
+        [menuItem setThumbnail:viewController.photo.thumbnail];
         [(MenuViewController *)self.parentViewController reloadData];
     }
     

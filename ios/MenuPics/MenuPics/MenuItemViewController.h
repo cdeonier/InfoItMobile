@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+#import "SignInViewController.h"
+#import "TakePhotoViewController.h"
+
 @class MenuItem;
 
-@interface MenuItemViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface MenuItemViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, TakePhotoDelegate, SignInDelegate>
 
 @property (nonatomic, strong) MenuItem *menuItem;
 

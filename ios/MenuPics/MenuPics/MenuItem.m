@@ -35,14 +35,13 @@
         
         [self setPhotoUrl:[json valueForKey:@"profile_photo"]];
         [self setEntityId:[json valueForKey:@"entity_id"]];
-
+        
         BOOL isLiked = [[json valueForKeyPath:@"logged_in_user.liked"] boolValue];
         if (isLiked) {
             [self setIsLiked:YES];
         } else {
             [self setIsLiked:NO];
         }
-
     }
     
     return self;

@@ -175,6 +175,7 @@
         NSFileManager *fileManager = [NSFileManager defaultManager];
         [fileManager removeItemAtPath:[savedPhoto fileLocation] error:nil];
         [savedPhoto setFileLocation:nil];
+        [photo setFileLocation:nil];
         
         [MenuPicsDBClient saveContext];
         

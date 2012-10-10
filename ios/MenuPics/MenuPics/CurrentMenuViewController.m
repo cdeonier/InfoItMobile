@@ -16,6 +16,7 @@
 #import "MenuItemViewController.h"
 #import "MenuViewController.h"
 #import "OrderedDictionary.h"
+#import "Photo.h"
 #import "UIImageView+WebCache.h"
 
 @interface CurrentMenuViewController ()
@@ -104,7 +105,7 @@
     MenuItem *menuItem = viewController.menuItem;
     
     if (!menuItem.thumbnailUrl) {
-        [menuItem setThumbnail:viewController.thumbnail];
+        [menuItem setThumbnail:viewController.photo.thumbnail];
         [(MenuViewController *)self.parentViewController reloadData];
     }
     

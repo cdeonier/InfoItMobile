@@ -20,6 +20,8 @@
 
 @property (strong, nonatomic) NSMutableArray *menuItemPhotos;
 
+@property (strong, nonatomic) NSMutableArray *userNewPhotos;
+
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -40,6 +42,8 @@
 {
     [super viewDidLoad];
     
+    [self setTitle:@"Menu Item"];
+    
     if (self.menuItem.photoUrl) {
         [self.profileImage setImageWithURL:[NSURL URLWithString:self.menuItem.photoUrl]];
     } else if (self.menuItem.photoFileLocation) {
@@ -53,6 +57,9 @@
     }
     
     [self.nameLabel setText:self.menuItem.name];
+    
+    self.menuItemPhotos = [[NSMutableArray alloc] initWithCapacity:5];
+    self.userNewPhotos = [[NSMutableArray alloc] initWithCapacity:5];
     
     [self fetchMenuItem:self.menuItem.entityId];
 }
@@ -74,7 +81,7 @@
     id pastJsonResponse = [JSONCachedResponse recentJsonResponse:self withIdentifier:self.menuItem.entityId];
     
     if (pastJsonResponse) {
-        [self loadMenuItemFromJson:pastJsonResponse];
+        //[self loadMenuItemFromJson:pastJsonResponse];
         [self loadMenuItemPhotosFromJson:pastJsonResponse];
         [self.collectionView reloadData];
     }
@@ -82,7 +89,7 @@
     SuccessBlock didFetchMenuItemBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         [JSONCachedResponse saveJsonResponse:self withJsonResponse:JSON withIdentifier:self.menuItem.entityId];
         
-        [self loadMenuItemFromJson:JSON];
+        //[self loadMenuItemFromJson:JSON];
         [self loadMenuItemPhotosFromJson:JSON];
         [self.collectionView reloadData];
     };
@@ -99,6 +106,26 @@
 - (void)loadMenuItemPhotosFromJson:(id)json
 {
     self.menuItemPhotos = [Photo menuItemPhotosFromJson:json];
+    
+    [self loadNewUserPhotos];
+}
+
+- (void)loadNewUserPhotos
+{
+    for (Photo *photo in self.userNewPhotos) {
+        NSString *photoFileName = photo.fileName;
+        
+        NSIndexSet *indexes = [self.menuItemPhotos indexesOfObjectsPassingTest:^BOOL(id menuItemPhoto, NSUInteger idx, BOOL *stop) {
+            NSString *menuItemPhotoFileName = [(Photo *)menuItemPhoto fileName];
+            return [photoFileName isEqualToString:menuItemPhotoFileName];
+        }];
+        
+        if (indexes.count == 0) {
+            [self.menuItemPhotos addObject:photo];
+        }
+    }
+    
+    [self.collectionView reloadData];
 }
 
 #pragma mark UICollectionViewDelegate
@@ -122,8 +149,69 @@
         MenuItemThumbnailCell *thumbnailCell = (MenuItemThumbnailCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MenuItemThumbnailCell" forIndexPath:indexPath];
         [thumbnailCell.layer setBorderWidth:1.0];
         [thumbnailCell.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-        [thumbnailCell.thumbnailImage setImageWithURL:[NSURL URLWithString:menuItemPhoto.thumbnailUrl]];
+        
+        if (menuItemPhoto.thumbnail) {
+            [thumbnailCell.thumbnailImage setImage:menuItemPhoto.thumbnail];
+        } else {
+           [thumbnailCell.thumbnailImage setImageWithURL:[NSURL URLWithString:menuItemPhoto.thumbnailUrl]]; 
+        }
+        
         return thumbnailCell;
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    Photo *menuItemPhoto = [self.menuItemPhotos objectAtIndex:indexPath.row - 1];
+    
+    if (menuItemPhoto.fileLocation) {
+        UIImage *profilePhoto = [UIImage imageWithContentsOfFile:menuItemPhoto.fileLocation];
+        [self.profileImage setImage:profilePhoto];
+    } else {
+        [self.profileImage setImageWithURL:[NSURL URLWithString:menuItemPhoto.photoUrl]];
+    }
+    
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+}
+
+#pragma mark TakePhotoDelegate
+
+- (void)didTakePhoto:(TakePhotoViewController *)viewController
+{
+    if (!self.menuItem.thumbnailUrl) {
+        [self.menuItem setThumbnail:viewController.photo.thumbnail];
+    }
+    
+    Photo *newPhoto = viewController.photo;
+    [self.userNewPhotos addObject:newPhoto];
+    [self loadNewUserPhotos];
+    UIImage *profilePhoto = [UIImage imageWithContentsOfFile:newPhoto.fileLocation];
+    [self.profileImage setImage:profilePhoto];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.menuItemPhotos.count inSection:0];
+    
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
+{
+    
+}
+
+#pragma mark Storyboard
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[TakePhotoViewController class]]) {
+        TakePhotoViewController *takePhotoViewController = [segue destinationViewController];
+        [takePhotoViewController setDelegate:self];
+        [takePhotoViewController setMenuItem:self.menuItem];
+    } else if ([segue.destinationViewController isKindOfClass:[SignInViewController class]]) {
+        [(SignInViewController *)segue.destinationViewController setDelegate:sender];
     }
 }
 

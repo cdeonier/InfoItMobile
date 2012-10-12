@@ -68,21 +68,27 @@
 {
     _imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
     [self.flashAutoButton setHidden:YES];
+    [self.flashAutoButton5 setHidden:YES];
     [self.flashOnButton setHidden:NO];
+    [self.flashOnButton5 setHidden:NO];
 }
 
 - (IBAction)pressFlashOn:(id)sender
 {
     _imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
     [self.flashOnButton setHidden:YES];
+    [self.flashOnButton5 setHidden:YES];
     [self.flashOffButton setHidden:NO];
+    [self.flashOffButton5 setHidden:NO];
 }
 
 - (IBAction)pressFlashOff:(id)sender
 {
     _imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
     [self.flashOffButton setHidden:YES];
+    [self.flashOffButton5 setHidden:YES];
     [self.flashAutoButton setHidden:NO];
+    [self.flashAutoButton5 setHidden:NO];
 }
 
 

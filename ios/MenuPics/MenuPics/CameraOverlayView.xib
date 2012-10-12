@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">12C54</string>
+		<string key="IBDocument.SystemVersion">12C60</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
@@ -958,8 +958,11 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="cropView">UIView</string>
 						<string key="flashAutoButton">UIButton</string>
+						<string key="flashAutoButton5">UIButton</string>
 						<string key="flashOffButton">UIButton</string>
+						<string key="flashOffButton5">UIButton</string>
 						<string key="flashOnButton">UIButton</string>
+						<string key="flashOnButton5">UIButton</string>
 						<string key="previewImage">UIImageView</string>
 						<string key="viewFinder">UIView</string>
 					</dictionary>
@@ -972,12 +975,24 @@
 							<string key="name">flashAutoButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="flashAutoButton5">
+							<string key="name">flashAutoButton5</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="flashOffButton">
 							<string key="name">flashOffButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="flashOffButton5">
+							<string key="name">flashOffButton5</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="flashOnButton">
 							<string key="name">flashOnButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="flashOnButton5">
+							<string key="name">flashOnButton5</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="previewImage">

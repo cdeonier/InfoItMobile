@@ -231,6 +231,8 @@
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     
     [viewController dismissViewControllerAnimated:YES completion:nil];
+    
+    [self.menuViewController reloadData];
 }
 
 #pragma mark Storyboard

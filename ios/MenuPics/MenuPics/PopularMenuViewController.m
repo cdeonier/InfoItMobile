@@ -57,6 +57,8 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark Table Delegate
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MenuItem *menuItem = [self.popularItems objectAtIndex:indexPath.row];
@@ -136,6 +138,7 @@
         
         MenuItemViewController *menuItemViewController = [segue destinationViewController];
         [menuItemViewController setMenuItem:menuItem];
+        [menuItemViewController setMenuViewController:(MenuViewController *)self.parentViewController];
     } else if ([segue.destinationViewController isKindOfClass:[TakePhotoViewController class]]) {
         MenuItem *menuItem;
         

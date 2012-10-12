@@ -13,8 +13,10 @@
 #import "MenuItem.h"
 #import "MenuItemThumbnailCell.h"
 #import "MenuPicsAPIClient.h"
+#import "MenuViewController.h"
 #import "Photo.h"
 #import "UIImageView+WebCache.h"
+#import "User.h"
 
 @interface MenuItemViewController ()
 
@@ -25,6 +27,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+
+- (IBAction)pressFavoriteButton:(id)sender;
 
 @end
 
@@ -57,6 +64,13 @@
     }
     
     [self.nameLabel setText:self.menuItem.name];
+    [self.descriptionLabel setText:self.menuItem.description];
+    
+    if (self.menuItem.isLiked) {
+        [self.favoriteButton setSelected:YES];
+    } else {
+        [self.favoriteButton setSelected:NO];
+    }
     
     self.menuItemPhotos = [[NSMutableArray alloc] initWithCapacity:5];
     self.userNewPhotos = [[NSMutableArray alloc] initWithCapacity:5];
@@ -72,6 +86,17 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark Actions
+
+- (IBAction)pressFavoriteButton:(id)sender
+{
+    if ([User currentUser]) {
+        [self toggleFavoriteButton];
+    } else {
+        [self performSegueWithIdentifier:@"MenuItemSignInSegue" sender:self];
+    }
 }
 
 #pragma mark Web Service
@@ -142,6 +167,9 @@
         AddPhotoCell *addPhotoCell = (AddPhotoCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"AddPhotoCell" forIndexPath:indexPath];
         [addPhotoCell.layer setBorderWidth:1.0];
         [addPhotoCell.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+        
+        [addPhotoCell setViewController:self];
+        
         return addPhotoCell;
     } else {
         Photo *menuItemPhoto = [self.menuItemPhotos objectAtIndex:indexPath.row - 1];
@@ -174,6 +202,16 @@
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }
 
+#pragma mark SignInDelegate
+
+- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
+{
+    if (didSignIn) {
+        [signInViewController.navigationController popViewControllerAnimated:YES];
+        [self toggleFavoriteButton];
+    }
+}
+
 #pragma mark TakePhotoDelegate
 
 - (void)didTakePhoto:(TakePhotoViewController *)viewController
@@ -195,13 +233,6 @@
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark SignInDelegate
-
-- (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
-{
-    
-}
-
 #pragma mark Storyboard
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -212,6 +243,9 @@
         [takePhotoViewController setMenuItem:self.menuItem];
     } else if ([segue.destinationViewController isKindOfClass:[SignInViewController class]]) {
         [(SignInViewController *)segue.destinationViewController setDelegate:sender];
+    } else if ([segue.destinationViewController isKindOfClass:[MenuViewController class]]) {
+        MenuViewController *menuViewController = [segue destinationViewController];
+        [menuViewController setRestaurantId:self.menuItem.restaurantId];
     }
 }
 
@@ -223,6 +257,27 @@
         [self fetchMenuItem:menuItem.entityId];
     } else {
         [self performSelector:@selector(checkForUpdatedThumbnails:) withObject:menuItem afterDelay:1];
+    }
+}
+
+- (void)toggleFavoriteButton
+{
+    [self.favoriteButton setSelected:!self.favoriteButton.selected];
+    
+    if (self.favoriteButton.isSelected) {
+        int favoriteCount = self.menuItem.likeCount.intValue + 1;
+        self.menuItem.likeCount = [NSNumber numberWithInt:favoriteCount];
+        self.menuItem.isLiked = YES;
+        [self.menuViewController reloadData];
+        
+        [MenuPicsAPIClient favoriteMenuItem:self.menuItem.entityId success:nil];
+    } else {
+        int favoriteCount = self.menuItem.likeCount.intValue - 1;
+        self.menuItem.likeCount = [NSNumber numberWithInt:favoriteCount];
+        self.menuItem.isLiked = NO;
+        [self.menuViewController reloadData];
+        
+        [MenuPicsAPIClient unfavoriteMenuItem:self.menuItem.entityId success:nil];
     }
 }
 

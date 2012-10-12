@@ -60,6 +60,13 @@
     [self fetchMenu:self.restaurantId];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [SVProgressHUD dismiss];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -205,6 +212,8 @@
 
 - (void)reloadData
 {
+    [self populatePopularTable];
+    
     [self.currentMenuController reloadData];
     [self.popularMenuController reloadData];
 }

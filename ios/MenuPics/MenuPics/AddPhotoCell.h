@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddPhotoCell : UICollectionViewCell
+#import "SignInViewController.h"
+
+@interface AddPhotoCell : UICollectionViewCell <SignInDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *addPhotoButton;
+@property (nonatomic, strong) UIViewController *viewController;
+
+- (IBAction)addPhoto:(id)sender;
 
 @end

@@ -13,9 +13,11 @@
 #import "TakePhotoViewController.h"
 
 @class MenuItem;
+@class MenuViewController;
 
 @interface MenuItemViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, TakePhotoDelegate, SignInDelegate>
 
 @property (nonatomic, strong) MenuItem *menuItem;
+@property (nonatomic, strong) MenuViewController *menuViewController;
 
 @end

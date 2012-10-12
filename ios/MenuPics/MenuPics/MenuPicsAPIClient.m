@@ -40,6 +40,11 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
     NSString *endpoint = [NSString stringWithFormat:@"/services/%d", [locationId intValue]];
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
     
+    User *currentUser = [User currentUser];
+    if (currentUser) {
+        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"?access_token=%@", [currentUser accessToken]]];
+    }
+    
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
     [request setHTTPMethod:@"GET"];
@@ -56,6 +61,11 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
 {
     NSString *endpoint = [NSString stringWithFormat:@"/services/%d", [menuItemId intValue]];
     NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    User *currentUser = [User currentUser];
+    if (currentUser) {
+        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"?access_token=%@", [currentUser accessToken]]];
+    }
     
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];

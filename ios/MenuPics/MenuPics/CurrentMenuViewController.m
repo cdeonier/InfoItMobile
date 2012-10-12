@@ -130,6 +130,7 @@
         
         MenuItemViewController *menuItemViewController = [segue destinationViewController];
         [menuItemViewController setMenuItem:menuItem];
+        [menuItemViewController setMenuViewController:(MenuViewController *)self.parentViewController];
     } else if ([segue.destinationViewController isKindOfClass:[TakePhotoViewController class]]) {
         MenuItem *menuItem;
         

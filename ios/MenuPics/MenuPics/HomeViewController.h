@@ -11,6 +11,6 @@
 
 #import "SignInViewController.h"
 
-@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, SignInDelegate>
+@interface HomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, SignInDelegate, UIActionSheetDelegate>
 
 @end

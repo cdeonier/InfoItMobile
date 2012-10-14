@@ -12,6 +12,7 @@
 #import "Location.h"
 #import "LocationCell.h"
 #import "MenuPicsAPIClient.h"
+#import "MenuPicsDBClient.h"
 #import "MenuViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SignInViewController.h"
@@ -22,10 +23,13 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic, strong) UIBarButtonItem *accountButton;
+@property (nonatomic, strong) UIBarButtonItem *photosButton;
+
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSMutableArray *nearbyLocations;
 
-- (IBAction)pressAccountButton:(id)sender;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
 
 @end
 
@@ -51,12 +55,36 @@
     [self.tableView setTableFooterView:[UIView new]];
     
     [self initializeLocationManager];
+    
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                     destructiveButtonTitle:@"Sign Out"
+                                          otherButtonTitles:@"Update Account", nil];
+    
+    self.accountButton = [[UIBarButtonItem alloc] initWithTitle:@"Account" style:UIBarButtonItemStyleBordered target:self action:@selector(displayActionSheet:)];
+    self.accountButton.tintColor = self.navigationItem.backBarButtonItem.tintColor;
+    
+    self.photosButton = [[UIBarButtonItem alloc] initWithTitle:@"Photos" style:UIBarButtonItemStyleBordered target:self action:@selector(pressPhotosButton)];
+    self.photosButton.tintColor = self.navigationItem.backBarButtonItem.tintColor;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
+
+    NSMutableArray *savedPhotos = [MenuPicsDBClient fetchResultsFromDB:@"SavedPhoto" withPredicate:nil];
+    
+    if (savedPhotos.count > 0) {
+        [self.navigationItem setRightBarButtonItem:self.photosButton animated:YES];
+    } else {
+        [self.navigationItem setRightBarButtonItem:nil];
+    }
+    
+    if ([User currentUser]) {
+        [self.navigationItem setLeftBarButtonItem:self.accountButton animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -141,6 +169,18 @@
     [self.tableView reloadData];
 }
 
+#pragma mark UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [User signOutUser];
+        self.navigationItem.leftBarButtonItem = nil;
+    } else if (buttonIndex == 1) {
+        [self performSegueWithIdentifier:@"UpdateAccountSegue" sender:self];
+    }
+}
+
 #pragma mark Table Delegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -166,7 +206,10 @@
 - (void)signInViewController:(SignInViewController *)signInViewController didSignIn:(BOOL)didSignIn
 {
     if (didSignIn) {
-        [self performSegueWithIdentifier:@"ViewProfileSegue" sender:self];
+        [self.navigationItem setLeftBarButtonItem:self.accountButton animated:YES];
+        
+        [signInViewController.navigationController popViewControllerAnimated:YES];
+        [self performSelector:@selector(doDelayedUserPhotosSegue) withObject:nil afterDelay:0.4];
     }
 }
 
@@ -187,15 +230,25 @@
     }
 }
 
-- (IBAction)pressAccountButton:(id)sender
+- (void)pressPhotosButton
 {
     User *user = [User currentUser];
     
     if (user) {
-        [self performSegueWithIdentifier:@"ViewProfileSegue" sender:self];
+        [self performSegueWithIdentifier:@"UserPhotosSegue" sender:self];
     } else {
         [self performSegueWithIdentifier:@"HomeSignInSegue" sender:self];
     }
+}
+
+- (void)displayActionSheet:(id)sender
+{
+    [self.actionSheet showInView:self.view];
+}
+
+-(void)doDelayedUserPhotosSegue
+{
+    [self performSegueWithIdentifier:@"UserPhotosSegue" sender:self];
 }
 
 @end

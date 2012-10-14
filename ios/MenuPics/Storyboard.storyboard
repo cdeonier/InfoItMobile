@@ -95,11 +95,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eqE-17-nc3">
-                        <barButtonItem key="rightBarButtonItem" title="Profile" id="NBQ-4a-fi5">
+                        <barButtonItem key="rightBarButtonItem" title="Photos" id="NBQ-4a-fi5">
+                            <inset key="imageInsets" minX="10" minY="5" maxX="10" maxY="5"/>
                             <color key="tintColor" red="0.047058823530000002" green="0.31372549020000001" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="pressAccountButton:" destination="paN-qd-SKb" id="HBb-fw-RBR"/>
-                            </connections>
                         </barButtonItem>
                         <connections>
                             <outlet property="backBarButtonItem" destination="tIu-b2-owo" id="2d7-pg-y7F"/>
@@ -109,6 +107,8 @@
                         <outlet property="tableView" destination="omy-wC-zss" id="BQN-lE-rss"/>
                         <segue destination="ebp-ty-90C" kind="push" identifier="ViewProfileSegue" id="8Lf-Tj-aRG"/>
                         <segue destination="Pgy-NG-TuN" kind="push" identifier="HomeSignInSegue" id="eRM-Wm-79c"/>
+                        <segue destination="OOz-uB-zw7" kind="push" identifier="UserPhotosSegue" id="awr-tL-g55"/>
+                        <segue destination="GOt-hg-acB" kind="push" identifier="UpdateAccountSegue" id="5zR-EE-WJM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k0f-X6-2U7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -123,7 +123,7 @@
             <objects>
                 <viewController id="xFy-aQ-aAx" customClass="PopularMenuViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Tf-RZ-g6i">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No favorites on this menu." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="168" translatesAutoresizingMaskIntoConstraints="NO" id="lhk-wI-wAv">
@@ -338,7 +338,7 @@
             <objects>
                 <viewController id="UMg-UM-IwP" customClass="RestaurantViewController" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Znp-Rl-24m">
-                        <rect key="frame" x="0.0" y="20" width="320" height="430"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="430"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3C-V3-TX1" userLabel="Profile Image">
@@ -445,7 +445,7 @@
             <objects>
                 <viewController id="09v-ik-Eds" customClass="MenuItemViewController" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="zhK-vX-1Ro">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogY-Vg-0j3">
@@ -552,7 +552,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="HqW-lr-i74" kind="push" id="40Q-jE-Cd8"/>
+                                    <segue destination="HqW-lr-i74" kind="push" identifier="MenuItemMenuSegue" id="40Q-jE-Cd8"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="115-yh-B1R" userLabel="Favorite Button">
@@ -633,7 +633,7 @@
             <objects>
                 <viewController id="VdB-xT-iLz" customClass="AllMenusViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EIF-RZ-mAc">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JoY-yB-qrI">
@@ -721,7 +721,7 @@
             <objects>
                 <collectionViewController autoresizesArchivedViewToFullSize="NO" title="Photos" id="OOz-uB-zw7" customClass="PhotosViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="ayU-0r-6Jp">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="scrollIndicatorInsets" minX="0.0" minY="48" maxX="0.0" maxY="0.0"/>
@@ -761,6 +761,7 @@
                         </connections>
                     </collectionView>
                     <tabBarItem key="tabBarItem" title="Photos" image="photos-white.png" id="HSx-Tz-ESK"/>
+                    <navigationItem key="navigationItem" id="7Ya-sS-P45"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackTranslucent" prompted="NO"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J4r-KL-eWv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -772,7 +773,7 @@
             <objects>
                 <viewController id="Pgy-NG-TuN" customClass="SignInViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RW6-cY-uut">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uUJ-fL-hWY" userLabel="Sign In Container">
@@ -959,7 +960,7 @@
             <objects>
                 <viewController id="9sz-wi-XFh" customClass="CreateAccountViewController" sceneMemberID="viewController">
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="73K-EA-9g9">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="BfI-RM-PSf">
@@ -1244,7 +1245,6 @@
                         <outlet property="accountButton" destination="3SH-79-Lru" id="5Z6-Eu-r0m"/>
                         <segue destination="mFN-Nl-pgG" kind="relationship" relationship="viewControllers" id="z0v-iS-epe"/>
                         <segue destination="OOz-uB-zw7" kind="relationship" relationship="viewControllers" id="TTT-1e-Qum"/>
-                        <segue destination="GOt-hg-acB" kind="push" identifier="UpdateAccountSegue" id="gQo-N5-rTf"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dzj-aK-XF5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1265,7 +1265,7 @@
             <objects>
                 <viewController id="0nH-VI-wnJ" customClass="CurrentMenuViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gO3-XR-WFs">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="110" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LaI-uv-rx9">
@@ -1303,7 +1303,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="favorite_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="HNa-1W-v5M" userLabel="Favorite Icon">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="15" id="U70-eQ-VNs"/>
-                                                        <constraint firstAttribute="height" constant="14" id="zSU-nK-dhK"/>
+                                                        <constraint firstAttribute="height" constant="15" id="iOz-tl-4us"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rqZ-DZ-W1p" userLabel="Number Favorites">
@@ -1329,7 +1329,6 @@
                                         <constraints>
                                             <constraint firstItem="nUd-GX-jX8" firstAttribute="leading" secondItem="JPj-bq-yjk" secondAttribute="leading" constant="110" id="51A-iM-qA1"/>
                                             <constraint firstItem="HNa-1W-v5M" firstAttribute="top" secondItem="rqZ-DZ-W1p" secondAttribute="top" type="default" id="BHA-NB-dyS"/>
-                                            <constraint firstItem="GLr-Fu-Ixi" firstAttribute="centerY" secondItem="JPj-bq-yjk" secondAttribute="centerY" type="default" id="CZd-Sp-vXy"/>
                                             <constraint firstItem="GLr-Fu-Ixi" firstAttribute="leading" secondItem="JPj-bq-yjk" secondAttribute="leading" constant="5" id="FOF-tm-vI6"/>
                                             <constraint firstItem="nUd-GX-jX8" firstAttribute="trailing" secondItem="jvm-3F-pbC" secondAttribute="trailing" type="default" id="HK7-JC-oOg"/>
                                             <constraint firstAttribute="trailing" secondItem="HNa-1W-v5M" secondAttribute="trailing" constant="130" id="Qs6-FB-YNm"/>
@@ -1337,6 +1336,7 @@
                                             <constraint firstItem="jvm-3F-pbC" firstAttribute="bottom" secondItem="GLr-Fu-Ixi" secondAttribute="bottom" type="default" id="Wgw-63-HUt"/>
                                             <constraint firstItem="jvm-3F-pbC" firstAttribute="leading" secondItem="zh3-oF-VoE" secondAttribute="leading" type="default" id="YWi-Gl-Jwb"/>
                                             <constraint firstItem="nUd-GX-jX8" firstAttribute="leading" secondItem="zh3-oF-VoE" secondAttribute="leading" type="default" id="bLW-a7-wSt"/>
+                                            <constraint firstItem="HNa-1W-v5M" firstAttribute="centerY" secondItem="JPj-bq-yjk" secondAttribute="centerY" type="default" id="t7c-dv-09w"/>
                                             <constraint firstItem="GLr-Fu-Ixi" firstAttribute="top" secondItem="nUd-GX-jX8" secondAttribute="top" type="default" id="wSZ-eT-wol"/>
                                             <constraint firstItem="HNa-1W-v5M" firstAttribute="centerY" secondItem="GLr-Fu-Ixi" secondAttribute="centerY" type="default" id="xjj-WA-0oM"/>
                                             <constraint firstItem="jvm-3F-pbC" firstAttribute="top" secondItem="zh3-oF-VoE" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="xon-wz-NIp"/>
@@ -1391,8 +1391,8 @@
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="favorite_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="MDc-el-O7m" userLabel="Favorite Icon">
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="FF2-UK-AeE"/>
                                                         <constraint firstAttribute="width" constant="15" id="FI7-XC-2wi"/>
-                                                        <constraint firstAttribute="height" constant="14" id="tWR-CJ-ZWo"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2vO-hs-vSY" userLabel="Number Favorites">
@@ -1622,7 +1622,7 @@
         <class className="HomeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HomeViewController.h"/>
             <relationships>
-                <relationship kind="action" name="pressAccountButton:"/>
+                <relationship kind="action" name="pressPhotosButton:"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
@@ -1778,9 +1778,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="40Q-jE-Cd8"/>
-        <segue reference="qBh-Zb-rrt"/>
-        <segue reference="Afc-YY-NW7"/>
-        <segue reference="wCg-tC-EZi"/>
+        <segue reference="H4C-nU-kaY"/>
+        <segue reference="awr-tL-g55"/>
+        <segue reference="eRM-Wm-79c"/>
+        <segue reference="aWP-aE-Q4r"/>
+        <segue reference="fhn-ph-Chw"/>
     </inferredMetricsTieBreakers>
 </document>

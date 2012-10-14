@@ -36,9 +36,12 @@
     [self reloadData];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [self.parentViewController setTitle:@"Photos"];
+    //Use this for tab bar
+    //[self.parentViewController setTitle:@"Photos"];
+    
+    [self setTitle:@"Photos"];
     
     UIImage *translucentNavBar = [UIImage imageNamed:@"nav_bar_translucent"];
     [self.navigationController.navigationBar setTranslucent:YES];

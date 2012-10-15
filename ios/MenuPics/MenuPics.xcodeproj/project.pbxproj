@@ -93,6 +93,15 @@
 		3C57403415F9777200CE7BE3 /* AllMenusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403315F9777200CE7BE3 /* AllMenusViewController.m */; };
 		3C57403715F9779A00CE7BE3 /* PopularMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403615F9779900CE7BE3 /* PopularMenuViewController.m */; };
 		3C57403A15F98A8500CE7BE3 /* AllMenusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C57403915F98A8400CE7BE3 /* AllMenusCell.m */; };
+		3C658090162B59DD00EA04BC /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C658084162B59DD00EA04BC /* MWCaptionView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3C658091162B59DD00EA04BC /* MWPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C658086162B59DD00EA04BC /* MWPhoto.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3C658092162B59DD00EA04BC /* MWPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C658088162B59DD00EA04BC /* MWPhotoBrowser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3C658093162B59DD00EA04BC /* MWTapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C65808B162B59DD00EA04BC /* MWTapDetectingImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3C658094162B59DD00EA04BC /* MWTapDetectingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C65808D162B59DD00EA04BC /* MWTapDetectingView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3C658095162B59DD00EA04BC /* MWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C65808F162B59DD00EA04BC /* MWZoomingScrollView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3C658097162B5A7800EA04BC /* MWPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3C658096162B5A7800EA04BC /* MWPhotoBrowser.bundle */; };
+		3C65809C162B5A9700EA04BC /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C65809A162B5A9700EA04BC /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3C65809D162B5A9700EA04BC /* README.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 3C65809B162B5A9700EA04BC /* README.mdown */; };
 		3C8DEFDA162678080086459E /* favorite_button_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DEFD5162678080086459E /* favorite_button_selected@2x.png */; };
 		3C8DEFDB162678080086459E /* favorite_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DEFD6162678080086459E /* favorite_button@2x.png */; };
 		3C8DEFDC162678080086459E /* menu_button_highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8DEFD7162678080086459E /* menu_button_highlighted@2x.png */; };
@@ -262,6 +271,23 @@
 		3C57403615F9779900CE7BE3 /* PopularMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularMenuViewController.m; sourceTree = "<group>"; };
 		3C57403815F98A8400CE7BE3 /* AllMenusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllMenusCell.h; sourceTree = "<group>"; };
 		3C57403915F98A8400CE7BE3 /* AllMenusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllMenusCell.m; sourceTree = "<group>"; };
+		3C658083162B59DD00EA04BC /* MWCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCaptionView.h; sourceTree = "<group>"; };
+		3C658084162B59DD00EA04BC /* MWCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCaptionView.m; sourceTree = "<group>"; };
+		3C658085162B59DD00EA04BC /* MWPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPhoto.h; sourceTree = "<group>"; };
+		3C658086162B59DD00EA04BC /* MWPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPhoto.m; sourceTree = "<group>"; };
+		3C658087162B59DD00EA04BC /* MWPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPhotoBrowser.h; sourceTree = "<group>"; };
+		3C658088162B59DD00EA04BC /* MWPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPhotoBrowser.m; sourceTree = "<group>"; };
+		3C658089162B59DD00EA04BC /* MWPhotoProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPhotoProtocol.h; sourceTree = "<group>"; };
+		3C65808A162B59DD00EA04BC /* MWTapDetectingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWTapDetectingImageView.h; sourceTree = "<group>"; };
+		3C65808B162B59DD00EA04BC /* MWTapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWTapDetectingImageView.m; sourceTree = "<group>"; };
+		3C65808C162B59DD00EA04BC /* MWTapDetectingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWTapDetectingView.h; sourceTree = "<group>"; };
+		3C65808D162B59DD00EA04BC /* MWTapDetectingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWTapDetectingView.m; sourceTree = "<group>"; };
+		3C65808E162B59DD00EA04BC /* MWZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWZoomingScrollView.h; sourceTree = "<group>"; };
+		3C65808F162B59DD00EA04BC /* MWZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWZoomingScrollView.m; sourceTree = "<group>"; };
+		3C658096162B5A7800EA04BC /* MWPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MWPhotoBrowser.bundle; sourceTree = "<group>"; };
+		3C658099162B5A9700EA04BC /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		3C65809A162B5A9700EA04BC /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		3C65809B162B5A9700EA04BC /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = "<group>"; };
 		3C8DEFD5162678080086459E /* favorite_button_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite_button_selected@2x.png"; sourceTree = "<group>"; };
 		3C8DEFD6162678080086459E /* favorite_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorite_button@2x.png"; sourceTree = "<group>"; };
 		3C8DEFD7162678080086459E /* menu_button_highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_button_highlighted@2x.png"; sourceTree = "<group>"; };
@@ -478,6 +504,7 @@
 		3C573F3115F5429500CE7BE3 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				3C658082162B598700EA04BC /* MWPhotoBrowser */,
 				3C573F5115F5454B00CE7BE3 /* AFNetworking */,
 				3C573FD015F80A1800CE7BE3 /* OrderedDictionary */,
 				3C573F6C15F5E80D00CE7BE3 /* SDWebImage */,
@@ -637,6 +664,38 @@
 				3C573FE715F8844F00CE7BE3 /* EmptyMenuItemCell.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		3C658082162B598700EA04BC /* MWPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				3C658098162B5A9700EA04BC /* MBProgressHUD */,
+				3C658096162B5A7800EA04BC /* MWPhotoBrowser.bundle */,
+				3C658083162B59DD00EA04BC /* MWCaptionView.h */,
+				3C658084162B59DD00EA04BC /* MWCaptionView.m */,
+				3C658085162B59DD00EA04BC /* MWPhoto.h */,
+				3C658086162B59DD00EA04BC /* MWPhoto.m */,
+				3C658087162B59DD00EA04BC /* MWPhotoBrowser.h */,
+				3C658088162B59DD00EA04BC /* MWPhotoBrowser.m */,
+				3C658089162B59DD00EA04BC /* MWPhotoProtocol.h */,
+				3C65808A162B59DD00EA04BC /* MWTapDetectingImageView.h */,
+				3C65808B162B59DD00EA04BC /* MWTapDetectingImageView.m */,
+				3C65808C162B59DD00EA04BC /* MWTapDetectingView.h */,
+				3C65808D162B59DD00EA04BC /* MWTapDetectingView.m */,
+				3C65808E162B59DD00EA04BC /* MWZoomingScrollView.h */,
+				3C65808F162B59DD00EA04BC /* MWZoomingScrollView.m */,
+			);
+			name = MWPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		3C658098162B5A9700EA04BC /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3C658099162B5A9700EA04BC /* MBProgressHUD.h */,
+				3C65809A162B5A9700EA04BC /* MBProgressHUD.m */,
+				3C65809B162B5A9700EA04BC /* README.mdown */,
+			);
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		3CA6CDB415FABDE600175850 /* TakePhoto */ = {
@@ -838,6 +897,8 @@
 				3C8DEFDC162678080086459E /* menu_button_highlighted@2x.png in Resources */,
 				3C8DEFDD162678080086459E /* menu_button@2x.png in Resources */,
 				3C8DEFE0162680260086459E /* favorite_button_highlighted@2x.png in Resources */,
+				3C658097162B5A7800EA04BC /* MWPhotoBrowser.bundle in Resources */,
+				3C65809D162B5A9700EA04BC /* README.mdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +962,13 @@
 				3C048A16160711580002D4A7 /* MenuItemThumbnailCell.m in Sources */,
 				3C048A191607FFD00002D4A7 /* SavedPhoto.m in Sources */,
 				3C048A1D160921DA0002D4A7 /* PhotoThumbnailCell.m in Sources */,
+				3C658090162B59DD00EA04BC /* MWCaptionView.m in Sources */,
+				3C658091162B59DD00EA04BC /* MWPhoto.m in Sources */,
+				3C658092162B59DD00EA04BC /* MWPhotoBrowser.m in Sources */,
+				3C658093162B59DD00EA04BC /* MWTapDetectingImageView.m in Sources */,
+				3C658094162B59DD00EA04BC /* MWTapDetectingView.m in Sources */,
+				3C658095162B59DD00EA04BC /* MWZoomingScrollView.m in Sources */,
+				3C65809C162B5A9700EA04BC /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

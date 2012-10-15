@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface PhotosViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+#import "MWPhotoBrowser.h"
+
+@class SavedPhoto;
+
+@interface PhotosViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, MWPhotoBrowserDelegate>
+
+- (void)addNewPhoto:(SavedPhoto *)photo;
+- (void)reloadData;
 
 @end

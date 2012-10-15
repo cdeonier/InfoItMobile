@@ -21,8 +21,6 @@
 
 @interface CurrentMenuViewController ()
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @end
 
 @implementation CurrentMenuViewController

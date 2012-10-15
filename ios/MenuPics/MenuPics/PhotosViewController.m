@@ -8,7 +8,10 @@
 
 #import "PhotosViewController.h"
 
+#import "MenuPicsAPIClient.h"
 #import "MenuPicsDBClient.h"
+#import "MWPhotoBrowser.h"
+#import "Photo.h"
 #import "PhotoThumbnailCell.h"
 #import "SavedPhoto.h"
 #import "User.h"
@@ -16,6 +19,7 @@
 @interface PhotosViewController ()
 
 @property (nonatomic, strong) NSMutableArray *photos;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -32,6 +36,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self fetchProfile];
     
     [self reloadData];
 }
@@ -68,6 +74,35 @@
     NSMutableArray *savedPhotos = [MenuPicsDBClient fetchResultsFromDB:@"SavedPhoto" withPredicate:predicateString];
     [savedPhotos sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     self.photos = savedPhotos;
+    
+    [self.collectionView reloadData];
+}
+
+#pragma mark Web Service
+
+- (void)fetchProfile
+{
+    User *currentUser = [User currentUser];
+    
+    SuccessBlock didFetchUserProfileBlock;
+    didFetchUserProfileBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSMutableArray *userPhotos = [Photo userPhotosFromJson:JSON];
+        [SavedPhoto syncPhotos:userPhotos viewController:self];
+    };
+    
+    [MenuPicsAPIClient fetchProfile:currentUser.userId success:didFetchUserProfileBlock];
+}
+
+#pragma mark Helper Functions
+
+- (void)addNewPhoto:(SavedPhoto *)photo
+{
+    [self.photos addObject:photo];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
+    [self.photos sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    [self.collectionView reloadData];
 }
 
 #pragma mark UICollectionViewDelegate
@@ -86,6 +121,99 @@
     [thumbnail.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
     [thumbnail.thumbnailImage setImage:savedPhoto.thumbnail];
     return thumbnail;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"PhotoBrowserSegue" sender:self];
+}
+
+#pragma mark MWPhotoBrowser Delegate
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.photos.count;
+}
+
+- (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.photos.count) {
+        SavedPhoto *photo = [self.photos objectAtIndex:index];
+        
+        MWPhoto *mwPhoto;
+        if ([photo fileLocation]) {
+            mwPhoto = [MWPhoto photoWithFilePath:[photo fileLocation]];
+        } else {
+            mwPhoto = [MWPhoto photoWithURL:[NSURL URLWithString:[photo photoUrl]]];
+        }
+        
+        if ([[photo menuItemId] intValue] > 0) {
+            NSString *format = @"%@ at %@";
+            NSString *caption = [NSString stringWithFormat:format, [photo menuItemName], [photo restaurantName]];
+            [mwPhoto setCaption:caption];
+        } else if ([[photo restaurantId] intValue] > 0) {
+            NSString *format = @"Taken at %@";
+            NSString *caption = [NSString stringWithFormat:format, [photo restaurantName]];
+            [mwPhoto setCaption:caption];
+        }
+        
+        return mwPhoto;
+    }
+    
+    return nil;
+}
+
+- (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index
+{
+    SavedPhoto *photo = [self.photos objectAtIndex:index];
+    
+    MWPhoto *mwPhoto;
+    if ([photo fileLocation]) {
+        mwPhoto = [MWPhoto photoWithFilePath:[photo fileLocation]];
+    } else {
+        mwPhoto = [MWPhoto photoWithURL:[NSURL URLWithString:[photo photoUrl]]];
+    }
+    
+    if ([[photo menuItemId] intValue] > 0) {
+        NSString *format = @"%@ at %@";
+        NSString *caption = [NSString stringWithFormat:format, [photo menuItemName], [photo restaurantName]];
+        [mwPhoto setCaption:caption];
+    } else if ([[photo restaurantId] intValue] > 0) {
+        NSString *format = @"Taken at %@";
+        NSString *caption = [NSString stringWithFormat:format, [photo restaurantName]];
+        [mwPhoto setCaption:caption];
+    }
+    
+    return [[MWCaptionView alloc] initWithPhoto:mwPhoto];
+}
+
+- (void)deletePhotoFromPhotoBrowser:(MWPhotoBrowser *)photoBrowser
+{
+    int index = photoBrowser.currentPageIndex;
+    
+    SavedPhoto *photo = [self.photos objectAtIndex:index];
+    
+    [self.photos removeObjectAtIndex:index];
+    [SavedPhoto deletePhoto:photo];
+    
+    [self.collectionView reloadData];
+}
+
+#pragma mark Storyboard
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"PhotoBrowserSegue"]) {
+        NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
+        
+        MWPhotoBrowser *photoBrowser = (MWPhotoBrowser *)segue.destinationViewController;
+        
+        if ([photoBrowser init])
+            photoBrowser.delegate = self;
+        
+        [photoBrowser setDisplayActionButton:YES];
+        [photoBrowser reloadData];
+        [photoBrowser setInitialPageIndex:selectedIndexPath.row];
+        
+    }
 }
 
 @end

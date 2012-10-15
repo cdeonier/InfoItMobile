@@ -73,8 +73,8 @@
     
     SuccessBlock didFetchUserProfileBlock;
     didFetchUserProfileBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSMutableArray *userPhotos = [Photo userPhotosFromJson:JSON];
-        [SavedPhoto syncPhotos:userPhotos viewController:self];
+        //NSMutableArray *userPhotos = [Photo userPhotosFromJson:JSON];
+        //[SavedPhoto syncPhotos:userPhotos viewController:self];
     };
     
     [MenuPicsAPIClient fetchProfile:currentUser.userId success:didFetchUserProfileBlock];

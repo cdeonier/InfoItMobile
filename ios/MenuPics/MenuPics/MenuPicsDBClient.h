@@ -10,9 +10,16 @@
 
 @interface MenuPicsDBClient : NSObject
 
-+ (NSMutableArray *)fetchResultsFromDB:(NSString *)entityName withPredicate:(NSString *)predicate;
++ (NSManagedObjectContext *)getMainContext;
++ (NSMutableArray *)fetchResultsFromDB:(NSString *)entityName withPredicate:(NSString *)predicateString;
 + (NSManagedObject *)generateManagedObject:(NSString *)entityName;
 + (void)deleteObject:(NSManagedObject *)managedObject;
 + (void)saveContext;
+
+//For Async threads
++ (NSManagedObjectContext *)generateBackgroundContext;
++ (NSMutableArray *)fetchResultsFromDB:(NSString *)entityName withPredicate:(NSString *)predicate context:(NSManagedObjectContext *)context;
++ (void)deleteObject:(NSManagedObject *)managedObject context:(NSManagedObjectContext *)context;
++ (void)saveContext:(NSManagedObjectContext *)context;
 
 @end

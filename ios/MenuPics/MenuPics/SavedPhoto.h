@@ -9,7 +9,7 @@
 #import <CoreData/CoreData.h>
 
 @class Photo;
-@class ViewProfileViewController;
+@class PhotosViewController;
 
 @interface SavedPhoto : NSManagedObject
 
@@ -32,10 +32,11 @@
 @property (nonatomic, strong) NSString *thumbnailUrl;
 @property (nonatomic, strong) NSString *username;
 
-+ (void)syncPhotos:(NSMutableArray *)photos viewController:(ViewProfileViewController *)viewController;
++ (void)syncPhotos:(NSMutableArray *)photos viewController:(PhotosViewController *)viewController;
 
 + (SavedPhoto *)savedPhotoFromPhoto:(Photo *)photo;
 + (SavedPhoto *)uploadPhoto:(Photo *)photo;
++ (void)deletePhoto:(SavedPhoto *)savedPhoto;
 + (void)tagPhoto:(SavedPhoto *)savedPhoto;
 
 @end

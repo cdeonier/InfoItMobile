@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong) OrderedDictionary *menu;
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 - (void)reloadData;
 
 @end

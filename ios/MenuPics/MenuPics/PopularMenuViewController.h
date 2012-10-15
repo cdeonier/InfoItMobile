@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) NSArray *popularItems;
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 -(void)reloadData;
 
 @end

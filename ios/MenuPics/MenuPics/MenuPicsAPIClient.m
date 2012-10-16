@@ -374,14 +374,47 @@ static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
     [operation start];
 }
 
++ (void)sendFeedback:(NSString *)email message:(NSString *)message success:(SuccessBlock)success
+{
+    NSString *endpoint = @"/services/feedbacks";
+    NSString *urlString = [baseUrl stringByAppendingString:endpoint];
+    
+    User *currentUser = [User currentUser];
+    NSString *requestString;
+    if (currentUser) {
+        requestString = [NSString stringWithFormat:@"access_token=%@&message=%@", [currentUser accessToken], message];
+    } else {
+        requestString = [NSString stringWithFormat:@"message=%@&email=%@", message, email];
+    }
+    NSData *requestData = [NSData dataWithBytes:[requestString UTF8String] length:[requestString length]];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody:requestData];
+    
+    FailureBlock failure = [self getFailureBlock];
+    
+    AFJSONRequestOperation *operation =
+    [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:success failure:failure];
+    [operation start];
+}
+
 + (FailureBlock)getFailureBlock
 {
     void (^failureBlock)(NSURLRequest *, NSHTTPURLResponse *, NSError *, id);
     failureBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         [SVProgressHUD showErrorWithStatus:@"Connection Error"];
+        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(errorFinished) userInfo:nil repeats:NO];
         NSLog(@"%@", [error description]);
     };
     return failureBlock;
+}
+
++ (void)errorFinished
+{
+    [SVProgressHUD dismiss];
 }
 
 @end

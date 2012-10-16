@@ -47,7 +47,8 @@
 
 - (void)reloadData
 {
-    [self.profileImage setImageWithURL:[NSURL URLWithString:[self.restaurant profilePhotoUrl]]];
+    UIImage *placeholderImage = [UIImage imageNamed:@"image_loading"];
+    [self.profileImage setImageWithURL:[NSURL URLWithString:[self.restaurant profilePhotoUrl]] placeholderImage:placeholderImage];
     [self.nameLabel setText:self.restaurant.name];
     [self.descriptionLabel setText:self.restaurant.description];
     [self.addressOneLabel setText:self.restaurant.streetOne];

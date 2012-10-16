@@ -45,4 +45,7 @@ typedef void (^ImageSuccessBlock)(UIImage *);
 + (void)votePhoto:(NSNumber *)photoId success:(SuccessBlock)success;
 + (void)unvotePhoto:(NSNumber *)photoId success:(SuccessBlock)success;
 
+//Feedback
++ (void)sendFeedback:(NSString *)email message:(NSString *)message success:(SuccessBlock)success;
+
 @end

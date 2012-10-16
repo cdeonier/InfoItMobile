@@ -22,6 +22,8 @@
 @interface HomeViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *buttonBackground;
+@property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
 
 @property (nonatomic, strong) UIBarButtonItem *accountButton;
 @property (nonatomic, strong) UIBarButtonItem *photosButton;
@@ -30,6 +32,10 @@
 @property (nonatomic, strong) NSMutableArray *nearbyLocations;
 
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+
+- (IBAction)highlightFeedbackButton:(id)sender;
+- (IBAction)unhighlightFeedbackButton:(id)sender;
+- (IBAction)pressFeedbackButton:(id)sender;
 
 @end
 
@@ -249,6 +255,20 @@
 -(void)doDelayedUserPhotosSegue
 {
     [self performSegueWithIdentifier:@"UserPhotosSegue" sender:self];
+}
+
+- (IBAction)highlightFeedbackButton:(id)sender {
+    self.buttonBackground.hidden = NO;
+}
+
+- (IBAction)unhighlightFeedbackButton:(id)sender {
+    self.buttonBackground.hidden = YES;
+}
+
+- (IBAction)pressFeedbackButton:(id)sender {
+    self.buttonBackground.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"FeedbackSegue" sender:self];
 }
 
 @end

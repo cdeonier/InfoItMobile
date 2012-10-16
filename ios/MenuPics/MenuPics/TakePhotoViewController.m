@@ -24,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *flashOffButton5;
 @property (weak, nonatomic) IBOutlet UIView *viewFinder;
 @property (weak, nonatomic) IBOutlet UIView *cropView;
+@property (weak, nonatomic) IBOutlet UILabel *facebookLoginLabel;
+@property (weak, nonatomic) IBOutlet UILabel *successLabel;
 @property (strong, nonatomic) UIView *overlayView;
 
 
@@ -33,6 +35,7 @@
 - (IBAction)pressFlashAuto:(id)sender;
 - (IBAction)pressFlashOn:(id)sender;
 - (IBAction)pressFlashOff:(id)sender;
+- (IBAction)pressShareButton:(id)sender;
 
 - (IBAction)done:(id)sender;
 
@@ -57,6 +60,9 @@
     
     [self performSelector:@selector(startImagePicker) withObject:nil afterDelay:0.5];
     
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        self.facebookLoginLabel.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,6 +95,31 @@
     [self.flashOffButton5 setHidden:YES];
     [self.flashAutoButton setHidden:NO];
     [self.flashAutoButton5 setHidden:NO];
+}
+
+- (IBAction)pressShareButton:(id)sender
+{
+    NSString *textToShare = [NSString stringWithFormat:@"%@ at %@", self.menuItem.name, self.menuItem.restaurantName];
+    UIImage *imageToShare = [self.previewImage image];
+    NSArray *activityItems = @[textToShare, imageToShare];
+    
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    UIActivityViewControllerCompletionHandler completionHandler = ^(NSString *activityType, BOOL completed) {
+        UIImage *navigationBarBackground = [UIImage imageNamed:@"nav_bar_background.png"];
+        [[UINavigationBar appearance] setBackgroundImage:navigationBarBackground forBarMetrics:UIBarMetricsDefault];
+    };
+    
+    [[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    [activityVC setCompletionHandler:completionHandler];
+    [activityVC setExcludedActivityTypes:@[UIActivityTypeAssignToContact, UIActivityTypeMessage, UIActivityTypePostToWeibo]];
+    
+    [self presentViewController:activityVC animated:YES completion:nil];
+
 }
 
 
@@ -241,6 +272,8 @@
         
         self.photo = [Photo didTakeNewPhoto:self.menuItem image:scaledImage thumbnail:thumbnail];
     });
+    
+    self.successLabel.text = [NSString stringWithFormat:@"You've successfully tagged a photo as %@.", self.menuItem.name];
     
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
 }

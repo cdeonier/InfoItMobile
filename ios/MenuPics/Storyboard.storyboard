@@ -85,13 +85,41 @@
                                     <outlet property="delegate" destination="paN-qd-SKb" id="EIM-CK-5yG"/>
                                 </connections>
                             </tableView>
+                            <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IQJ-d5-hKs" userLabel="Button Background">
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLq-xd-kcb" userLabel="Feedback Button">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="gZY-kv-tee"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="12"/>
+                                <state key="normal" title="Like the app?  Hate it?  Let us know.">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="highlightFeedbackButton:" destination="paN-qd-SKb" eventType="touchDown" id="67b-g8-Zo3"/>
+                                    <action selector="pressFeedbackButton:" destination="paN-qd-SKb" eventType="touchUpInside" id="alk-4x-I6M"/>
+                                    <action selector="unhighlightFeedbackButton:" destination="paN-qd-SKb" eventType="touchUpOutside" id="70Q-AM-g0f"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="nLq-xd-kcb" firstAttribute="bottom" secondItem="ZEY-2e-2NZ" secondAttribute="bottom" type="default" id="1i1-oU-lOF"/>
+                            <constraint firstItem="IQJ-d5-hKs" firstAttribute="bottom" secondItem="ZEY-2e-2NZ" secondAttribute="bottom" type="default" id="EJQ-7P-vIL"/>
+                            <constraint firstItem="nLq-xd-kcb" firstAttribute="trailing" secondItem="ZEY-2e-2NZ" secondAttribute="trailing" type="default" id="EXE-Ln-kw1"/>
                             <constraint firstItem="omy-wC-zss" firstAttribute="top" secondItem="ZEY-2e-2NZ" secondAttribute="top" type="default" id="Nxr-9h-Qea"/>
-                            <constraint firstItem="omy-wC-zss" firstAttribute="bottom" secondItem="ZEY-2e-2NZ" secondAttribute="bottom" type="default" id="Q9d-C2-EO6"/>
+                            <constraint firstItem="IQJ-d5-hKs" firstAttribute="leading" secondItem="ZEY-2e-2NZ" secondAttribute="leading" type="default" id="Ouh-fj-rvc"/>
+                            <constraint firstItem="nLq-xd-kcb" firstAttribute="leading" secondItem="ZEY-2e-2NZ" secondAttribute="leading" type="default" id="WfY-ZL-7si"/>
                             <constraint firstItem="omy-wC-zss" firstAttribute="trailing" secondItem="ZEY-2e-2NZ" secondAttribute="trailing" type="default" id="bLi-Fv-AoL"/>
+                            <constraint firstItem="nLq-xd-kcb" firstAttribute="top" secondItem="omy-wC-zss" secondAttribute="bottom" type="user" id="f5Z-zI-vv8"/>
                             <constraint firstItem="omy-wC-zss" firstAttribute="leading" secondItem="ZEY-2e-2NZ" secondAttribute="leading" type="default" id="hEZ-If-i7Y"/>
+                            <constraint firstItem="IQJ-d5-hKs" firstAttribute="top" secondItem="nLq-xd-kcb" secondAttribute="top" type="default" id="p0Q-qh-Eds"/>
+                            <constraint firstItem="IQJ-d5-hKs" firstAttribute="trailing" secondItem="ZEY-2e-2NZ" secondAttribute="trailing" type="default" id="qTP-FD-xfC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eqE-17-nc3">
@@ -104,11 +132,14 @@
                         </connections>
                     </navigationItem>
                     <connections>
+                        <outlet property="buttonBackground" destination="IQJ-d5-hKs" id="5n6-7R-Xu4"/>
+                        <outlet property="feedbackButton" destination="nLq-xd-kcb" id="B3h-ot-0wd"/>
                         <outlet property="tableView" destination="omy-wC-zss" id="BQN-lE-rss"/>
                         <segue destination="ebp-ty-90C" kind="push" identifier="ViewProfileSegue" id="8Lf-Tj-aRG"/>
                         <segue destination="Pgy-NG-TuN" kind="push" identifier="HomeSignInSegue" id="eRM-Wm-79c"/>
                         <segue destination="OOz-uB-zw7" kind="push" identifier="UserPhotosSegue" id="awr-tL-g55"/>
                         <segue destination="GOt-hg-acB" kind="push" identifier="UpdateAccountSegue" id="5zR-EE-WJM"/>
+                        <segue destination="a0m-NH-lPh" kind="push" identifier="FeedbackSegue" id="Kfc-hY-hHj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k0f-X6-2U7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -582,25 +613,26 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Q2c-yh-zAu" firstAttribute="top" secondItem="0dS-6J-vob" secondAttribute="bottom" constant="15" type="user" id="0jx-yE-UMY"/>
+                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" constant="240" id="25W-qM-d8x"/>
                             <constraint firstItem="115-yh-B1R" firstAttribute="top" secondItem="hd2-0n-yKv" secondAttribute="bottom" constant="8" symbolic="YES" type="user" id="2I8-XP-ZML"/>
                             <constraint firstAttribute="bottom" secondItem="Q2c-yh-zAu" secondAttribute="bottom" priority="716" constant="20" symbolic="YES" type="user" id="5Ct-J6-fzM"/>
                             <constraint firstItem="115-yh-B1R" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" constant="-10" type="user" id="8yA-HH-ZeS"/>
+                            <constraint firstItem="ogY-Vg-0j3" firstAttribute="centerX" secondItem="zhK-vX-1Ro" secondAttribute="centerX" type="default" id="Ci7-8A-Pl5"/>
                             <constraint firstItem="ETv-IQ-9hu" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="CuM-Ep-CIG"/>
                             <constraint firstItem="0dS-6J-vob" firstAttribute="top" secondItem="hd2-0n-yKv" secondAttribute="bottom" constant="8" symbolic="YES" type="user" id="ERt-ws-z6B"/>
                             <constraint firstItem="zG1-qU-RCW" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="Gfk-xa-9bl"/>
                             <constraint firstItem="hd2-0n-yKv" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" constant="10" type="user" id="Gxf-4x-QfR"/>
                             <constraint firstItem="0dS-6J-vob" firstAttribute="leading" secondItem="hd2-0n-yKv" secondAttribute="leading" type="default" id="KoU-dU-Yb0"/>
                             <constraint firstItem="ETv-IQ-9hu" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="Mkg-iI-g4w"/>
-                            <constraint firstItem="zG1-qU-RCW" firstAttribute="centerX" secondItem="zhK-vX-1Ro" secondAttribute="centerX" type="default" id="N0G-wU-f26"/>
                             <constraint firstItem="zG1-qU-RCW" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="R6I-ij-bib"/>
+                            <constraint firstAttribute="bottom" secondItem="Q2c-yh-zAu" secondAttribute="bottom" constant="81" id="T05-Fo-wue"/>
                             <constraint firstItem="hd2-0n-yKv" firstAttribute="top" secondItem="zG1-qU-RCW" secondAttribute="bottom" constant="5" type="user" id="cb2-mR-7c7"/>
-                            <constraint firstItem="zG1-qU-RCW" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" constant="240" id="daa-it-aPM"/>
                             <constraint firstItem="115-yh-B1R" firstAttribute="trailing" secondItem="Q2c-yh-zAu" secondAttribute="trailing" type="default" id="feF-pY-IfD"/>
+                            <constraint firstItem="zG1-qU-RCW" firstAttribute="top" secondItem="ETv-IQ-9hu" secondAttribute="top" type="default" id="nLz-7E-Wbv"/>
                             <constraint firstItem="ogY-Vg-0j3" firstAttribute="leading" secondItem="zhK-vX-1Ro" secondAttribute="leading" type="default" id="nch-rO-SEO"/>
                             <constraint firstItem="ogY-Vg-0j3" firstAttribute="trailing" secondItem="zhK-vX-1Ro" secondAttribute="trailing" type="default" id="obi-fj-9Cu"/>
                             <constraint firstItem="ogY-Vg-0j3" firstAttribute="top" secondItem="zhK-vX-1Ro" secondAttribute="top" type="default" id="oiG-HA-5tL"/>
                             <constraint firstAttribute="trailing" secondItem="hd2-0n-yKv" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="p02-XX-nYy"/>
-                            <constraint firstItem="ETv-IQ-9hu" firstAttribute="top" secondItem="zG1-qU-RCW" secondAttribute="top" type="default" id="ps3-LR-l89"/>
                             <constraint firstItem="Q2c-yh-zAu" firstAttribute="leading" secondItem="0dS-6J-vob" secondAttribute="leading" type="default" id="se9-LX-BWp"/>
                             <constraint firstAttribute="bottom" secondItem="Q2c-yh-zAu" secondAttribute="bottom" priority="132" constant="37" type="user" id="weq-Oz-1oF"/>
                         </constraints>
@@ -1245,6 +1277,97 @@
             </objects>
             <point key="canvasLocation" x="1587" y="-2401"/>
         </scene>
+        <!--Feedback View Controller - Send Feedback-->
+        <scene sceneID="R0B-dh-uCX">
+            <objects>
+                <viewController title="Send Feedback" id="a0m-NH-lPh" customClass="FeedbackViewController" sceneMemberID="viewController">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BiO-BL-bbK">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Send Feedback" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="6We-dt-E0R">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="VHn-hN-5fP"/>
+                                    <constraint firstAttribute="width" constant="150" id="aRE-KZ-alW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="your email (optional)" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Zbx-LQ-fy9">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="cj4-Ha-9Rt"/>
+                                    <constraint firstAttribute="width" constant="220" id="gtm-Ou-dcT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
+                                <connections>
+                                    <outlet property="delegate" destination="a0m-NH-lPh" id="rHi-cV-5Sa"/>
+                                </connections>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="feedback_textview@2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="Tz7-Gj-yjS">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="175" id="iLd-i5-A9V"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X6Z-fq-KEj">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="165" id="J2C-Hk-o7Y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="a0m-NH-lPh" id="1xe-sC-7p5"/>
+                                </connections>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wJ1-DJ-2XY">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="2ea-sM-Ocu"/>
+                                    <constraint firstAttribute="height" constant="35" id="r1H-7Z-dbh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Send Feedback" image="send_feedback_button@2x.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" image="send_feedback_button_pressed@2x.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendFeedback:" destination="a0m-NH-lPh" eventType="touchUpInside" id="PPz-Kv-qL1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6We-dt-E0R" firstAttribute="centerX" secondItem="BiO-BL-bbK" secondAttribute="centerX" type="default" id="27g-bD-EEE"/>
+                            <constraint firstItem="Zbx-LQ-fy9" firstAttribute="centerX" secondItem="6We-dt-E0R" secondAttribute="centerX" type="default" id="6dP-2I-eYO"/>
+                            <constraint firstItem="X6Z-fq-KEj" firstAttribute="trailing" secondItem="Zbx-LQ-fy9" secondAttribute="trailing" type="default" id="Dqg-Az-5xw"/>
+                            <constraint firstItem="Zbx-LQ-fy9" firstAttribute="top" secondItem="BiO-BL-bbK" secondAttribute="top" constant="70" id="EMw-RM-7bs"/>
+                            <constraint firstItem="X6Z-fq-KEj" firstAttribute="leading" secondItem="Tz7-Gj-yjS" secondAttribute="leading" type="default" id="G7m-TY-RP5"/>
+                            <constraint firstItem="6We-dt-E0R" firstAttribute="top" secondItem="BiO-BL-bbK" secondAttribute="top" constant="24" id="Ywm-P0-Vlp"/>
+                            <constraint firstAttribute="bottom" secondItem="wJ1-DJ-2XY" secondAttribute="bottom" constant="35" id="fN9-8x-Doc"/>
+                            <constraint firstItem="X6Z-fq-KEj" firstAttribute="centerX" secondItem="wJ1-DJ-2XY" secondAttribute="centerX" type="default" id="ifc-kw-PiY"/>
+                            <constraint firstItem="Tz7-Gj-yjS" firstAttribute="trailing" secondItem="X6Z-fq-KEj" secondAttribute="trailing" type="default" id="lT5-hJ-X9F"/>
+                            <constraint firstItem="X6Z-fq-KEj" firstAttribute="leading" secondItem="Zbx-LQ-fy9" secondAttribute="leading" type="default" id="m1f-y5-YPM"/>
+                            <constraint firstItem="wJ1-DJ-2XY" firstAttribute="top" secondItem="BiO-BL-bbK" secondAttribute="top" constant="346" id="n5y-n0-KVe"/>
+                            <constraint firstAttribute="trailing" secondItem="Zbx-LQ-fy9" secondAttribute="trailing" constant="50" id="p4U-vJ-Imf"/>
+                            <constraint firstItem="X6Z-fq-KEj" firstAttribute="centerY" secondItem="Tz7-Gj-yjS" secondAttribute="centerY" type="default" id="w0n-Ul-9wT"/>
+                            <constraint firstItem="Tz7-Gj-yjS" firstAttribute="top" secondItem="BiO-BL-bbK" secondAttribute="top" constant="137" id="w9T-g8-BNH"/>
+                        </constraints>
+                    </scrollView>
+                    <navigationItem key="navigationItem" title="Send Feedback" id="Ue0-Ko-JJk"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="Zbx-LQ-fy9" id="d8h-xT-EQw"/>
+                        <outlet property="scrollView" destination="BiO-BL-bbK" id="6bG-dK-Fbc"/>
+                        <outlet property="sendButton" destination="wJ1-DJ-2XY" id="uKT-PS-L1D"/>
+                        <outlet property="textView" destination="X6Z-fq-KEj" id="bQ0-lO-i1Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Le-R2-IdH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="153" y="-1607"/>
+        </scene>
         <!--View Profile View Controller-->
         <scene sceneID="wJL-tK-9Xj">
             <objects>
@@ -1513,21 +1636,61 @@
                                     <constraint firstAttribute="height" constant="240" id="a2C-fE-GYB"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You've successfully added a photo as Butter Lettuce and Herb Salad!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="7Lm-0f-erJ">
+                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdm-d7-RpR">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="Ase-Q6-k4f"/>
+                                    <constraint firstAttribute="width" constant="100" id="l9p-hs-h6V"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="share_photo_button@2x.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" image="share_photo_button_pressed@2x.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="pressShareButton:" destination="k47-MT-I0w" eventType="touchUpInside" id="zfl-Dx-RRk"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To share on Facebook, go to the iPhone settings and log into your Facebook account." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="JYp-ZC-di6">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="J7A-vc-Muj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="10"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="7Lm-0f-erJ" firstAttribute="top" secondItem="XXA-Lw-gts" secondAttribute="bottom" constant="20" type="user" id="28b-wA-HOa"/>
                             <constraint firstItem="XXA-Lw-gts" firstAttribute="trailing" secondItem="peZ-Ip-2UP" secondAttribute="trailing" type="default" id="2uX-0q-CwS"/>
+                            <constraint firstItem="JYp-ZC-di6" firstAttribute="centerX" secondItem="hdm-d7-RpR" secondAttribute="centerX" type="default" id="48O-8Q-9dS"/>
                             <constraint firstItem="XXA-Lw-gts" firstAttribute="top" secondItem="lGD-d1-nl8" secondAttribute="bottom" type="default" id="60Y-mF-qba"/>
+                            <constraint firstItem="JYp-ZC-di6" firstAttribute="top" secondItem="hdm-d7-RpR" secondAttribute="bottom" constant="30" type="user" id="AaL-Sx-num"/>
                             <constraint firstItem="lGD-d1-nl8" firstAttribute="leading" secondItem="peZ-Ip-2UP" secondAttribute="leading" type="default" id="DQ6-up-ciu"/>
                             <constraint firstItem="lGD-d1-nl8" firstAttribute="trailing" secondItem="peZ-Ip-2UP" secondAttribute="trailing" type="default" id="LOZ-m4-WSs"/>
                             <constraint firstItem="lGD-d1-nl8" firstAttribute="top" secondItem="peZ-Ip-2UP" secondAttribute="top" type="default" id="NGG-sK-5zL"/>
+                            <constraint firstItem="7Lm-0f-erJ" firstAttribute="trailing" secondItem="peZ-Ip-2UP" secondAttribute="trailing" constant="-10" type="user" id="NHi-tS-PL1"/>
+                            <constraint firstItem="7Lm-0f-erJ" firstAttribute="leading" secondItem="peZ-Ip-2UP" secondAttribute="leading" constant="10" type="user" id="R0v-ZV-4Oy"/>
+                            <constraint firstItem="hdm-d7-RpR" firstAttribute="top" secondItem="7Lm-0f-erJ" secondAttribute="bottom" constant="30" type="user" id="jU3-xL-F1o"/>
                             <constraint firstItem="XXA-Lw-gts" firstAttribute="leading" secondItem="peZ-Ip-2UP" secondAttribute="leading" type="default" id="ugx-il-YYJ"/>
+                            <constraint firstItem="JYp-ZC-di6" firstAttribute="trailing" secondItem="7Lm-0f-erJ" secondAttribute="trailing" type="default" id="v5V-rG-c3S"/>
+                            <constraint firstItem="7Lm-0f-erJ" firstAttribute="leading" secondItem="JYp-ZC-di6" secondAttribute="leading" type="default" id="w6U-Xp-Xqs"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Save Photo" id="yWV-6n-euT"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="facebookLoginLabel" destination="JYp-ZC-di6" id="VcB-Fa-S65"/>
                         <outlet property="previewImage" destination="XXA-Lw-gts" id="KFr-AQ-3mY"/>
+                        <outlet property="successLabel" destination="7Lm-0f-erJ" id="Pp6-fT-mG2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="87m-JR-Bss" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1574,12 +1737,17 @@
         <image name="favorite_button_highlighted@2x.png" width="290" height="50"/>
         <image name="favorite_button_selected@2x.png" width="290" height="50"/>
         <image name="favorite_icon.png" width="22" height="22"/>
+        <image name="feedback_textview@2x.png" width="440" height="350"/>
         <image name="menu_button@2x.png" width="290" height="50"/>
         <image name="menu_button_highlighted@2x.png" width="290" height="50"/>
         <image name="menu_icon.png" width="24" height="24"/>
         <image name="more_menu_icon.png" width="24" height="24"/>
         <image name="photos-white.png" width="22" height="24"/>
         <image name="restaurant_icon.png" width="22" height="22"/>
+        <image name="send_feedback_button@2x.png" width="200" height="70"/>
+        <image name="send_feedback_button_pressed@2x.png" width="200" height="70"/>
+        <image name="share_photo_button@2x.png" width="200" height="70"/>
+        <image name="share_photo_button_pressed@2x.png" width="200" height="70"/>
         <image name="sign_in_button@2x.png" width="200" height="70"/>
         <image name="sign_in_button_pressed@2x.png" width="200" height="70"/>
         <image name="update_account_button@2x.png" width="200" height="70"/>
@@ -1638,9 +1806,24 @@
                 <relationship kind="outlet" name="price" candidateClass="UILabel"/>
             </relationships>
         </class>
+        <class className="FeedbackViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedbackViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="sendFeedback:"/>
+                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="sendButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
         <class className="HomeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HomeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="highlightFeedbackButton:"/>
+                <relationship kind="action" name="pressFeedbackButton:"/>
+                <relationship kind="action" name="unhighlightFeedbackButton:"/>
+                <relationship kind="outlet" name="buttonBackground" candidateClass="UIView"/>
+                <relationship kind="outlet" name="feedbackButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
@@ -1677,6 +1860,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MenuItemViewController.h"/>
             <relationships>
                 <relationship kind="action" name="pressFavoriteButton:"/>
+                <relationship kind="outlet" name="authorLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="favoriteButton" candidateClass="UIButton"/>
@@ -1746,7 +1930,9 @@
                 <relationship kind="action" name="pressFlashAuto:"/>
                 <relationship kind="action" name="pressFlashOff:"/>
                 <relationship kind="action" name="pressFlashOn:"/>
+                <relationship kind="action" name="pressShareButton:"/>
                 <relationship kind="outlet" name="cropView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="facebookLoginLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="flashAutoButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="flashAutoButton5" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="flashOffButton" candidateClass="UIButton"/>
@@ -1754,6 +1940,7 @@
                 <relationship kind="outlet" name="flashOnButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="flashOnButton5" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="previewImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="successLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="viewFinder" candidateClass="UIView"/>
             </relationships>
         </class>
@@ -1768,9 +1955,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="UpdateAccountViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateAccountViewController.h"/>
@@ -1805,7 +1989,7 @@
         <segue reference="H4C-nU-kaY"/>
         <segue reference="awr-tL-g55"/>
         <segue reference="eRM-Wm-79c"/>
-        <segue reference="aWP-aE-Q4r"/>
         <segue reference="fhn-ph-Chw"/>
+        <segue reference="Afc-YY-NW7"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *authorLabel;
 
 - (IBAction)pressFavoriteButton:(id)sender;
 
@@ -52,7 +53,8 @@
     [self setTitle:@"Menu Item"];
     
     if (self.menuItem.photoUrl) {
-        [self.profileImage setImageWithURL:[NSURL URLWithString:self.menuItem.photoUrl]];
+        UIImage *placeholderImage = [UIImage imageNamed:@"image_loading"];
+        [self.profileImage setImageWithURL:[NSURL URLWithString:self.menuItem.photoUrl] placeholderImage:placeholderImage];
     } else if (self.menuItem.photoFileLocation) {
         //We've taken a photo, but it hasn't uploaded yet, so we load from file
         UIImage *profilePhoto = [UIImage imageWithContentsOfFile:self.menuItem.photoFileLocation];
@@ -196,7 +198,8 @@
         UIImage *profilePhoto = [UIImage imageWithContentsOfFile:menuItemPhoto.fileLocation];
         [self.profileImage setImage:profilePhoto];
     } else {
-        [self.profileImage setImageWithURL:[NSURL URLWithString:menuItemPhoto.photoUrl]];
+        UIImage *placeholderImage = [UIImage imageNamed:@"image_loading"];
+        [self.profileImage setImageWithURL:[NSURL URLWithString:menuItemPhoto.photoUrl] placeholderImage:placeholderImage];
     }
     
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
@@ -224,7 +227,13 @@
     [self.userNewPhotos addObject:newPhoto];
     [self loadNewUserPhotos];
     UIImage *profilePhoto = [UIImage imageWithContentsOfFile:newPhoto.fileLocation];
-    [self.profileImage setImage:profilePhoto];
+    if (profilePhoto) {
+        [self.profileImage setImage:profilePhoto];
+    } else {
+        UIImage *placeholderImage = [UIImage imageNamed:@"image_loading"];
+        [self.profileImage setImageWithURL:[NSURL URLWithString:newPhoto.photoUrl] placeholderImage:placeholderImage];
+    }
+    
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.menuItemPhotos.count inSection:0];
     

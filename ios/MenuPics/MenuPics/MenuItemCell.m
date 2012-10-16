@@ -52,7 +52,11 @@
     [_name setText:[menuItem name]];
     [_name sizeToFit];
     
-    [_price setText:[NSString stringWithFormat:@"$%@",[menuItem price]]];
+    if (![menuItem.price isEqual:[NSNull null]]) {
+        [_price setText:[NSString stringWithFormat:@"$%@",[menuItem price]]];
+    } else {
+        _price.hidden = YES;
+    }
     
     if ([[menuItem likeCount] intValue] > 0) {
         [_favoriteIcon setHidden:NO];
@@ -63,7 +67,11 @@
         [_numberFavorites setHidden:YES];
     }
     
-    [_description setText:[menuItem description]];
+    if (![menuItem.description isEqual:[NSNull null]]) {
+        [_description setText:[menuItem description]];
+    } else {
+        _description.hidden = YES;
+    }
 }
 
 - (IBAction)addPhoto:(id)sender

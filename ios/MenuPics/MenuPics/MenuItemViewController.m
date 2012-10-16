@@ -66,7 +66,10 @@
     }
     
     [self.nameLabel setText:self.menuItem.name];
-    [self.descriptionLabel setText:self.menuItem.description];
+    
+    if (![self.menuItem.description isEqual:[NSNull null]]) {
+        [self.descriptionLabel setText:[self.menuItem description]];
+    }
     
     if (self.menuItem.isLiked) {
         [self.favoriteButton setSelected:YES];

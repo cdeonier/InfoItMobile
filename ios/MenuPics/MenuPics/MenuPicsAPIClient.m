@@ -14,7 +14,8 @@
 #import "SVProgressHUD.h"
 #import "User.h"
 
-static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
+//static NSString * const baseUrl = @"https://infoit-app.herokuapp.com";
+static NSString * const baseUrl = @"http://192.168.0.105";
 
 @implementation MenuPicsAPIClient
 

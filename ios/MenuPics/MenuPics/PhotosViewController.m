@@ -163,26 +163,30 @@
 
 - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index
 {
-    SavedPhoto *photo = [self.photos objectAtIndex:index];
-    
-    MWPhoto *mwPhoto;
-    if ([photo fileLocation]) {
-        mwPhoto = [MWPhoto photoWithFilePath:[photo fileLocation]];
+    if (self.photos.count > 0) {
+        SavedPhoto *photo = [self.photos objectAtIndex:index];
+        
+        MWPhoto *mwPhoto;
+        if ([photo fileLocation]) {
+            mwPhoto = [MWPhoto photoWithFilePath:[photo fileLocation]];
+        } else {
+            mwPhoto = [MWPhoto photoWithURL:[NSURL URLWithString:[photo photoUrl]]];
+        }
+        
+        if ([[photo menuItemId] intValue] > 0) {
+            NSString *format = @"%@ at %@";
+            NSString *caption = [NSString stringWithFormat:format, [photo menuItemName], [photo restaurantName]];
+            [mwPhoto setCaption:caption];
+        } else if ([[photo restaurantId] intValue] > 0) {
+            NSString *format = @"Taken at %@";
+            NSString *caption = [NSString stringWithFormat:format, [photo restaurantName]];
+            [mwPhoto setCaption:caption];
+        }
+        
+        return [[MWCaptionView alloc] initWithPhoto:mwPhoto];
     } else {
-        mwPhoto = [MWPhoto photoWithURL:[NSURL URLWithString:[photo photoUrl]]];
+        return [[MWCaptionView alloc] init];
     }
-    
-    if ([[photo menuItemId] intValue] > 0) {
-        NSString *format = @"%@ at %@";
-        NSString *caption = [NSString stringWithFormat:format, [photo menuItemName], [photo restaurantName]];
-        [mwPhoto setCaption:caption];
-    } else if ([[photo restaurantId] intValue] > 0) {
-        NSString *format = @"Taken at %@";
-        NSString *caption = [NSString stringWithFormat:format, [photo restaurantName]];
-        [mwPhoto setCaption:caption];
-    }
-    
-    return [[MWCaptionView alloc] initWithPhoto:mwPhoto];
 }
 
 - (void)deletePhotoFromPhotoBrowser:(MWPhotoBrowser *)photoBrowser

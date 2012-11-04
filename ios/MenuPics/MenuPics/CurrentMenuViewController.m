@@ -36,8 +36,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self.tableView setTableFooterView:[UIView new]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -74,8 +72,6 @@
         [menuItemCell setMenuItem:menuItem];
         [menuItemCell setViewController:self];
         [menuItemCell styleCell:menuItem];
-        
-        //[menuItemCell.name setText:[menuItem name]];
         
         cell = menuItemCell;
     }
@@ -115,6 +111,7 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
+    [self.tableView.tableFooterView setHidden:NO];
 }
 
 #pragma mark Storyboard

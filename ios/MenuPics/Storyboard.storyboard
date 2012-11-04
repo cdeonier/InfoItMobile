@@ -1191,17 +1191,6 @@
                                     <outlet property="delegate" destination="GOt-hg-acB" id="LtC-BP-oSs"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Connect Facebook:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="RdQ-KF-uhe">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="1jv-el-T0W"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="k0V-Fa-Znc" userLabel="Facebook Switch">
-                                <color key="onTintColor" red="0.01252874902" green="0.2588249413" blue="0.63586956520000004" alpha="1" colorSpace="calibratedRGB"/>
-                            </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rzM-zf-G4G" userLabel="Create Account Button">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="laC-1F-1cb"/>
@@ -1235,27 +1224,23 @@
                             <constraint firstItem="Kqe-EZ-9ku" firstAttribute="leading" secondItem="VSF-tZ-5h1" secondAttribute="leading" type="default" id="C9T-I5-eE8"/>
                             <constraint firstItem="WMy-t6-jqE" firstAttribute="leading" secondItem="Kqe-EZ-9ku" secondAttribute="leading" type="default" id="DFR-QF-tX6"/>
                             <constraint firstItem="DvW-ne-Qey" firstAttribute="centerX" secondItem="oNV-xl-3qY" secondAttribute="centerX" type="default" id="ERa-j1-W3z"/>
-                            <constraint firstItem="k0V-Fa-Znc" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="268" id="Fno-4Z-dgi"/>
-                            <constraint firstAttribute="bottom" secondItem="USH-yV-JiT" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="H0z-h7-g89"/>
+                            <constraint firstAttribute="bottom" secondItem="VSF-tZ-5h1" secondAttribute="bottom" constant="105" id="K2E-OC-uRX"/>
                             <constraint firstItem="AV9-xJ-F8z" firstAttribute="leading" secondItem="WMy-t6-jqE" secondAttribute="leading" type="default" id="Kfk-By-HIY"/>
-                            <constraint firstItem="k0V-Fa-Znc" firstAttribute="leading" secondItem="UWm-LE-bYe" secondAttribute="leading" constant="196" id="L6o-U0-8gR"/>
                             <constraint firstItem="WMy-t6-jqE" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="153" id="SeA-iG-rvd"/>
                             <constraint firstItem="Kqe-EZ-9ku" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="204" id="Wzi-g2-s0u"/>
                             <constraint firstItem="VSF-tZ-5h1" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="378" id="XN7-qi-Csp"/>
-                            <constraint firstAttribute="trailing" secondItem="k0V-Fa-Znc" secondAttribute="trailing" constant="47" id="ZiY-RV-zdk"/>
                             <constraint firstItem="AV9-xJ-F8z" firstAttribute="trailing" secondItem="DvW-ne-Qey" secondAttribute="trailing" type="default" id="aS3-ik-RoZ"/>
                             <constraint firstItem="AV9-xJ-F8z" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="101" id="af8-Gj-0i2"/>
-                            <constraint firstItem="RdQ-KF-uhe" firstAttribute="leading" secondItem="UWm-LE-bYe" secondAttribute="leading" constant="45" id="bVa-tn-ZDX"/>
-                            <constraint firstItem="DvW-ne-Qey" firstAttribute="centerX" secondItem="UWm-LE-bYe" secondAttribute="centerX" type="default" id="beO-bc-4mn"/>
                             <constraint firstItem="oNV-xl-3qY" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="13" id="hsu-7T-ItU"/>
+                            <constraint firstItem="USH-yV-JiT" firstAttribute="centerX" secondItem="UWm-LE-bYe" secondAttribute="centerX" type="default" id="kAY-bs-F3r"/>
                             <constraint firstItem="Kqe-EZ-9ku" firstAttribute="trailing" secondItem="WMy-t6-jqE" secondAttribute="trailing" type="default" id="mZh-y7-CYJ"/>
                             <constraint firstItem="USH-yV-JiT" firstAttribute="centerX" secondItem="rzM-zf-G4G" secondAttribute="centerX" type="default" id="nyR-Ld-YcZ"/>
                             <constraint firstItem="Kqe-EZ-9ku" firstAttribute="trailing" secondItem="VSF-tZ-5h1" secondAttribute="trailing" type="default" id="oxH-m6-u6l"/>
                             <constraint firstItem="AV9-xJ-F8z" firstAttribute="trailing" secondItem="WMy-t6-jqE" secondAttribute="trailing" type="default" id="phK-nB-tlP"/>
                             <constraint firstItem="AV9-xJ-F8z" firstAttribute="leading" secondItem="DvW-ne-Qey" secondAttribute="leading" type="default" id="rh4-jh-Ake"/>
                             <constraint firstItem="VSF-tZ-5h1" firstAttribute="centerX" secondItem="USH-yV-JiT" secondAttribute="centerX" type="default" id="sUZ-Lz-cm8"/>
+                            <constraint firstAttribute="trailing" secondItem="DvW-ne-Qey" secondAttribute="trailing" constant="50" id="t0p-mc-BgG"/>
                             <constraint firstItem="USH-yV-JiT" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="376" id="u6I-yj-WfH"/>
-                            <constraint firstItem="k0V-Fa-Znc" firstAttribute="centerY" secondItem="RdQ-KF-uhe" secondAttribute="centerY" type="default" id="wx3-sW-24Z"/>
                             <constraint firstItem="rzM-zf-G4G" firstAttribute="top" secondItem="UWm-LE-bYe" secondAttribute="top" constant="327" id="z8J-2V-waL"/>
                         </constraints>
                     </scrollView>
@@ -1266,7 +1251,6 @@
                         <outlet property="currentPasswordTextField" destination="WMy-t6-jqE" id="Mhy-mt-gLn"/>
                         <outlet property="emailTextField" destination="DvW-ne-Qey" id="qua-PP-NBz"/>
                         <outlet property="errorLabel" destination="VSF-tZ-5h1" id="IMy-ft-1GO"/>
-                        <outlet property="facebookSwitch" destination="k0V-Fa-Znc" id="oWV-En-C6M"/>
                         <outlet property="scrollView" destination="UWm-LE-bYe" id="07p-vi-e0A"/>
                         <outlet property="updateAccountButton" destination="rzM-zf-G4G" id="Baw-Qb-NSz"/>
                         <outlet property="updatedPasswordTextField" destination="Kqe-EZ-9ku" id="EIN-iP-uzA"/>
@@ -1412,6 +1396,18 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="110" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LaI-uv-rx9">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="Kdn-mH-y6a">
+                                    <rect key="frame" x="0.0" y="242" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="sp_splash.png" translatesAutoresizingMaskIntoConstraints="NO" id="Sva-GU-kJe"/>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="Sva-GU-kJe" firstAttribute="top" secondItem="Kdn-mH-y6a" secondAttribute="top" constant="11" id="lME-Rb-wfV"/>
+                                        <constraint firstItem="Sva-GU-kJe" firstAttribute="centerX" secondItem="Kdn-mH-y6a" secondAttribute="centerX" type="default" id="tWL-aa-fWd"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MenuItemCell" rowHeight="110" id="JPj-bq-yjk" customClass="MenuItemCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="110"/>
@@ -1750,6 +1746,7 @@
         <image name="share_photo_button_pressed@2x.png" width="200" height="70"/>
         <image name="sign_in_button@2x.png" width="200" height="70"/>
         <image name="sign_in_button_pressed@2x.png" width="200" height="70"/>
+        <image name="sp_splash.png" width="191" height="21"/>
         <image name="update_account_button@2x.png" width="200" height="70"/>
         <image name="update_account_button_pressed@2x.png" width="200" height="70"/>
         <image name="user-white.png" width="24" height="21"/>
@@ -1956,6 +1953,9 @@
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
         <class className="UpdateAccountViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateAccountViewController.h"/>
             <relationships>
@@ -1964,8 +1964,6 @@
                 <relationship kind="outlet" name="currentPasswordTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="errorLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="facebookLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="facebookSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="updateAccountButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="updatedPasswordTextField" candidateClass="UITextField"/>
@@ -1986,10 +1984,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="qBh-Zb-rrt"/>
         <segue reference="H4C-nU-kaY"/>
         <segue reference="awr-tL-g55"/>
-        <segue reference="eRM-Wm-79c"/>
-        <segue reference="fhn-ph-Chw"/>
-        <segue reference="Afc-YY-NW7"/>
+        <segue reference="OEZ-lz-ind"/>
+        <segue reference="aWP-aE-Q4r"/>
     </inferredMetricsTieBreakers>
 </document>

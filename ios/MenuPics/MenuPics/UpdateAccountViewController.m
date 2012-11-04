@@ -17,10 +17,8 @@
 @property (nonatomic, strong) IBOutlet UITextField *usernameTextField;
 @property (nonatomic, strong) IBOutlet UITextField *currentPasswordTextField;
 @property (nonatomic, strong) IBOutlet UITextField *updatedPasswordTextField;
-@property (nonatomic, strong) IBOutlet UISwitch *facebookSwitch;
 @property (nonatomic, strong) IBOutlet UIButton *updateAccountButton;
 @property (nonatomic, strong) IBOutlet UILabel *errorLabel;
-@property (nonatomic, strong) IBOutlet UILabel *facebookLabel;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
@@ -139,17 +137,11 @@
 {
     User *currentUser = [User currentUser];
     
-    if (![currentUser.loginType isEqualToString:@"NATIVE"]) {
-        [self.facebookSwitch setOn:YES];
-    }
-    
     if ([currentUser.loginType isEqualToString:@"FACEBOOK"]) {
         CGRect frame = self.currentPasswordTextField.frame;
         [self.currentPasswordTextField setHidden:YES];
         [self.updatedPasswordTextField setFrame:frame];
         [self.emailTextField setText:[[User currentUser] email]];
-        [self.facebookSwitch setHidden:YES];
-        [self.facebookLabel setHidden:YES];
         
         frame = self.updateAccountButton.frame;
         frame.origin.y -= 120;

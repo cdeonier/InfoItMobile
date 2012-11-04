@@ -60,8 +60,6 @@
     
     [self.tableView setTableFooterView:[UIView new]];
     
-    [self initializeLocationManager];
-    
     self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
@@ -77,6 +75,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self initializeLocationManager];
+    
     NSIndexPath *selectedIndexPath = [_tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
 
@@ -197,7 +197,14 @@
     
     [cell.name setText:[location name]];
     [cell.distance setText:[[NSString alloc] initWithFormat:@"%@%@", [location distance], @" miles"]];
-    [cell.thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]]];
+    
+    UIImage *placeholderImage = [UIImage imageNamed:@"restaurant_placeholder"];
+    
+    if (location.thumbnailUrl) {
+        [cell.thumbnail setImageWithURL:[NSURL URLWithString:[location thumbnailUrl]] placeholderImage:placeholderImage];
+    } else {
+        [cell.thumbnail setImage:placeholderImage];
+    }
     
     return cell;
 }
